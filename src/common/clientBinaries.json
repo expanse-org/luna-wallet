@@ -1,0 +1,135 @@
+{
+    "clients": {
+        "Gexp": {
+            "version": "v1.8.12",
+            "platforms": {
+                "linux": {
+                    "x64": {
+                        "download": {
+                            "url": "https://github.com/expanse-org/go-expanse/releases/download/v1.8.12/gexp-linux-amd64.tar.gz",
+                            "type": "tar",
+                            "md5": "46a76e77fc9ae4dc9f8d1cf50f3b5798",
+                            "bin": "geth-linux-amd64-v1.8.12/geth"
+                        },
+                        "bin": "gexp",
+                        "commands": {
+                            "sanity": {
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.12"
+                                ]
+                            }
+                        }
+                    },
+                    "ia32": {
+                        "download": {
+                            "url": "https://github.com/expanse-org/go-expanse/releases/download/v1.8.12/gexp-linux-386.tar.gz",
+                            "type": "tar",
+                            "md5": "ac296bdc4eb4d2ba0d3e2c304ae457b5",
+                            "bin": "gexp-linux-386-v1.8.12/gexp"
+                        },
+                        "bin": "gexp",
+                        "commands": {
+                            "sanity": {
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.12"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "mac": {
+                    "x64": {
+                        "download": {
+                            "url": "https://github.com/expanse-org/go-expanse/releases/download/v1.8.12/gexp-darwin-amd64.tar.gz",
+                            "type": "tar",
+                            "md5": "33e03f5df5798c3efb8aabd7c11fdd34",
+                            "bin": "geth-darwin-amd64-v1.8.12/geth"
+                        },
+                        "bin": "gexp",
+                        "commands": {
+                            "sanity": {
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.12"
+                                ]
+                            }
+                        }
+                    },
+                    "ia32": {
+                        "download": {
+                            "url": "https://github.com/expanse-org/go-expanse/releases/download/v1.8.12/gexp-darwin-386.tar.gz",
+                            "type": "tar",
+                            "md5": "33e03f5df5798c3efb8aabd7c11fdd34",
+                            "bin": "geth-darwin-amd64-v1.8.12/geth"
+                        },
+                        "bin": "gexp",
+                        "commands": {
+                            "sanity": {
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.12"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "win": {
+                    "x64": {
+                        "download": {
+                            "url": "https://github.com/expanse-org/go-expanse/releases/download/v1.8.12/gexp-windows-amd64.zip",
+                            "type": "zip",
+                            "md5": "f498df54aaa42f4269c2d2d06df482fd",
+                            "bin": "geth-windows-amd64-1.2.3.s\\geth.exe"
+                        },
+                        "bin": "gexp.exe",
+                        "commands": {
+                            "sanity": {
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.12"
+                                ]
+                            }
+                        }
+                    },
+                    "ia32": {
+                        "download": {
+                            "url": "https://github.com/expanse-org/go-expanse/releases/download/v1.8.12/gexp-windows-386.zip",
+                            "type": "zip",
+                            "md5": "4760b54e20de3ee50237ea8df896fb6f",
+                            "bin": "geth-windows-386-1.2.3.s\\geth.exe"
+                        },
+                        "bin": "gexp.exe",
+                        "commands": {
+                            "sanity": {
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.12"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+//colors
+
+$white: #ffffff;
+$offWhite: #fafafa;
+$light-green:#204854;
+$red: #d7523f;
+$light-blue: #cccccc;
+$lime-green: #0cbd34;
+
+
+
+//responsive
+
+$br1550px: 1550px;
+$br1366px: 1366px;
+$br1125px: 1125px;
+$br880px: 880px;
+
+
+//Animation
+
+$slow:all 900ms;
+$mid:all 600ms;
+$fast:all 300ms;
+// mixin
+@mixin transition($slow...) {
+    -moz-transition:    $slow, $mid, $fast;
+    -o-transition:      $slow, $mid, $fast;
+    -webkit-transition: $slow, $mid, $fast;
+    transition:         $slow, $mid, $fast;
+}
+
+
+
+
+

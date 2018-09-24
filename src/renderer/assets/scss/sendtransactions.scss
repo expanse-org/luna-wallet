@@ -1,0 +1,166 @@
+@import "variables";
+
+.transaction{
+    width:100%; 
+    display: grid;
+    justify-items: center;
+    .sendtransaction-inner{
+        width: 80%;
+        justify-content: center;
+   
+        .addresses{
+            display: grid;
+            grid-template-columns: repeat(3,auto);
+            grid-gap: 20px;
+            .sender{
+                display: grid;
+                border:2px  dashed rgb(36, 53, 75);
+                padding: 24px;
+                justify-items: center;
+                box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.44);
+                border-width: 2px;
+              
+                  
+                .svg{
+                    display: flex;
+                    justify-content: center;
+                    border-width: 4px;
+                    border-color: rgb(253, 253, 253);
+                    border-style: solid;
+                    border-radius: 50%;
+                    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
+                       
+                   
+                      
+                    svg{
+                        
+                        height: 53px;
+                        width:53px;
+                    
+                        align-self: center; 
+                    }
+                    .svg-red{
+                        .st012{fill:#cb4d43 }
+                        .st125{fill:#8d352e }
+                }
+                .svg-green{
+                    .st012{fill:#204854 }
+                    .st125{fill:#143039}
+                }
+
+                    
+                }
+                
+                p{
+                 padding-top: 8px;
+                 text-overflow: ellipsis; 
+                 white-space: nowrap;
+                 overflow: hidden;
+                 width: 130px;
+                 font-size: 18px;
+                 
+                }
+            }
+            .exp{
+                display: flex;
+                align-self: center;
+                justify-self: center;
+                p{
+
+                }
+                svg{
+                    padding-left:5px; 
+                }
+             
+
+            }
+            
+
+        }
+        .content{
+            .transaction-fail{
+                padding: 35px 0px;;
+                p{
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #cb4d43;
+                    
+                }
+
+
+            }
+            .props{
+                width:100%;
+                padding-bottom: 52px;
+                .name{
+                    p{
+                        width: 100%;
+                        padding: 10px 0px;
+                        font-size: 16px;
+                        span{
+                            justify-content: flex-end;
+                        }
+                    }
+
+
+                }
+
+            }
+
+        }
+        .form{
+            justify-items: center;
+            .form-heading{
+                display: flex;
+                justify-content: flex-end;
+
+              .inner{
+                width: 54%;
+                display: grid;
+                grid-template-columns: repeat(2, auto);
+                padding-bottom:12px; 
+                font-size: 18px;
+                font-weight: bold;
+                  p{
+                     text-align: left;
+                  }
+                  a{
+                     text-align: right;
+                     color:#cb4d43;
+                  }
+              }
+
+               
+
+            }
+            textarea{
+                width: 100%;
+                height: 88px;
+                box-sizing: border-box;
+                margin-bottom: 28px;
+                outline: none;
+                font-size: 16px;
+            }
+            p{
+               
+               width: 100%;
+               text-align: center;
+               font-size: 18px;
+                font-weight: bold;
+            }
+            input{
+               width: 100%;
+               padding: 18px 0px;
+               text-indent: 20px;
+               box-sizing: border-box;
+               margin-top: 18px;
+               outline: none;
+               font-size: 16px;
+            }
+
+        }
+      
+        
+
+    }
+}

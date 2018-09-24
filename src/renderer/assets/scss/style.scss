@@ -1,0 +1,42 @@
+@import "reset";
+@import "animated";
+@import "fonts";
+@import "buttons";
+@import "modals";
+@import "textfields";
+
+//componets
+
+@import "loading";
+@import "dashboard";
+@import "menu";
+@import "contracts";
+@import "participate";
+@import "send";
+@import "fonts";
+@import "account";
+@import "accountdetails";
+
+body {
+    font-family: 'MyriadProRegular';
+    background: linear-gradient(to bottom, #293450, #204854);
+    font-variant-ligatures: none;
+    -webkit-font-variant-ligatures: none;
+    /* Smoothing */
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    .tabcontent {
+        display: none;
+    }
+}
+
+.hide {
+    display: none;
+}
+
+.mandatory {
+    color: #cb4d43;
+    font-size: 20px;
+}

@@ -1,0 +1,202 @@
+@import "variables";
+@media only screen and (max-width: $br880px) {
+ ////////////Menu////////////////
+
+ .main-container {
+
+    
+    .menu-drawer {
+        width: 5px;
+        
+        left: 0px;
+        .logo {
+            box-sizing: border-box;
+width: 100%;
+padding: 14px 0;
+opacity: 0;
+border: none;
+outline: none;
+background: none;
+height: 76px;
+overflow: hidden;
+clear: both;
+transition: all 300ms;
+        }
+        ul {
+            opacity: 0;
+            overflow: hidden;
+            li {
+                height: auto;
+                max-height: auto;
+                .btn {
+                    svg {
+                        width: 25px ;
+                        height: 25px ;
+                    }
+                    span {
+                        display: none !important ;
+                    }
+                }
+                &:last-child {
+                    padding: 15px 0 ;
+                    .btn {
+                        svg {
+                            width: 15px ;
+                            height: 15px ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .open {
+        width: 80px !important;
+        .logo {
+            
+            padding:15px 22px  0 15px;
+            opacity: 10;
+            height: 100px;
+            
+        }
+        ul {
+            opacity: 10;
+            li {
+                cursor: pointer;
+                min-height: auto;
+                max-height: 100px;
+                padding:10px 5px;
+                
+                &:last-child {
+                    background: #1b3e49;
+                    position: absolute;
+                    padding: 20px 0;
+                    
+                    box-sizing: border-box;
+                    bottom: 0;
+                    &:hover,
+                    .active {
+                        background: #cb4d43 !important;
+                    }
+                    .btn {
+                        
+                        span {
+                            float: none;
+                            width: auto;
+                            
+                            
+                            margin-left: 10px;
+                            cursor: pointer;
+                        }
+                        svg {
+                            width: 15px;
+                            height: 15px;
+                            margin: 0;
+                        }
+                    }
+                }
+                &.active {
+                    background: #cb4d43 !important;
+                }
+                .btn {
+                    cursor: pointer;
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+                    span {
+                        display: inline-block;
+                        font-size: 13px;
+                        margin-top: 0 ;
+                            padding-top: 0px;
+                            line-height: 16px;
+                        opacity: 0.9;
+                        display: none;
+                        transition: $fast;
+                        font-weight: normal;
+                    }
+                }
+                
+                
+            }
+        }
+    }
+} 
+
+
+
+    //////////////send////////////
+    .send {
+        .content {
+         
+            .funds {
+               
+               
+                .contentInner {
+                   
+                    .sentDetails {
+                        
+                        .fundTransfer {
+                            
+                            grid-template-columns:100%;
+                            grid-gap: 0;
+                            
+                            
+                           
+                        }
+                        .fundsInner {
+                           
+                            grid-template-columns:100%;
+                            grid-gap: 0%;
+                            .row {
+                                grid-template-columns:100%;
+                            }
+                           
+                        }
+                    }
+                   
+                }
+            }
+        }
+    }
+
+    .participate{
+        .content{
+            .saleDetails{
+                .inner{
+                    grid-template-columns: 100%;
+                    .saleDetailsH1{
+                        font-size:15.5px;
+                    }
+
+                    .left{
+                        padding-right: 0px !important;
+                        margin-bottom: 30px;
+                        grid-template-columns: 100%;
+
+                        .unavailableToken{
+                            button{
+                                padding: 8.5px 5px;
+                            }
+                        }
+                    }
+
+                    .right{
+                        padding-left: 0px !important;
+                        margin-bottom: 30px;
+                        grid-template-columns: 100%;
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: -10px;
+                            height: 2px;
+                            width: 100%;
+                            background-image: linear-gradient(to bottom, transparent 0%, #3e5266 20%, #657a86 50%, #3e5266 80%, transparent 100%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+   
+}

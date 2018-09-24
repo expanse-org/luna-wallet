@@ -1,0 +1,478 @@
+@import "variables";
+.error-label {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+    label {
+        text-align: left;
+        display: block;
+        padding: 8px 0px;
+    }
+}
+
+.send {
+    .content {
+        display: grid;
+        padding: 30px;
+        .funds {
+            background-color: #263a51;
+            padding: 27px 25px;
+            box-shadow: 0 2px 51px -10px #223247;
+            h1 {
+                display: flex;
+                color: #ededed;
+                font-size: 30px;
+                margin-bottom: 0px;
+                .back-btn {
+                    margin-right: 10px;
+                    color: #fff;
+                    background: $red;
+                    padding: 10px;
+                    margin-top: -8px;
+                    transition: $mid;
+
+                    &:hover {
+                        background: #1c5f86;
+                      
+                    }
+                    img {
+                        width: 10px;
+                    }
+                }
+            }
+            .contentInner {
+                display: grid;
+                grid-gap: 30px;
+                .sentDetails {
+                    margin-bottom: 30px;
+                    .fundTransfer {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        grid-gap: 4%; // margin-bottom: 32px;
+                        >div {
+                            margin-top: 20px;
+                            >label {
+                                color: #ededed;
+                                font-size: 18px;
+                                margin-bottom: 10px;
+                                display: block;
+                                text-transform: uppercase;
+                            }
+                        }
+                        .drop-down {
+                            width: 100%;
+                            background: #fff;
+                            min-height: 55px;
+                            position: relative;
+                            box-sizing: border-box;
+                            margin-top: 0;
+                            padding: 6px 20px;
+                            .selectbtn {
+                                display: flex;
+                                height: 43px;
+                                cursor: pointer;
+                                .btnspan {
+                                    flex: 1;
+                                    color: #263a51;
+                                    display: flex;
+                                    align-items: center;
+                                    padding-left: 75px;
+                                    background-position: 0%, 50px;
+                                }
+                                .select-list-link {
+                                    display: flex;
+                                }
+                            }
+                            select {
+                                display: none;
+                            }
+                            .select-list {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                z-index: 1;
+                                margin-top: 60px;
+                                padding: 0;
+                                width: 100%;
+                                background-color: $white;
+                                .clsAnchor {
+                                    span {
+                                        background-position: 19px, 68px;
+                                    }
+                                }
+                                li {
+                                    display: none;
+                                    border-bottom: 1px solid #263a51;
+                                    span {
+                                        display: inline-block;
+                                        min-height: 55px;
+                                        width: 100%;
+                                        padding: 0px 20px 0px 97px;
+                                        background-color: $white;
+                                        background-position: left 20px center;
+                                        background-repeat: no-repeat;
+                                        font-size: 18px;
+                                        text-align: left;
+                                        color: #263a51;
+                                        opacity: 0.7;
+                                        box-sizing: border-box;
+                                        display: flex;
+                                        align-items: center;
+                                        &:hover,
+                                        &:focus {
+                                            opacity: 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .error-message {
+                            width: auto;
+                            text-align: center !important;
+                            line-height: auto !important;
+                            color: $white;
+                            font-size: 12px !important;
+                            right: 0px;
+                            top: -10px;
+                            background: #cb4d43;
+                            padding: 10px 10px;
+                            border-radius: 5px !important;
+                            position: absolute;
+                            font-weight: regular;
+                            text-align: left;
+                            margin-bottom: 10px;
+                            &:after {
+                                content: "";
+                                position: absolute;
+                                top: 100%;
+                                left: 50%;
+                                margin-left: -5px;
+                                border-width: 5px;
+                                border-style: solid;
+                                border-color: #cb4d43 transparent transparent transparent;
+                            }
+                        }
+                        input {
+                            width: 100%;
+                            color: #263a51;
+                            background: #fff;
+                            min-height: 43px;
+                            border: none;
+                            font-size: 16px;
+                            width: 100%;
+                            outline: none;
+                            position: relative;
+                            box-sizing: border-box;
+                            margin-top: 0;
+                            padding: 6px 20px;
+                        }
+                        .from {
+                            position: relative;
+                        }
+                        .to {
+                            position: relative;
+                            .fundsTo {
+                                min-height: 43px;
+                                background: $white;
+                                padding: 6px 20px;
+                                display: grid;
+                                box-sizing: border-box;
+                                grid-template-columns: max-content auto;
+                                align-items: center;
+                                svg {
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+                        .amount {
+                            position: relative;
+                            margin-bottom: 30px;
+                            .fundsTo {
+                                min-height: 43px;
+                                background: $white;
+                                padding: 6px 20px;
+                                box-sizing: border-box;
+                                align-items: center;
+                            }
+                        }
+                        .currencyAmount {
+                            position: relative; // margin-bottom: 30px;
+                        }
+                    }
+                    .fundsInner {
+                        display: grid;
+                        grid-template-columns: 100%;
+                        grid-gap: 4%;
+                        .row {
+                            display: grid;
+                            position: relative;
+                            grid-template-columns: 41%;
+                            .tooltip {
+                                display: none;
+                                width: auto;
+                                height: auto;
+                                background: $red;
+                                color: $white;
+                                position: relative;
+                                padding: 5px 0;
+                                text-align: center;
+                                &:before {
+                                    content: "";
+                                    position: absolute;
+                                    top: 24px;
+                                    left: 0px;
+                                    width: 0;
+                                    height: 0;
+                                    border-left: 20px solid transparent;
+                                    border-right: 20px solid transparent;
+                                    border-top: 10px solid #cb4d43;
+                                }
+                            }
+                            h1 {
+                                color: #ededed;
+                                font-size: 18px;
+                                margin-bottom: 10px;
+                            }
+                            .checkbox {
+                                margin-bottom: 30px;
+                                .filter__value {
+                                    display: inline-block;
+                                }
+                                .filter__value input[type='checkbox'] {
+                                    display: none;
+                                }
+                                .filter__mark {
+                                    box-sizing: border-box;
+                                    width: 4px;
+                                    height: 4px;
+                                    border: 3px solid #ffffff;
+                                    position: relative;
+                                    margin-right: 10px;
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    background: #ffffff;
+                                    padding: 5px;
+                                    outline: none;
+                                    &:hover,
+                                    &:focus {
+                                        cursor: pointer;
+                                    }
+                                }
+                                .filter__text {
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    color: #ededed;
+                                    font-size: 16px;
+                                    line-height: 19px;
+                                }
+                                input[type='checkbox']:checked+.filter__mark::before {
+                                    content: "";
+                                    display: block;
+                                    position: absolute;
+                                    top: 1px;
+                                    right: 1px;
+                                    bottom: 1px;
+                                    left: 1px;
+                                    background: #cb4d43;
+                                    border-radius: 2px;
+                                }
+                            }
+                            .data {
+                                label {
+                                    color: #ededed;
+                                    font-size: 18px;
+                                    margin-bottom: 10px;
+                                    display: block;
+                                    text-transform: uppercase;
+                                }
+                                textarea {
+                                    width: -webkit-fill-available;
+                                    margin: 0px 0px 22px 0px;
+                                    outline: none;
+                                    color: #263a51;
+                                    font-size: 16px;
+                                    line-height: 21px;
+                                    padding: 5px;
+                                }
+                                p {
+                                    color: #ffffff;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                }
+                            }
+                            .amountdetails {
+                                label,
+                                h2 {
+                                    color: #ededed;
+                                    font-size: 18px;
+                                    display: block;
+                                }
+                                .sendAmount {
+                                    margin-bottom: 25px;
+                                }
+                                h2 {
+                                    margin-bottom: 10px;
+                                }
+                                #result {
+                                    margin-bottom: 20px;
+                                }
+                                .progressBar {
+                                    input[type=range] {
+                                        display: block;
+                                        -webkit-appearance: none;
+                                        background: url(../img/bar.svg) no-repeat;
+                                        background-size: 100%;
+                                        width: 100%;
+                                        height: 18px;
+                                        outline: none;
+                                        -webkit-transition: .2s;
+                                        transition: opacity .2s;
+                                        cursor: pointer;
+                                        margin-bottom: 20px;
+                                    }
+                                    input[type="range"]::-webkit-slider-thumb {
+                                        -webkit-appearance: none;
+                                        background-color: #cb4d43;
+                                        width: 12px;
+                                        height: 25px;
+                                        border-radius: 20px;
+                                        cursor: pointer;
+                                    }
+                                    .ranges {
+                                        display: grid;
+                                        grid-template-columns: auto auto;
+                                        justify-content: space-between;
+                                        margin-bottom: 17px;
+                                        span {
+                                            color: #ededed;
+                                            font-size: 16px;
+                                        }
+                                    }
+                                    p {
+                                        color: $white;
+                                        font-size: 16px;
+                                        line-height: 24px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .totalAmount {
+                    .amountheading {
+                        color: #ededed;
+                        font-size: 18px;
+                        margin-bottom: 10px;
+                        display: block;
+                    }
+                    .inner {
+                        display: grid;
+                        grid-template-columns: auto 150px;
+                        grid-gap: 1%;
+                        .coins {
+                            background: $white;
+                            padding: 10px 10px;
+                            display: grid;
+                            grid-template-columns: 100%;
+                            input {
+                                color: #333333;
+                                font-size: 25px;
+                                border: none;
+                                outline: none;
+                                width: 100%;
+                            }
+                        }
+                        .buttons {
+                            display: flex;
+                            padding-bottom: 0px;
+                            button {
+                                text-transform: uppercase;
+                                cursor: pointer;
+                                outline: none;
+                                border: none;
+                                margin-right: 8px;
+                                font-weight: bold;
+                                border-radius: 0px;
+                                overflow: hidden;
+                                position: relative;
+                                font-size: 16px;
+                                transition: $mid;
+                                padding: 10px 20px;
+                                text-align: center;
+                                span {
+                                    justify-self: center;
+                                    text-align: center;
+                                    padding-left: 10px;
+                                    transition: $fast;
+                                    padding-right: 10px;
+                                    width: 100%;
+                                }
+                                &:hover {
+                                    span {
+                                        padding-right: 15px;
+                                    }
+                                }
+                            }
+                            img {
+                                width: 20px;
+                                margin-right: 10px;
+                            }
+                            .ok {
+                                display: grid;
+                                grid-template-columns: auto auto;
+                                justify-content: center;
+                                margin-right: 5px;
+                                width: 100%;
+                                font-size: 16px;
+                                color: #fff;
+                                border: none;
+                                border: 2px solid #cb4d43;
+                                background: none;
+                                transition: $slow;
+                                &:hover {
+                                    display: grid;
+                                    background: #cb4d43;
+                                    grid-template-columns: auto auto;
+                                    justify-content: center;
+                                }
+                            }
+                            .back {
+                                width: 100%;
+                                display: grid;
+                                grid-template-columns: auto auto;
+                                justify-content: center;
+                                margin-right: 5px;
+                                font-size: 16px;
+                                color: #fff;
+                                border: none;
+                                border: 2px solid $white;
+                                background: none;
+                                transition: $slow;
+                                &:hover {
+                                    background: #1c5f86;
+                                    border: 2px solid #1c5f86;
+                                    display: grid;
+                                    grid-template-columns: auto auto;
+                                    justify-content: center;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.raw_data{
+    word-break: break-all;
+    text-align: left;
+    color:rgba(255, 255, 255, 0.5);
+    strong {
+        color:rgba(255, 255, 255, 0.8);
+    }
+    
+}
+
+@import "880";
+@import "1366";
+@import "1125";

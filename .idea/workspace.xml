@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/common/clientBinaries.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/common/clientInfo.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/common/gexpfunc.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/common/loadingProgress.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/common/web3Config.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/libs/config.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/bip_custom.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/bitcoinjs-1-5-7.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/bitcoinjs-extensions.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/jsbip39.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/sha3.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/sjcl-bip39.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/bip32js/wordlist_english.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/fonts/MyriadProRegular.otf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/account-scroll.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/add.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/addaccount.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/address.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/address.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/back-btn.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/back.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/back.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/bar.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/bar1.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/blocks.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/blue-logo.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/cancel.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/copy.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/create.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/delete.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/downloadArrow.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/dp.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/dropdownarrow.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/empty.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/expanse.icns" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/firstGear.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/img.zip" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/inner.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/innerCricle.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/json.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/json.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/key.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/key.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/key1.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna.icns" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna.ico" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna1.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna_1024x1024.icns" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna_128x128.icns" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo-luna_384x384.icns" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/logo.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/map.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/newversion.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/notification.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/okay.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/outer.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/red-logo.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/scrollThumb.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/search.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/secondGear.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/selectbg1.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/selectbg2.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/selectkey.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/send.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/skip.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/submit.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/tick.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/tickround.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/token.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/viewaccount.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/img/wallet.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/classie.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/fontawesome.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/global.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/jquery.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/modalEffects.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/modals/classie.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/modals/css-filters-polyfill.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/modals/cssParser.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/modals/modalEffects.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/js/modals/modernizr.custom.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/1125.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/1366.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/1400.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/1550.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/880.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/account.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/accountdetails.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/animated.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/buttons.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/contracts.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/dashboard.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/fonts.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/loading.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/menu.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/modals.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/participate.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/reset.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/send.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/sendtransactions.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/style.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/textfields.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/assets/scss/variables.scss" />
+      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change beforePath="$PROJECT_DIR$/src/index.ejs" afterPath="$PROJECT_DIR$/src/index.ejs" />
+      <change beforePath="$PROJECT_DIR$/src/main/index.js" afterPath="$PROJECT_DIR$/src/main/index.js" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/App.vue" afterPath="$PROJECT_DIR$/src/renderer/App.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/Home/Home.vue" afterPath="$PROJECT_DIR$/src/renderer/components/Home/Home.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/main.js" afterPath="$PROJECT_DIR$/src/renderer/main.js" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/router/index.js" afterPath="$PROJECT_DIR$/src/renderer/router/index.js" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/store/index.js" afterPath="$PROJECT_DIR$/src/renderer/store/index.js" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="SplashScreen.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2823">
+              <caret line="70" column="69" lean-forward="true" selection-start-line="70" selection-start-column="69" selection-end-line="70" selection-end-column="69" />
+              <folding>
+                <element signature="e#17356#17414#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gexpfunc.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/common/gexpfunc.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="90" column="49" lean-forward="true" selection-start-line="90" selection-start-column="49" selection-end-line="90" selection-end-column="49" />
+              <folding>
+                <element signature="e#1#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="loadingProgress.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/common/loadingProgress.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1511">
+              <caret line="11" column="35" lean-forward="false" selection-start-line="11" selection-start-column="35" selection-end-line="12" selection-end-column="28" />
+              <folding>
+                <element signature="e#483#509#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web3Config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/common/web3Config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="34" lean-forward="false" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="32" column="6" lean-forward="false" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="69" column="22" lean-forward="false" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="store.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/libs/store.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="20" column="2" lean-forward="false" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/store/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="40" column="14" lean-forward="false" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="App.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderer/App.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="427">
+              <caret line="57" column="46" lean-forward="true" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
+              <folding>
+                <element signature="e#93#152#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="702">
+              <caret line="112" column="0" lean-forward="true" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#79#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>this.connectWeb3</find>
+      <find>activeDesign</find>
+      <find>web3</find>
+      <find>de</find>
+      <find>connectWeb3</find>
+      <find>screen</find>
+      <find>Raven</find>
+      <find>gexpDir</find>
+      <find>downloading-peers</find>
+      <find>config</find>
+      <find>launch</find>
+      <find>configuration</find>
+      <find>cloudSync</find>
+      <find>version</find>
+      <find>nodeConnected</find>
+      <find>src=&quot;</find>
+      <find>downloadNode</find>
+      <find>nodeStart</find>
+      <find>nodeUpToDate</find>
+      <find>downloading</find>
+      <find>connectionError</find>
+      <find>error</find>
+      <find>downloadGexp</find>
+      <find>test</find>
+      <find>8.122</find>
+      <find>_</find>
+      <find>updateScreen</find>
+      <find>that</find>
+      <find>downloading Gexp!</find>
+      <find>sendSync</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>connectWeb3</replace>
+      <replace>activeScreen</replace>
+      <replace>8.12</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/renderer/router/index.js" />
+        <option value="$PROJECT_DIR$/src/renderer/main.js" />
+        <option value="$PROJECT_DIR$/src/index.ejs" />
+        <option value="$PROJECT_DIR$/src/loadingscreen.js" />
+        <option value="$PROJECT_DIR$/src/common/clientInfo.js" />
+        <option value="$PROJECT_DIR$/src/renderer/assets/scss/loading.scss" />
+        <option value="$PROJECT_DIR$/src/renderer/assets/css/style.css" />
+        <option value="$PROJECT_DIR$/src/common/loadingProgress.js" />
+        <option value="$PROJECT_DIR$/src/renderer/App.vue" />
+        <option value="$PROJECT_DIR$/src/common/clientBinaries.json" />
+        <option value="$PROJECT_DIR$/src/main/libs/config.js" />
+        <option value="$PROJECT_DIR$/src/common/web3Config.js" />
+        <option value="$PROJECT_DIR$/src/renderer/store/index.js" />
+        <option value="$PROJECT_DIR$/src/main/index.js" />
+        <option value="$PROJECT_DIR$/src/common/gexpfunc.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1096" />
+    <option name="y" value="24" />
+    <option name="width" value="1323" />
+    <option name="height" value="1337" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>AngularJS</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="SplashScreen" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="javascript.nodejs.core.library.configured.version" value="9.4.0" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/binaries" />
+      <recent name="$PROJECT_DIR$/src/common" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/renderer/assets/css" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/binaries" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/renderer/assets" />
+      <recent name="$PROJECT_DIR$/src/renderer/assets/css" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="" />
+      <created>1537681347307</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1537681347307</updated>
+      <workItem from="1537681348954" duration="1678000" />
+      <workItem from="1537683160411" duration="33008000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="34686000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1096" y="24" width="1323" height="1337" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25729647" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930756" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32930756" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="50" lean-forward="false" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+          <folding>
+            <element signature="e#17356#17414#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#21#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+          <folding>
+            <element signature="e#93#152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/sha3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="53" lean-forward="true" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/img/dp.svg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/js/modals/classie.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="48" column="66" lean-forward="false" selection-start-line="48" selection-start-column="66" selection-end-line="48" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/scss/880.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="38" lean-forward="false" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26025">
+          <caret line="1735" column="30" lean-forward="true" selection-start-line="1735" selection-start-column="30" selection-end-line="1735" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/img/dp.svg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/js/modals/classie.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="48" column="66" lean-forward="false" selection-start-line="48" selection-start-column="66" selection-end-line="48" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/scss/880.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="38" lean-forward="false" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#21#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/sha3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/scss/loading.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="1033" column="21" lean-forward="false" selection-start-line="1033" selection-start-column="21" selection-end-line="1033" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="4691" column="4" lean-forward="false" selection-start-line="4691" selection-start-column="4" selection-end-line="4691" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/clientBinaries.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="20" column="43" lean-forward="true" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/clientInfo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="38" column="17" lean-forward="false" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+          <folding>
+            <element signature="e#1#59#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="69" column="22" lean-forward="false" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="6" lean-forward="false" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/libs/store.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="2" lean-forward="false" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/loadingProgress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1511">
+          <caret line="11" column="35" lean-forward="false" selection-start-line="11" selection-start-column="35" selection-end-line="12" selection-end-column="28" />
+          <folding>
+            <element signature="e#483#509#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/gexpfunc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="90" column="49" lean-forward="true" selection-start-line="90" selection-start-column="49" selection-end-line="90" selection-end-column="49" />
+          <folding>
+            <element signature="e#1#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/store/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="14" lean-forward="false" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="112" column="0" lean-forward="true" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/web3Config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="34" lean-forward="false" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2823">
+          <caret line="70" column="69" lean-forward="true" selection-start-line="70" selection-start-column="69" selection-end-line="70" selection-end-column="69" />
+          <folding>
+            <element signature="e#17356#17414#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="57" column="46" lean-forward="true" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
+          <folding>
+            <element signature="e#93#152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
