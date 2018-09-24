@@ -2,7 +2,6 @@ import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 
-
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -34,8 +33,16 @@ function createWindow () {
       console.log("Error:",e);
   }
 
+    ipcMain.on('startGexp', (event, path) => {
+        // console.log("startGexp:path ipcMain",path);
+        let res = runGexp(path);
+        // console.log("res:gexpresgexpresgexpres",res);
+        event.sender.send('startGexpResponse', res)
+    });
 
-  // ipcMain.on('ChangeWindowSize', (event, obj) => {
+
+
+    // ipcMain.on('ChangeWindowSize', (event, obj) => {
   //   windowSize = obj
   // })
 
@@ -69,31 +76,15 @@ app.on('activate', () => {
 //   event.returnValue = 'pong'
 // })
 
-import store from '../renderer/store'
-
-const action = (gexpres) => {
-    console.log("storee Action");
-    console.log(gexpres,"gexpres gexpres gexpres gexpres");
-    store.dispatch('addGexpres', gexpres)
-};
-
 // Recieving call from loading html and starting gexp
-ipcMain.on('startGexp', (event, path) => {
-    console.log("startGexp:path ipcMain",path);
-    let res = runGexp(path);
-    console.log("res:gexpresgexpresgexpresgexpres",res);
-    action(res);
-    // event.returnValue = res
-    // if(res)
-    //     splash.webContents.send('startGexpResponse', res)
-})
+
 
 // setTimeout(function() {
 //     runGexp('binaries');
 // }, 2000);
 
 const runGexp = (path) => {
-    console.log("startGexp:path",path);
+    // console.log("startGexp:path",path);
     try {
         console.log("startingGEXP");
         let runFile = './gexp';

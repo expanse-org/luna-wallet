@@ -83,23 +83,19 @@ const startingGexp = () => {
         // Node start Animation
         updateScreen("nodeStart");
         action("nodeStart");
-        console.log(activeScreen,"activeScreen");
+        // console.log(activeScreen,"activeScreen");
 
-        // console.log('startingGexp', path)
         ipcRenderer.send('startGexp', path);
-        console.log(store.getters.getGexpres,"store.gexpRes");
-        // if(store.getters.getGexpres === true){
-            setTimeout(function(){
-                connectWeb3();
-            },2000)
-        // }
-        // else{
-        //     updateScreen("connectionError");
-        //     action("connectionError");
-        // }
         ipcRenderer.on('startGexpResponse', (event, res) => {
-
-            console.log(event)
+            if(res){
+                setTimeout(function(){
+                    connectWeb3();
+                },2000)
+            }
+            else{
+                updateScreen("connectionError");
+                action("connectionError");
+            }
         });
     },1000);
 };

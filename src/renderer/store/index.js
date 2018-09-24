@@ -46,7 +46,7 @@ const store = new Vuex.Store({
   modules,
   strict: process.env.NODE_ENV !== 'production',
 })
-
+//
 // console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 //
 // ipcRenderer.on('asynchronous-reply', (event, arg) => {
