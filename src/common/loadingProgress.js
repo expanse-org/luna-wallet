@@ -16,8 +16,6 @@ const decompress = require('decompress');
 import Raven from 'raven';
 import store from "../renderer/store";
 
-
-
 const action = (screen) => {
     // console.log("storee Action")
     store.dispatch('addScreen', screen)

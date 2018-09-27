@@ -46,7 +46,7 @@
                                 <path id="Forma_1" data-name="Forma 1" class="cloud"
                                       d="M91.866,30.371q0.006-.278.006-0.549a29.821,29.821,0,0,0-59.545-2.414,23.45,23.45,0,1,0-8.879,45.155,2.649,2.649,0,0,0,0-5.3,18.153,18.153,0,1,1,10.06-33.258,2.649,2.649,0,0,0,4.112-2.393l-0.013-.189c-0.041-.563-0.08-1.094-0.08-1.6a24.524,24.524,0,1,1,48.854,2.94,2.648,2.648,0,0,0,2.871,2.951c0.566-.052,1.034-0.076,1.473-0.076a15.979,15.979,0,0,1,0,31.957,2.649,2.649,0,0,0,0,5.3A21.275,21.275,0,0,0,91.866,30.371Z"/>
                             </svg>
-                            <embed class="outer-wheel" src="../../assets/img/innerCricle.svg"/>
+                            <img class="outer-wheel" src="../../assets/img/innerCricle.svg"/>
                         </div>
                         <label class="ellipsiss">Expanse node needs to sync. Please wait</label>
                         <label class="ellipsiss">Looking for peers</label>
@@ -143,7 +143,7 @@
                                 <path id="Forma_1" data-name="Forma 1" class="cloud"
                                       d="M91.866,30.371q0.006-.278.006-0.549a29.821,29.821,0,0,0-59.545-2.414,23.45,23.45,0,1,0-8.879,45.155,2.649,2.649,0,0,0,0-5.3,18.153,18.153,0,1,1,10.06-33.258,2.649,2.649,0,0,0,4.112-2.393l-0.013-.189c-0.041-.563-0.08-1.094-0.08-1.6a24.524,24.524,0,1,1,48.854,2.94,2.648,2.648,0,0,0,2.871,2.951c0.566-.052,1.034-0.076,1.473-0.076a15.979,15.979,0,0,1,0,31.957,2.649,2.649,0,0,0,0,5.3A21.275,21.275,0,0,0,91.866,30.371Z"/>
                             </svg>
-                            <embed class="outer-wheel" src="../../assets/img/downloadArrow.svg"/>
+                            <img class="outer-wheel" src="../../assets/img/downloadArrow.svg"/>
                         </div>
                         <label>Downloading new node</label>
                         <div class="bar-wrap"><span class="download-bar-fill" style="width: 0%;"></span></div>
@@ -225,7 +225,7 @@
             </div>
             <!----------error page ends------------>
 
-            <div class="launch">
+            <div v-if="this.$store.state.screenState === 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>
             </div>
         </div>
@@ -240,7 +240,7 @@
   var web3 = startConnectWeb();
 
   export default {
-    name: 'landing-page',
+    name: 'Splash-screen',
     data() {
        return {
            activeScreen: this.$store.state.screenState,
@@ -253,13 +253,21 @@
     },
     methods: {
         launchApplication(){
+            let that = this;
             try{
                 // Sending Data to Main js For further Process
                 web3.eth.getAccounts(function (error, accounts) {
+                    console.log(accounts,"accounts");
                     if(accounts.length > 0){
-                        ipcRenderer.send('launchApplication', 'Launch App');
+                        // ipcRenderer.send('launchApplication', 'Launch App');
+                        that.$router.push({
+                            path: '/walletdashboard'
+                        })
                     }else{
-                        ipcRenderer.send('launchCreateAccount', 'Create Account');
+                        // ipcRenderer.send('launchCreateAccount', 'Create Account');
+                        that.$router.push({
+                            path: '/createaccount'
+                        })
                     }
                 })
             }catch(e){

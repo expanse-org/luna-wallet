@@ -4808,7 +4808,7 @@ perspective effects (not including the modals and the overlay).
   width: auto !important;
   text-align: center !important;
   line-height: auto !important;
-  visibility: hidden;
+  /*visibility: hidden;*/
   color: #ffffff !important;
   font-size: 12px !important;
   right: 0px;
@@ -4835,7 +4835,7 @@ perspective effects (not including the modals and the overlay).
   text-align: center !important;
   line-height: auto !important;
   margin-top: 10px;
-  visibility: hidden;
+  /*visibility: hidden;*/
   color: #ffffff;
   font-size: 12px !important;
   right: 0px;
@@ -5478,7 +5478,7 @@ perspective effects (not including the modals and the overlay).
     color: #ffffff !important; }
 
 .account-page .tabchange .alert-unsucess {
-  display: none;
+  /*display: none;*/
   width: 100%;
   background-color: #cb4d43;
   box-sizing: border-box;
@@ -6049,7 +6049,8 @@ FONTS
   100% {
     -webkit-transform: rotate(-360deg); } }
 .hide {
-  display: none; }
+  display: none;
+}
 
 .h-hide {
   display: none !important; }
@@ -9547,7 +9548,8 @@ FONTS
   align-items: center; }
   .create-acccount .account-field {
     width: 500px;
-    display: none; }
+    /*display: none;*/
+  }
     .create-acccount .account-field .inner {
       display: grid; }
       .create-acccount .account-field .inner img {
@@ -10063,7 +10065,8 @@ FONTS
           color: #adadad;
           text-align: left; }
     .tabchange .import-inner #file-upload {
-      display: none; }
+      /*display: none; */
+    }
       .tabchange .import-inner #file-upload .display_pic-upload {
         text-align: center;
         padding: 21px 0;
@@ -11104,7 +11107,8 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased; }
   body .tabcontent {
-    display: none; }
+    /*display: none;*/
+  }
 
 .hide {
   display: none; }

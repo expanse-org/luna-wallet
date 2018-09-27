@@ -1,5 +1,5 @@
 
-import updatedClientBinaries from './clientBinaries.json';
+import updatedClientBinaries from '../../clientBinaries.json';
 import {prod_app_directory, production} from '../main/libs/config';
 import os from 'os';
 import {remote} from 'electron';

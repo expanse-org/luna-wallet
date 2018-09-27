@@ -1,8 +1,14 @@
 
 var production = false;
-var prod_app_directory = "luna-wallet/"
+var prod_app_directory = "luna-wallet/";
+// var prod_app_directory = "lunawalletvuetest/"
 // var Raven = require('raven');
 // Raven.config('https://1f1cacb16da5422aa3d91b06dfacc5cd@sentry.io/1274039').install();
+
+import got from 'got';
+import Raven from 'raven';
+import store from "../../renderer/store";
+
 var activeScreen = 'config';
 
 import Web3 from 'web3';
@@ -15,7 +21,7 @@ const updateScreen = (screen) => {
 const startConnectWeb = () => {
     web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9656"));
     return web3;
-}
+};
 
 
 var tokenInterface = [
@@ -175,5 +181,18 @@ var tokenInterface = [
     }
 ];
 
+var currencies;
+const ExpApi = () => {
+    got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
+        json: true
+    }).then(response => {
+        currencies = response.body.DISPLAY.EXP;
+        console.log(currencies);
+        store.dispatch('addCurrencies',currencies)
+        return currencies;
+    }).catch(error => {
+        Raven.captureException(error);
+    });
+}
 
-export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb }
+export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi }

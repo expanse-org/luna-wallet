@@ -12207,7 +12207,7 @@ var TransactionBuilder = require('./transaction_builder')
 var Script = require('./script')
 
 function Wallet (seed, network) {
-  console.warn('Wallet is deprecated and will be removed in 2.0.0, see #296')
+  console.warn('WalletDashboardComponents is deprecated and will be removed in 2.0.0, see #296')
 
   seed = seed || randomBytes(32)
   network = network || networks.bitcoin
@@ -12232,7 +12232,7 @@ function Wallet (seed, network) {
   // FIXME: remove in 2.0.0
   var me = this
   this.newMasterKey = function (seed) {
-    console.warn('newMasterKey is deprecated, please make a new Wallet instance instead')
+    console.warn('newMasterKey is deprecated, please make a new WalletDashboardComponents instance instead')
 
     seed = seed || randomBytes(32)
     masterKey = HDNode.fromSeedBuffer(seed, network)

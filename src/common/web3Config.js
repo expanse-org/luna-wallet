@@ -1,9 +1,10 @@
 
 
-import { updateScreen, startConnectWeb  } from '../main/libs/config';
+import { updateScreen, startConnectWeb,activeScreen  } from '../main/libs/config';
 import Raven from 'raven';
 import store from "../renderer/store";
 import * as $ from 'jquery';
+import {ipcRenderer} from 'electron';
 
 var web3 = startConnectWeb();
 
@@ -12,32 +13,35 @@ const action = (screen) => {
     store.dispatch('addScreen', screen)
 };
 
+const actionSync = (gexpSync,isgexpSync, peerCount) => {
+    // console.log("storee Action")
+    store.dispatch('addGexpSync', gexpSync);
+    store.dispatch('addIsGexpSync', isgexpSync);
+    store.dispatch('addPeerCount', peerCount);
+};
+
 
 const syncPeers = () => {
     updateScreen("cloudSync");
     action("cloudSync");
     $('.launch').show();
+    var that = this;
     setInterval(function(){
         try{
             web3.eth.isSyncing(function(error, sync){
                 if(!error) {
                     // stop all app activity
-                    console.log("No sync Error Found");
-                    if(sync === true) {
-                        // Get Syncing
-                        sync = web3.eth.syncing;
+
+                    if(sync) {
+                        var peerCount = web3.eth.net.peerCount;
+                        actionSync(sync, true, peerCount);
+                        // console.log("sync if true",sync);
 
                         updateScreen("downloading");
                         action("downloading");
-                        $('.launch').show();
-                        // we use `true`, so it stops all filters, but not the web3.eth.syncing polling
-                        console.log('syncing');
-                        //web3.reset(true);
-
                         // show sync info
-                        console.log(sync);
-                        console.log('sync Current block');
-                        console.log(sync.currentBlock);
+                        // console.log(sync);
+                        // console.log(sync.currentBlock);
                         $('.c-block').text(sync.currentBlock);
                         $('.t-block').text(sync.highestBlock);
                         $('.pulledStates').text(sync.pulledStates);
@@ -57,6 +61,8 @@ const syncPeers = () => {
 
                         // re-gain app operation
                     } else {
+                        actionSync(sync, false);
+                        console.log("No sync Error Found",sync);
                         // run your app init function...
                     }
                 }else{
@@ -117,4 +123,4 @@ const connectWeb3 = () => {
 
 
 
-export { connectWeb3 }
+export { connectWeb3, syncPeers }

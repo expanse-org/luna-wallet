@@ -9516,8 +9516,7 @@ FONTS
   justify-items: center;
   align-items: center; }
   .create-acccount .account-field {
-    width: 500px;
-    display: none; }
+    width: 500px; }
     .create-acccount .account-field .inner {
       display: grid; }
       .create-acccount .account-field .inner img {
@@ -9880,7 +9879,6 @@ FONTS
   display: block; }
 
 .tabchange {
-  display: none;
   padding: 6px 6px;
   border-top: none; }
   .tabchange .error {
@@ -9922,7 +9920,6 @@ FONTS
       font-weight: regular;
       color: white; }
   .tabchange .alert-unsucess {
-    display: none;
     box-sizing: border-box;
     width: 100%;
     background-color: #cb4d43;

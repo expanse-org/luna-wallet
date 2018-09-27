@@ -2,6 +2,10 @@ import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 
+import {production} from "./libs/config";
+import appPath from 'path';
+import Raven from 'raven';
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -117,7 +121,9 @@ const runGexp = (path) => {
 
         console.log(e);
     }
-}
+};
+
+
 
 const template = [
     {
