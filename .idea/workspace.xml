@@ -2,9 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp.zip" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/db.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/lowdbFunc.js" afterPath="$PROJECT_DIR$/lowdbFunc.js" />
+      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change beforePath="$PROJECT_DIR$/src/index.ejs" afterPath="$PROJECT_DIR$/src/index.ejs" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/App.vue" afterPath="$PROJECT_DIR$/src/renderer/App.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/bip_custom.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/bitcoinjs-1-5-7.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/bitcoinjs-extensions.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/jsbip39.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/sha3.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/sjcl-bip39.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/assets/bip32js/wordlist_english.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,35 +37,70 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AddAccount.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue">
+      <file leaf-file-name="ImportAccount.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1030">
-              <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+            <state relative-caret-position="3027">
+              <caret line="372" column="13" lean-forward="false" selection-start-line="372" selection-start-column="13" selection-end-line="372" selection-end-column="13" />
               <folding>
-                <element signature="e#6246#6272#0" expanded="true" />
+                <element signature="n#div#2;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+                <element signature="n#div#4;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+                <element signature="e#13159#13208#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="CreateHDWallet.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state relative-caret-position="528">
+              <caret line="205" column="41" lean-forward="true" selection-start-line="205" selection-start-column="41" selection-end-line="205" selection-end-column="41" />
+              <folding>
+                <element signature="e#8978#9004#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/assets/js/bip39-Node/js/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-4735">
+              <caret line="19" column="6" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreateAccount.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue">
+      <file leaf-file-name="WalletDashboard.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-161">
-              <caret line="57" column="20" lean-forward="false" selection-start-line="57" selection-start-column="20" selection-end-line="58" selection-end-column="29" />
+            <state relative-caret-position="360">
+              <caret line="26" column="10" lean-forward="true" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="walletcommon.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1577">
+              <caret line="205" column="0" lean-forward="true" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
               <folding>
-                <element signature="e#3100#3158#0" expanded="true" />
+                <element signature="e#2#63#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -58,69 +109,9 @@
       <file leaf-file-name="CreateAccount.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1655">
-              <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
-              <folding>
-                <element signature="e#5077#5103#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImportAccount.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="194" column="49" lean-forward="false" selection-start-line="194" selection-start-column="40" selection-end-line="194" selection-end-column="49" />
-              <folding>
-                <element signature="n#div#4;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Token.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="110" column="25" lean-forward="false" selection-start-line="110" selection-start-column="25" selection-end-line="110" selection-end-column="25" />
-              <folding>
-                <element signature="n#style#0;n#svg#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#7343#7387#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/assets/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1191">
-              <caret line="2486" column="32" lean-forward="false" selection-start-line="2486" selection-start-column="32" selection-end-line="2486" selection-end-column="32" />
+            <state relative-caret-position="193">
+              <caret line="87" column="30" lean-forward="true" selection-start-line="87" selection-start-column="30" selection-end-line="91" selection-end-column="32" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CreateHDWallet.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="777">
-              <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddToken.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="403" column="46" lean-forward="false" selection-start-line="403" selection-start-column="40" selection-end-line="403" selection-end-column="46" />
-              <folding>
-                <element signature="e#19647#19726#0" expanded="true" />
-                <element signature="e#19885#19915#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -148,17 +139,16 @@
       <find>.tabchange</find>
       <find>.hide</find>
       <find>{db}</find>
-      <find>db</find>
       <find>low</find>
       <find>tokens_list_js</find>
       <find>contractAddress</find>
-      <find>accountTemplate += '</find>
       <find>db.</find>
       <find>token_delete</find>
       <find>.main-container</find>
       <find>.main-container .container-outer .contant-outer</find>
       <find>db.json</find>
       <find>.popup .drop-down select</find>
+      <find>db</find>
     </findStrings>
     <replaceStrings>
       <replace>connectWeb3</replace>
@@ -189,33 +179,25 @@
         <option value="$PROJECT_DIR$/src/renderer/views/MainApp.Vue" />
         <option value="$PROJECT_DIR$/src/renderer/views/AccountApp.Vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Footer/Footer.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/App.vue" />
         <option value="$PROJECT_DIR$/src/common/web3Config.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds" />
         <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" />
-        <option value="$PROJECT_DIR$/src/index.ejs" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/WatchContract.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/DeployContract.vue" />
         <option value="$PROJECT_DIR$/src/renderer/router/index.js" />
         <option value="$PROJECT_DIR$/src/renderer/views/SplashApp.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Header/Header.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/LatestTransaction.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" />
-        <option value="$PROJECT_DIR$/src/main/libs/config.js" />
         <option value="$PROJECT_DIR$/src/renderer/main.js" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.Vue" />
         <option value="$PROJECT_DIR$/src/renderer/assets/scss/account.scss" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AddAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/assets/scss/sendtransactions.scss" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/CurrencyConveter/CurrencyConverter.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/EXPWalletAddress/EXPWalletAdd.vue" />
-        <option value="$PROJECT_DIR$/lowdbFunc.js" />
         <option value="$PROJECT_DIR$/src/main/index.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/commonFunc.js" />
         <option value="$PROJECT_DIR$/db.json" />
@@ -227,9 +209,17 @@
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue" />
         <option value="$PROJECT_DIR$/src/renderer/assets/scss/menu.scss" />
         <option value="$PROJECT_DIR$/src/renderer/assets/css/style.css" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/lowdbFunc.js" />
+        <option value="$PROJECT_DIR$/src/renderer/App.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
-        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/libs/config.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.Vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue" />
+        <option value="$PROJECT_DIR$/src/index.ejs" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
       </list>
     </option>
   </component>
@@ -251,7 +241,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="806" />
+    <option name="x" value="1061" />
     <option name="y" value="23" />
     <option name="width" value="1471" />
     <option name="height" value="1339" />
@@ -303,12 +293,6 @@
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
               <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -329,7 +313,34 @@
               <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="renderer" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="bip39-Node" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="bip39-Node" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
@@ -337,7 +348,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="renderer" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="AccountsData" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
@@ -346,15 +356,6 @@
               <item name="renderer" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="renderer" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
-              <item name="TokensComponents" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
@@ -374,13 +375,6 @@
               <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
               <item name="WalletDashboardComponents" type="462c0819:PsiDirectoryNode" />
               <item name="AccountComponents" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="renderer" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -445,17 +439,17 @@
       <updated>1537681347307</updated>
       <workItem from="1537681348954" duration="1678000" />
       <workItem from="1537683160411" duration="89054000" />
-      <workItem from="1537954036255" duration="51342000" />
+      <workItem from="1537954036255" duration="59908000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142074000" />
+    <option name="totallyTimeSpent" value="150640000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="806" y="23" width="1471" height="1339" extended-state="0" />
+    <frame x="1061" y="23" width="1471" height="1339" extended-state="0" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42965516" sideWeight="0.9088729" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19034483" sideWeight="0.9088729" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5027586" order="7" side_tool="true" content_ui="tabs" />
@@ -464,7 +458,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329582" sideWeight="0.49724138" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329582" sideWeight="0.49724138" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21465518" sideWeight="0.0911271" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -493,210 +487,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/CreateAccount">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="14" lean-forward="false" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-          <folding>
-            <element signature="e#510#547#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/CurrencyConveter/CurrencyConverter.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/EXPWalletAddress/EXPWalletAdd.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="10" lean-forward="true" selection-start-line="0" selection-start-column="10" selection-end-line="1" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/LandingPage.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/views/AccountApp.Vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/views/SplashApp.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="27" lean-forward="true" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
-          <folding>
-            <element signature="e#73#131#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.Vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="942">
-          <caret line="105" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/views/MainApp.Vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="99" column="78" lean-forward="false" selection-start-line="99" selection-start-column="78" selection-end-line="99" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#79#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lowdbFunc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="38" lean-forward="false" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="e#2#63#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="26" column="18" lean-forward="false" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="18" />
-          <folding>
-            <element signature="e#618#3676#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/commonFunc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="6" lean-forward="false" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="762">
-          <caret line="55" column="10" lean-forward="false" selection-start-line="55" selection-start-column="10" selection-end-line="55" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/web3Config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="4" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/Header/Header.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="178" column="26" lean-forward="true" selection-start-line="178" selection-start-column="26" selection-end-line="178" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="270" column="21" lean-forward="true" selection-start-line="270" selection-start-column="21" selection-end-line="270" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/store/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="114" column="49" lean-forward="true" selection-start-line="114" selection-start-column="49" selection-end-line="114" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/listTokenfunc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="73" lean-forward="true" selection-start-line="22" selection-start-column="73" selection-end-line="22" selection-end-column="73" />
-          <folding>
-            <element signature="e#57#117#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="144" column="10" lean-forward="true" selection-start-line="144" selection-start-column="10" selection-end-line="144" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AddAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="31" column="11" lean-forward="false" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/assets/scss/contracts.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-29">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/assets/scss/reset.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-11">
@@ -833,60 +623,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-161">
-          <caret line="57" column="20" lean-forward="false" selection-start-line="57" selection-start-column="20" selection-end-line="58" selection-end-column="29" />
-          <folding>
-            <element signature="e#3100#3158#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="777">
-          <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1655">
-          <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
-          <folding>
-            <element signature="e#5077#5103#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="530">
           <caret line="403" column="46" lean-forward="false" selection-start-line="403" selection-start-column="40" selection-end-line="403" selection-end-column="46" />
           <folding>
-            <element signature="e#19647#19726#0" expanded="true" />
-            <element signature="e#19885#19915#0" expanded="true" />
+            <element signature="e#19647#19726#0" expanded="false" />
+            <element signature="e#19885#19915#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="194" column="49" lean-forward="false" selection-start-line="194" selection-start-column="40" selection-end-line="194" selection-end-column="49" />
-          <folding>
-            <element signature="n#div#4;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -895,18 +639,8 @@
         <state relative-caret-position="138">
           <caret line="110" column="25" lean-forward="false" selection-start-line="110" selection-start-column="25" selection-end-line="110" selection-end-column="25" />
           <folding>
-            <element signature="n#style#0;n#svg#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#7343#7387#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1030">
-          <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
-          <folding>
-            <element signature="e#6246#6272#0" expanded="true" />
+            <element signature="n#style#0;n#svg#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#7343#7387#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -914,16 +648,275 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="57" column="20" lean-forward="false" selection-start-line="57" selection-start-column="20" selection-end-line="58" selection-end-column="29" />
+          <folding>
+            <element signature="e#3100#3158#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="574">
+          <caret line="99" column="78" lean-forward="false" selection-start-line="99" selection-start-column="78" selection-end-line="99" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/views/AccountApp.Vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/views/MainApp.Vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="19" column="7" lean-forward="false" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+          <folding>
+            <element signature="e#510#547#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/loadingProgress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-527">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/web3Config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1136">
+          <caret line="3" column="26" lean-forward="false" selection-start-line="3" selection-start-column="26" selection-end-line="4" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/gexpfunc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="87" column="44" lean-forward="true" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/views/SplashApp.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-141">
+          <caret line="5" column="11" lean-forward="false" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+          <folding>
+            <element signature="e#73#131#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="20" lean-forward="true" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/binaries/gexp-darwin-amd64/db.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1030">
-          <caret line="102" column="41" lean-forward="true" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
+        <state relative-caret-position="240">
+          <caret line="16" column="32" lean-forward="true" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="794">
+          <caret line="215" column="88" lean-forward="true" selection-start-line="215" selection-start-column="88" selection-end-line="215" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientBinaries.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lowdbFunc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="26" column="1" lean-forward="false" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+          <folding>
+            <element signature="e#2#52#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" column="24" lean-forward="false" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+          <folding>
+            <element signature="e#618#3676#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AddAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-86">
+          <caret line="31" column="11" lean-forward="false" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.Vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="68" column="18" lean-forward="false" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/bitcoinjs-1-5-7.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1860">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/jsbip39.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/wordlist_english.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2411">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/sjcl-bip39.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/sha3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/bip32js/bip_custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3027">
+          <caret line="372" column="13" lean-forward="false" selection-start-line="372" selection-start-column="13" selection-end-line="372" selection-end-column="13" />
+          <folding>
+            <element signature="n#div#2;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#4;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#13159#13208#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="26" column="10" lean-forward="true" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1577">
+          <caret line="205" column="0" lean-forward="true" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+          <folding>
+            <element signature="e#2#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/assets/js/bip39-Node/js/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4735">
+          <caret line="19" column="6" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="87" column="30" lean-forward="true" selection-start-line="87" selection-start-column="30" selection-end-line="91" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="205" column="41" lean-forward="true" selection-start-line="205" selection-start-column="41" selection-end-line="205" selection-end-column="41" />
+          <folding>
+            <element signature="e#8978#9004#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

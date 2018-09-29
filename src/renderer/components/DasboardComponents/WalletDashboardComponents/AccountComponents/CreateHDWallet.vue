@@ -21,7 +21,7 @@
                         <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                     </svg>
                 </span>
-                <div class="buttons gen">
+                <div @click="generateHandle" class="buttons gen">
                     <button @click="generateHandle" class="inner-btn ok generate" id="ge_1">Generate / Paste </button>
                 </div>
             </div>
@@ -136,6 +136,19 @@
 </template>
 
 <script>
+    // import bip32 from 'bip32';
+    import Raven from 'raven';
+    import {startConnectWeb} from '../../../../../main/libs/config';
+    import {getRandomColor} from '../../../AccountsData/commonFunc';
+    import {db} from '../../../../../../lowdbFunc';
+    import * as $ from 'jquery';
+    import '../../../../assets/js/bip39-Node/js/bitcoinjs-1-5-7';
+    import '../../../../assets/js/bip39-Node/js/bitcoinjs-extensions';
+    import '../../../../assets/js/bip39-Node/js/sjcl-bip39';
+    import '../../../../assets/js/bip39-Node/js/networks';
+    import '../../../../assets/js/bip39-Node/js/sha3';
+    import '../../../../assets/js/bip39-Node/js/wordlist_english';
+    import '../../../../assets/js/bip39-Node/js/index';
     export default {
         name: 'CreateHDWallet',
         data() {
@@ -162,6 +175,11 @@
         components:{
         },
         created(){
+            // let node = bip32.fromBase58('xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi')
+            // let child = node.derivePath('m/44/40/0/0');
+            // console.log(bip32)
+            // console.log(node)
+            // console.log(child)
         },
         methods: {
             handleFocus(){
@@ -171,9 +189,36 @@
                 this.hd_wallet_passwordError = false;
                 this.hd_wallet_repasswordError = false;
             },
-            CreateHDWallet(){
+            CreateHDWallet(e){
+                e.preventDefault();
                 if(this.mnemonicsTextarea && this.derivation_path && this.derived_address && this.privateKey && this.publicKey && this.hd_wallet_password && this.hd_wallet_repassword){
+                    try {
+                        let account_address = web3.personal.importRawKey(key, password);
 
+                        let color = getRandomColor();
+                        db.get('accounts').push({
+                            accountTitle: "",
+                            hash: account_address,
+                            isHd: true,
+                            color: color
+                        }).write();
+                        db.get('hdWallets').push({
+                            key: keymain,
+                            public_key: public_key,
+                            index: index,
+                            phrase: phrase,
+                            address: account_address,
+                            derivationPath: derivationPath,
+                            color: color
+                        }).write();
+                        $('.alert-sucess').show(300).delay(5000).hide(330);
+                        listAccounts();
+                        $('form').trigger("reset");
+
+                    } catch (err) {
+                        console.log("Execption Error" + err.message);
+                        Raven.captureException(err);
+                    }
                 } else {
                     if(!this.mnemonicsTextarea){
                         this.mnemonicsTextareaError = true;
@@ -198,7 +243,8 @@
                 else
                     this.passType = "password";
             },
-            generateHandle(){
+            generateHandle(e){
+                e.preventDefault();
 
             }
         }

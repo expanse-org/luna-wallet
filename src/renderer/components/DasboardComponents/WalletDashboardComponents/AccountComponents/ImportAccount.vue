@@ -28,7 +28,7 @@
                     <div class="row">
                         <p v-if="private_keyError" class="error-message imp-privatekey-error">Enter Valid Private Key</p>
                         <span class="input input--nao">
-                            <textarea name="private-key" class="private-key input__field input__field--nao textarea" v-model="private_key" @focus="handleFocus" ></textarea>
+                            <input name="private-key" class="private-key input__field input__field--nao textarea" v-model="private_key" @focus="handleFocus" ></input>
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Import Private key
                                     <span class="details">Past your copied Private key </span>
@@ -43,7 +43,7 @@
                         <p v-if="private_key_passwordError" class="error-message private-key-password-error">Password Length must be at least 8</p>
                         <span class="input input--nao">
                             <input class="passwor input__field input__field--nao private-key-password" v-model="private_key_password" @focus="handleFocus"
-                                   name="private-key-password" type="password" />
+                                   name="private-key-password" :type="passType" />
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Enter Password
                                     <span class="mandatory">*</span>
@@ -60,7 +60,7 @@
                         <p v-if="private_key_repasswordError" class="error-message private-key-repassword-error">Password Do not Match</p>
                         <span class="input input--nao">
                             <input class="passwor input__field input__field--nao private-key-repassword" v-model="private_key_repassword" @focus="handleFocus"
-                                   name="private-key-repassword" type="password"
+                                   name="private-key-repassword" :type="passType"
                             />
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Confirm Password
@@ -119,7 +119,7 @@
                     <div class="row">
                         <span class="input input--nao">
                             <p v-if="import_addressError" class="error-message imp-import-watch-address-error">{{import_addressError}}</p>
-                            <textarea class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus"></textarea>
+                            <input class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus"></input>
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Import watch only address
                                     <span class="mandatory">*</span>
@@ -215,6 +215,7 @@
                 importJSONfileTab: true,
                 error: false,
                 success: false,
+                passType: 'password',
             };
         },
         components:{
@@ -231,6 +232,8 @@
                 console.log("watchOnlyAdd");
               if(this.accountName && this.import_address){
                   if (ethereum_address.isAddress(this.import_address)) {
+                      this.import_addressError = false;
+                      this.accountNameError = false;
                       try {
                           let color = getRandomColor();
                           console.log(color,"account");
@@ -261,10 +264,14 @@
                 if(this.private_key && this.private_key_password && this.private_key_repassword){
                     if(this.private_key_password.length > 8){
                         if(this.private_key_password === this.private_key_repassword) {
+                            this.private_keyError = false;
+                            this.private_key_passwordError = false;
+                            this.private_key_repasswordError = false;
                             let that = this;
                             let account = web3.eth.personal.importRawKey(this.private_key, this.private_key_password);
                             account.then((res) => {
                                 console.log(account,"account");
+                                console.log(res,"res account");
                                 let color = getRandomColor();
                                 db.get('accounts').push({
                                     accountTitle: "",
@@ -274,12 +281,12 @@
                                 }).write();
                                 that.success = true;
                                 $('.alert-private-key').show(300).delay(5000).hide(330);
-                                // console.log(res," res)account");
+                                console.log(res," res)account");
                             }, (error)  =>  {
                                 that.success = false;
                                 that.private_keyError = true;
                                 $('.imp-privatekey-error').show(300).delay(5000).hide(330);
-                                // console.log(error," error)account")
+                                console.log(error," error)account")
                             })
                         }else {
                             this.private_key_repasswordError = true;
@@ -358,6 +365,10 @@
                 reader.readAsText(input.files[0]);
             },
             showPass(){
+                if(this.passType === "password")
+                    this.passType = "text";
+                else
+                    this.passType = "password";
 
             }
         }

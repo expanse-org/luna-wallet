@@ -10,7 +10,7 @@
 export default {
     name: 'lunawalletvuetest',
     created() {
-        console.log(this.$store,"APP")
+        // console.log(this.$store,"APP")
     },
     data() {
         return {

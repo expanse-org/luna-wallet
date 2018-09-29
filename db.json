@@ -1,12 +1,19 @@
 {
-  "accounts": [],
+  "accounts": [
+    {
+      "accountTitle": "",
+      "hash": "0xc5EcD40fa70a75cA4eeD04E2cd0Eda47c4C6b9bF",
+      "isHd": false,
+      "color": "#02B766"
+    }
+  ],
   "contracts": [],
   "tokens": [
     {
       "id": "DrZsGjQIZ",
       "token_address": "0xa887adb722cf15bc1efe3c6a5d879e0482e8d197",
       "token_name": "Tokan Lab",
-      "token_symbol": "LAB",
+      "token_symbol": "LAB2",
       "tokenType": "erc20",
       "decimal_places": 18,
       "color": "#fa0fa0"
@@ -15,7 +22,7 @@
       "id": "6zxjBkREl",
       "token_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
       "token_name": "PEX TOKEN",
-      "token_symbol": "PEX",
+      "token_symbol": "PEX2",
       "tokenType": "erc20",
       "decimal_places": 18,
       "color": "#0297da"

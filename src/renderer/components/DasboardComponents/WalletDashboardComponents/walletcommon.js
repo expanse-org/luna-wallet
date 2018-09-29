@@ -8,6 +8,8 @@ import * as $ from 'jquery';
 import _ from 'underscore';
 import store from '../../../store';
 import object_hash from 'object-hash';
+import numberToBN from 'number-to-bn';
+
 
 var web3 = startConnectWeb();
 var price = 0;
@@ -20,7 +22,7 @@ const reOrderAccountsbyBalance = () => {
         web3.eth.getAccounts(function (error, accounts) {
             if (accounts.length > 0) {
                 _.each(accounts, function (account_hash, key) {
-                    color = getRandomColor();
+                    let color = getRandomColor();
                     web3.eth.getBalance(account_hash).then((bal) => {
                         balance = web3.utils.fromWei(bal, "ether");
                         balance = price * bal;
@@ -78,7 +80,9 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                         data: contractData
                     }, function (err, result) {
                         if (result) {
+                            console.log(result, "result");
                             var tokens = numberToBN(result); // Convert the result to a usable number string
+                            console.log(tokens, "tokens");
                             var balance = web3.utils.fromWei(tokens, 'ether');
                             if (balance > 0) {
                                 accounts_addresses.push({
@@ -122,14 +126,16 @@ const listAccounts = (sortedAccountsBalanceArray) => {
                 updated_accounts_list_hash = accounts_list_hash;
             }
             if (accounts.length > 0) {
-                $('.accounts-list').html('');
+                // $('.accounts-list').html('');
                 _.each(sortedAccountsBalanceArray, function (account_hash, key) {
+                    console.log(account_hash, "account_hash");
                     let accountName;
                     let account = db.get('accounts').find({
                         hash: account_hash.hash
                     }).value();
                     accountArray.push(account_hash.hash);
                     if (account) {
+                        console.log(account, "account");
                         if (account.accountTitle !== "") {
                             accountName = account.accountTitle
                         } else {
@@ -156,7 +162,10 @@ const listAccounts = (sortedAccountsBalanceArray) => {
                     let balance = account_hash.balance; // web3.eth.getBalance(account_hash);
                     // balance = web3.fromWei(balance.toNumber(), "ether");
                     // Main Account
-                    let coinbase = web3.eth.coinbase;
+                    console.log(web3.eth, "web3.eth");
+                    let coinbase = web3.eth.getCoinbase().then((res) => {
+                        console.log(res, "res getCoinbase");
+                    });
                     if (coinbase == account_hash.hash) {
                         $('.m_name').text(accountName + ' (BASE)')
                         $('.main-account .balance').text(balance +' '+ defaultCurrencySign);
@@ -187,7 +196,7 @@ const listAccounts = (sortedAccountsBalanceArray) => {
                             isHd = false;
                         }
                         web3.eth.getBalance(account_hash).then((bal) => {
-                            balance = web3.fromWei(balance.toNumber(), "ether");
+                            balance = web3.utils.fromWei(bal, "ether");
                         });
                         if (isHd) {
                             // accountTemplate += '<div class="wallet-icon">'
@@ -335,16 +344,16 @@ const listAccounts = (sortedAccountsBalanceArray) => {
                                 });
                             }
                         }
-                        $('.accounts-list').append(accountTemplate);
+                        // $('.accounts-list').append(accountTemplate);
                         if (key === (accounts.length - 1)) {
                             // Now list Watch Only Addresses
                             accountArray = accountArray.slice(0, 49);
                             listWatchOnlyAddresses();
-                            // var postData = {
-                            //     "skip": 0,
-                            //     "limit": 25,
-                            //     "addresses": accountArray
-                            // }
+                            var postData = {
+                                "skip": 0,
+                                "limit": 25,
+                                "addresses": accountArray
+                            }
                             // listTransactions(postData, 'dashboardTransactionContent');
                         }
                     }

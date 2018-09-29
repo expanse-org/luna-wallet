@@ -129,7 +129,7 @@
                         if(this.password === this.retypePassword){
                             try{
                                 that.success = true;
-                                that.createSimpleAccount();
+                                that.createSimpleAccount(this.accountName ,this.password );
                                 $('.alert-sucess').show(400).delay(5000).hide(330);
                             } catch (err) {
                                 console.log("Execption Error" + err.message);
@@ -164,7 +164,8 @@
                 try{
                     console.log(web3,"web3Account");
                     web3.eth.personal.newAccount(pass, function(err, hash){
-                        console.log("error 02: "+err);
+                        console.log("error 02: ", err);
+                        console.log("error 02: ", hash);
                         if(err){
                             console.log("Error Creating Account :",err);
                             $('.alert-unsucess').show(400).delay(5000).hide(330);
