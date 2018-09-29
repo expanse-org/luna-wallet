@@ -2,41 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/listTokenfunc.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/db.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp-darwin-amd64/gexp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/binaries/gexp.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/db.json" afterPath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/db.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/assets/css/style.css" afterPath="$PROJECT_DIR$/src/renderer/assets/css/style.css" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue" afterPath="$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/store/index.js" afterPath="$PROJECT_DIR$/src/renderer/store/index.js" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
+      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/db.json" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/binaries/gexp-darwin-amd64/gexp" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/binaries/gexp.zip" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -53,7 +21,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AddAccount.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddAccount.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1030">
@@ -61,16 +29,6 @@
               <folding>
                 <element signature="e#6246#6272#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="db.json" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/binaries/gexp-darwin-amd64/db.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1030">
-              <caret line="102" column="41" lean-forward="true" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -293,7 +251,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="326" />
+    <option name="x" value="806" />
     <option name="y" value="23" />
     <option name="width" value="1471" />
     <option name="height" value="1339" />
@@ -335,17 +293,6 @@
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
               <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
-              <item name="binaries" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
-              <item name="binaries" type="462c0819:PsiDirectoryNode" />
-              <item name="gexp-darwin-amd64" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
@@ -498,15 +445,15 @@
       <updated>1537681347307</updated>
       <workItem from="1537681348954" duration="1678000" />
       <workItem from="1537683160411" duration="89054000" />
-      <workItem from="1537954036255" duration="51312000" />
+      <workItem from="1537954036255" duration="51342000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142044000" />
+    <option name="totallyTimeSpent" value="142074000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="326" y="23" width="1471" height="1339" extended-state="0" />
+    <frame x="806" y="23" width="1471" height="1339" extended-state="0" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42965516" sideWeight="0.9088729" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
