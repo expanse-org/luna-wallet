@@ -2471,7 +2471,8 @@ FONTS
       .popup .drop-down .selectbtn .select-list-link {
         display: flex; }
     .popup .drop-down select {
-      display: none; }
+      display: none;
+    }
     .popup .drop-down .select-list {
       position: absolute;
       top: 0;
@@ -6078,7 +6079,8 @@ FONTS
       position: relative;
       height: 100vh;
       overflow: scroll;
-      overflow-x: hidden; }
+      overflow-x: hidden;
+    }
       .main-container .container-outer .contant-outer .top-bar {
         background: #cb4d43;
         width: inherit;

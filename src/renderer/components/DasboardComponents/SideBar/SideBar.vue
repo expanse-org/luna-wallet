@@ -30,15 +30,15 @@
                     <span>SEND</span>
                 </button>
             </li>
-            <li class="md-trigger" data-modal="modal-1">
-                <button class="btn" name="expwallet"  @click="show"  >
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="35px"
-                            height="35px" viewBox="0 0 35 35" v-bind:style="{enableBackground:'new 0 0 35 35'}" xml:space="preserve">
-                            <path class="icon" d="M17.5,35C7.8,35,0,27.2,0,17.5S7.8,0,17.5,0S35,7.8,35,17.5S27.2,35,17.5,35z M17.5,3.5c-7.7,0-14,6.3-14,14s6.3,14,14,14s14-6.3,14-14S25.2,3.5,17.5,3.5z M17.7,24.3l0-1L17.7,24.3L6.4,15.8l1.2-1.6l10.3,7.5l10-7.7l1.2,1.7L17.7,24.3z"></path>
-                        </svg>
-                    <span>RECEIVE</span>
-                </button>
-            </li>
+            <!--<li class="md-trigger" data-modal="modal-1">-->
+                <!--<button class="btn" name="expwallet"  @click="show"  >-->
+                    <!--<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="35px"-->
+                            <!--height="35px" viewBox="0 0 35 35" v-bind:style="{enableBackground:'new 0 0 35 35'}" xml:space="preserve">-->
+                            <!--<path class="icon" d="M17.5,35C7.8,35,0,27.2,0,17.5S7.8,0,17.5,0S35,7.8,35,17.5S27.2,35,17.5,35z M17.5,3.5c-7.7,0-14,6.3-14,14s6.3,14,14,14s14-6.3,14-14S25.2,3.5,17.5,3.5z M17.7,24.3l0-1L17.7,24.3L6.4,15.8l1.2-1.6l10.3,7.5l10-7.7l1.2,1.7L17.7,24.3z"></path>-->
+                        <!--</svg>-->
+                    <!--<span>RECEIVE</span>-->
+                <!--</button>-->
+            <!--</li>-->
 
             <li :class="tokenTab" @click="mainMenu($event, 'token')">
                 <button class="btn">
@@ -91,25 +91,16 @@
             </li>-->
 
         </ul>
-
-        <modal class="modal" name="expwallet">
-            <EXPWalletAdd></EXPWalletAdd>
-        </modal>
     </div>
 </template>
 
 <script>
-    import EXPWalletAdd from '../../EXPWalletAddress/EXPWalletAdd'
     export default {
         name: 'SideBar-page',
-        components: {
-            'EXPWalletAdd': EXPWalletAdd
-        },
         data() {
             return {
                 walletTab: 'tablinks',
                 transferfundTab: 'tablinks ',
-                expwalletTab: 'tablinks ',
                 tokenTab: 'tablinks ',
                 contractsTab: 'tablinks ',
                 currencyTab: 'tablinks ',
@@ -130,12 +121,6 @@
                         path: '/transferfunds'
                     });
                     this.transferfundTab = 'tablinks active';
-                    break;
-                case '/expwalletaddress':
-                    this.$router.push({
-                        path: '/expwalletaddress'
-                    });
-                    this.expwalletTab = 'tablinks active';
                     break;
                 case '/token':
                     this.$router.push({
@@ -159,17 +144,10 @@
 
         },
         methods: {
-            show () {
-                this.$modal.show('expwallet');
-            },
-            hide () {
-                this.$modal.hide('expwallet');
-            },
             update(){
                 console.log("update");
                 this.walletTab= 'tablinks';
                 this.transferfundTab= 'tablinks';
-                this.expwalletTab= 'tablinks';
                 this.tokenTab= 'tablinks';
                 this.contractsTab= 'tablinks';
                 this.currencyTab= 'tablinks';
@@ -189,12 +167,6 @@
                             path: '/transferfunds'
                         });
                         this.transferfundTab = 'tablinks active';
-                        break;
-                    case 'expwallet':
-                        this.$router.push({
-                            path: '/expwalletaddress'
-                        });
-                        this.expwalletTab = 'tablinks active';
                         break;
                     case 'token':
                         this.$router.push({

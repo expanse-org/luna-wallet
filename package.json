@@ -72,6 +72,7 @@
     "request": "^2.88.0",
     "request-progress": "^3.0.0",
     "shelljs": "^0.8.2",
+    "shortid": "^2.2.13",
     "targz": "^1.0.1",
     "underscore": "^1.9.1",
     "vue": "^2.5.16",

@@ -86,6 +86,12 @@
 
 <script>
     import Raven from 'raven';
+    import {startConnectWeb} from '../../../../../main/libs/config';
+    import {getRandomColor} from '../../../AccountsData/commonFunc';
+    import {db} from '../../../../../../lowdbFunc';
+    import * as $ from 'jquery';
+
+    var web3 = startConnectWeb();
     export default {
         name: 'CreateAccount',
         data() {
@@ -113,7 +119,8 @@
                 this.accountPasswordError = false;
                 this.success = false;
             },
-            createAccount(){
+            createAccount(e){
+                e.preventDefault();
                 this.success = false;
                 this.error = false;
                 var that = this;
@@ -122,6 +129,7 @@
                         if(this.password === this.retypePassword){
                             try{
                                 that.success = true;
+                                that.createSimpleAccount();
                                 $('.alert-sucess').show(400).delay(5000).hide(330);
                             } catch (err) {
                                 console.log("Execption Error" + err.message);
@@ -133,12 +141,16 @@
                     }else if(this.password.length < 8 ){
                         this.passwordError = "Error : Password length must be Atleast 8";
                     }
-                }else if(!this.accountName){
-                    this.accountNameError = 'Name is required';
-                }else if(!this.password){
-                    this.passwordError = "Error : Password length must be Atleast 8";
-                }else if(!this.retypePassword){
-                    this.retypePasswordError = "Password Do not match";
+                }else {
+                    if(!this.accountName){
+                        this.accountNameError = 'Name is required';
+                    }
+                    if(!this.password){
+                        this.passwordError = "Error : Password length must be Atleast 8";
+                    }
+                    if(!this.retypePassword){
+                        this.retypePasswordError = "Password Do not match";
+                    }
                 }
             },
             showPass(){
@@ -146,7 +158,32 @@
                     this.passType = "text";
                 else
                     this.passType = "password";
-            }
+            },
+            createSimpleAccount(acName , pass) {
+                var that = this;
+                try{
+                    console.log(web3,"web3Account");
+                    web3.eth.personal.newAccount(pass, function(err, hash){
+                        console.log("error 02: "+err);
+                        if(err){
+                            console.log("Error Creating Account :",err);
+                            $('.alert-unsucess').show(400).delay(5000).hide(330);
+
+                        }else{
+                            let color = getRandomColor();
+                            // On Success Enter hash and Account Code in database
+                            // Add a Accounts
+                            db.get('accounts')
+                                .push({ accountTitle: acName, hash : hash, color:color})
+                                .write();
+                            $('.alert-sucess').show(300).delay(5000).hide(330);
+                        }
+                    });
+                } catch (err) {
+                    console.log("Execption Error" + err.message);
+                    Raven.captureException(err);
+                }
+            },
         }
     }
 </script>

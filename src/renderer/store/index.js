@@ -21,6 +21,8 @@ const store = new Vuex.Store({
     ac_tokens: 0,
     ac_balance: 0,
     ac_price: 0,
+    editTokenHash: 0,
+    tokenList: 0,
   },
   mutations: {
     increment (state) {
@@ -61,6 +63,12 @@ const store = new Vuex.Store({
     },
     pushAcprice (state, ac_price) {
       state.ac_price = ac_price;
+    },
+    pushEditTokenHash (state, editTokenHash) {
+      state.editTokenHash = editTokenHash;
+    },
+    pushTokenList (state, tokenList) {
+      state.tokenList = tokenList;
     }
   },
   actions: {
@@ -99,6 +107,12 @@ const store = new Vuex.Store({
       },
       addAcprice ({ commit }, ac_price) {
           store.commit('pushAcprice',ac_price)
+      },
+      addEditTokenHash ({ commit }, editTokenHash) {
+          store.commit('pushEditTokenHash',editTokenHash)
+      },
+      addTokenList ({ commit }, tokenList) {
+          store.commit('pushTokenList',tokenList)
       }
     },
     getters: {
@@ -107,6 +121,9 @@ const store = new Vuex.Store({
         },
         getGexpSync: state => {
             return state.gexpSync;
+        },
+        getTokenList: state => {
+            return state.tokenList;
         },
     },
   modules,
