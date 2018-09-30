@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import {reOrderAccountsbyBalance} from './walletcommon';
+    import {reOrderAccountsbyBalance, getAllAcounts} from './walletcommon';
     import Accounts from './Accounts';
     import LatestTransaction from './LatestTransaction';
     export default {
@@ -27,6 +27,7 @@
         },
         created(){
             // reOrderAccountsbyBalance();
+            getAllAcounts();
             console.log(this.$router.history.current.path, this.$router.history)
             if(this.$router.history.current.path === "/accountdetails"){
                 this.accdetails = false;

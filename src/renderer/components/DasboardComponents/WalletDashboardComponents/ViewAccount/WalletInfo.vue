@@ -161,8 +161,8 @@
                             break;
                     }
                     console.log("datadir",datadir);
+                    var keyObject = keythereum.importFromFile(this.publicAddress, datadir);
                     try{
-                        var keyObject = keythereum.importFromFile(this.publicAddress, datadir);
                         var privateKey = keythereum.recover(this.privateKeyPass, keyObject);
                         console.log("privateKey",privateKey);
                         privateKey = privateKey.toString('hex');

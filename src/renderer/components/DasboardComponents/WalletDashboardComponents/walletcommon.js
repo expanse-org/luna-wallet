@@ -10,9 +10,73 @@ import store from '../../../store';
 import object_hash from 'object-hash';
 import numberToBN from 'number-to-bn';
 
-
+var accounts = [];
+var archiveAccounts = [];
+var unarchiveAccounts = [];
 var web3 = startConnectWeb();
 var price = 0;
+
+
+const getAllAcounts = () => {
+    try {
+        web3.eth.getAccounts(function (error, accounts) {
+            if (accounts.length > 0) {
+                accounts.map((account_hash , index) => {
+                    console.log(account_hash ,"account_hash");
+                    let account = db.get('accounts').find({
+                        hash: account_hash
+                    }).value();
+                    if(account){
+                        if(account.archive === true){
+                            if(account.isHd === true)
+                                archiveAccounts.push(account);
+                            else if(account.isHd === false)
+                                archiveAccounts.push(account);
+                            else {
+                                account.push({isHd: false});
+                                archiveAccounts.push(account);
+                            }
+                        } else if(account.archive === false) {
+                            if(account.isHd === true)
+                                unarchiveAccounts.push(account);
+                            else if(account.isHd === false)
+                                unarchiveAccounts.push(account);
+                            else {
+                                account.push({isHd: false});
+                                unarchiveAccounts.push(account);
+                            }
+                        }
+                    }else {
+                        unarchiveAccounts.push(account);
+                        let accountdata = accAdddb(account_hash, index);
+                        unarchiveAccounts.push(accountdata);
+                    }
+
+                });
+                console.log(archiveAccounts ,"archiveAccounts");
+                console.log(unarchiveAccounts ,"unarchiveAccounts");
+            }
+        })
+    } catch (e) {
+        console.log("Exception Error:", e);
+        Raven.captureException(e);
+    }
+};
+
+const accAdddb = (account_hash , key) => {
+    let color = getRandomColor();
+    let accountdata = {
+        accountTitle: "Account "+key ,
+        hash : account_hash,
+        color:color,
+        archive: false,
+        isHd: false
+    }
+    db.get('accounts')
+        .push(accountdata)
+        .write();
+    return accountdata;
+};
 
 const reOrderAccountsbyBalance = () => {
     var accountsBalanceArray = [];
@@ -44,12 +108,12 @@ const reOrderAccountsbyBalance = () => {
                                 });
                             }
                             if (key === (accounts.length - 1)) {
-                                sortedAccountsBalanceArray = accountsBalanceArray.sort(
-                                    function (a, b) {
-                                        return parseFloat(b.balance) - parseFloat(a.balance);
-                                    });
-                                listAccounts(sortedAccountsBalanceArray);
-                                console.log('listing accounst');
+                                // sortedAccountsBalanceArray = accountsBalanceArray.sort(
+                                //     function (a, b) {
+                                //         return parseFloat(b.balance) - parseFloat(a.balance);
+                                //     });
+                                // listAccounts(sortedAccountsBalanceArray);
+                                // console.log('listing accounst');
                             }
                         })
                     });
@@ -113,7 +177,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
 };
 
 
-const listAccounts = (sortedAccountsBalanceArray) => {
+const listAccounts = (sortedAccountsBalanceArray) =>  {
     var accountArray = [];
     var updated_accounts_list_hash = '';
     try {
@@ -408,4 +472,4 @@ const listWatchOnlyAddresses = () => {
     }
 }
 
-export { reOrderAccountsbyBalance }
+export { reOrderAccountsbyBalance , getAllAcounts }

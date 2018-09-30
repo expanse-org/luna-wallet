@@ -203,7 +203,8 @@
                                 accountTitle: "",
                                 hash: res,
                                 isHd: true,
-                                color: color
+                                color: color,
+                                archive: false
                             }).write();
                             db.get('hdWallets').push({
                                 key: keymain,

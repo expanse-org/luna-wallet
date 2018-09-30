@@ -175,7 +175,7 @@
                             // On Success Enter hash and Account Code in database
                             // Add a Accounts
                             db.get('accounts')
-                                .push({ accountTitle: acName, hash : hash, color:color})
+                                .push({ accountTitle: acName, hash : hash, color:color, archive: false, isHd: false})
                                 .write();
                             $('.alert-sucess').show(300).delay(5000).hide(330);
                         }

@@ -241,7 +241,7 @@
                                   accountTitle: "Account Test",
                                   hash: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
                                   // hash: this.import_address,
-                                  color: color
+                                  color: color, isHd: false, archive: false
                               }).write();
                       } catch (err) {
                           console.log("ERROR:" + err.message);
@@ -277,7 +277,7 @@
                                     accountTitle: "",
                                     hash: res,
                                     isHd: false,
-                                    color: color
+                                    color: color, archive: false
                                 }).write();
                                 that.success = true;
                                 $('.alert-private-key').show(300).delay(5000).hide(330);
@@ -343,7 +343,7 @@
 
                             let color = getRandomColor();
 
-                            db.get('accounts').push({ accountTitle: "", hash : json_res.address,color:color}).write();
+                            db.get('accounts').push({ accountTitle: "", hash : json_res.address,color:color, archive: false, isHd: false}).write();
 
                             let path = keyStore+'/'+fileName;
                             // path = "./binaries/testfile.txt";

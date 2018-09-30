@@ -100,7 +100,7 @@
 
                             let color = getRandomColor();
 
-                            db.get('accounts').push({ accountTitle: "", hash : json_res.address,color:color}).write();
+                            db.get('accounts').push({ accountTitle: "", hash : json_res.address,color:color, archive: false, isHd: false}).write();
 
                             let path = keyStore+'/'+fileName;
                             // path = "./binaries/testfile.txt";

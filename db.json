@@ -12,9 +12,81 @@
       "color": "#3BC607"
     },
     {
+      "accountTitle": "AcountTest2",
+      "hash": "0x8aDf80d36D788AB9106d2934dcaeaddA7854cDF2",
+      "color": "#43DA66",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "0x447a850bb6615ad9e15b019e53cf9f7e49b49374",
+      "isHd": false,
+      "color": "#F1012A",
+      "archive": false
+    },
+    {
       "accountTitle": "",
       "hash": "9459a4347810a1cd201c6dfc17a86954af782b40",
-      "color": "#A7AF26"
+      "color": "#14C9BF",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 0",
+      "hash": "0xD81C09CC2496590716bCF49b61C27D56795B3D00",
+      "color": "#48F42C",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 1",
+      "hash": "0xCBdAfCAe6331b29076eC7d611219b30C76969842",
+      "color": "#6C9B05",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 2",
+      "hash": "0xdB242E1260E68Af05d64433105677BAbBF1d9238",
+      "color": "#E17D1B",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 3",
+      "hash": "0xc5EcD40fa70a75cA4eeD04E2cd0Eda47c4C6b9bF",
+      "color": "#1EB56E",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 4",
+      "hash": "0x1E3456d39ad42d218c8788D76F955Bf1bB4a8CD7",
+      "color": "#999F65",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 5",
+      "hash": "0x9459a4347810A1cD201C6DFC17a86954af782B40",
+      "color": "#9F11C4",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 7",
+      "hash": "0x556E689aFE677DEb7F33324E41cE2662D12F6158",
+      "color": "#63D9EC",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 9",
+      "hash": "0x447A850Bb6615ad9E15B019e53Cf9f7E49b49374",
+      "color": "#FA6C48",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [],
@@ -57,6 +129,13 @@
       "accountTitle": "Account Test",
       "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
       "color": "#D05A94"
+    },
+    {
+      "accountTitle": "Account Test",
+      "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+      "color": "#16A18F",
+      "isHd": false,
+      "archive": false
     }
   ],
   "hdWallets": [],

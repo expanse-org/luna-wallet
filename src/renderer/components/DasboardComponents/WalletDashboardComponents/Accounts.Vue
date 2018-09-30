@@ -46,6 +46,7 @@
             'addAccount-app': AddAccount,
         },
         created(){
+
         },
         methods: {
             mainMenu(){
