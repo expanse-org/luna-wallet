@@ -181,18 +181,25 @@ var tokenInterface = [
     }
 ];
 
-var currencies;
+let currencies;
+let Dprice;
 const ExpApi = () => {
     got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
         json: true
     }).then(response => {
         currencies = response.body.DISPLAY.EXP;
         console.log(currencies);
-        store.dispatch('addCurrencies',currencies)
+        let price = currencies["$"].PRICE.replace(/[^0-9\.]/g, '');
+        console.log(price, "price");
+        if(price){
+            store.dispatch('addAcprice', price);
+        }
+        store.dispatch('addCurrencies',currencies);
+
         return currencies;
     }).catch(error => {
         Raven.captureException(error);
     });
 }
 
-export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi }
+export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi, currencies }

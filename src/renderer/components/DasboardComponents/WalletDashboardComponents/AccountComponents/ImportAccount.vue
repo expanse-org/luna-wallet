@@ -232,17 +232,24 @@
                 console.log("watchOnlyAdd");
               if(this.accountName && this.import_address){
                   if (ethereum_address.isAddress(this.import_address)) {
+                      let checkadd = false;
                       this.import_addressError = false;
                       this.accountNameError = false;
+                      let color = getRandomColor();
                       try {
-                          let color = getRandomColor();
-                          console.log(color,"account");
-                          db.get('accountsAdresses').push({
-                                  accountTitle: "Account Test",
-                                  hash: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
-                                  // hash: this.import_address,
-                                  color: color, isHd: false, archive: false
+                          let address_accounts = db.get('accountsAdresses').filter({hash: this.import_addressError});
+                          if(address_accounts) {
+                                  this.import_addressError = "Account Already Exits";
+                          } else {
+                              console.log(color,"account");
+                              db.get('accountsAdresses').push({
+                                  accountTitle: this.accountName,
+                                  hash: this.import_address,
+                                  color: color,
+                                  archive: false
                               }).write();
+                          }
+
                       } catch (err) {
                           console.log("ERROR:" + err.message);
                           Raven.captureException(err);

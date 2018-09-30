@@ -4,7 +4,7 @@
 
 <script>
     import clientBinaries from '../../../clientBinaries.json';
-    import {production} from '../../main/libs/config';
+    import {production, ExpApi} from '../../main/libs/config';
     import {getClientInfo } from '../../common/clientInfo';
     import { startingGexp ,downloadGexp  } from '../../common/gexpfunc';
     import { updateScreen, activeScreen  } from '../../main/libs/config';
@@ -26,6 +26,7 @@
         name: 'lunawalletvuetest',
         created(){
             this.chekAppInfo();
+            ExpApi();
         },
         data() {
             return {

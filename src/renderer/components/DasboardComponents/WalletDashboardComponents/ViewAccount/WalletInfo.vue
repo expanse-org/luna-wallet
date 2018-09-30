@@ -87,7 +87,6 @@
 </template>
 
 <script>
-    import {reOrderAccountsbyBalance} from '../walletcommon';
     import Accounts from '../Accounts';
     import { clipboard, remote } from 'electron';
     import * as $ from 'jquery';

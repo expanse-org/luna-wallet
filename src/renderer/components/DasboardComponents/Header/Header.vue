@@ -170,7 +170,7 @@
             },
             dashboardbalanceData: function(){
                 var price = this.$store.state.currencies && this.$store.state.currencies[this.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
-                this.$store.dispatch('addAcprice', price);
+                this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
                 this.dashboardbalance =  this.defaultCurrencySign +' '+ (parseFloat(price) * this.totalBalanceData).toFixed(6);
                 return this.dashboardbalance;
             },
@@ -208,12 +208,7 @@
                         that.timeStamp = moment(res.timestamp * 1000).fromNow();
                     }
                 });
-
             }
-            // this.get_dashboard_total_balance();
-            // setInterval(function () {
-            //     that.get_dashboard_total_balance();
-            // }, 5000);
         },
         methods: {
             handleCurrency(curr){
@@ -224,6 +219,7 @@
                     this.defaultCurrencySign = curr;
                 }
                 var price = this.currenciesData[curr].PRICE.replace(/[^0-9\.]/g, '');
+                this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
                 this.dashboardbalance =  this.defaultCurrencySign +' '+ (parseFloat(price) * this.total_balance).toFixed(6);
                 // console.log("web3 this.dashboardbalance", this.dashboardbalance)
             },
@@ -238,12 +234,11 @@
                                 web3.eth.getBalance(account_hash).then((bal) => {
                                     var balance = web3.utils.fromWei(bal, "ether");
                                     var price = this.$store.state.currencies && this.$store.state.currencies[this.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
-                                    this.$store.dispatch('addAcprice', price);
+                                    this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
                                     that.total_balance = parseFloat(that.total_balance) + parseFloat(balance);
                                     that.total_balance = that.total_balance.toFixed(6);
                                     // console.log('total_balance=============', that.total_balance)
                                     that.dashboardbalance = that.defaultCurrencySign+' ' + (that.total_balance * that.price).toFixed(6);
-                                    that.$store.dispatch('addTotalBalance', that.total_balance);
                                 });
                             })
                         }

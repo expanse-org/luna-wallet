@@ -123,7 +123,6 @@
 </template>
 
 <script>
-    import {reOrderAccountsbyBalance} from '../walletcommon';
     import WalletInfo from './WalletInfo';
     import insuficentBalance from '../../insuficentBalance';
     import * as $ from 'jquery';
@@ -181,7 +180,6 @@
                     setTimeout(function (){
                         $('#back_btn').trigger("click");
                     },2000);
-                    reOrderAccountsbyBalance();
                 }
 
 

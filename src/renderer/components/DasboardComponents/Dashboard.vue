@@ -22,6 +22,8 @@ import Footer from './Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import AddToken from './TokensComponents/AddToken';
 
+import {getAllAcounts} from './WalletDashboardComponents/walletcommon';
+
 export default {
     name: 'Dashboard-page',
     components:{
@@ -36,6 +38,9 @@ export default {
         };
     },
     created(){
+        setInterval(function () {
+            getAllAcounts();
+        }, 5000);
     },
     methods: {
 

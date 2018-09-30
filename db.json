@@ -123,18 +123,13 @@
     {
       "accountTitle": "Account Test",
       "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
-      "color": "#B7FBA0"
+      "color": "#B7FBA0",
+      "archive": false
     },
     {
-      "accountTitle": "Account Test",
-      "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
-      "color": "#D05A94"
-    },
-    {
-      "accountTitle": "Account Test",
-      "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
-      "color": "#16A18F",
-      "isHd": false,
+      "accountTitle": "Account TT",
+      "hash": "0xed201029d05de2b63fed87b8d9254ddc9e4e5159",
+      "color": "#20A41C",
       "archive": false
     }
   ],

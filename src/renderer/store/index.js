@@ -21,8 +21,11 @@ const store = new Vuex.Store({
     ac_tokens: 0,
     ac_balance: 0,
     ac_price: 0,
+    ac_dcurrency: "$",
     editTokenHash: 0,
     tokenList: 0,
+    allAccounts: [],
+    watchAccounts: [],
   },
   mutations: {
     increment (state) {
@@ -69,6 +72,15 @@ const store = new Vuex.Store({
     },
     pushTokenList (state, tokenList) {
       state.tokenList = tokenList;
+    },
+    pushAcdcurrency (state, ac_dcurrency) {
+      state.ac_dcurrency = ac_dcurrency;
+    },
+    pushAllAccounts (state, allAccounts) {
+      state.allAccounts = allAccounts;
+    },
+    pushWatchAccounts (state, watchAccounts) {
+      state.watchAccounts = watchAccounts;
     }
   },
   actions: {
@@ -113,6 +125,15 @@ const store = new Vuex.Store({
       },
       addTokenList ({ commit }, tokenList) {
           store.commit('pushTokenList',tokenList)
+      },
+      addpushAcdcurrency ({ commit }, ac_dcurrency) {
+          store.commit('pushAcdcurrency',ac_dcurrency)
+      },
+      addAllAccounts ({ commit }, allAccounts) {
+          store.commit('pushAllAccounts',allAccounts)
+      },
+      addWatchAccounts ({ commit }, watchAccounts) {
+          store.commit('pushWatchAccounts',watchAccounts)
       }
     },
     getters: {
@@ -124,6 +145,18 @@ const store = new Vuex.Store({
         },
         getTokenList: state => {
             return state.tokenList;
+        },
+        getPrice: state => {
+            return state.ac_price;
+        },
+        getDcurrency: state => {
+            return state.ac_dcurrency;
+        },
+        getAllAccounts: state => {
+            return state.allAccounts;
+        },
+        getWatchAccounts: state => {
+            return state.watchAccounts;
         },
     },
   modules,

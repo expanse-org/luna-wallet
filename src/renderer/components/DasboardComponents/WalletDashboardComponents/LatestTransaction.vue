@@ -4,10 +4,10 @@
             <label>ACCOUNTS</label>
         </div>
         <div class="bottom accounts-list">
-            <div v-if="accountdetailTab" class="account1 a1" data-index="parseInt(key + 1)" data data-val="account.hash" @click="mainMenu($event,'accountDetail','` +account.hash + `')">
+            <div v-if="accountdetailTab" v-for="(account, key ) in Accounts" class="account1 a1" data-index="parseInt(key + 1)" data data-val="account.hash" @click="mainMenu($event,'accountDetail','` +account.hash + `')">
                 <div class="wallet-icon">
                     <div class="img">
-                        <svg   :class="'svg-1 svg' + parseInt(key + 1)" v-bind:style="{fill: 'color', enableBackground: 'new 0 0 43 43'}"
+                        <svg   :class="'svg-1 svg' + parseInt(key + 1)" v-bind:style="{fill:account.color, enableBackground: 'new 0 0 43 43'}"
                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
                         <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
                         <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
@@ -34,7 +34,7 @@
                             c-1-0.6-1.4-1.9-0.8-2.9s1.9-1.4,2.9-0.8l0,0l3,1.7C9.3,16.4,9.6,17.7,9.1,18.7z"/>
                             </svg>
                             <label>{{ account.accountTitle }} </label>
-                            <span>({{ balance }}   EXP)</span>
+                            <span>({{ account.balance }}   EXP)</span>
                         </div>
                         <div>
                             <p class="tooltip accoundID wd180">{{ account.hash }}
@@ -107,20 +107,32 @@
 </template>
 
 <script>
+    import { sortbyEXPBalance, watchOnlyAccounts} from './walletcommon';
     export default {
         name: 'latestTransaction',
         data() {
             return {
                 accountdetailTab: false,
                 simpleaccountTab: false,
-                balance: false,
-                account: {
-                    accountTitle: '',
-                    hash: '',
-                }
+                expaccounts: '',
+                watchaccounts: '',
+                sortbyEXPBalance,
             };
         },
+        computed: {
+            Accounts() {
+                this.expaccounts = this.$store.state.allAccounts;
+                return this.expaccounts;
+            },
+            WatchAccounts() {
+                this.watchaccounts = this.$store.state.watchAccounts ;
+                return this.watchaccounts;
+            },
+        },
         created(){
+            if(this.Accounts.length > 0 ){
+                this.accountdetailTab = true;
+            }
         },
         methods: {
             mainMenu(){

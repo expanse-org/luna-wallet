@@ -3,10 +3,12 @@
 </template>
 
 <script>
+    import { ExpApi} from '../../main/libs/config';
 
     export default {
         name: 'lunawalletvuetest',
         created(){
+            ExpApi();
         },
         data() {
             return {
