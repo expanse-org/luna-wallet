@@ -142,13 +142,13 @@
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import * as $ from 'jquery';
-    import '../../../../assets/js/bip39-Node/js/bitcoinjs-1-5-7';
-    import '../../../../assets/js/bip39-Node/js/bitcoinjs-extensions';
-    import '../../../../assets/js/bip39-Node/js/sjcl-bip39';
-    import '../../../../assets/js/bip39-Node/js/networks';
-    import '../../../../assets/js/bip39-Node/js/sha3';
-    import '../../../../assets/js/bip39-Node/js/wordlist_english';
-    import '../../../../assets/js/bip39-Node/js/index';
+    // import '../../../../assets/js/bip39-Node/js/bitcoinjs-1-5-7';
+    // import '../../../../assets/js/bip39-Node/js/bitcoinjs-extensions';
+    // import '../../../../assets/js/bip39-Node/js/sjcl-bip39';
+    // import '../../../../assets/js/bip39-Node/js/networks';
+    // import '../../../../assets/js/bip39-Node/js/sha3';
+    // import '../../../../assets/js/bip39-Node/js/wordlist_english';
+    // import '../../../../assets/js/bip39-Node/js/index';
     export default {
         name: 'CreateHDWallet',
         data() {

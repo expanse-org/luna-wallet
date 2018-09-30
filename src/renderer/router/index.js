@@ -14,6 +14,7 @@ import DeployContract from '../components/DasboardComponents/ContractsComponents
 import CurrencyConverter from '../components/DasboardComponents/CurrencyConveter/CurrencyConverter'
 import AddToken from '../components/DasboardComponents/TokensComponents/AddToken'
 import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
+import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
 import SplashApp from '../views/SplashApp'
 import MainApp from '../views/MainApp'
 import AccountApp from '../views/AccountApp'
@@ -105,6 +106,11 @@ export default new Router({
                             path: '/watchToken',
                             name: 'watchToken',
                             component: AddToken
+                        },
+                        {
+                            path: '/accountdetails',
+                            name: 'accountdetails',
+                            component: ViewAccount
                         }
                     ]
                 },
