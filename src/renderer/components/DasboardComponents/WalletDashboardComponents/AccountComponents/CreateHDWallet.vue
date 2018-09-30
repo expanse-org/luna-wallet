@@ -193,27 +193,32 @@
                 e.preventDefault();
                 if(this.mnemonicsTextarea && this.derivation_path && this.derived_address && this.privateKey && this.publicKey && this.hd_wallet_password && this.hd_wallet_repassword){
                     try {
-                        let account_address = web3.personal.importRawKey(key, password);
+                        let account_address = web3.eth.personal.importRawKey(this.privateKey, this.hd_wallet_password);
+                        account_address.then((res) => {
+                            console.log(res, "HD wallet");
+                            let color = getRandomColor();
+                            db.get('accounts').push({
+                                accountTitle: "",
+                                hash: res,
+                                isHd: true,
+                                color: color
+                            }).write();
+                            db.get('hdWallets').push({
+                                key: keymain,
+                                public_key: this.publicKey,
+                                index: index,
+                                phrase: phrase,
+                                address: res,
+                                derivationPath: derivationPath,
+                                color: color
+                            }).write();
+                            $('.alert-sucess').show(300).delay(5000).hide(330);
+                            listAccounts();
+                            $('form').trigger("reset");
+                        }, (err) => {
+                            console.log(err, "HD wallet")
+                        });
 
-                        let color = getRandomColor();
-                        db.get('accounts').push({
-                            accountTitle: "",
-                            hash: account_address,
-                            isHd: true,
-                            color: color
-                        }).write();
-                        db.get('hdWallets').push({
-                            key: keymain,
-                            public_key: public_key,
-                            index: index,
-                            phrase: phrase,
-                            address: account_address,
-                            derivationPath: derivationPath,
-                            color: color
-                        }).write();
-                        $('.alert-sucess').show(300).delay(5000).hide(330);
-                        listAccounts();
-                        $('form').trigger("reset");
 
                     } catch (err) {
                         console.log("Execption Error" + err.message);
