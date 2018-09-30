@@ -1,0 +1,19 @@
+
+.modal .v--modal {
+    top: 20% !important;;
+    left: 25% !important;;
+    max-width: 630px !important;
+    min-width: 320px !important;
+    height: auto !important;
+    position: fixed !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+    width: 80vw !important;
+    padding:0 !important;
+    z-index: 2000;
+}
+
+.modal .v--modal .popup {
+    width: 91% !important;
+}

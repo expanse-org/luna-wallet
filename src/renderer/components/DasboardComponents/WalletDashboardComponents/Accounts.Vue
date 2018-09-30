@@ -46,7 +46,7 @@
                         <span>Add Account</span>
                     </button>
                     <button class="button primery button--shikoba account1 a1 main_view_account" data-val="0xd416db48cce26ad2dff060d90ef45db8a67aa3ac"
-                            @click="mainMenu($event,'accountDetail','0xd416db48cce26ad2dff060d90ef45db8a67aa3ac')">
+                            @click="mainMenu()">
                         <img class="button__icon" src="../../../assets/img/viewaccount.svg" />
                         <span>View Account</span>
                     </button>
@@ -70,7 +70,10 @@
         },
         methods: {
             mainMenu(){
-
+                this.$router.push({
+                    path: '/accountdetails',
+                    query: { accountDetail: '0xd416db48cce26ad2dff060d90ef45db8a67aa3ac' }
+                });
             },
             show () {
                 this.$modal.show('openAddAccountModal');

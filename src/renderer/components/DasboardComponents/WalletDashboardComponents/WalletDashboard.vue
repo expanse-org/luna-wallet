@@ -2,7 +2,9 @@
     <div class="dashboard tabcontent" id="dashboard" style="display: block">
         <div class="content">
             <accounts />
-            <latesttransaction />
+            <div v-if="accdetails">
+                <latesttransaction />
+            </div>
         </div>
     </div>
 </template>
@@ -15,7 +17,8 @@
         name: 'WalletDashboard',
         data() {
             return{
-                sortedAccountsBalanceArray: []
+                sortedAccountsBalanceArray: [],
+                accdetails: true,
             };
         },
         components:{
@@ -24,6 +27,10 @@
         },
         created(){
             // reOrderAccountsbyBalance();
+            console.log(this.$router.history.current.path, this.$router.history)
+            if(this.$router.history.current.path === "/accountdetails"){
+                this.accdetails = false;
+            }
         },
         methods: {
         }

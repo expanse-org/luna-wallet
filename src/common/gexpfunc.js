@@ -48,7 +48,7 @@ const downloadGexp = () => {
                     console.log(shell.ls(''));
                 }
                 // Create Folder For gexp
-                // console.log(gexpDir, "gexpDir");
+                console.log(gexpDir, "gexpDir");
                 console.log(shell.ls(''));
                 if (!fs.existsSync(gexpDir)){
                     fs.mkdirSync(gexpDir);
