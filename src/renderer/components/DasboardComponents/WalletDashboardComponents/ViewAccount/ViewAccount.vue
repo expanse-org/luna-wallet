@@ -20,7 +20,7 @@
                                 <img class="button__icon" src="../../../../assets/img/viewaccount.svg">
                                 <span>wallet info</span>
                             </button>
-                            <button class="button button--shikoba move_account_to_archive">
+                            <button @click="handleArchive" class="button button--shikoba move_account_to_archive">
                                 <img class="button__icon" src="../../../../assets/img/archive.svg">
                                 <span>Archive Account</span>
                             </button>
@@ -30,19 +30,19 @@
             </div>
 
             <div class="actions">
-                <div class="showInterface transferFunds" data-account="0" data-balance="0" onclick="mainMenu(event, 'send')">
+                <div class="showInterface transferFunds" data-account="0" data-balance="0" @click="mainMenu()">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="25px">
                         <path fill-rule="evenodd" fill="rgb(203, 77, 67)" d="M15.617,20.670 L12.281,24.426 C11.956,24.789 11.498,25.000 11.014,25.000 C10.530,25.000 10.072,24.789 9.747,24.426 L6.411,20.670 C5.786,19.969 5.844,18.872 6.545,18.239 C7.245,17.606 8.321,17.665 8.946,18.374 L9.305,18.779 L9.305,10.340 C9.305,9.386 10.063,8.618 11.022,8.618 C11.965,8.618 12.723,9.386 12.723,10.340 L12.723,18.779 L13.082,18.374 C13.707,17.665 14.783,17.606 15.483,18.239 C15.858,18.577 16.359,19.784 15.617,20.670 ZM9.521,6.761 C8.821,7.394 7.745,7.335 7.120,6.626 L6.761,6.221 L6.761,14.661 C6.761,15.615 6.003,16.383 5.060,16.383 C4.118,16.383 3.359,15.615 3.359,14.661 L3.359,6.221 L3.001,6.626 C2.376,7.335 1.300,7.394 0.599,6.761 C-0.109,6.128 -0.159,5.039 0.466,4.331 L3.801,0.575 C4.127,0.203 4.585,0.001 5.052,0.001 C5.536,0.001 5.994,0.212 6.320,0.575 L9.655,4.331 C10.347,5.149 9.897,6.424 9.521,6.761 Z"/>
                     </svg>
                     <label>Transfer Expanse & Tokens</label>
                 </div>
 
-                <div class="deposit tooltip2 copytext ">
+                <div class="deposit tooltip2 copytext " @click="handletooltip('comingSoon')">
                     <!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In  -->
                     <svg class="up" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0.347in" height="0.347in">
                         <path fill-rule="evenodd" fill="rgb(203, 77, 67)" d="M12.500,25.000 C5.596,25.000 -0.000,19.404 -0.000,12.500 C-0.000,5.596 5.596,-0.000 12.500,-0.000 C19.404,-0.000 25.000,5.596 25.000,12.500 C25.000,19.404 19.404,25.000 12.500,25.000 L12.500,25.000 ZM12.500,2.273 C6.852,2.273 2.273,6.852 2.273,12.500 C2.273,18.148 6.852,22.727 12.500,22.727 C18.148,22.727 22.727,18.148 22.727,12.500 C22.727,6.852 18.148,2.273 12.500,2.273 ZM18.182,15.606 C18.178,17.088 17.380,18.455 16.091,19.187 L16.091,20.783 C16.091,21.360 15.623,21.828 15.045,21.828 C14.468,21.828 14.000,21.360 14.000,20.783 L14.000,20.783 L14.000,19.748 L11.909,19.748 L11.909,20.783 C11.909,21.361 11.441,21.829 10.864,21.829 C10.286,21.829 9.818,21.361 9.818,20.783 L9.818,19.748 L8.773,19.748 C8.198,19.750 7.730,19.287 7.727,18.712 L7.727,6.288 C7.730,5.713 8.198,5.250 8.773,5.252 L9.818,5.252 L9.818,4.217 C9.818,3.640 10.286,3.172 10.864,3.172 C11.441,3.172 11.909,3.640 11.909,4.217 L11.909,5.253 L14.000,5.253 L14.000,4.217 C14.000,3.640 14.469,3.172 15.046,3.173 C15.623,3.173 16.090,3.641 16.091,4.217 L16.091,5.813 C18.068,6.928 18.767,9.435 17.651,11.413 C17.419,11.823 17.118,12.191 16.762,12.500 C17.663,13.281 18.181,14.414 18.182,15.606 ZM14.000,7.323 L9.818,7.323 L9.818,11.465 L14.000,11.465 C15.144,11.482 16.084,10.568 16.101,9.425 C16.118,8.281 15.205,7.340 14.061,7.323 C14.041,7.323 14.020,7.323 14.000,7.323 ZM14.000,13.535 L9.818,13.535 L9.818,17.677 L14.000,17.677 C15.144,17.694 16.084,16.780 16.101,15.637 C16.118,14.493 15.205,13.552 14.061,13.535 C14.041,13.535 14.020,13.535 14.000,13.535 Z"/>
                     </svg>
-                    <span class="tooltiptext2" style="padding:6px;">Comming Soon</span>
+                    <span class="tooltiptext2" v-if="comingSoon" style="padding:6px;">Comming Soon</span>
                     <label>Fund with Bitcoin</label>
                 </div>
 
@@ -53,11 +53,11 @@
                     <label>View on Gander</label>
                 </div>
 
-                <div class="btcDeposit tooltip2 copytext" data-val=".detail-account-hash-input">
+                <div class="btcDeposit tooltip2 copytext" @click="handletooltip('copiedtip')" data-val=".detail-account-hash-input">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26px" height="26px">
                         <path fill-rule="evenodd" fill="rgb(201, 76, 66)" d="M25.594,5.978 C25.323,5.707 24.994,5.571 24.607,5.571 L18.571,5.571 C17.991,5.571 17.372,5.765 16.714,6.152 L16.714,1.393 C16.714,1.006 16.579,0.677 16.308,0.406 C16.037,0.135 15.708,0.000 15.321,0.000 L9.286,0.000 C8.899,0.000 8.473,0.097 8.009,0.290 C7.545,0.483 7.177,0.716 6.906,0.987 L0.987,6.906 C0.716,7.177 0.483,7.545 0.290,8.009 C0.097,8.473 0.000,8.899 0.000,9.286 L0.000,19.036 C0.000,19.423 0.135,19.752 0.406,20.022 C0.677,20.293 1.006,20.429 1.393,20.429 L9.286,20.429 L9.286,24.607 C9.286,24.994 9.421,25.323 9.692,25.594 C9.963,25.865 10.292,26.000 10.678,26.000 L24.607,26.000 C24.994,26.000 25.323,25.865 25.594,25.594 C25.865,25.323 26.000,24.994 26.000,24.607 L26.000,6.964 C26.000,6.578 25.865,6.249 25.594,5.978 ZM16.714,8.662 L16.714,13.000 L12.376,13.000 L16.714,8.662 ZM7.428,3.090 L7.428,7.428 L3.090,7.428 L7.428,3.090 ZM10.272,12.478 C10.001,12.749 9.769,13.116 9.576,13.581 C9.382,14.045 9.286,14.470 9.286,14.857 L9.286,18.571 L1.857,18.571 L1.857,9.286 L7.893,9.286 C8.280,9.286 8.609,9.150 8.879,8.879 C9.150,8.609 9.286,8.280 9.286,7.893 L9.286,1.857 L14.857,1.857 L14.857,7.893 L10.272,12.478 ZM24.143,24.143 L11.143,24.143 L11.143,14.857 L17.178,14.857 C17.565,14.857 17.894,14.722 18.165,14.451 C18.436,14.180 18.571,13.851 18.571,13.464 L18.571,7.428 L24.142,7.428 L24.142,24.143 L24.143,24.143 Z"/>
                     </svg>
-                    <span class="tooltiptext2">Copied</span>
+                    <span v-if="copiedtip" class="tooltiptext2">Copied</span>
                     <label>Copy Address</label>
                 </div>
             </div>
@@ -89,9 +89,6 @@
 
             </div>
 
-
-
-
             <div class="latestTransaction">
                 <div class="header">
                     <h1>Latest Transactions</h1>
@@ -119,22 +116,33 @@
         <modal class="modal" name="wallet_info">
             <walletInfo :accountHash="accountHash"></walletInfo>
         </modal>
+        <modal class="modal" name="insufficentBal">
+            <insuficentBalance ></insuficentBalance>
+        </modal>
     </div>
 </template>
 
 <script>
     import {reOrderAccountsbyBalance} from '../walletcommon';
     import WalletInfo from './WalletInfo';
+    import insuficentBalance from '../../insuficentBalance';
+    import * as $ from 'jquery';
+    import {db} from '../../../../../../lowdbFunc';
+    import { clipboard } from 'electron';
+
     export default {
         name: 'ViewAccount',
         data() {
             return{
                 accountHash: '',
                 accountHashError: '',
+                comingSoon: false,
+                copiedtip: false,
             };
         },
         components: {
             'walletInfo': WalletInfo,
+            'insuficentBalance': insuficentBalance,
         },
         created() {
             // console.log(this.$router);
@@ -147,8 +155,65 @@
             hide () {
                 this.$modal.hide('wallet_info');
             },
+            show1 () {
+                this.$modal.show('insufficentBal');
+            },
             handleFocus(){
 
+            },
+            handleArchive(){
+                if(confirm("Do You want to Archive this Account")){
+                    db.get('accounts').find({ hash: this.accountHash }).assign({ archive : true }).write();
+                    var styles = {
+                        visibility: "visible",
+                        opacity: "1"
+                    };
+                    var styles2 = {
+                        visibility: "hidden",
+                        opacity: "0"
+                    };
+                    $(this).children('.tooltiptext2').css(styles);
+                    var t = $(this);
+                    setTimeout(function () {
+                        t.children('.tooltiptext2').animate(styles2, 400);
+
+                    }, 1000);
+                    setTimeout(function (){
+                        $('#back_btn').trigger("click");
+                    },2000);
+                    reOrderAccountsbyBalance();
+                }
+
+
+            },
+            mainMenu(){
+                if (this.$store.state.total_balance == 0) {
+                    // alert('You dont have Balane to transfer Funds');
+                    this.show1();
+                }else {
+                    this.$router.push({
+                        path: '/transferfunds'
+                    });
+                }
+            },
+            handletooltip(tip){
+                if(tip === 'comingSoon'){
+                    this.comingSoon = true;
+                    this.copiedtip = false;
+                    setTimeout(() =>{
+                        this.comingSoon = false;
+                    },1000);
+                }else {
+                    var copyText = this.accountHash;
+                    if (copyText) {
+                        clipboard.writeText(copyText, 'selected');
+                    }
+                    this.copiedtip = true;
+                    this.comingSoon = false;
+                    setTimeout(() => {
+                        this.copiedtip = false;
+                    },2000);
+                }
             }
         }
     }

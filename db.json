@@ -1,10 +1,20 @@
 {
   "accounts": [
     {
+      "accountTitle": "AccountTest",
+      "hash": "0xf66BC12CB8cFCa38a504C4210CE6D556d734e709",
+      "color": "#E880C1"
+    },
+    {
       "accountTitle": "",
-      "hash": "0xc5EcD40fa70a75cA4eeD04E2cd0Eda47c4C6b9bF",
+      "hash": "0x556e689afe677deb7f33324e41ce2662d12f6158",
       "isHd": false,
-      "color": "#02B766"
+      "color": "#3BC607"
+    },
+    {
+      "accountTitle": "",
+      "hash": "9459a4347810a1cd201c6dfc17a86954af782b40",
+      "color": "#A7AF26"
     }
   ],
   "contracts": [],
@@ -26,9 +36,29 @@
       "tokenType": "erc20",
       "decimal_places": 18,
       "color": "#0297da"
+    },
+    {
+      "id": "MB3L_y66y",
+      "token_address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+      "token_name": "BANKEX",
+      "token_symbol": "BANKEX",
+      "tokenType": "erc20",
+      "decimal_places": "18",
+      "color": "#C27A36"
     }
   ],
-  "accountsAdresses": [],
+  "accountsAdresses": [
+    {
+      "accountTitle": "Account Test",
+      "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+      "color": "#B7FBA0"
+    },
+    {
+      "accountTitle": "Account Test",
+      "hash": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+      "color": "#D05A94"
+    }
+  ],
   "hdWallets": [],
   "transactions": []
 }

@@ -1,5 +1,6 @@
 <template>
     <div class="popup popup1 md-content ">
+        <a href="#" @click="hide" class="btn-close md-close"></a>
         <form v-if="!editForm" id="addToken" method="#">
             <h1>Add Token</h1>
             <div class="row">
@@ -330,6 +331,9 @@
 
         },
         methods: {
+            hide () {
+                this.$modal.hide('watchtoken');
+            },
             handleContractAdd(){
                 let that = this;
                 let token_hash = this.tokenAddress;

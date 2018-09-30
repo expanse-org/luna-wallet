@@ -148,7 +148,7 @@
     // import '../../../../assets/js/bip39-Node/js/networks';
     // import '../../../../assets/js/bip39-Node/js/sha3';
     // import '../../../../assets/js/bip39-Node/js/wordlist_english';
-    // import '../../../../assets/js/bip39-Node/js/index';
+    import '../../../../assets/js/bip39-Node/js/index';
     export default {
         name: 'CreateHDWallet',
         data() {
@@ -175,11 +175,13 @@
         components:{
         },
         created(){
+            console.log("created");
             // let node = bip32.fromBase58('xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi')
             // let child = node.derivePath('m/44/40/0/0');
             // console.log(bip32)
             // console.log(node)
             // console.log(child)
+
         },
         methods: {
             handleFocus(){

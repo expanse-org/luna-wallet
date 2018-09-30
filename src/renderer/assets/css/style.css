@@ -5493,7 +5493,7 @@ perspective effects (not including the modals and the overlay).
   position: relative;
   display: inline-block; }
   .tooltip2 .tooltiptext2 {
-    visibility: hidden;
+    /*visibility: hidden;*/
     width: 120px;
     background-color: #fff !important;
     color: #214653;
@@ -5505,7 +5505,7 @@ perspective effects (not including the modals and the overlay).
     bottom: 125%;
     left: 50%;
     margin-left: -60px;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s; }
     .tooltip2 .tooltiptext2:after {
       content: "";

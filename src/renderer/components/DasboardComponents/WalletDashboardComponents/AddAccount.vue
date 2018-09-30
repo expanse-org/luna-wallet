@@ -1,5 +1,6 @@
 <template>
     <div class="popup tab-pop md-content ">
+        <a href="#" @click="hide" class="btn-close md-close"></a>
         <div class="account-page">
             <form id="create_Account">
                 <h1>Add Account</h1>
@@ -52,6 +53,9 @@
         created(){
         },
         methods: {
+            hide () {
+                this.$modal.hide('openAddAccountModal');
+            },
             accounts(e, tab){
                 e.preventDefault();
                 console.log(tab);

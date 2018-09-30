@@ -13,7 +13,10 @@ let mainConfig = {
     main: path.join(__dirname, '../src/main/index.js')
   },
   externals: [
-    ...Object.keys(dependencies || {})
+    ...Object.keys(dependencies || {}),
+    // {
+    //   bip32: ['bitcoinjs-1-5-7.js','bitcoinjs-extensions.js','sjcl-bip39.js', 'sha3.js','wordlist_english.js','jsbip39.js', 'bip_custom.js' ]
+    // }
   ],
   module: {
     rules: [

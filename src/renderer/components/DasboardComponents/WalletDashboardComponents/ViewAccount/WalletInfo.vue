@@ -1,8 +1,8 @@
 <template>
     <div class="popup popup1 md-content ">
-        <a href="#" class="btn-close md-close"></a>
+        <a href="#" @click="hide" class="btn-close md-close"></a>
         <h1>Wallet Information</h1>
-        <div class="row hd">
+        <div v-if="hidedata" class="row hd">
             <span class="row-3 ">
                 <span>Phrase</span>
                 <div class="value menemonicPharase"></div>
@@ -13,7 +13,7 @@
                 </div>
             </span>
         </div>
-        <div class="row hd">
+        <div v-if="hidedata" class="row hd">
             <div class="row-3">
                 <span>Derivation Path </span>
                 <div class="value derivation_path"></div>
@@ -28,7 +28,7 @@
         <div class="row">
             <div class="row-3">
                 <span>Address</span>
-                <div class="value publicAddress"></div>
+                <div class="value publicAddress">{{publicAddress}}</div>
                 <input type="hidden" v-model="publicAddress" class="publicAddress-inp" />
                 <div class="tooltip3 copytext" @click="copy(publicAddress)" data-val=".publicAddress-inp">
                     <img src="../../../../assets/img/copy.svg" />
@@ -41,7 +41,7 @@
         <div class="row priv_password non-hd ">
             <form>
                 <div class="row-3">
-                    <p class="error-message priv-password-error">Invalid Password</p>
+                    <p v-if="privateKeyPassError" class="error-message priv-password-error">Invalid Password</p>
                     <span>Password</span>
                     <span class="input input--nao">
                     <input type="password" v-model="privateKeyPass" name="privateKey-inp-pass" class="privateKey-inp-pass input__field input__field--nao" placeholder="Enter Password of Account to see Private Key" />
@@ -52,15 +52,15 @@
 
 
                 </div>
-                <div class="buttons gen">
+                <div @click="handleUnlock" class="buttons gen">
                     <button class="ok get_private_key_pass">Unlock</button>
                 </div>
             </form>
         </div>
-        <div class="row hd p_key">
+        <div v-if="privateKeyhide" class="row hd p_key">
             <div class="row-3">
                 <span>Private Key</span>
-                <div class="value privateKey"></div>
+                <div class="value privateKey">{{privateKey}}</div>
                 <input type="hidden" v-model="privateKey" class="privateKey-inp" />
                 <div class="tooltip3 copytext" @click="copy(privateKey)" data-val=".privateKey-inp">
                     <img src="../../../../assets/img/copy.svg" />
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="row hd">
+        <div v-if="hidedata" class="row hd">
             <div class="row-3">
                 <span>Public Key</span>
                 <div class="value publicKey"></div>
@@ -89,8 +89,11 @@
 <script>
     import {reOrderAccountsbyBalance} from '../walletcommon';
     import Accounts from '../Accounts';
-    import { clipboard } from 'electron';
+    import { clipboard, remote } from 'electron';
     import * as $ from 'jquery';
+    import os from 'os';
+    import keythereum from 'keythereum';
+    const app = remote.app;
 
     export default {
         name: 'WalletInfo',
@@ -100,9 +103,12 @@
                 menemonicPharase: '',
                 derivationPath: '',
                 publicAddress: '',
+                privateKeyPassError: false,
                 privateKeyPass: '',
                 privateKey: '',
                 publicKey: '',
+                hidedata: false,
+                privateKeyhide: false,
             };
         },
         components:{
@@ -113,9 +119,11 @@
             this.publicAddress = this.accountHash;
         },
         methods: {
-
+            hide () {
+                this.$modal.hide('wallet_info');
+            },
             handleFocus(){
-
+                this.privateKeyPassError = false;
             },
             copy(data){
                 var copyText = data;
@@ -135,10 +143,48 @@
                 // setTimeout(function () {
                 //     t.children('.tooltiptext2').animate(styles2, 400);
                 // }, 1000);
+            },
+            handleUnlock(e){
+                e.preventDefault();
+                let osType = os.type();
+                let datadir = "";
+                if(this.publicAddress && this.privateKeyPass){
+                    switch(osType) {
+                        case "Linux":
+                            datadir = app.getPath('home')+'/.expanse';
+                            break;
+                        case "Darwin":
+                            datadir = app.getPath('home')+'/Library/Expanse';
+                            break;
+                        case "Windows_NT":
+                            datadir = `${app.getPath('appData')}\\Expanse`;
+                            break;
+                    }
+                    console.log("datadir",datadir);
+                    try{
+                        var keyObject = keythereum.importFromFile(this.publicAddress, datadir);
+                        var privateKey = keythereum.recover(this.privateKeyPass, keyObject);
+                        console.log("privateKey",privateKey);
+                        privateKey = privateKey.toString('hex');
+                        this.privateKeyhide = true;
+                        this.privateKey = privateKey;
+                    }catch(e){
+                        this.privateKeyPassError = true;
+                    }
+
+                }else {
+                    if (!this.privateKeyPass) {
+                        this.privateKeyPassError = true;
+                    }
+                }
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
+
+    .error-message {
+        top: -25px;
+    }
 </style>
