@@ -19,10 +19,10 @@
                                     </div>
                                     <div class="fundsFrom">
                                         <div class="drop-down accounts_dropdown">
-                                            <select name="SendFunds" @focus="handleFocus" v-model="fundsFrom" selected="fundsFrom" class="sendFunds sl_allAccounts">
-                                                <!-- <option class="selectbg1" selected value="selectbg1" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 423 (9.00 ETHER)</option>
-                                                    <option class="selectbg1" selected value="selectbg2" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 22441 USD (9.00 ETHER)</option>
-                                                    <option class="selectbg1" selected value="selectbg3" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 312 USD (9.00 ETHER)</option> -->
+                                            <select name="SendFunds" @focus="handleFocus" v-model="fundsFrom" class="sendFunds sl_allAccounts" v-on:change="handlechangeFunds">
+                                                <option v-if="fromArray" v-for="(account, index) in fromArray" class="selectbg1" :value="account.hash">{{account.accountTitle}} - ({{account.balance}} EXP)</option>
+                                                <!-- <option class="selectbg1" selected value="selectbg2" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 22441 USD (9.00 ETHER)</option>
+                                                <option class="selectbg1" selected value="selectbg3" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 312 USD (9.00 ETHER)</option> -->
                                             </select>
                                         </div>
                                     </div>
@@ -30,7 +30,7 @@
                                 <div class="to">
                                     <div class="error-label">
                                         <label>To</label>
-                                        <p v-if="fundsToError" class=" error-message send_to_error">To is Required</p>
+                                        <p v-if="fundsToError" class=" error-message send_to_error">{{fundsToError}}</p>
                                     </div>
                                     <div class="fundsTo">
                                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px"
@@ -54,16 +54,12 @@
                                 <div class="currencyAmount">
                                     <div class="error-label">
                                         <label>AMOUNT</label>
-                                        <p v-if="amountError" class=" error-message send_amount_error">Amount is Required</p>
+                                        <p v-if="amountError" class=" error-message send_amount_error">{{amountError}}</p>
                                     </div>
                                     <div class="amount">
                                         <div class="fundsTo">
-                                            <input type="number" @focus="handleFocus" min="0" value="0" v-model="amount" name="sendAmount" class="sendAmount input_number" data-err=".send_amount_error" />
+                                            <input type="number" @focus="handleFocus" min="0" value="0" v-model="amount" v-on:change="handleAmount" name="sendAmount" class="sendAmount input_number" data-err=".send_amount_error" />
                                         </div>
-                                        <!-- <div class="buttons">
-                                                    <button class="fas fa-minus-circle"></button>
-                                                    <button class="fa fa-plus-circle"></button>
-                                                </div> -->
                                     </div>
 
                                 </div>
@@ -77,8 +73,9 @@
                                         <div class="error-label">
                                             <label>Currency</label>
                                         </div>
-                                        <select name="accountCurruencies" @focus="handleFocus" v-model="acountCurency" selected="acountCurency" class="accountCurrencies">
-                                            <!-- <option class="selectbg1" selected="selected" value="selectbg1d" style="background-image: url('assets/img/selectbg1.png'), url('assets/img/selectkey.png');">EXPANSE - 8.91 USD (9.00 EXP )2</option> -->
+                                        <select name="accountCurruencies" @focus="handleFocus" v-model="acountCurency" class="accountCurrencies">
+                                            <option v-if="currentArray" v-for="(account) in currentArray" class="selectbg1" selected >{{account.accountTitle}} - ({{account.balance}} EXP)</option>
+                                            <option v-if="currentArray && currentArray[0].tokens" v-for="(acc_token, index) in currentArray && currentArray[0].token_icons" class="selectbg1" :value="acc_token.tokenHash">{{acc_token.token_name}} - ({{acc_token.balance}})</option>
                                         </select>
                                     </div>
                                 </div>
@@ -97,9 +94,9 @@
                                 <div class="row">
                                     <div class="amountdetails">
                                         <label class="sendAmount">You want to send
-                                            <span class="send_every_thing">0</span> Exp</label>
+                                            <span class="send_every_thing">{{ amount }}</span> Exp</label>
                                         <h2>SELECT FEE</h2>
-                                        <label id="result">0.00093 EXP </label>
+                                        <label id="result">0.00{{price}} EXP </label>
                                         <div class="progressBar">
                                             <input id="price" v-model="price" @focus="handleFocus" type="range" min="53" max="212"/>
                                             <div class="ranges">
@@ -146,11 +143,16 @@
                 </div>
             </div>
         </div>
+        <modal  class="modal" name="sendtransactionmodal">
+            <sendTransaction :modalArray="modalArray" ></sendTransaction>
+        </modal>
     </div>
 </template>
 
 <script>
     import {startConnectWeb} from '../../../../main/libs/config';
+    import ethereum_address from 'ethereum-address';
+    import SendTransaction from './SendTransaction';
     var web3 = startConnectWeb();
     export default {
         name: 'TransferFunds',
@@ -170,14 +172,65 @@
                 acountCurencyError: false,
                 total_coinsError: false,
                 total_balance: 0,
+                accountsArray: '',
+                fromArray: [],
+                currentArray: '',
+                modalArray: '',
             };
         },
+        components:{
+            'sendTransaction': SendTransaction,
+        },
+        computed: {
+            accounts() {
+                this.accountsArray = this.$store.state.allAccounts;
+                return this.accountsArray;
+            },
+        },
         created(){
+            this.intervalid1 = setInterval(() => {
+                if (this.$store.state.allAccounts.length > 0) {
+                    this.$store.state.allAccounts.map((val) => {
+                        if(val.balance > 0){
+                            console.log(val.balance);
+                            console.log(val);
+                            this.fromArray.push(val);
+                        }
+                    });
+                    clearInterval(this.intervalid1)
+                }
+            }, 3000);
         },
         methods: {
+            show () {
+                this.$modal.show('sendtransactionmodal');
+            },
+            hide () {
+                this.$modal.hide('sendtransactionmodal');
+            },
+            handleAmount(){
+                setTimeout(() => {
+                    var price = '0.00'+this.price;
+                    this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                }, 200)
+            },
+            handlechangeFunds(){
+                console.log(this.fundsFrom);
+                if(this.fromArray.length === 1) {
+                    this.currentArray = this.fromArray;
+                    this.total_balance = this.fromArray[0].balance;
+                }else if(this.fromArray.length > 1){
+                    this.fromArray.map((account) => {
+                        if(account.hash === this.fundsFrom ){
+                            this.currentArray = account;
+                            this.total_balance = account.balance;
+                        }
+                    })
+                }
+            },
             mainMenu(){
                 this.$router.push({
-                    path: '/walletdashboard'
+                    path: '/walletdashboard',
                 });
             },
             handleFocus(){
@@ -189,13 +242,36 @@
             },
             handleSendFund(){
                 if(this.fundsFrom && this.fundsTo && this.amount && this.acountCurency ){
+                    if (!ethereum_address.isAddress(this.fundsTo )) {
+                        this.fundsToError = 'Invalid Address';
+                    }
+                    console.log(this.total_balance > this.amount, "this.total_balance > this.amount")
+                    console.log(this.total_balance , this.amount, "this.total_balance, this.amount")
+                    if(this.total_balance > this.amount){
+                        if(this.fundsFrom === this.fundsTo){
+                            this.fundsToError = 'Invalid Address';
+                        }else {
+                            this.modalArray = {
+                                currentArray: this.currentArray,
+                                fundsFrom: this.fundsFrom,
+                                fundsTo: this.fundsTo,
+                                amount: this.amount,
+                                acountCurency: this.acountCurency,
+                                price: this.price,
+                                total_coins: this.total_coins,
+                            };
+                            this.show();
+                        }
+                    } else {
+                        this.amountError = 'Seems You dont have sufficient Amount To send';
 
+                    }
                 }else if(!this.fundsFrom) {
                     this.fundsFromError = true;
                 }else if(!this.fundsTo) {
-                    this.fundsToError = true;
+                    this.fundsToError = 'To is required';
                 }else if(!this.amount) {
-                    this.amountError = true;
+                    this.amountError = 'Amount is required';
                 }else if(!this.acountCurency) {
                     this.acountCurencyError = true;
                 }
@@ -205,6 +281,7 @@
     }
 </script>
 
-<style>
 
+<style>
+    @import "../../../../../static/modalcomponent.css";
 </style>

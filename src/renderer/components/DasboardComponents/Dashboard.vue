@@ -37,10 +37,10 @@ export default {
         };
     },
     created(){
-        // getAllAcounts();
-        // setInterval(() => {
-        //     getAllAcounts();
-        // }, 500000);
+        getAllAcounts();
+        setInterval(() => {
+            getAllAcounts();
+        }, 500000);
     },
     methods: {
 

@@ -4,14 +4,16 @@
             <div class="userInfo">
                 <div class="curve"></div>
                 <div class="left">
-                    <canvas id="qrCode" class="qrCode"></canvas>
+                    <div class="qrCodevue" >
+                        <qrcode-vue :value="accountHash"  level="L"></qrcode-vue>
+                    </div>
                     <div class="info detail-account">
-                        <h1 class="update_account_title" contenteditable="true">{{account.accountTitle}}</h1>
-                        <label class="balance">{{balance}} </label>
+                        <h1 class="update_account_title" contenteditable="true">{{account && account.accountTitle}}</h1>
+                        <label class="balance">{{account && account.balance}} </label>
                         <!-- <span class="currency-sign">EXP</span> -->
                         <p class="tooltip accoundID wd300 ">
                             <label class="detail-account-hash">{{accountHash}}</label>
-                            <img v-if="account.isHd" class="hd-icon" src="../../../../assets/img/wallet.svg" />
+                            <img v-if="account && account.isHd" class="hd-icon" src="../../../../assets/img/wallet.svg" />
                             <span class="tooltiptext parrentFont detail-account-hash">{{accountHash}}</span>
                             <input type="hidden" v-model="accountHash" class="detail-account-hash-input" />
                         </p>
@@ -71,9 +73,37 @@
                 </div>
                 <div class="bottom">
                     <div class="currency-account">
-                        <!-- Currencies of Accounts -->
+                        <a v-if="account.tokens" v-for="(tokenHash, key) in account.token_icons">
+                           <div>
+                               <div class="left">
+                                   <div class="circle">
+                                       <svg version="1.1" class="svg-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px"
+                                            viewBox="0 0 43 43" v-bind:style="{enableBackground:'new 0 0 43 43',fill:tokenHash.color}" xml:space="preserve">
+                                           <defs>
+                                           </defs>
+                                           <circle class="st012" cx="21.5" cy="21.5" r="21.5"></circle>
+                                           <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"></rect>
+                                           <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"></rect>
+                                           <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"></rect>
+                                           <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"></rect>
+                                           <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"></rect>
+                                           <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"></rect>
+                                           <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"></rect>
+                                       </svg>
+                                   </div>
+                                   <div class="content">
+                                       <p>{{tokenHash.token_name}}</p>
+                                       <p>{{ parseFloat(tokenHash.balance).toFixed(8) +' '+tokenHash.token_symbol}}</p>
+                                       </div>
+                                   </div>
+                               <div class="right">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27px" height="27px">
+                                       <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M13.500,27.000 C6.044,27.000 -0.000,20.956 -0.000,13.500 C-0.000,6.044 6.044,-0.000 13.500,-0.000 C20.956,-0.000 27.000,6.044 27.000,13.500 C27.000,20.956 20.956,27.000 13.500,27.000 ZM21.504,5.459 C21.420,5.385 21.301,5.368 21.199,5.415 L2.864,13.963 C2.765,14.009 2.701,14.108 2.700,14.217 C2.699,14.326 2.760,14.426 2.858,14.474 L8.047,17.029 C8.142,17.076 8.256,17.065 8.341,17.002 L13.386,13.219 L9.425,17.306 C9.369,17.364 9.340,17.444 9.346,17.525 L9.740,22.678 C9.749,22.792 9.825,22.890 9.934,22.925 C9.963,22.935 9.993,22.939 10.022,22.939 C10.103,22.939 10.181,22.905 10.236,22.841 L12.990,19.639 L16.395,21.271 C16.469,21.307 16.554,21.308 16.629,21.275 C16.704,21.243 16.762,21.179 16.786,21.100 L21.588,5.757 C21.621,5.650 21.589,5.533 21.504,5.459 Z"></path>
+                                       </svg>
+                                   </div>
+                               </div>
+                           </a>
                     </div>
-
                 </div>
             </div>
             <div class="note">
@@ -130,6 +160,7 @@
     import {db} from '../../../../../../lowdbFunc';
     import { clipboard } from 'electron';
     var web3 = startConnectWeb();
+    import QrcodeVue from 'qrcode.vue';
 
     export default {
         name: 'ViewAccount',
@@ -141,23 +172,29 @@
                 comingSoon: false,
                 copiedtip: false,
                 balance: '',
+                size: 116,
             };
         },
         components: {
             'walletInfo': WalletInfo,
             'insuficentBalance': insuficentBalance,
+            'qrcode-vue': QrcodeVue,
         },
         created() {
             // console.log(this.$router);
             this.accountHash = this.$router.history.current.query.accountDetail;
-            this.account = db.get('accounts').find({
-                hash: this.accountHash
-            }).value();
-
-            web3.eth.getBalance(this.accountHash).then((bal) => {
-                let balance = web3.utils.fromWei(bal, "ether");
-                this.balance = this.$store.state.ac_price * balance;
-            });
+            this.intervalid1 = setInterval(() => {
+                if (this.$store.state.allAccounts.length > 0) {
+                    this.$store.state.allAccounts.map((account_hash) => {
+                        if(account_hash.hash === this.accountHash )
+                        {
+                            this.account = account_hash;
+                            console.log(this.account, "account");
+                            clearInterval(this.intervalid1)
+                        }
+                    })
+                }
+            }, 3000);
         },
         methods: {
             show () {
@@ -226,6 +263,15 @@
         }
     }
 </script>
+
+<style >
+    .qrCodevue {
+        padding: 10px!important;
+        width: 101px!important;
+        height: 101px!important;
+        background: white!important;
+    }
+</style>
 
 <style>
     @import "../../../../../../static/modalcomponent.css";
