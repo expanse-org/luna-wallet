@@ -257,7 +257,7 @@
             try{
                 // Sending Data to Main js For further Process
                 web3.eth.getAccounts(function (error, accounts) {
-                    console.log(accounts,"accounts");
+                    // console.log(accounts,"accounts");
                     if(accounts && accounts.length > 0){
                         // ipcRenderer.send('launchApplication', 'Launch App');
                         that.$router.push({

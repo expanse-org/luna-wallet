@@ -7,6 +7,21 @@
             <div v-if="accountdetailTab" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash)">
                 <div v-if="account.isHd" class="wallet-icon"></div>
                 <div class="img">
+                    <div v-if="account.tokens && (account.token_icons.length > 0 && account.token_icons.length < 3)" v-for="(ac_tokens, key ) in account.token_icons" class="icons">
+                        <svg :class="'svg-1 svg'+ parseInt(key + 1)" v-bind:style="{fill: ac_tokens.color, enableBackground: 'new 0 0 43 43'}"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
+                        <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
+                        <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                        <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                        <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
+                        <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
+                        <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
+                        <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
+                        <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
+                        <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
+                        <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
+                        </svg>
+                    </div>
                     <svg  :class="'svg-1 svg' + parseInt(key + 1)" v-bind:style="{fill:account.color, enableBackground: 'new 0 0 43 43'}"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
                     <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
@@ -40,6 +55,23 @@
                         <p class="tooltip accoundID wd180">{{ account.hash }}
                             <span class="tooltiptext parrentFont">{{ account.hash }}</span>
                         </p>
+                    </div>
+                    <div v-if="account.tokens && (account.token_icons.length > 2)" class="icons2">
+                        <div v-for="(ac_tokens, key ) in account.token_icons" class="icons">
+                            <svg  :class="'svg-1 svg'+parseInt(key + 1)" v-bind:style="{fill: ac_tokens.color , enableBackground: 'new 0 0 43 43'}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" style="enable-background:new 0 0 43 43;" xml:space="preserve">
+                            <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
+                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
+                            <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
+                            <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
+                            <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
+                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
+                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>

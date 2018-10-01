@@ -6,11 +6,27 @@
                 addresses
             </div>
             <div class="row">
+                <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
+                <span class="input input--nao">
+                    <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
+                           type="text" id="input-1" />
+                    <label class="input__label input__label--nao" for="input-1">
+                        <span class="input__label-content input__label-content--nao">Title
+                            <span class="mandatory">*</span>
+                            <span class="details">This is Title of your Account </span>
+                        </span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="row">
                 <p v-if="ValidMnemonic" class="error-message invalidmnemonic-req-error">Valid Mnemonic Phrase is Required</p>
                 <p v-if="invalidMnemonic"class="error-message invalidmnemonic-error">Invalid mnemonic</p>
                 <input type="hidden" class="invalidmnemonic-val-error" />
                 <span class="input input--nao" id="mnemonics">
-                    <textarea class="phrase input__field input__field--nao textarea" id="phrase" v-model="mnemonicsTextarea" @focus="handleFocus"></textarea>
+                    <textarea class="phrase input__field input__field--nao textarea" v-on:change="handlephrase" id="phrase"></textarea>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Enter mnemonic phrase of 12 digits
                             <span class="details">Mnemonic phrases are 12 words master key which stores all the information
@@ -28,8 +44,8 @@
             <div class="row">
                 <input id="bip44-path" v-model="derivation_path" placeholder="Derivation Path" type="hidden" disabled>
                 <span class="input input--nao">
-                    <input class="input__field input__field--nao derivation_path" v-model="derivation_path" @focus="handleFocus"
-                           placeholder="Derivation Path" type="text" disabled>
+                    <input class="input__field input__field--nao derivation_path"
+                            type="text" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Derivation path
                         </span>
@@ -42,7 +58,7 @@
             </div>
             <div class="row">
                 <span class="input input--nao" id="address">
-                    <input type="text" class="derived_address input__field input__field--nao" v-model="derived_address" @focus="handleFocus" disabled>
+                    <input type="text" class="derived_address input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Address
                         </span>
@@ -54,7 +70,7 @@
             </div>
             <div class="row">
                 <span class="input input--nao" id="privateKey">
-                    <input type="text" class="derived_private_key input__field input__field--nao" v-model="privateKey" @focus="handleFocus" disabled>
+                    <input type="text" class="derived_private_key input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Private Key
                         </span>
@@ -66,7 +82,7 @@
             </div>
             <div class="row">
                 <span class="input input--nao" id="publicKey">
-                    <input type="text" class="derived_public_key input__field input__field--nao" v-model="publicKey" @focus="handleFocus" disabled>
+                    <input type="text" class="derived_public_key input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                            <span class="input__label-content input__label-content--nao">Public Key
                         </span>
@@ -136,26 +152,25 @@
 </template>
 
 <script>
-    // import bip32 from 'bip32';
+    import {getAllAcounts} from '../walletcommon';
     import Raven from 'raven';
     import {startConnectWeb} from '../../../../../main/libs/config';
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import * as $ from 'jquery';
-    // import '../../../../assets/js/bip39-Node/js/bitcoinjs-1-5-7';
-    // import '../../../../assets/js/bip39-Node/js/bitcoinjs-extensions';
-    // import '../../../../assets/js/bip39-Node/js/sjcl-bip39';
-    // import '../../../../assets/js/bip39-Node/js/networks';
-    // import '../../../../assets/js/bip39-Node/js/sha3';
-    // import '../../../../assets/js/bip39-Node/js/wordlist_english';
-    import '../../../../assets/js/bip39-Node/js/index';
+    import {generateStart, generatePhraseStart}  from  '../../../../assets/js/bip39-Node/js/index';
+    import md5  from  'md5';
+    var web3 = startConnectWeb();
+
     export default {
         name: 'CreateHDWallet',
         data() {
             return{
                 mnemonicsTextarea: '',
                 derivation_path: 'm/44\'/40\'/0\'/0',
+                accountName: '',
                 derived_address: '',
+                derivedaddressindex: '',
                 privateKey: '',
                 publicKey: '',
                 hd_wallet_password: '',
@@ -165,6 +180,7 @@
                 derived_addressError: false,
                 hd_wallet_passwordError: false,
                 hd_wallet_repasswordError: false,
+                accountNameError: '',
                 passType: 'password',
                 ValidMnemonic: false,
                 invalidMnemonic: false,
@@ -172,16 +188,36 @@
                 error: false,
             };
         },
+        computed: {
+            hdaddress() {
+                this.derived_address = $('.derived_address').val();
+                return this.derived_address;
+            },
+            hdprivateKey() {
+                this.privateKey = $('.derived_private_key').val();
+                return this.privateKey;
+            },
+            hdpublicKey() {
+                this.publicKey = $('.derived_public_key').val();
+                return this.publicKey;
+            },
+            hdphrase() {
+                this.mnemonicsTextarea = $('.phrase').val();
+                return this.mnemonicsTextarea;
+            },
+            hdaddressIndex() {
+                this.derivedaddressindex = $('.derived_address_index').val();
+                return this.derivedaddressindex;
+            },
+            hdderivationpath() {
+                this.derivation_path = $('.derivation_path').val();
+                return this.derivation_path;
+            },
+        },
         components:{
         },
         created(){
-            console.log("created");
-            // let node = bip32.fromBase58('xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi')
-            // let child = node.derivePath('m/44/40/0/0');
-            // console.log(bip32)
-            // console.log(node)
-            // console.log(child)
-
+            $('.derived_address').val('m/44\'/40\'/0\'/0');
         },
         methods: {
             handleFocus(){
@@ -191,51 +227,52 @@
                 this.hd_wallet_passwordError = false;
                 this.hd_wallet_repasswordError = false;
             },
+            handlephrase() {
+                this.mnemonicsTextarea = $('.phrase').val();
+                generatePhraseStart(this.mnemonicsTextarea);
+            },
             CreateHDWallet(e){
                 e.preventDefault();
-                if(this.mnemonicsTextarea && this.derivation_path && this.derived_address && this.privateKey && this.publicKey && this.hd_wallet_password && this.hd_wallet_repassword){
+                console.log(this.hdaddressIndex ,"hdaddressIndex");
+                if(this.hdaddressIndex && this.accountName && this.hdderivationpath && this.hdphrase && this.hdaddress && this.hdprivateKey&& this.hdpublicKey && this.hd_wallet_password && this.hd_wallet_repassword){
                     try {
-                        let account_address = web3.eth.personal.importRawKey(this.privateKey, this.hd_wallet_password);
+                        let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
+                        console.log("if HD wallet", account_address);
+                        var phrase_hash = md5(this.hdphrase);
                         account_address.then((res) => {
                             console.log(res, "HD wallet");
                             let color = getRandomColor();
                             db.get('accounts').push({
-                                accountTitle: "",
+                                accountTitle: this.accountName,
                                 hash: res,
                                 isHd: true,
                                 color: color,
                                 archive: false
                             }).write();
                             db.get('hdWallets').push({
-                                key: keymain,
-                                public_key: this.publicKey,
-                                index: index,
-                                phrase: phrase,
+                                public_key: this.hdpublicKey,
+                                index: this.hdaddressIndex,
+                                phrase_hash: phrase_hash,
                                 address: res,
-                                derivationPath: derivationPath,
+                                derivationPath: this.hdderivationpath,
                                 color: color
                             }).write();
+                            this.success = true;
                             $('.alert-sucess').show(300).delay(5000).hide(330);
-                            listAccounts();
+                            getAllAcounts();
                             $('form').trigger("reset");
                         }, (err) => {
                             console.log(err, "HD wallet")
+                            this.accountNameError = true;
                         });
-
 
                     } catch (err) {
                         console.log("Execption Error" + err.message);
                         Raven.captureException(err);
                     }
                 } else {
-                    if(!this.mnemonicsTextarea){
-                        this.mnemonicsTextareaError = true;
-                    }
-                    if(!this.derivation_path){
-                        this.derivation_pathError = true;
-                    }
-                    if(!this.derived_address){
-                        this.derived_addressError = true;
+                    if(!this.accountName){
+                        this.accountNameError = true;
                     }
                     if(!this.hd_wallet_password){
                         this.hd_wallet_passwordError = true;
@@ -253,6 +290,7 @@
             },
             generateHandle(e){
                 e.preventDefault();
+                generateStart();
 
             }
         }

@@ -93,7 +93,7 @@
         <div class="balance">
             <label>BALANCE</label>
             <div class="amount ">
-                <label class="dashboard-balance">{{this.$store.state.ac_balance ? this.$store.state.ac_balance:0}}</label>
+                <label class="dashboard-balance">{{totalBalanceData ? totalBalanceData:0}}</label>
             </div>
 
             <div class="down">
