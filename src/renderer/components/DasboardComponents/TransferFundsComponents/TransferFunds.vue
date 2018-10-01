@@ -67,13 +67,13 @@
 
                                     <div class="error-label">
                                         <label>Currency</label>
-                                        <p v-if="acountCurencyError" class=" error-message send_amount_currency_error">Amount is Required</p>
+                                        <p v-if="currencyHashError" class=" error-message send_amount_currency_error">Amount is Required</p>
                                     </div>
                                     <div class="drop-down currencies_dropdown">
                                         <div class="error-label">
                                             <label>Currency</label>
                                         </div>
-                                        <select name="accountCurruencies" @focus="handleFocus" v-model="acountCurency" class="accountCurrencies">
+                                        <select name="accountCurruencies" @focus="handleFocus" v-model="currencyHash" class="accountCurrencies">
                                             <option v-if="currentArray" v-for="(account) in currentArray" class="selectbg1" selected >{{account.accountTitle}} - ({{account.balance}} EXP)</option>
                                             <option v-if="currentArray && currentArray[0].tokens" v-for="(acc_token, index) in currentArray && currentArray[0].token_icons" class="selectbg1" :value="acc_token.tokenHash">{{acc_token.token_name}} - ({{acc_token.balance}})</option>
                                         </select>
@@ -161,7 +161,7 @@
                 fundsFrom: '',
                 fundsTo: '',
                 amount: '',
-                acountCurency: '',
+                currencyHash: '',
                 sendAllCheck: '',
                 price: '93',
                 sendFundsData: '',
@@ -169,7 +169,7 @@
                 fundsFromError: false,
                 fundsToError: false,
                 amountError: false,
-                acountCurencyError: false,
+                currencyHashError: false,
                 total_coinsError: false,
                 total_balance: 0,
                 accountsArray: '',
@@ -237,11 +237,11 @@
                 this.fundsFromError= false;
                 this.fundsToError= false;
                 this.amountError= false;
-                this.acountCurencyError= false;
+                this.currencyHashError= false;
                 this.total_coinsError= false;
             },
             handleSendFund(){
-                if(this.fundsFrom && this.fundsTo && this.amount && this.acountCurency ){
+                if(this.fundsFrom && this.fundsTo && this.amount && this.currencyHash ){
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
                     }
@@ -256,7 +256,7 @@
                                 fundsFrom: this.fundsFrom,
                                 fundsTo: this.fundsTo,
                                 amount: this.amount,
-                                acountCurency: this.acountCurency,
+                                currencyHash: this.currencyHash,
                                 price: this.price,
                                 total_coins: this.total_coins,
                             };
@@ -272,8 +272,8 @@
                     this.fundsToError = 'To is required';
                 }else if(!this.amount) {
                     this.amountError = 'Amount is required';
-                }else if(!this.acountCurency) {
-                    this.acountCurencyError = true;
+                }else if(!this.currencyHash) {
+                    this.currencyHashError = true;
                 }
 
             },
