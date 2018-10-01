@@ -24,8 +24,8 @@ const store = new Vuex.Store({
     ac_dcurrency: "$",
     editTokenHash: 0,
     tokenList: 0,
-    allAccounts: [],
-    watchAccounts: [],
+    allAccounts: '',
+    watchAccounts: '',
   },
   mutations: {
     increment (state) {

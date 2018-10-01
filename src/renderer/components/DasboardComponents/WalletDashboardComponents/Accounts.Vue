@@ -7,16 +7,16 @@
 
             <!-- </div> -->
             <div class="info main-account">
-                <h1 class="m_name">Main account (BASE)</h1>
-                <label class="balance">00.000</label>
+                <h1 class="m_name">{{accountTitle? accountTitle: 'Main Account'}}</h1>
+                <label class="balance">{{accountbalance? accountbalance: '0.000'}}</label>
                 <!-- <span class="currency-sign">Exp</span> -->
                 <div class=" copy accoundID wd300">
-                    <label class="main-account-hash">0X</label>
+                    <label class="main-account-hash">{{accounthash? accounthash: '0X'}}</label>
                     <div class="tooltip3 copytext" data-val=".main-account-hash-input">
                         <img src="../../../assets/img/copy.svg" />
                         <span class="tooltiptext2">Copied</span>
                     </div>
-                    <input type="hidden" class="main-account-hash-input" />
+                    <input type="hidden" v-model="accounthash" class="main-account-hash-input" />
 
                 </div>
                 <div class="btns">
@@ -39,20 +39,46 @@
 </template>
 
 <script>
+    import {startConnectWeb} from '../../../../main/libs/config';
+    var web3 = startConnectWeb();
     import AddAccount from './AddAccount';
     export default {
         name: 'Accounts',
         components:{
             'addAccount-app': AddAccount,
         },
+        data() {
+          return {
+             accountTitle: '',
+             accounthash: '',
+             accountbalance: '',
+          };
+        },
         created(){
-
+            let that = this;
+            that.intervalid1 = setInterval(() => {
+                if (that.$store.state.allAccounts.length > 0) {
+                    that.$store.state.allAccounts.map((account_hash) => {
+                        web3.eth.getCoinbase().then((res)=> {
+                            // console.log(res);
+                            if (res == account_hash.hash.toLowerCase()){
+                                // console.log(account_hash, "account_hash");
+                                that.accountTitle = account_hash.accountTitle;
+                                that.accounthash = account_hash.hash;
+                                that.accountbalance = account_hash.balance;
+                                // console.log(that.accountbalance, "accountbalance");
+                                clearInterval(that.intervalid1)
+                            }
+                        });
+                    })
+                }
+            }, 3000);
         },
         methods: {
             mainMenu(){
                 this.$router.push({
                     path: '/accountdetails',
-                    query: { accountDetail: '0xd416db48cce26ad2dff060d90ef45db8a67aa3ac' }
+                    query: { accountDetail: this.accounthash }
                 });
             },
             show () {

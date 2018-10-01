@@ -274,7 +274,6 @@
                 // Raven.captureException(e);
                 console.log(e, "Raven")
             }
-
         },
         callDownloadGexp(){
             try{

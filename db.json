@@ -87,6 +87,27 @@
       "color": "#FA6C48",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Account 0",
+      "hash": "0xf5d29B13574f069437E40537FDda87bD22605456",
+      "color": "#4FF62D",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 1",
+      "hash": "0x426BDED6A356c6Da0D7D2fAe779B716ea4Fe8dCb",
+      "color": "#A239EA",
+      "archive": true,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account tesstt",
+      "hash": "0x7BE5f5c286D7aABb0f11F4fc4cC93fAff8D851A6",
+      "color": "#50A966",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [],
@@ -110,13 +131,13 @@
       "color": "#0297da"
     },
     {
-      "id": "MB3L_y66y",
+      "id": "tkyyZMVpz",
       "token_address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
       "token_name": "BANKEX",
       "token_symbol": "BANKEX",
       "tokenType": "erc20",
       "decimal_places": "18",
-      "color": "#C27A36"
+      "color": "#BAB3FF"
     }
   ],
   "accountsAdresses": [

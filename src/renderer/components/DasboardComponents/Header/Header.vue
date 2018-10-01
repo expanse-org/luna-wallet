@@ -74,7 +74,7 @@
                     />
                 </svg>
                 <label>EXP Price:
-                    <span class="currValue">EXP {{currenciesData && currenciesData['USD'].PRICE}}</span>
+                    <span class="currValue">{{currenciesData && currenciesData[selectCurrency].PRICE}}</span>
                 </label>
             </div>
 
@@ -93,11 +93,11 @@
         <div class="balance">
             <label>BALANCE</label>
             <div class="amount ">
-                <label class="dashboard-balance">{{dashboardbalanceData ? dashboardbalanceData:this.dashboardbalance}}</label>
+                <label class="dashboard-balance">{{this.$store.state.ac_balance ? this.$store.state.ac_balance:0}}</label>
             </div>
 
             <div class="down">
-                <select v-on:change="handleCurrency(selectCurrency)" v-model="selectCurrency" id="currency">
+                <select v-on:change="handleCurrency(selectCurrency)" v-model="selectCurrency"  id="currency">
                     <option v-for="(val,currency) in currenciesData" :value="currency">{{currency}}</option>
                 </select>
             </div>
@@ -162,15 +162,18 @@
             },
             currenciesData: function(){
                 this.currency = this.$store.state.currencies;
+                console.log(this.currency, "currency");
                 return this.currency;
             },
             totalBalanceData: function(){
                 this.tb = this.$store.state.total_balance;
+                console.log(this.tb, "tb");
                 return this.tb;
             },
             dashboardbalanceData: function(){
                 var price = this.$store.state.currencies && this.$store.state.currencies[this.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
                 this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
+                this.$store.dispatch('addAcprice', price);
                 this.dashboardbalance =  this.defaultCurrencySign +' '+ (parseFloat(price) * this.totalBalanceData).toFixed(6);
                 return this.dashboardbalance;
             },
@@ -179,7 +182,6 @@
             let timestamp;
             let that = this;
             // console.log(this.$store.state.gexpSync)
-            ExpApi();
             console.log(this.currenciesData, "currencies")
             if(this.$store.state.gexpSync){
 
@@ -220,6 +222,7 @@
                 }
                 var price = this.currenciesData[curr].PRICE.replace(/[^0-9\.]/g, '');
                 this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
+                this.$store.dispatch('addAcprice', price);
                 this.dashboardbalance =  this.defaultCurrencySign +' '+ (parseFloat(price) * this.total_balance).toFixed(6);
                 // console.log("web3 this.dashboardbalance", this.dashboardbalance)
             },
@@ -233,10 +236,11 @@
                                 // console.log(account_hash , key);
                                 web3.eth.getBalance(account_hash).then((bal) => {
                                     var balance = web3.utils.fromWei(bal, "ether");
-                                    var price = this.$store.state.currencies && this.$store.state.currencies[this.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
-                                    this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
+                                    var price = that.$store.state.currencies && that.$store.state.currencies[that.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
+                                    that.$store.dispatch('addpushAcdcurrency', that.defaultCurrencySign);
                                     that.total_balance = parseFloat(that.total_balance) + parseFloat(balance);
                                     that.total_balance = that.total_balance.toFixed(6);
+                                    that.$store.dispatch('addAcprice', price);
                                     // console.log('total_balance=============', that.total_balance)
                                     that.dashboardbalance = that.defaultCurrencySign+' ' + (that.total_balance * that.price).toFixed(6);
                                 });

@@ -21,7 +21,6 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import AddToken from './TokensComponents/AddToken';
-
 import {getAllAcounts} from './WalletDashboardComponents/walletcommon';
 
 export default {
@@ -38,9 +37,10 @@ export default {
         };
     },
     created(){
-        setInterval(function () {
-            getAllAcounts();
-        }, 5000);
+        // getAllAcounts();
+        // setInterval(() => {
+        //     getAllAcounts();
+        // }, 500000);
     },
     methods: {
 

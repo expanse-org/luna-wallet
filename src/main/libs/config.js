@@ -187,16 +187,14 @@ const ExpApi = () => {
     got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
         json: true
     }).then(response => {
-        currencies = response.body.DISPLAY.EXP;
-        console.log(currencies);
-        let price = currencies["$"].PRICE.replace(/[^0-9\.]/g, '');
-        console.log(price, "price");
-        if(price){
-            store.dispatch('addAcprice', price);
+        if(response){
+            currencies = response.body.DISPLAY.EXP;
+            console.log(currencies);
+            let price = currencies["USD"].PRICE.replace(/[^0-9\.]/g, '');
+            console.log(price, "price");
+            store.dispatch('addCurrencies',currencies);
+            return currencies;
         }
-        store.dispatch('addCurrencies',currencies);
-
-        return currencies;
     }).catch(error => {
         Raven.captureException(error);
     });

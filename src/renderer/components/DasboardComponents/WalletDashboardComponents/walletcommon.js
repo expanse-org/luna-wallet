@@ -6,7 +6,7 @@ import {startConnectWeb, currencies, ExpApi} from '../../../../main/libs/config'
 import Raven from 'raven';
 import * as $ from 'jquery';
 import _ from 'underscore';
-import store from '../../../store/index';
+import store from '../../../store';
 import object_hash from 'object-hash';
 import numberToBN from 'number-to-bn';
 
@@ -64,7 +64,6 @@ const getAllAcounts = () => {
                 });
             }
         });
-        getAllWatchOnlyAcounts();
     } catch (e) {
         console.log("Exception Error:", e);
         Raven.captureException(e);
@@ -116,14 +115,19 @@ const gettokensBalance = (account_hash, key) => {
     });
 };
 
+const storeAction = (sortbyEXPBalance) => {
+    store.dispatch('addAllAccounts', sortbyEXPBalance);
+}
+
 const sortByEXPBalances = () => {
     sortbyEXPBalance = unarchiveAccounts.sort(
         function (a, b) {
             return parseFloat(b.balance) - parseFloat(a.balance);
         }
     );
-    store.dispatch('addAllAccounts', sortbyEXPBalance);
+    storeAction(sortbyEXPBalance);
     console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance")
+    console.log(archiveAccounts ,"archiveAccounts sortbyEXPBalance")
 };
 
 const sortByTokenBalances = () => {

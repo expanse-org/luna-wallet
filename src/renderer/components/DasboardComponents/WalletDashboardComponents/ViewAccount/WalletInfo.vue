@@ -44,7 +44,7 @@
                     <p v-if="privateKeyPassError" class="error-message priv-password-error">Invalid Password</p>
                     <span>Password</span>
                     <span class="input input--nao">
-                    <input type="password" v-model="privateKeyPass" name="privateKey-inp-pass" class="privateKey-inp-pass input__field input__field--nao" placeholder="Enter Password of Account to see Private Key" />
+                    <input type="password" v-model="privateKeyPass" @focus="handleFocus" name="privateKey-inp-pass" class="privateKey-inp-pass input__field input__field--nao" placeholder="Enter Password of Account to see Private Key" />
                     <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                         <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                     </svg>
@@ -148,6 +148,7 @@
                 let osType = os.type();
                 let datadir = "";
                 if(this.publicAddress && this.privateKeyPass){
+                    this.privateKeyPassError = false;
                     switch(osType) {
                         case "Linux":
                             datadir = app.getPath('home')+'/.expanse';
@@ -163,7 +164,7 @@
                     var keyObject = keythereum.importFromFile(this.publicAddress, datadir);
                     try{
                         var privateKey = keythereum.recover(this.privateKeyPass, keyObject);
-                        console.log("privateKey",privateKey);
+                        // console.log("privateKey",privateKey);
                         privateKey = privateKey.toString('hex');
                         this.privateKeyhide = true;
                         this.privateKey = privateKey;

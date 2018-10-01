@@ -6,13 +6,13 @@
                 <div class="left">
                     <canvas id="qrCode" class="qrCode"></canvas>
                     <div class="info detail-account">
-                        <h1 class="update_account_title" contenteditable="true">Account 23</h1>
-                        <label class="balance">00.000 </label>
+                        <h1 class="update_account_title" contenteditable="true">{{account.accountTitle}}</h1>
+                        <label class="balance">{{balance}} </label>
                         <!-- <span class="currency-sign">EXP</span> -->
                         <p class="tooltip accoundID wd300 ">
-                            <label class="detail-account-hash">0X</label>
-                            <img class="hd-icon" src="../../../../assets/img/wallet.svg" />
-                            <span class="tooltiptext parrentFont detail-account-hash">0X</span>
+                            <label class="detail-account-hash">{{accountHash}}</label>
+                            <img v-if="account.isHd" class="hd-icon" src="../../../../assets/img/wallet.svg" />
+                            <span class="tooltiptext parrentFont detail-account-hash">{{accountHash}}</span>
                             <input type="hidden" v-model="accountHash" class="detail-account-hash-input" />
                         </p>
                         <div class="btns">
@@ -126,17 +126,21 @@
     import WalletInfo from './WalletInfo';
     import insuficentBalance from '../../insuficentBalance';
     import * as $ from 'jquery';
+    import {startConnectWeb} from '../../../../../main/libs/config';
     import {db} from '../../../../../../lowdbFunc';
     import { clipboard } from 'electron';
+    var web3 = startConnectWeb();
 
     export default {
         name: 'ViewAccount',
         data() {
             return{
                 accountHash: '',
+                account: '',
                 accountHashError: '',
                 comingSoon: false,
                 copiedtip: false,
+                balance: '',
             };
         },
         components: {
@@ -146,6 +150,14 @@
         created() {
             // console.log(this.$router);
             this.accountHash = this.$router.history.current.query.accountDetail;
+            this.account = db.get('accounts').find({
+                hash: this.accountHash
+            }).value();
+
+            web3.eth.getBalance(this.accountHash).then((bal) => {
+                let balance = web3.utils.fromWei(bal, "ether");
+                this.balance = this.$store.state.ac_price * balance;
+            });
         },
         methods: {
             show () {
@@ -181,8 +193,6 @@
                         $('#back_btn').trigger("click");
                     },2000);
                 }
-
-
             },
             mainMenu(){
                 if (this.$store.state.total_balance == 0) {

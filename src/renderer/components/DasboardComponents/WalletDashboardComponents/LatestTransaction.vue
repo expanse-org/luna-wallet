@@ -4,26 +4,26 @@
             <label>ACCOUNTS</label>
         </div>
         <div class="bottom accounts-list">
-            <div v-if="accountdetailTab" v-for="(account, key ) in Accounts" class="account1 a1" data-index="parseInt(key + 1)" data data-val="account.hash" @click="mainMenu($event,'accountDetail','` +account.hash + `')">
-                <div class="wallet-icon">
-                    <div class="img">
-                        <svg   :class="'svg-1 svg' + parseInt(key + 1)" v-bind:style="{fill:account.color, enableBackground: 'new 0 0 43 43'}"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
-                        <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
-                        <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
-                        <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
-                        <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
-                        <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
-                        <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
-                        <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
-                        <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
-                        <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
-                        <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
-                        </svg>
-                    </div>
-                    <div class="details">
-                        <div>
-                            <svg
+            <div v-if="accountdetailTab" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash)">
+                <div v-if="account.isHd" class="wallet-icon"></div>
+                <div class="img">
+                    <svg  :class="'svg-1 svg' + parseInt(key + 1)" v-bind:style="{fill:account.color, enableBackground: 'new 0 0 43 43'}"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
+                    <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
+                    <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                    <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                    <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
+                    <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
+                    <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
+                    <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
+                    <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
+                    <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
+                    <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
+                    </svg>
+                </div>
+                <div class="details">
+                    <div>
+                        <svg
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                             x="0px" y="0px" width="15.2px" height="21.9px" viewBox="0 0 15.2 21.9" style="enable-background:new 0 0 15.2 21.9;"
                             xml:space="preserve">
@@ -33,33 +33,13 @@
                             L15,3c0.3-0.5,0.2-1.2-0.3-1.5s-1.2-0.2-1.5,0.3c0,0-0.1,0.1-0.1,0.1L7,12.4z M9.1,18.7c-0.6,1-1.9,1.4-2.9,0.8l-3-1.7
                             c-1-0.6-1.4-1.9-0.8-2.9s1.9-1.4,2.9-0.8l0,0l3,1.7C9.3,16.4,9.6,17.7,9.1,18.7z"/>
                             </svg>
-                            <label>{{ account.accountTitle }} </label>
-                            <span>({{ account.balance }}   EXP)</span>
-                        </div>
-                        <div>
-                            <p class="tooltip accoundID wd180">{{ account.hash }}
-                                <span class="tooltiptext parrentFont">{{ account.hash }}</span>
-                            </p>
-                        </div>
+                        <label>{{ account.accountTitle }} </label>
+                        <span>({{ account.balance }}   EXP)</span>
                     </div>
-                </div>
-            </div>
-            <div v-if="simpleaccountTab" class="account1 a1" data-index="parseInt(key + 1)" data data-val="account_hash.hash" @click="mainMenu($event,'accountDetail','account_hash.hash')">
-                <div class="img">
-                    <div class="icons">
-                        <svg class="'svg-1 svg'+parseInt(key + 1)" v-bind:style="{fill:'ac_token.color', enableBackground:'new 0 0 43 43' }"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
-                            <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>'
-                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
-                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
-                            <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
-                            <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
-                            <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
-                            <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
-                            <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
-                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
-                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
-                        </svg>
+                    <div>
+                        <p class="tooltip accoundID wd180">{{ account.hash }}
+                            <span class="tooltiptext parrentFont">{{ account.hash }}</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -116,11 +96,10 @@
                 simpleaccountTab: false,
                 expaccounts: '',
                 watchaccounts: '',
-                sortbyEXPBalance,
             };
         },
         computed: {
-            Accounts() {
+            accounts() {
                 this.expaccounts = this.$store.state.allAccounts;
                 return this.expaccounts;
             },
@@ -130,13 +109,16 @@
             },
         },
         created(){
-            if(this.Accounts.length > 0 ){
+            if(this.accounts.length > 0 ){
                 this.accountdetailTab = true;
             }
         },
         methods: {
-            mainMenu(){
-
+            mainMenu(e, account_hash){
+                this.$router.push({
+                    path: '/accountdetails',
+                    query: { accountDetail:  account_hash}
+                });
             }
         }
     }
