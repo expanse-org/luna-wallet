@@ -317,8 +317,8 @@
                                 var rawTransaction = {
                                     "from": this.modalArray.fundsFrom,
                                     "nonce": this.nonce,
-                                    "gasPrice": web3.toHex(this.gasPrice),
-                                    "gasLimit": web3.toHex(this.gasLimit),
+                                    "gasPrice": web3.utils.toHex(this.gasPrice),
+                                    "gasLimit": web3.utils.toHex(this.gasLimit),
                                     "to": contractAddress,
                                     "data": this.raw_dataToken,
                                     "chainId": 0x02
