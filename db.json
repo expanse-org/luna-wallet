@@ -29,9 +29,9 @@
     },
     {
       "accountTitle": "Account 1",
-      "hash": "0x426BDED6A356c6Da0D7D2fAe779B716ea4Fe8dCb",
+      "hash": " ",
       "color": "#A239EA",
-      "archive": true,
+      "archive": false,
       "isHd": false
     },
     {

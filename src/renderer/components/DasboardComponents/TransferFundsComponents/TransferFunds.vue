@@ -98,7 +98,7 @@
                                         <h2>SELECT FEE</h2>
                                         <label id="result">0.00{{price}} EXP </label>
                                         <div class="progressBar">
-                                            <input id="price" v-model="price" @focus="handleFocus" type="range" min="53" max="212"/>
+                                            <input id="price" @change="handlepriceChange" v-model="price" @focus="handleFocus" type="range" min="53" max="212"/>
                                             <div class="ranges">
                                                 <span>CHEAPER</span>
                                                 <span>FASTER</span>
@@ -160,7 +160,7 @@
             return {
                 fundsFrom: '',
                 fundsTo: '',
-                amount: '',
+                amount: 0,
                 currencyHash: '',
                 sendAllCheck: '',
                 price: '93',
@@ -213,6 +213,10 @@
                     var price = '0.00'+this.price;
                     this.total_coins = parseFloat(this.amount) + parseFloat(price);
                 }, 200)
+            },
+            handlepriceChange(){
+                var price = '0.00'+this.price;
+                this.total_coins = parseFloat(this.amount) + parseFloat(price);
             },
             handlechangeFunds(){
                 console.log(this.fundsFrom);
@@ -282,6 +286,25 @@
 </script>
 
 
-<style>
-    @import "../../../../../static/modalcomponent.css";
+<style scoped>
+
+    .modal .v--modal {
+        top: 20% !important;;
+        left: 25% !important;;
+        max-width: 670px !important;
+        min-width: 320px !important;
+        height: auto !important;
+        position: fixed !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+        border-radius: 10px !important;
+        width: 80vw !important;
+        padding:0 !important;
+        z-index: 2000;
+    }
+
+    .modal .v--modal .popup {
+        width: 91% !important;
+    }
+
 </style>

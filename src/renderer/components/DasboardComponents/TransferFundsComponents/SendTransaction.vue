@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="row">
                                         <p>Gas price</p>
-                                        <p contenteditable="true" class=" p-right gas_price">0.05 Exp per milion gas</p>
+                                        <p contenteditable="true" class=" p-right gas_price">{{gasPrice}}</p>
                                     </div>
                                     <div class="row">
                                         <p>Amount</p>
@@ -93,7 +93,7 @@
                                         <a href="#">TRY TO DECODE DATA</a>
                                     </div>
                                     <div class="raw_data">
-
+                                        <strong>{{raw_dataToken}}</strong>
                                     </div>
                                 </div>
 
@@ -164,7 +164,8 @@
     import {startConnectWeb,tokenInterface} from '../../../../main/libs/config';
     import {db} from '../../../../../lowdbFunc';
     import shortid from 'shortid';
-    import { clipboard } from 'electron';
+    import { clipboard,remote } from 'electron';
+    const app = remote.app;
     import  Raven from 'raven';
     import  lodash from 'lodash';
     import  Tx from 'ethereumjs-tx';
@@ -190,7 +191,8 @@
                 gasPrice: '',
                 gasLimit: 900000,
                 estimatedGas : 21000,
-                nonce: 0
+                nonce: 0,
+                raw_dataToken: 0,
             };
         },
         components:{
@@ -202,6 +204,14 @@
             web3.eth.getTransactionCount(this.modalArray && this.modalArray.fundsFrom).then((count)=>{
                 this.nonce = count;
             });
+
+            var abiArray = tokenInterface; // From Config file
+            var contractAddress = this.modalArray.currencyHash;
+
+            var contract = new web3.eth.Contract(abiArray, contractAddress);
+
+            this.raw_dataToken =  contract.methods.transfer(this.modalArray && this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")).encodeABI();
+
             var trans_nonce;
             var latest_transaction = db.get('transactions').filter({from: this.modalArray && this.modalArray.fundsFrom}).value();
             latest_transaction = lodash.orderBy(latest_transaction, ['nonce'], ['desc']);
@@ -220,27 +230,32 @@
             if(this.modalArray && this.modalArray.currencyHash){
                 if(this.modalArray.currentArray.length === 1)
                 {
-                    if(this.modalArray.currentArray[0].hash === this.modalArray.currencyHash )
-                    {
-                        this.tokenData = this.modalArray.currentArray[0].token_icons;
-                        this.rawdata= true;
-                        this.sendToken= false;
-                    } else {
-                        this.sendToken= true;
-                    }
+                    this.modalArray.currentArray[0].token_icons.map((data) => {
+                        if(data.tokenHash === this.modalArray.currencyHash )
+                        {
+                            console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
+                            this.tokenData = this.modalArray.currentArray[0].token_icons;
+                            this.rawdata= true;
+                            this.sendToken= false;
+                        }
+                    });
                 }else if(this.modalArray.currentArray.length > 1)
                 {
                     this.modalArray.currentArray.map((account) =>
                     {
-                        if(account.hash === this.modalArray.currencyHash )
-                        {
-                            this.tokenData = account.token_icons;
-                            this.rawdata= true;
-                        }
+                        account.token_icons.map((data) => {
+                            if(data.tokenHash === this.modalArray.currencyHash )
+                            {
+                                console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
+                                this.tokenData = data;
+                                this.rawdata= true;
+                                this.sendToken= false;
+                            }
+                        });
                     });
-                    if(!this.rawdata){
-                        this.sendToken= true;
-                    }
+                }
+                if(!this.rawdata){
+                    this.sendToken= true;
                 }
             }
         },
@@ -274,7 +289,7 @@
                                     console.log("transaction Hash", txHash);
                                     db.get('transactions').push({
                                         id : shortid.generate(),
-                                        from: this.modalArray && this.modalArray.fundsFrom,
+                                        from: this.modalArray.fundsFrom,
                                         transactionHash: txHash,
                                         nonce : this.nonce,
                                         timeStamp : currentDate.getTime()
@@ -286,7 +301,7 @@
                                     $('.trx_alert-sucess').show(300).delay(5000).hide(330);
                                 });
                             }catch(e){
-                                Raven.captureException(err);
+                                Raven.captureException(e);
                             }
                         } else {
                             try{
@@ -294,24 +309,20 @@
                                 var abiArray = tokenInterface; // From Config file
                                 var contractAddress = this.modalArray.currencyHash;
 
-                                var contract =  web3.eth.Contract(abiArray, contractAddress);
-                                // let tokens = db.get('tokens').find({ token_address : contractAddress }).value();
-                                // var token_decimal = tokens.decimal_places;
-                                // web3.toWei(amount, "ether")
-                                var data = contract.transfer.getData(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray.amount, "ether"));
-                                console.log("data",data);
+                                var contract = new web3.eth.Contract(abiArray, contractAddress);
 
-                                // console.log("contractAddress",contractAddress,"currenyhash",currency_hash);
+                                this.raw_dataToken =  contract.methods.transfer(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")).encodeABI();
+
+                                console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
                                 var rawTransaction = {
-                                    "from": from,
+                                    "from": this.modalArray.fundsFrom,
                                     "nonce": this.nonce,
                                     "gasPrice": web3.toHex(this.gasPrice),
                                     "gasLimit": web3.toHex(this.gasLimit),
                                     "to": contractAddress,
-                                    "data": data,
+                                    "data": this.raw_dataToken,
                                     "chainId": 0x02
                                 };
-                                //web3.sha3("DAta:",data);
                                 let osType = os.type();
                                 var appData = app.getPath('appData');
 
@@ -328,10 +339,10 @@
                                         break;
                                 }
 
-                                var address = from;
+                                var address = this.modalArray.fundsFrom;
 
                                 var keyObject = keythereum.importFromFile(address, datadir);
-                                var privateKey = keythereum.recover(password, keyObject);
+                                var privateKey = keythereum.recover(this.password, keyObject);
 
                                 privateKey = privateKey.toString('hex');
                                 var privKey = new Buffer(privateKey, 'hex');
@@ -342,24 +353,26 @@
 
                                 var serializedTx =`0x${tx.serialize().toString('hex')}`;
 
-                                var IsSigned = web3.eth.sendSignedTransaction(serializedTx).then(console.log);
-                                if(IsSigned){
-                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + hash);
-                                    db.get('transactions').push({
-                                        id : shortid.generate(),
-                                        from: from,
-                                        transactionHash: hash,
-                                        nonce : nonce,
-                                        timeStamp : currentDate.getTime()
-                                    }).write();
-                                    $('.trx_alert-sucess p').css({color:'#ffffff'});
-                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                }else {
+                                web3.eth.sendSignedTransaction(serializedTx).then((res) => {
+                                    if(res){
+                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + hash);
+                                        db.get('transactions').push({
+                                            id : shortid.generate(),
+                                            from: this.modalArray.fundsFrom,
+                                            transactionHash: this.modalArray.hash,
+                                            nonce : this.nonce,
+                                            timeStamp : currentDate.getTime()
+                                        }).write();
+                                        $('.trx_alert-sucess p').css({color:'#ffffff'});
+                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                    }
+                                }, (err) => {
                                     console.log(err);
                                     $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                }
+                                });
                             }catch(e){
-                                Raven.captureException(err);
+                                console.log(e);
+                                Raven.captureException(e);
                             }
                         }
                     } catch(e) {
@@ -377,6 +390,3 @@
     }
 </script>
 
-<style>
-
-</style>
