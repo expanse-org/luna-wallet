@@ -19,11 +19,19 @@
                                     </div>
                                     <div class="fundsFrom">
                                         <div class="drop-down accounts_dropdown">
-                                            <select name="SendFunds" @focus="handleFocus" v-model="fundsFrom" class="sendFunds sl_allAccounts" v-on:change="handlechangeFunds">
-                                                <option v-if="fromArray" v-for="(account, index) in fromArray" class="selectbg1" :value="account.hash">{{account.accountTitle}} - ({{account.balance}} EXP)</option>
-                                                <!-- <option class="selectbg1" selected value="selectbg2" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 22441 USD (9.00 ETHER)</option>
-                                                <option class="selectbg1" selected value="selectbg3" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 312 USD (9.00 ETHER)</option> -->
-                                            </select>
+                                            <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds(fundsFrom)" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
+                                                <template slot="singleLabel" slot-scope="props">
+                                                    <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                                                </template>
+                                                <template slot="option" slot-scope="props">
+                                                    <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                                                </template>
+                                            </multiselect>
+                                            <!--<select name="SendFunds" @focus="handleFocus" v-model="fundsFrom" class="sendFunds sl_allAccounts" v-on:change="handlechangeFunds">-->
+                                                <!--<option v-if="fromArray" v-for="(account, index) in fromArray" class="selectbg1" :value="account.hash">{{account.accountTitle}} - ({{account.balance}} EXP)</option>-->
+                                                <!--&lt;!&ndash; <option class="selectbg1" selected value="selectbg2" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 22441 USD (9.00 ETHER)</option>-->
+                                                <!--<option class="selectbg1" selected value="selectbg3" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 312 USD (9.00 ETHER)</option> &ndash;&gt;-->
+                                            <!--</select>-->
                                         </div>
                                     </div>
                                 </div>
@@ -64,19 +72,23 @@
 
                                 </div>
                                 <div class="amount">
-
                                     <div class="error-label">
                                         <label>Currency</label>
                                         <p v-if="currencyHashError" class=" error-message send_amount_currency_error">Amount is Required</p>
                                     </div>
                                     <div class="drop-down currencies_dropdown">
-                                        <div class="error-label">
-                                            <label>Currency</label>
-                                        </div>
-                                        <select name="accountCurruencies" @focus="handleFocus" v-model="currencyHash" class="accountCurrencies">
-                                            <option v-if="currentArray" v-for="(account) in currentArray" class="selectbg1" selected >{{account.accountTitle}} - ({{account.balance}} EXP)</option>
-                                            <option v-if="currentArray && currentArray[0].tokens" v-for="(acc_token, index) in currentArray && currentArray[0].token_icons" class="selectbg1" :value="acc_token.tokenHash">{{acc_token.token_name}} - ({{acc_token.balance}})</option>
-                                        </select>
+                                        <multiselect name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  v-model="currencyHash" :options="optionCurrency">
+                                            <template slot="singleLabel" slot-scope="props">
+                                                <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                                            </template>
+                                            <template slot="option" slot-scope="props">
+                                                <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                                            </template>
+                                        </multiselect>
+                                        <!--<select name="accountCurruencies" @focus="handleFocus" v-model="currencyHash" class="accountCurrencies">-->
+                                            <!--<option v-if="currentArray" v-for="(account) in currentArray" class="selectbg1" selected >{{account.accountTitle}} - ({{account.balance}} EXP)</option>-->
+                                            <!--<option v-if="currentArray && currentArray[0].tokens" v-for="(acc_token, index) in currentArray && currentArray[0].token_icons" class="selectbg1" :value="acc_token.tokenHash">{{acc_token.token_name}} - ({{acc_token.balance}})</option>-->
+                                        <!--</select>-->
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <modal  class="modal" name="sendtransactionmodal">
+        <modal class="tmodal" name="sendtransactionmodal">
             <sendTransaction :modalArray="modalArray" ></sendTransaction>
         </modal>
     </div>
@@ -153,7 +165,11 @@
     import {startConnectWeb} from '../../../../main/libs/config';
     import ethereum_address from 'ethereum-address';
     import SendTransaction from './SendTransaction';
+    import vSelect from 'vue-select'
+    import Multiselect from 'vue-multiselect'
+
     var web3 = startConnectWeb();
+
     export default {
         name: 'TransferFunds',
         data() {
@@ -176,10 +192,17 @@
                 fromArray: [],
                 currentArray: '',
                 modalArray: '',
+                optionFrom: [],
+                optionCurrency: [],
+                defaultoptionCurrency: '',
+                loading: true,
+                loading1: false,
             };
         },
         components:{
             'sendTransaction': SendTransaction,
+            'v-select': vSelect,
+            'multiselect': Multiselect,
         },
         computed: {
             accounts() {
@@ -188,12 +211,18 @@
             },
         },
         created(){
+
             this.intervalid1 = setInterval(() => {
                 if (this.$store.state.allAccounts.length > 0) {
+                    this.total_balance = this.$store.state.total_balance;
                     this.$store.state.allAccounts.map((val) => {
                         if(val.balance > 0){
                             console.log(val.balance);
                             console.log(val);
+                            var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
+                            this.optionFrom.push(data);
+                            this.loading= false;
+                            this.loading1= true;
                             this.fromArray.push(val);
                         }
                     });
@@ -218,16 +247,28 @@
                 var price = '0.00'+this.price;
                 this.total_coins = parseFloat(this.amount) + parseFloat(price);
             },
-            handlechangeFunds(){
-                console.log(this.fundsFrom);
+            handlechangeFunds(data){
+                console.log(data,"handlechangeFunds");
                 if(this.fromArray.length === 1) {
                     this.currentArray = this.fromArray;
-                    this.total_balance = this.fromArray[0].balance;
-                }else if(this.fromArray.length > 1){
+                    let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
+                    this.optionCurrency.push(defaultCurr);
+                    this.fromArray[0].token_icons.map((acc_token) => {
+                        var data = {value: acc_token.token_name , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
+                        this.optionCurrency.push(data);
+                        this.loading1= false;
+                    })
+                } else if(this.fromArray.length > 1){
                     this.fromArray.map((account) => {
-                        if(account.hash === this.fundsFrom ){
+                        if(account.hash === this.fundsFrom.value ) {
                             this.currentArray = account;
-                            this.total_balance = account.balance;
+                            let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance+' EXP)'};
+                            this.optionCurrency.push(defaultCurr);
+                            account.token_icons.map((acc_token) => {
+                                var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
+                                this.optionCurrency.push(data);
+                                this.loading1= false;
+                            })
                         }
                     })
                 }
@@ -245,6 +286,7 @@
                 this.total_coinsError= false;
             },
             handleSendFund(){
+                console.log(this.fundsFrom , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
                 if(this.fundsFrom && this.fundsTo && this.amount && this.currencyHash ){
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
@@ -285,10 +327,11 @@
     }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-<style scoped>
+<style>
 
-    .modal .v--modal {
+    .tmodal .v--modal {
         top: 20% !important;;
         left: 25% !important;;
         max-width: 670px !important;
@@ -303,8 +346,118 @@
         z-index: 2000;
     }
 
-    .modal .v--modal .popup {
+    .tmodal .v--modal .popup {
         width: 91% !important;
     }
+    .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {
+        padding: 0px;
+    }
+
+    .fundsFrom .multiselect--active .multiselect__select , .currencies_dropdown .multiselect--active .multiselect__select  {
+        height: 50px!important;
+    }
+
+    .fundsFrom  .multiselect__select , .currencies_dropdown  .multiselect__select  {
+        height: 50px!important;
+    }
+
+    .fundsFrom .multiselect__tags, .currencies_dropdown .multiselect__tags {
+        width: 100%!important;
+        border: none!important;
+        padding: 6px 40px 0px 8px!important;
+    }
+
+    .fundsFrom .multiselect__content-wrapper, .currencies_dropdown .multiselect__content-wrapper {
+        background: none;
+        height: auto!important;
+        max-height: auto!important;
+    }
+
+    .fundsFrom .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {
+        background: #ffffff;
+        color: #000;
+    }
+
+    .fundsFrom .multiselect__option--highlight, .currencies_dropdown .multiselect__option--highlight{
+        background: #ffffff;
+        color: #000;
+    }
+
+    .fundsFrom .multiselect__element, .currencies_dropdown .multiselect__element{
+        background: #ffffff;
+        color: #000;
+    }
+
+    .fundsFrom  .multiselect__single, .currencies_dropdown .multiselect__single{
+        padding-left: 15px!important;
+        margin-bottom: 0px!important;
+        line-height: 43px;
+        height: 10px;
+    }
+
+    .multiselect__spinner:after, .multiselect__spinner:before {
+        border-color: #000000 transparent transparent!important;
+        margin-top: -1px;
+
+    }
+
+    .multiselect__single .setImg {
+        margin: 8px 5px!important;
+    }
+
+    .multiselect__single .option__title {
+        vertical-align: top!important;
+        line-height: 50px!important;
+    }
+
+    .multiselect__option .setImg {
+        margin: 8px 5px!important;
+    }
+
+    .multiselect__option .option__title {
+        vertical-align: top!important;
+        line-height: 47px!important;
+    }
+
+
+    /*.fundsFrom .drop-down .dropdown-toggle {*/
+        /*border: none!important;*/
+        /*height: 28px!important;*/
+        /*padding: 15px 0 4px!important;*/
+    /*}*/
+
+    /*.fundsFrom .drop-down .dropdown-toggle input{*/
+        /*display: none;*/
+    /*}*/
+
+    /*.fundsFrom .accounts_dropdown .open{*/
+        /*width: 100%;*/
+    /*}*/
+
+    /*.fundsFrom .accounts_dropdown .open ul li.active{*/
+        /*background: none !important;*/
+    /*}*/
+
+    /*.fundsFrom .v-select .dropdown-menu {*/
+        /*top: 50px;*/
+        /*left: 0;*/
+        /*z-index: 1000;*/
+        /*min-width: 171px;*/
+        /*padding: 5px 0;*/
+        /*margin: 0;*/
+        /*width: 104.8%;*/
+    /*}*/
+
+    /*.fundsFrom .v-select .dropdown-toggle .clear {*/
+        /*line-height: 0;*/
+    /*}*/
+
+    /*.send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {*/
+        /*padding: 6px 20px 0px 0px;*/
+    /*}*/
+
+    /*.fundsFrom .v-select .vs__selected-options{*/
+        /*padding: 0 20px;*/
+    /*}*/
 
 </style>

@@ -314,6 +314,7 @@
                                 this.raw_dataToken =  contract.methods.transfer(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")).encodeABI();
 
                                 console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
+                                console.log("this.gasPrice",this.gasPrice,"this.gasLimit",this.gasLimit);
                                 var rawTransaction = {
                                     "from": this.modalArray.fundsFrom,
                                     "nonce": this.nonce,
@@ -346,7 +347,7 @@
 
                                 privateKey = privateKey.toString('hex');
                                 var privKey = new Buffer(privateKey, 'hex');
-                                // console.log('transaction',rawTransaction);
+                                console.log('transaction',rawTransaction);
                                 var tx = new Tx(rawTransaction);
 
                                 tx.sign(privKey);
@@ -355,11 +356,12 @@
 
                                 web3.eth.sendSignedTransaction(serializedTx).then((res) => {
                                     if(res){
-                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + hash);
+                                        console.log("res",res);
+                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res);
                                         db.get('transactions').push({
                                             id : shortid.generate(),
                                             from: this.modalArray.fundsFrom,
-                                            transactionHash: this.modalArray.hash,
+                                            transactionHash: res,
                                             nonce : this.nonce,
                                             timeStamp : currentDate.getTime()
                                         }).write();

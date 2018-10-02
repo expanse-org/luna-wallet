@@ -23,9 +23,19 @@ if (production) {
     adapter = new FileSync('db.json');
     console.log(adapter, "dir Lowdb if")
 } else {
-    const dir =  path.resolve(__dirname);
-    console.log(dir, "dir Lowdb else")
-    adapter = new FileSync(dir+'/db.json');
+    console.log(dir, "dir Lowdb if")
+    if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {
+        console.log(appPath.resolve(__dirname), " if dir Lowdb");
+        adapter = new FileSync('db.json');
+    }else {
+        console.log(dir, "dir Lowdb else ");
+        shell.cd('..');
+        shell.cd('..');
+        const dir =  appPath.resolve(__dirname)
+        adapter = new FileSync(dir+'/db.json');
+    }
+    // const dir =  path.resolve(__dirname);
+    // adapter = new FileSync(dir+'/db.json');
 }
 // const adapter = new FileSync('db.json')
 const db = low(adapter);
@@ -51,6 +61,8 @@ db.defaults({ accounts: [], contracts: [], tokens: [
         },
     ] , accountsAdresses:[] , hdWallets:[] , transactions : [] })
     .write();
+
+
 
 export {
     db
