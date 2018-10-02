@@ -19,14 +19,16 @@ const action = (screen) => {
 };
 
 const downloadGexp = () => {
-    // console.log(store,"store========")
+    console.log(store,"store========");
+    console.log("Starting Downloading");
     var dlData =  getClientInfo();
     var appPath = dlData.appPath;
     var cmd ;
     try{
         updateScreen("downloadNode");
         action("downloadNode");
-        if(os.type === 'Windows_NT')
+        console.log(os.type);
+        if(os.type == 'Windows_NT')
             cmd = 'ping www.google.com';
         else
             cmd = 'ping -c 1 www.google.com';
@@ -39,7 +41,7 @@ const downloadGexp = () => {
             if(er !== null){
                 updateScreen("downloadNode");
                 action("downloadNode");
-                console.log('No Internet Connection');
+                console.log('No Internet Connection 12');
             }else{
                 console.log("Connection Available");
                 if(production === true){
@@ -49,12 +51,9 @@ const downloadGexp = () => {
                 }
                 // Create Folder For gexp
                 console.log(gexpDir, "gexpDir");
-                console.log(shell.ls(''));
                 if (!fs.existsSync(gexpDir)){
                     fs.mkdirSync(gexpDir);
-                    console.log("directory Not Found");
                     exec('mkdir '+gexpDir);
-                    // console.log(shell.ls(''));
                 }
 
                 shell.cd(gexpDir);
@@ -72,19 +71,16 @@ const downloadGexp = () => {
 const startingGexp = () => {
     // console.log(store,"store========,GexpStart")
     var dlData =   getClientInfo();
-    console.log("dlData========,GexpStart")
     setTimeout(function(){
         let path;
         if(production === true)
             path = dlData.appPath+ dlData.dirPath;
         else path =  dlData.dirPath;
-        // console.log('startingGexp path path', path)
 
         // Node start Animation
         updateScreen("nodeStart");
         action("nodeStart");
         // console.log(activeScreen,"activeScreen");
-
         ipcRenderer.send('startGexp', path);
         ipcRenderer.on('startGexpResponse', (event, res) => {
             if(res){
