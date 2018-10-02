@@ -25,10 +25,10 @@ const getAllAcounts = () => {
     try {
         web3.eth.getAccounts(function (error, accounts) {
             if (accounts.length > 0) {
+                total_balance = 0;
                 accounts.map((account_hash , index) => {
-                    // console.log(account_hash ,"account_hash");
                     let account = db.get('accounts').find({
-                        hash: account_hash
+                        hash: account_hash.toLowerCase()
                     }).value();
                     if(account){
                         if(account.archive === true){
@@ -55,7 +55,9 @@ const getAllAcounts = () => {
                             getExpBalance(account_hash, index);
                             gettokensBalance(account_hash, index);
                         }
-                    }else {
+                    }
+                    else {
+                        console.log(account_hash ,"else Account in Db account_hash", account);
                         let accountdata = accAdddb(account_hash, index);
                         unarchiveAccounts.push(accountdata);
                         getExpBalance(account_hash, index);
@@ -74,11 +76,12 @@ const accAdddb = (account_hash , key) => {
     let color = getRandomColor();
     let accountdata = {
         accountTitle: "Account "+key ,
-        hash : account_hash,
+        hash : account_hash.toLowerCase(),
         color:color,
         archive: false,
         isHd: false
     };
+    // console.log(account_hash ,"Add Account in Db account_hash", accountdata);
     db.get('accounts')
         .push(accountdata)
         .write();
@@ -88,10 +91,16 @@ const accAdddb = (account_hash , key) => {
 
 const getExpBalance = (account_hash, key) => {
     web3.eth.getBalance(account_hash).then((bal) => {
-        total_balance += bal;
-        store.dispatch('addTotalBalance',total_balance);
         balance = web3.utils.fromWei(bal, "ether");
+        if(balance> 0){
+            console.log(total_balance,"total_balance");
+            total_balance += parseFloat(balance);
+        }
         unarchiveAccounts[key] = Object.assign({balance: balance}, unarchiveAccounts[key]);
+        if(unarchiveAccounts.length-1 == key){
+            console.log(total_balance,"total_balance unarchiveAccounts");
+            store.dispatch('addTotalBalance',total_balance);
+        }
     }, (error) => {
         console.log(error, "getExpBalance");
         Raven.captureException(error);
@@ -163,8 +172,10 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                             if (balance > 0) {
                                 accounts_addresses.push({
                                     tokenHash: tokenHash.token_address,
-                                    "color": tokenHash.color,
-                                    "balance": balance
+                                    color: tokenHash.color,
+                                    token_symbol: tokenHash.token_symbol,
+                                    token_name: tokenHash.token_name,
+                                    balance: balance
                                 });
                                 // console.log('accounts_addresses', accounts_addresses);
                             }
@@ -198,8 +209,8 @@ const getAllWatchOnlyAcounts = () => {
         if(address_accounts) {
             address_accounts.map((account , index) => {
                 web3.eth.getBalance(account.hash).then((bal) => {
-                    total_balance += bal;
-                    store.dispatch('addTotalBalance',total_balance);
+                    // total_balance += bal;
+                    // store.dispatch('addTotalBalance',total_balance);
                     balance = web3.utils.fromWei(bal, "ether");
                     if(!account.archive && account.archive !== false) {
                         account = Object.assign({archive: false}, account);

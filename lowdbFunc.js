@@ -26,15 +26,6 @@ if (production) {
     console.log(dir, "dir Lowdb if")
     const dir =  path.resolve(__dirname);
     adapter = new FileSync(dir+'/db.json');
-    // if(dir === "/Users/farina/Desktop/Projects/LunaWalleTest") {
-    //     console.log(appPath.resolve(__dirname), " if dir Lowdb");
-    //     adapter = new FileSync('db.json');
-    // }else {
-    //     console.log(dir, "dir Lowdb else ");
-    //     shell.cd('..');
-    //     shell.cd('..');
-    //     adapter = new FileSync('db.json');
-    // }
 }
 // const adapter = new FileSync('db.json')
 const db = low(adapter);

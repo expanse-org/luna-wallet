@@ -22,6 +22,23 @@
             </div>
             <div v-if="importPrivateKeyTab" id="fields-Privat-key" class="importtabchange" >
                 <form>
+
+                    <div class="row">
+                        <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
+                        <span class="input input--nao">
+                            <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
+                                   type="text" id="input-1" />
+                            <label class="input__label input__label--nao" for="input-1">
+                                <span class="input__label-content input__label-content--nao">Title
+                                    <span class="mandatory">*</span>
+                                    <span class="details">This is Title of your Account </span>
+                                </span>
+                            </label>
+                            <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                                <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
+                            </svg>
+                        </span>
+                    </div>
                     <div class="row description">
                         Enter any wallet private key here to import
                     </div>
@@ -237,10 +254,14 @@
                       this.accountNameError = false;
                       let color = getRandomColor();
                       try {
-                          let address_accounts = db.get('accountsAdresses').filter({hash: this.import_addressError});
+                          let address_accounts = db.get('accountsAdresses').filter({hash: this.import_address});
+                          let name_accounts = db.get('accountsAdresses').filter({accountTitle: this.accountName});
                           if(address_accounts) {
                                   this.import_addressError = "Account Already Exits";
-                          } else {
+                          }
+                          if(name_accounts) {
+                                  this.accountNameError = "Account Title Already Exits";
+                          }  else {
                               console.log(color,"account");
                               db.get('accountsAdresses').push({
                                   accountTitle: this.accountName,
@@ -268,33 +289,39 @@
             },
             handleimportPrivateKey(e){
                 e.preventDefault();
-                if(this.private_key && this.private_key_password && this.private_key_repassword){
+                if(this.accountName && this.private_key && this.private_key_password && this.private_key_repassword){
                     if(this.private_key_password.length > 8){
                         if(this.private_key_password === this.private_key_repassword) {
                             this.private_keyError = false;
                             this.private_key_passwordError = false;
                             this.private_key_repasswordError = false;
-                            let that = this;
-                            let account = web3.eth.personal.importRawKey(this.private_key, this.private_key_password);
-                            account.then((res) => {
-                                console.log(account,"account");
-                                console.log(res,"res account");
-                                let color = getRandomColor();
-                                db.get('accounts').push({
-                                    accountTitle: "",
-                                    hash: res,
-                                    isHd: false,
-                                    color: color, archive: false
-                                }).write();
-                                that.success = true;
-                                $('.alert-private-key').show(300).delay(5000).hide(330);
-                                console.log(res," res)account");
-                            }, (error)  =>  {
-                                that.success = false;
-                                that.private_keyError = true;
-                                $('.imp-privatekey-error').show(300).delay(5000).hide(330);
-                                console.log(error," error)account")
-                            })
+
+                            let name_accounts = db.get('accounts').filter({accountTitle: this.accountName});
+                            if(name_accounts) {
+                                this.accountNameError = true;
+                            } else {
+                                let that = this;
+                                let account = web3.eth.personal.importRawKey(this.private_key, this.private_key_password);
+                                account.then((res) => {
+                                    console.log(account,"account");
+                                    console.log(res,"res account");
+                                    let color = getRandomColor();
+                                    db.get('accounts').push({
+                                        accountTitle: this.accountName,
+                                        hash: res,
+                                        isHd: false,
+                                        color: color, archive: false
+                                    }).write();
+                                    that.success = true;
+                                    $('.alert-private-key').show(300).delay(5000).hide(330);
+                                    console.log(res," res)account");
+                                }, (error)  =>  {
+                                    that.success = false;
+                                    that.private_keyError = true;
+                                    $('.imp-privatekey-error').show(300).delay(5000).hide(330);
+                                    console.log(error," error)account")
+                                })
+                            }
                         }else {
                             this.private_key_repasswordError = true;
                         }
@@ -302,6 +329,9 @@
                         this.private_key_passwordError = true;
                     }
                 }else {
+                    if (!this.accountName) {
+                        this.accountNameError = true;
+                    }
                     if (!this.private_key) {
                         this.private_keyError = true;
                     }

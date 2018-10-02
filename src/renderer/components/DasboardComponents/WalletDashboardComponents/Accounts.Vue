@@ -3,8 +3,9 @@
         <div class="curve"></div>
         <div class="left">
             <!-- <div class="qrCode" id="qrCode1"> -->
-            <canvas id="qrCode1"></canvas>
-
+            <div class="qrCodevue" >
+                <qrcode-vue :value="accounthash" level="L"></qrcode-vue>
+            </div>
             <!-- </div> -->
             <div class="info main-account">
                 <h1 class="m_name">{{accountTitle? accountTitle: 'Main Account'}}</h1>
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+    import QrcodeVue from 'qrcode.vue';
     import {startConnectWeb} from '../../../../main/libs/config';
     var web3 = startConnectWeb();
     import AddAccount from './AddAccount';
@@ -46,6 +48,7 @@
         name: 'Accounts',
         components:{
             'addAccount-app': AddAccount,
+            'qrcode-vue': QrcodeVue,
         },
         data() {
           return {
@@ -92,23 +95,16 @@
 </script>
 
 <style>
-    .modal .v--modal {
-        top: 20% !important;;
-        left: 25% !important;;
-        max-width: 630px !important;
-        min-width: 320px !important;
-        height: auto !important;
-        position: fixed !important;
-        border-radius: 10px !important;
-        box-sizing: border-box !important;
-        border-radius: 10px !important;
-        width: 80vw !important;
-        padding:0 !important;
-        z-index: 2000;
+    .qrCodevue {
+        padding: 10px!important;
+        width: 101px!important;
+        height: 101px!important;
+        background: white!important;
     }
 
-    .modal .v--modal .popup {
-        width: 91% !important;
-    }
+</style>
 
+
+<style>
+    @import "../../../../../static/modalcomponent.css";
 </style>

@@ -8653,7 +8653,8 @@ FONTS
               .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down .selectbtn .select-list-link {
                 display: flex; }
             .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down select {
-              display: none; }
+              /*display: none;*/
+            }
             .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down .select-list {
               position: absolute;
               top: 0;
