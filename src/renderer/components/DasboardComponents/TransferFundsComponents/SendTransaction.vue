@@ -161,16 +161,20 @@
 </template>
 
 <script>
-    import {startConnectWeb} from '../../../../main/libs/config';
+    import {startConnectWeb,tokenInterface} from '../../../../main/libs/config';
     import {db} from '../../../../../lowdbFunc';
     import shortid from 'shortid';
     import { clipboard } from 'electron';
     import  Raven from 'raven';
     import  lodash from 'lodash';
     import  Tx from 'ethereumjs-tx';
+    import  keythereum from 'keythereum';
     import  * as $ from 'jquery';
+    import os from 'os';
+
     var web3 = startConnectWeb();
     var currentDate = new Date();
+
     export default {
         name: 'SendTransaction',
         props: [
@@ -212,11 +216,11 @@
                 this.nonce = this.nonce > trans_nonce ? this.nonce : trans_nonce + 1;
             }
 
-            console.log(this.modalArray, this.modalArray.acountCurency, "this.modalArray.acountCurency");
-            if(this.modalArray && this.modalArray.acountCurency){
+            console.log(this.modalArray, this.modalArray.currencyHash, "this.modalArray.currencyHash");
+            if(this.modalArray && this.modalArray.currencyHash){
                 if(this.modalArray.currentArray.length === 1)
                 {
-                    if(this.modalArray.currentArray[0].hash === this.modalArray.acountCurency )
+                    if(this.modalArray.currentArray[0].hash === this.modalArray.currencyHash )
                     {
                         this.tokenData = this.modalArray.currentArray[0].token_icons;
                         this.rawdata= true;
@@ -228,7 +232,7 @@
                 {
                     this.modalArray.currentArray.map((account) =>
                     {
-                        if(account.hash === this.modalArray.acountCurency )
+                        if(account.hash === this.modalArray.currencyHash )
                         {
                             this.tokenData = account.token_icons;
                             this.rawdata= true;
@@ -287,35 +291,28 @@
                         } else {
                             try{
                                 console.log(tokenInterface);
+                                var abiArray = tokenInterface; // From Config file
+                                var contractAddress = this.modalArray.currencyHash;
 
-                                abiArray = tokenInterface; // From Config file
-
-
-                                var contractAddress = currency_hash;
-
-                                var contract =  web3.eth.contract(abiArray).at(contractAddress);
+                                var contract =  web3.eth.Contract(abiArray, contractAddress);
                                 // let tokens = db.get('tokens').find({ token_address : contractAddress }).value();
                                 // var token_decimal = tokens.decimal_places;
                                 // web3.toWei(amount, "ether")
-                                var data = contract.transfer.getData(to, web3.toWei(amount, "ether"));
-                                var gasPrice = web3.eth.gasPrice;
+                                var data = contract.transfer.getData(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray.amount, "ether"));
                                 console.log("data",data);
 
-                                var gasLimit = 900000;
                                 // console.log("contractAddress",contractAddress,"currenyhash",currency_hash);
                                 var rawTransaction = {
                                     "from": from,
-                                    "nonce": nonce,
-                                    "gasPrice": web3.toHex(gasPrice),
-                                    "gasLimit": web3.toHex(gasLimit),
+                                    "nonce": this.nonce,
+                                    "gasPrice": web3.toHex(this.gasPrice),
+                                    "gasLimit": web3.toHex(this.gasLimit),
                                     "to": contractAddress,
                                     "data": data,
                                     "chainId": 0x02
                                 };
                                 //web3.sha3("DAta:",data);
-                                const os = require('os');
                                 let osType = os.type();
-                                var keythereum = require("keythereum");
                                 var appData = app.getPath('appData');
 
                                 var datadir = "";
@@ -343,25 +340,24 @@
 
                                 tx.sign(privKey);
 
-                                var serializedTx = tx.serialize();
+                                var serializedTx =`0x${tx.serialize().toString('hex')}`;
 
-                                web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function(err, hash) {
-                                    if (!err){
-                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + hash);
-                                        db.get('transactions').push({
-                                            id : shortid.generate(),
-                                            from: from,
-                                            transactionHash: hash,
-                                            nonce : nonce,
-                                            timeStamp : currentDate.getTime()
-                                        }).write();
-                                        $('.trx_alert-sucess p').css({color:'#ffffff'});
-                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                    }else{
-                                        console.log(err);
-                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                    }
-                                });
+                                var IsSigned = web3.eth.sendSignedTransaction(serializedTx).then(console.log);
+                                if(IsSigned){
+                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + hash);
+                                    db.get('transactions').push({
+                                        id : shortid.generate(),
+                                        from: from,
+                                        transactionHash: hash,
+                                        nonce : nonce,
+                                        timeStamp : currentDate.getTime()
+                                    }).write();
+                                    $('.trx_alert-sucess p').css({color:'#ffffff'});
+                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                }else {
+                                    console.log(err);
+                                    $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                }
                             }catch(e){
                                 Raven.captureException(err);
                             }

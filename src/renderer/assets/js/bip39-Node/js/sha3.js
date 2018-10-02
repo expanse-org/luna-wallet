@@ -1,4 +1,4 @@
- /**
+/**
  * [js-sha3]{@link https://github.com/emn178/js-sha3}
  *
  * @version 0.5.2

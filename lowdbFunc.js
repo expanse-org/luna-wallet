@@ -5,6 +5,7 @@ import appPath from 'path';
 import shell from 'shelljs';
 import fs from 'fs';
 import {remote} from 'electron';
+const path = require('path')
 const app = remote.app;
 
 var adapter;
@@ -23,6 +24,7 @@ if (production) {
     console.log(adapter, "dir Lowdb if")
 } else {
     console.log(dir, "dir Lowdb if")
+<<<<<<< HEAD
     // if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {
     //     console.log(appPath.resolve(__dirname), " if dir Lowdb");
     //     adapter = new FileSync('db.json');
@@ -34,6 +36,10 @@ if (production) {
        console.log("DIR",dir);
         adapter = new FileSync(dir+'/db.json');
     // }
+=======
+    const dir =  path.resolve(__dirname);
+    adapter = new FileSync(dir+'/db.json');
+>>>>>>> ad6dc76cc874e08868ddbe64a20ef8b231c94e99
 }
 // const adapter = new FileSync('db.json')
 const db = low(adapter);
