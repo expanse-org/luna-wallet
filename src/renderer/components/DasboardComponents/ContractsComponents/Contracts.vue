@@ -139,9 +139,14 @@
                 this.$modal.hide('deployContract');
             },
             mainMenu(contractid) {
-                console.log(this.contractid);
-                this.contractid = contractid;
-                this.$modal.show('watchContract');
+                // console.log(this.contractid);
+                // this.contractid = contractid;
+                // this.$modal.show('watchContract');
+
+                this.$router.push({
+                    path: '/contractdetails',
+                    query: { contractid: contractid }
+                });
             }
         }
     }

@@ -45,83 +45,8 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="accounts">
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/red-logo.png" alt="red">
-                                <label>EXP</label>
-                            </div>
-                            <label>8.91 USD (9.00 EXP)</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/blue-logo.png" alt="blue">
-                                <label>Credits</label>
-                            </div>
-                            <label>0.246913 T$</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/red-logo.png" alt="red">
-                                <label>Jeff’s Euros</label>
-                            </div>
-                            <label>5.00 €</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/blue-logo.png" alt="blue">
-                                <label>Robot Credits</label>
-                            </div>
-                            <label>1,000.16 C$</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/red-logo.png" alt="red">
-                                <label>EXP</label>
-                            </div>
-                            <label>8.91 USD (9.00 EXP)</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/blue-logo.png" alt="blue">
-                                <label>Credits</label>
-                            </div>
-                            <label>0.246913 T$</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/red-logo.png" alt="red">
-                                <label>Jeff’s Euros</label>
-                            </div>
-                            <label>5.00 €</label>
-                        </div>
-                        <div class="row">
-                            <div class="name">
-                                <img src="../../../assets/img/blue-logo.png" alt="blue">
-                                <label>Robot Credits</label>
-                            </div>
-                            <label>1,000.16 C$</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="cont_select_center">
-                        <div class="select_mate" data-mate-select="active">
-                            <select name="tokenType1" class="tokenType1" v-model="tokenType1" @focus="handleFocus">
-                            </select>
-                            <p class="selecionado_opcion" onclick="open_select(this)"></p>
-                            <span onclick="open_select(this)" class="icon_select_mate">
-                                <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
-                                    <path d="M0-.75h24v24H0z" fill="none" />
-                                </svg>
-                            </span>
-                            <div class="cont_list_select_mate">
-                                <ul class="cont_select_int"> </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row editorCode">
+                    <editor v-model="content" @init="editorInit" lang="html" theme="chrome" width="500" height="100"></editor>
                 </div>
                 <div class="row">
                     <div class="slidecontainer">
@@ -156,8 +81,12 @@
 </template>
 
 <script>
+    import ace from 'vue2-ace-editor';
     export default {
         name: 'WatchContracts',
+        components: {
+            editor: ace,
+        },
         data() {
             return {
                 AddressFrom: '',
@@ -170,11 +99,20 @@
                 amountError: false,
                 tokenType1Error: false,
                 rangeError: false,
+                content: '',
             };
         },
         created() {
         },
         methods: {
+            editorInit: function () {
+                require('brace/ext/language_tools') //language extension prerequsite...
+                require('brace/mode/html')
+                require('brace/mode/javascript')    //language
+                require('brace/mode/less')
+                require('brace/theme/chrome')
+                require('brace/snippets/javascript') //snippet
+            },
             hide1 () {
                 this.$modal.hide('deployContract');
             },
@@ -204,53 +142,16 @@
             isMobileDevice() {
                 return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
             },
-            open_select(idx) {
-                console.log("open_select");
-                var idx1 = idx.getAttribute('data-n-select');
-                var ul_cont_li = document.querySelectorAll("[data-indx-select='" + idx1 + "'] .cont_select_int > li");
-                var hg = 0;
-                var slect_open = document.querySelectorAll("[data-indx-select='" + idx1 + "']")[0].getAttribute(
-                    'data-selec-open');
-                var slect_element_open = document.querySelectorAll("[data-indx-select='" + idx1 + "'] select")[0];
-                if (this.isMobileDevice()) {
-                    if (window.document.createEvent) { // All
-                        var evt = window.document.createEvent("MouseEvents");
-                        evt.initMouseEvent("mousedown", false, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0,
-                            null);
-                        slect_element_open.dispatchEvent(evt);
-                    } else if (slect_element_open.fireEvent) { // IE
-                        slect_element_open.fireEvent("onmousedown");
-                    } else {
-                        slect_element_open.click();
-                    }
-                } else {
 
-
-                    for (var i = 0; i < ul_cont_li.length; i++) {
-                        hg += ul_cont_li[i].offsetHeight;
-                    };
-                    if (slect_open == 'false') {
-                        document.querySelectorAll("[data-indx-select='" + idx1 + "']")[0].setAttribute('data-selec-open',
-                            'true');
-                        document.querySelectorAll("[data-indx-select='" + idx1 + "'] > .cont_list_select_mate > ul")[0].style
-                            .height = hg + "px";
-                        document.querySelectorAll("[data-indx-select='" + idx1 + "'] > .icon_select_mate")[0].style.transform =
-                            'rotate(180deg)';
-                    } else {
-                        document.querySelectorAll("[data-indx-select='" + idx1 + "']")[0].setAttribute('data-selec-open',
-                            'false');
-                        document.querySelectorAll("[data-indx-select='" + idx1 + "'] > .icon_select_mate")[0].style.transform =
-                            'rotate(0deg)';
-                        document.querySelectorAll("[data-indx-select='" + idx1 + "'] > .cont_list_select_mate > ul")[0].style
-                            .height = "0px";
-                    }
-                }
-
-            }
         }
     }
 </script>
 
 <style>
+
+    .editorCode {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
 
 </style>
