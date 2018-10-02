@@ -3,13 +3,11 @@ var $ = jQuery;
 // require("bootstrap")
 let bitcoin = require('bitcoinjs-lib')
 const keccak = require('./sha3.js')
-
-import {db} from '../../../../../../lowdbFunc';
+const derivationPath = "m/44'/40'/0'/0";
 
 var PBKDF2_ROUNDS = 2048;
 var RADIX = 2048;
-var StartLength = 0;
-var totalLength = 1;
+var totalLength = 0;
 var coinInfo = {
   phrase: "",
   bip32RootKey: "",
@@ -24,10 +22,9 @@ var hmacSHA512 = function(key) {
 };
 
 
-import md5 from 'md5';
 var sjcl = require("./sjcl-bip39.js");
 
-// require("sha3");
+require("sha3");
 var WORDSLIST = require("./wordlist_english.js");
 var networks = require('./networks')
 var wordlist = [];
@@ -35,7 +32,7 @@ var jsonDataArray = new Array();
 var bip32RootKey, bip32ExtendedKey;
 var networkData = networks.networks;
 var network;
-var derivationPath;
+
 var passphrase = "";
 wordlist = WORDLISTS["english"];
 // if (wordlist.length != RADIX) {
@@ -43,60 +40,40 @@ wordlist = WORDLISTS["english"];
 //     return;
 // }
 
-var args = process.argv;
+var args = process.argv
 
+if (args) {
 
-
-
-export const generateStart = () => {
-
-    if (args) {
-        // console.log("ff1")
+    // console.log(value[2])
+    if (args[2]) {
         let obj = networkData.find((o, i) => {
-            // console.log(obj, "obj");
-            // console.log(o, i, "o, i");
-            if (o.name === "Expanse") {
+            if (o.name === 'Expanse') {
                 return true; // stop searching
             }
         });
-
         network = obj.network.network;
     }
-
-    derivationPath = setBip44DerivationPath();
-
-    generateRandomPhrase();
-};
-
-export const generatePhraseStart = (phrase) => {
-
-    if (args) {
-        // console.log("ff1")
-        let obj = networkData.find((o, i) => {
-            // console.log(obj, "obj");
-            if (o.name === "Expanse") {
-                return true; // stop searching
-            }
-        });
-
-        network = obj.network.network;
+    if (args[7]) {
+        passphrase = 'stay hunt ask hurt coconut insect rice wing future harvest range upon';//args[7];
+    }
+    passphrase = 'stay hunt ask hurt coconut insect rice wing future harvest range upon';//args[7];
+    if(args[8]) {
+      totalLength = 10;
     }
 
-    derivationPath = setBip44DerivationPath();
+}
 
-    phrase_hash = md5(phrase);
-    calcBip32Seed(phrase, passphrase, derivationPath);
-};
+// derivationPath = setBip44DerivationPath();
+
+
 
 var Mnemonic = require("./jsbip39.js");
 
 var mnemonic = new Mnemonic("english");
 
 var getRandomValues = require('get-random-values');
-var phrase_hash;
 
 function generateRandomPhrase() {
-    // console.log('f3')
     var numWords = parseInt(12);
     var strength = numWords / 3 * 32;
     strength = strength || 128;
@@ -106,15 +83,13 @@ function generateRandomPhrase() {
     var buffer = new Uint8Array(strength / 8);
 
     var data = getRandomValues(buffer); //generates some random values
+    console.log('DATA',data);
     var a = toMnemonic(data);
-    // a="circle sun twelve one earth abstract cheap anchor mystery stone chest rebuild"
+    console.log("AAAAAAAAA",a);
     // coinInfo.phrase.push(a.toString());
     // console.log("Phrase : " + a);
     if (a) {
       coinInfo.phrase = a;
-        $('.phrase').val(a);
-
-        phrase_hash = md5(a);
         calcBip32Seed(a, passphrase, derivationPath);
     }
 }
@@ -165,7 +140,7 @@ function byteArrayToWordArray(data) {
     var a = [];
     for (var i = 0; i < data.length / 4; i++) {
 
-       let  v = 0;
+        v = 0;
         v += data[i * 4 + 0] << 8 * 3;
 
         v += data[i * 4 + 1] << 8 * 2;
@@ -187,7 +162,7 @@ function zfill(source, length) {
 }
 
 function hexStringToBinaryString(hexString) {
-    let binaryString = "";
+    binaryString = "";
     for (var i = 0; i < hexString.length; i++) {
         binaryString += zfill(parseInt(hexString[i], 16).toString(2), 4);
     }
@@ -218,7 +193,7 @@ function binaryStringToWordArray(binary) {
 function calcBip32Seed(phrase, passphrase, path) {
     // var network = networks.networks[0];
 
-    // console.log("calcBip32Seed",network)
+    // console.log("sdfsdfsdfsdf",network)
     var seed = toSeed(makeProperPhrase(phrase), passphrase);
     bip32RootKey = bitcoin.HDNode.fromSeedHex(seed, network);
     // console.log("KEEEEYYY",bip32RootKey)
@@ -283,10 +258,11 @@ function normalizeString(str) {
 
 function displayBip32Info(bipRootKey, extentedKey) {
     // Display the key
-
+    console.log('bipRootKey',bipRootKey,"extentedKey",extentedKey);
+    
     var rootKey = bipRootKey.toBase58();
     coinInfo.bip32RootKey = rootKey;
-    // console.log("Bip32RootKey", rootKey)
+    console.log("Bip32RootKey", rootKey)
     var extendedPrivKey = extentedKey.toBase58();
     coinInfo.bip32ExtendedPrivateKey = extendedPrivKey;
     // console.log("Bip32Extended Private Key", extendedPrivKey)
@@ -294,45 +270,12 @@ function displayBip32Info(bipRootKey, extentedKey) {
     coinInfo.bip32ExtendedPublicKey = extendedPubKey;
     // console.log("Bip32Extended Public Key", extendedPubKey)
     // console.log(derivationPath)
-    var  hdAccounts = db.get('hdWallets').chain().filter({ phrase_hash : phrase_hash }).value()
-    console.log(hdAccounts, "hdAccounts");
-    if(hdAccounts){
-        var index = Object.keys(hdAccounts).length ;
-        console.log(hdAccounts, index);
-        StartLength = index ;
-    } else {
-        StartLength = 0;
-    }
-
-    displayAddresses(StartLength, totalLength);
-    // console.log(coinInfo, "coinInfo");
+    displayAddresses(0, totalLength);
+    console.log(coinInfo);
     // console.log(jsonData)
     // bip32ExtendedKey
     // console.log(rootKey,extentedKey, extendedPrivKey);
-
-    console.log("hdAccounts")
-
-
-
-    // return false
-    console.log("hdAccounts",hdAccounts);
-    var start = 0;
-    var stop = 1;
-    var index = Object.keys(hdAccounts).length ;
-    if(index > 0){
-        index = Object.keys(hdAccounts).length ;
-        console.log(index);
-        $('.derived_address_index').val(index);
-        $(".derivation_path").val("m/44'/40'/0'/0/"+index);
-        start = index;
-    }else
-        {
-            $(".derivation_path").val("m/44'/40'/0'/0/0");
-        }
-    // console.log("index",index);
 }
-
-
 
 function displayAddresses(start, total) {
     for (var i = 0; i < total; i++) {
@@ -342,7 +285,6 @@ function displayAddresses(start, total) {
 
     // console.log(jsonData)
 }
-
 
 function TableRow(index) {
 
@@ -370,7 +312,7 @@ function TableRow(index) {
                 for (var i = 2; i < pubData.length; i += 2) {
                     view[offset++] = parseInt(pubData.substr(i, 2), 16);
                 }
-
+                
 
                 var addressHex = keccak.keccak_256(buffer).substr(24).toLowerCase();
                 // x = keccak_256(buffer)
@@ -400,28 +342,21 @@ function TableRow(index) {
             jsonData.publicKey = pubkey;
             jsonData.privateKey = privkey;
             // addAddressToList(index, address, pubkey, privkey);
-            console.log(jsonData, "DATA");
-
-
-
-            $('.derived_address').val(address);
-            $('.derived_private_key').val(privkey);
-            $('.derived_public_key').val(pubkey)
+            console.log(jsonData)
+            
             jsonDataArray.push(jsonData)
         }, 50)
 
         // console.log(jsonDataArray)
     }
-
+    
     init();
 
 }
 
-
-
+generateRandomPhrase();
 
 function setBip44DerivationPath() {
-    console.log('f2')
     var purpose = parseIntNoNaN(args[3], 44);
     var coin = parseIntNoNaN(args[4], 40);
     var account = parseIntNoNaN(args[5], 0);
@@ -429,13 +364,12 @@ function setBip44DerivationPath() {
     var path = "m/";
     path += purpose + "'/";
     path += coin + "'/";
-
     path += account + "'";
     if (!network.ethereum) {
         path += "/" + change;
     }
-    // console.log(path)
-    return "m/44'/40'/0'/0";
+    path  = "m/44'/40'/0'/0";
+    return path;
 }
 
 function parseIntNoNaN(val, defaultVal) {
