@@ -166,6 +166,41 @@
       "color": "#2DE22B",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Account 0",
+      "hash": "0xda50fbe907fe126bff6584d9ccc7aabb8ba8131e",
+      "color": "#C157AA",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 2",
+      "hash": "0x9a6cdb7658e66421ead4abd79cf03d63cf987e4f",
+      "color": "#E240CF",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 3",
+      "hash": "0x9bb889f1b6065c50eae67b0853487e5044f4a957",
+      "color": "#53936B",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 4",
+      "hash": "0x1d9b3956c5c06d6a51b0433c196e5ce183ab25c6",
+      "color": "#8BEE36",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 5",
+      "hash": "0xc685ccb1d5c57d600052c04845ad0a8157a24426",
+      "color": "#D2705A",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [],
