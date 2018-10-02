@@ -165,7 +165,6 @@
     import {startConnectWeb} from '../../../../main/libs/config';
     import ethereum_address from 'ethereum-address';
     import SendTransaction from './SendTransaction';
-    import vSelect from 'vue-select'
     import Multiselect from 'vue-multiselect'
 
     var web3 = startConnectWeb();
@@ -201,7 +200,6 @@
         },
         components:{
             'sendTransaction': SendTransaction,
-            'v-select': vSelect,
             'multiselect': Multiselect,
         },
         computed: {
@@ -211,7 +209,7 @@
             },
         },
         created(){
-
+            this.optionFrom = [];
             this.intervalid1 = setInterval(() => {
                 if (this.$store.state.allAccounts.length > 0) {
                     this.total_balance = this.$store.state.total_balance;
@@ -247,31 +245,34 @@
                 var price = '0.00'+this.price;
                 this.total_coins = parseFloat(this.amount) + parseFloat(price);
             },
-            handlechangeFunds(data){
-                console.log(data,"handlechangeFunds");
-                if(this.fromArray.length === 1) {
-                    this.currentArray = this.fromArray;
-                    let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
-                    this.optionCurrency.push(defaultCurr);
-                    this.fromArray[0].token_icons.map((acc_token) => {
-                        var data = {value: acc_token.token_name , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
-                        this.optionCurrency.push(data);
-                        this.loading1= false;
-                    })
-                } else if(this.fromArray.length > 1){
-                    this.fromArray.map((account) => {
-                        if(account.hash === this.fundsFrom.value ) {
-                            this.currentArray = account;
-                            let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance+' EXP)'};
-                            this.optionCurrency.push(defaultCurr);
-                            account.token_icons.map((acc_token) => {
-                                var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
-                                this.optionCurrency.push(data);
-                                this.loading1= false;
-                            })
-                        }
-                    })
-                }
+            handlechangeFunds(){
+                setTimeout(() => {
+                    console.log(this.fundsFrom,"handlechangeFunds");
+                    this.optionCurrency = [];
+                    if(this.fromArray.length === 1) {
+                        this.currentArray = this.fromArray;
+                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
+                        this.optionCurrency.push(defaultCurr);
+                        this.fromArray[0].token_icons.map((acc_token) => {
+                            var data = {value: acc_token.token_name , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
+                            this.optionCurrency.push(data);
+                            this.loading1= false;
+                        })
+                    } else if(this.fromArray.length > 1){
+                        this.fromArray.map((account) => {
+                            if(account.hash === this.fundsFrom.value ) {
+                                this.currentArray = account;
+                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance+' EXP)'};
+                                this.optionCurrency.push(defaultCurr);
+                                account.token_icons.map((acc_token) => {
+                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
+                                    this.optionCurrency.push(data);
+                                    this.loading1= false;
+                                })
+                            }
+                        })
+                    }
+                }, 200)
             },
             mainMenu(){
                 this.$router.push({
@@ -418,46 +419,5 @@
         vertical-align: top!important;
         line-height: 47px!important;
     }
-
-
-    /*.fundsFrom .drop-down .dropdown-toggle {*/
-        /*border: none!important;*/
-        /*height: 28px!important;*/
-        /*padding: 15px 0 4px!important;*/
-    /*}*/
-
-    /*.fundsFrom .drop-down .dropdown-toggle input{*/
-        /*display: none;*/
-    /*}*/
-
-    /*.fundsFrom .accounts_dropdown .open{*/
-        /*width: 100%;*/
-    /*}*/
-
-    /*.fundsFrom .accounts_dropdown .open ul li.active{*/
-        /*background: none !important;*/
-    /*}*/
-
-    /*.fundsFrom .v-select .dropdown-menu {*/
-        /*top: 50px;*/
-        /*left: 0;*/
-        /*z-index: 1000;*/
-        /*min-width: 171px;*/
-        /*padding: 5px 0;*/
-        /*margin: 0;*/
-        /*width: 104.8%;*/
-    /*}*/
-
-    /*.fundsFrom .v-select .dropdown-toggle .clear {*/
-        /*line-height: 0;*/
-    /*}*/
-
-    /*.send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {*/
-        /*padding: 6px 20px 0px 0px;*/
-    /*}*/
-
-    /*.fundsFrom .v-select .vs__selected-options{*/
-        /*padding: 0 20px;*/
-    /*}*/
 
 </style>

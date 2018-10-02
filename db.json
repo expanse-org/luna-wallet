@@ -168,7 +168,15 @@
       "isHd": false
     }
   ],
-  "contracts": [],
+  "contracts": [
+    {
+      "id": "rEe9EtZb7",
+      "contract_name": "Contract Test",
+      "contract_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
+      "contract_json": "{\"name\":\"Contract\",\"type\":\"Contract\",\"value\":\"Contract\"}",
+      "color": "#F6AAEA"
+    }
+  ],
   "tokens": [
     {
       "id": "DrZsGjQIZ",

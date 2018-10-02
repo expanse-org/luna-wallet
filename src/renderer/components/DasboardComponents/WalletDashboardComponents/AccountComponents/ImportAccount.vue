@@ -13,11 +13,20 @@
                 <div class="drop-down impoortAccounts_dropdown">
                     <div class="error-label">
                     </div>
-                    <select name="tabs" class="accountCurrcies change_import_accounts_tabs">
-                        <option value="private-key" data-target="fields-Privat-key" class="selectbg1" selected="selected" style="background-image: url('../../../../assets/img/key.svg'), url('../../../../assets/img/empty.png');">Import Private Key</option>
-                        <option value="import-address" data-target="fields-address" class="selectbg1" style="background-image: url('../../../../assets/img/address.svg'), url('../../../../assets/img/empty.png');">Import Watch Only Address</option>
-                        <option value="import-account-file" data-target="file-upload" class="selectbg1" style="background-image: url('../../../../assets/img/json.svg'), url('../../../../assets/img/empty.png');">Import Json File</option>
-                    </select>
+
+                    <multiselect :searchable="false" name="SendFunds" track-by="text" :allow-empty="false" @select="handlechangeFunds()" label="text" :show-labels="false" placeholder="Select From Account"  v-model="tabName" :options="optionTab">
+                        <template slot="singleLabel" slot-scope="props">
+                            <span class="option__title">{{ props.option.text }}</span>
+                        </template>
+                        <template slot="option" slot-scope="props">
+                            <span class="option__title">{{ props.option.text }}</span>
+                        </template>
+                    </multiselect>
+                    <!--<select name="tabs" class="accountCurrcies change_import_accounts_tabs">-->
+                        <!--<option value="private-key" data-target="fields-Privat-key" class="selectbg1" selected="selected" style="background-image: url('../../../../assets/img/key.svg'), url('../../../../assets/img/empty.png');">Import Private Key</option>-->
+                        <!--<option value="import-address" data-target="fields-address" class="selectbg1" style="background-image: url('../../../../assets/img/address.svg'), url('../../../../assets/img/empty.png');">Import Watch Only Address</option>-->
+                        <!--<option value="import-account-file" data-target="file-upload" class="selectbg1" style="background-image: url('../../../../assets/img/json.svg'), url('../../../../assets/img/empty.png');">Import Json File</option>-->
+                    <!--</select>-->
                 </div>
             </div>
             <div v-if="importPrivateKeyTab" id="fields-Privat-key" class="importtabchange" >
@@ -211,6 +220,7 @@
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import Raven from 'raven';
+    import Multiselect from 'vue-multiselect'
 
     var web3 = startConnectWeb();
     export default {
@@ -233,15 +243,18 @@
                 error: false,
                 success: false,
                 passType: 'password',
+                tabName: '',
+                optionTab: [{text:'Import Private Key'},{text:'Import Watch Only Address'},{text:'Import Json File' } ]
             };
         },
         components:{
+            'multiselect': Multiselect,
         },
         created(){
             this.success = false;
             this.error = false;
             console.log(web3, "web3")
-            console.log(db, "db")
+            console.log(db, "db");
         },
         methods: {
             watchOnlyAdd(e){
@@ -412,6 +425,88 @@
     }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style>
 
+    /*.impoortAccounts_dropdown .multiselect--active .multiselect__select , .currencies_dropdown .multiselect--active .multiselect__select  {*/
+        /*height: 50px!important;*/
+    /*}*/
+
+    /*.impoortAccounts_dropdown  .multiselect__select , .currencies_dropdown  .multiselect__select  {*/
+        /*height: 50px!important;*/
+    /*}*/
+
+    .impoortAccounts_dropdown .multiselect__tags {
+        width: 100%!important;
+        border: none!important;
+    }
+
+    .impoortAccounts_dropdown .multiselect__content-wrapper {
+        z-index: 11111;
+    }
+
+    /*.impoortAccounts_dropdown .multiselect__content-wrapper, .currencies_dropdown .multiselect__content-wrapper {*/
+        /*background: none;*/
+        /*height: auto!important;*/
+        /*max-height: auto!important;*/
+    /*}*/
+
+    .popup .impoortAccounts_dropdown {
+        padding: 0px!important;
+    }
+
+    .multiselect__input, .multiselect__single {
+        padding: 3px 0 0 5px!important;
+    }
+
+    .impoortAccounts_dropdown .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {
+        background: #ffffff;
+        color: #000;
+    }
+
+    .impoortAccounts_dropdown .multiselect__option--highlight{
+        background: #ffffff;
+        color: #000;
+    }
+
+    .impoortAccounts_dropdown .multiselect__element{
+        background: #ffffff;
+        color: #000;
+    }
+
+    .impoortAccounts_dropdown  .multiselect__single{
+        height: 26px;
+    }
+
+    /*.impoortAccounts_dropdown .multiselect__content-wrapper {*/
+        /*display: block!important;*/
+    /*}*/
+
+    .impoortAccounts_dropdown  .multiselect__option {
+        padding: 0px 0px 0px 12px!important;
+    }
+
+    /*.multiselect__spinner:after, .multiselect__spinner:before {*/
+        /*border-color: #000000 transparent transparent!important;*/
+        /*margin-top: -1px;*/
+
+    /*}*/
+
+    /*.multiselect__single .setImg {*/
+        /*margin: 8px 5px!important;*/
+    /*}*/
+
+    .multiselect__single .option__title {
+        line-height: 22px!important;
+    }
+
+    /*.multiselect__option .setImg {*/
+        /*margin: 8px 5px!important;*/
+    /*}*/
+
+    /*.multiselect__option .option__title {*/
+        /*vertical-align: top!important;*/
+        /*line-height: 47px!important;*/
+    /*}*/
 </style>
