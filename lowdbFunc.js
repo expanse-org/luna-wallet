@@ -24,8 +24,22 @@ if (production) {
     console.log(adapter, "dir Lowdb if")
 } else {
     console.log(dir, "dir Lowdb if")
+<<<<<<< HEAD
+    // if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {
+    //     console.log(appPath.resolve(__dirname), " if dir Lowdb");
+    //     adapter = new FileSync('db.json');
+    // }else {
+    //     console.log(dir, "dir Lowdb else ");
+    //     shell.cd('..');
+    //     shell.cd('..');
+       // dir =  appPath.resolve(__dirname)
+       console.log("DIR",dir);
+        adapter = new FileSync(dir+'/db.json');
+    // }
+=======
     const dir =  path.resolve(__dirname);
     adapter = new FileSync(dir+'/db.json');
+>>>>>>> ad6dc76cc874e08868ddbe64a20ef8b231c94e99
 }
 // const adapter = new FileSync('db.json')
 const db = low(adapter);
