@@ -1,4 +1,3 @@
-
 import {getClientInfo } from './clientInfo';
 import {loadingProgress } from './loadingProgress';
 import {connectWeb3 } from '../common/web3Config';

@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button class="ok button button--shikoba createAccount" @click="handledeployContract($event)">
+                    <button class="ok button button--shikoba" @click="handledeployContract($event)">
                         <img class="button__icon" src="../../../assets/img/add.svg">
                         <span>Deploy</span>
                     </button>
@@ -82,6 +82,11 @@
 
 <script>
     import ace from 'vue2-ace-editor';
+    const fs = require("fs");
+    import { ipcRenderer } from 'electron';
+    import {startConnectWeb} from '../../../../main/libs/config';
+    var web3 = startConnectWeb();
+
     export default {
         name: 'WatchContracts',
         components: {
@@ -118,6 +123,8 @@
             },
             handledeployContract(e) {
                 e.preventDefault();
+                var from ,bytecode,gasEstimate,Contract,gasPrice,source;
+                /*
                 if(this.AddressFrom && this.accountPassword && this.amount && this.tokenType1 && this.range) {
 
                 } else if(!this.AddressFrom) {
@@ -130,7 +137,90 @@
                     this.tokenType1Error = true;
                 } else if(!this.range) {
                     this.rangeError = true;
+                }*/
+                
+                from = "0x9a6cdb7658e66421ead4abd79cf03d63cf987e4f";  //
+                var password = "123412341234";
+                 try {
+                     console.log(web3);
+                    web3.eth.personal.unlockAccount(from, password , 10000);
+                    console.log("SUCCESS");
+                } catch(e) {
+                    console.log("Error",e)
+                    // $('.sendFundPassword-error').show();$('.sendFundPassword-error').css({visibility:"visible"});
+                    return false;
                 }
+                source = 'contract test { uint256 a; uint256 b; constructor(uint256 _a, uint256 _b) public  {  a = _a;  b = _b; }  function set (uint256 _a, uint256 _b) public {   a = _a;      b = _b; }  function add() public view returns(uint256) { return a + b; } }';
+                ipcRenderer.send('ComplieContract', source);
+                ipcRenderer.on('CompliedContract', (event, res) => {
+                    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                    console.log("Compiled Contract", res);
+                    for (var contractName in res.contracts) {
+                        // code and ABI that are needed by web3
+                        let abi = JSON.parse(res.contracts[contractName].interface);
+                        // console.log(contractName + ': ' + res.contracts[contractName].bytecode)
+                        // console.log(JSON.parse(res.contracts[contractName].interface));
+                        let compiledContract = res;
+                        
+                        bytecode = '0x'+res.contracts[contractName].bytecode;
+                        web3.eth.estimateGas({data: bytecode}).then(function(res){
+                            gasEstimate = res;
+                        } );
+                        Contract = new web3.eth.Contract(abi);//,"0xeef425109ae820daae1058b22abfbf04ecf2e66d"
+                        // Contract.methods.set(12, 34).send({from: from})
+                        // .then(function(receipt){
+                        //     console.log("Result", receipt);
+                        //     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                        // });
+                        Contract.methods.add().call({from: from})
+                        .then(function(receipt){
+                            console.log("Result", receipt);
+                            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                        });
+                        console.log("MY CONTRACT", Contract);
+                        return false;
+                        web3.eth.getGasPrice().then((price)=>{
+                            gasPrice = price;                           
+                        });
+                        console.log(bytecode,from,gasEstimate);
+                            Contract.deploy({
+                                data: bytecode,
+                                arguments : [0 , 0]                  
+                            })
+                            .send({
+                                from: from,
+                                gas: gasEstimate,
+                                gasPrice: gasPrice
+                            }, function(error, transactionHash){ console.log("Error",error,"TransactionHash",transactionHash); })
+                            .on('error', function(error){ console.log(error)})
+                            .on('transactionHash', function(transactionHash){ console.log(transactionHash) })
+                            .on('receipt', function(receipt){ console.log(receipt)
+                            console.log(receipt.contractAddress) // contains the new contract address
+                            })
+                            .on('confirmation', function(confirmationNumber, receipt){ console.log(confirmation, receipt); })
+                            .then(function(newContractInstance){
+                                console.log(newContractInstance.options.address) // instance with the new contract address
+                            });
+                    }
+                   
+                })
+
+
+
+                // ------------------------------------------------
+                // Setting 1 as second paramateractivates the optimiser
+               
+              
+                
+               
+                // Deploy contract syncronous: The address will be added as soon as the contract is mined.
+                // Additionally you can watch the transaction by using the "transactionHash" property
+                // var myContractInstance = MyContract.new(param1, param2, {data: bytecode, gas: 300000, from: mySenderAddress});
+                // myContractInstance.transactionHash // The hash of the transaction, which created the contract
+                // myContractInstance.address // undefined at start, but will be auto-filled later
+
+
+
             },
             handleFocus() {
                 this.AddressFromError = false;

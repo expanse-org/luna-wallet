@@ -5,6 +5,21 @@ import shelljs from 'shelljs';
 import {production} from "./libs/config";
 import appPath from 'path';
 import Raven from 'raven';
+import solc from 'solc';
+
+ipcMain.on('ComplieContract', (event , sourceCode) => {
+    
+    
+        // var source = 'contract myFirstContract { function g() {} }'
+        // Setting 1 as second paramateractivates the optimiser
+        let compiledContract = solc.compile(sourceCode, 1);
+        setTimeout(function(){
+            event.sender.send('CompliedContract', compiledContract)
+        })
+    
+    
+});
+
 
 /**
  * Set `__static` path to static files in production
@@ -24,9 +39,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 763,
     useContentSize: true,
-    width: 1000
+    width: 1400
   })
 
   mainWindow.loadURL(winURL)
@@ -70,22 +85,6 @@ app.on('activate', () => {
   }
 })
 
-// ipcMain.on('asynchronous-message', (event, arg) => {
-//   console.log(arg) // prints "ping"
-//   event.sender.send('asynchronous-reply', 'pong')
-// })
-//
-// ipcMain.on('synchronous-message', (event, arg) => {
-//   console.log(arg) // prints "ping"
-//   event.returnValue = 'pong'
-// })
-
-// Recieving call from loading html and starting gexp
-
-
-// setTimeout(function() {
-//     runGexp('binaries');
-// }, 2000);
 
 const runGexp = (path) => {
     // console.log("startGexp:path",path);
