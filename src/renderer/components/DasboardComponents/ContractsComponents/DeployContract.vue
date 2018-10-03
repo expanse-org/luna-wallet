@@ -5,7 +5,7 @@
             <div>
                 <h1>Deploy Contract</h1>
                 <div class="row">
-                    <p  class="error-message from-error">FROM is reqiured</p>
+                    <p v-if="AddressFromError" class="error-message from-error">FROM is reqiured</p>
                     <span class="input input--nao">
                         <input type="text" class="field input__field input__field--nao"  v-model="AddressFrom" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
@@ -18,13 +18,11 @@
                     </span>
                 </div>
                 <div class="row">
-                    <p class="error-message amount-error">Amount is reqiured</p>
+                    <p v-if="amountError" class="error-message amount-error">Amount is reqiured</p>
                     <span class="input input--nao">
                         <input type="text" class="field input__field input__field--nao" v-model="amount" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">Amount
-
-
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -81,6 +79,7 @@
 </template>
 
 <script>
+    import './DeployContract'
     import ace from 'vue2-ace-editor';
     export default {
         name: 'WatchContracts',
@@ -120,29 +119,19 @@
                 e.preventDefault();
                 if(this.AddressFrom && this.accountPassword && this.amount && this.tokenType1 && this.range) {
 
-                } else if(!this.AddressFrom) {
-                    this.AddressFromError = true;
-                } else if(!this.accountPassword) {
-                    this.accountPasswordError = true;
-                } else if(!this.amount) {
-                    this.amountError = true;
-                } else if(!this.tokenType1) {
-                    this.tokenType1Error = true;
-                } else if(!this.range) {
-                    this.rangeError = true;
+                } else {
+                    if(!this.AddressFrom) {
+                        this.AddressFromError = true;
+                    }
+                    if(!this.amount) {
+                        this.amountError = true;
+                    }
                 }
             },
             handleFocus() {
                 this.AddressFromError = false;
-                this.accountPasswordError = false;
                 this.amountError = false;
-                this.tokenType1Error = false;
-                this.rangeError = false;
             },
-            isMobileDevice() {
-                return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-            },
-
         }
     }
 </script>
