@@ -25,7 +25,9 @@ const store = new Vuex.Store({
     editTokenHash: 0,
     tokenList: 0,
     allAccounts: '',
+    userAccounts: '',
     watchAccounts: '',
+    addresseshash: '',
   },
   mutations: {
     increment (state) {
@@ -81,6 +83,12 @@ const store = new Vuex.Store({
     },
     pushWatchAccounts (state, watchAccounts) {
       state.watchAccounts = watchAccounts;
+    },
+    pushuseraccounts (state, userAccounts) {
+      state.userAccounts = userAccounts;
+    },
+    pushAddreshash (state, addresseshash) {
+      state.addresseshash = addresseshash;
     }
   },
   actions: {
@@ -134,6 +142,12 @@ const store = new Vuex.Store({
       },
       addWatchAccounts ({ commit }, watchAccounts) {
           store.commit('pushWatchAccounts',watchAccounts)
+      },
+      addAddreshash ({ commit }, addresseshash) {
+          store.commit('pushAddreshash',addresseshash)
+      },
+      addUserAcc ({ commit }, userAccounts) {
+          store.commit('pushuseraccounts',userAccounts)
       }
     },
     getters: {

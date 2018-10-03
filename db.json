@@ -108,7 +108,7 @@
       "accountTitle": "Account 0",
       "hash": "0xd81c09cc2496590716bcf49b61c27d56795b3d00",
       "color": "#8D7077",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {

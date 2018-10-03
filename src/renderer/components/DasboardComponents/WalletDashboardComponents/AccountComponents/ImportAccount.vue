@@ -14,12 +14,12 @@
                     <div class="error-label">
                     </div>
 
-                    <multiselect :searchable="false" name="SendFunds" track-by="text" :allow-empty="false" @select="handlechangeFunds()" label="text" :show-labels="false" placeholder="Select From Account"  v-model="tabName" :options="optionTab">
+                    <multiselect :searchable="false" name="SendFunds" track-by="text" :allow-empty="false" @select="handletab()" label="text" :show-labels="false" placeholder="Select From Account"  v-model="tabName" :options="optionTab">
                         <template slot="singleLabel" slot-scope="props">
-                            <span class="option__title">{{ props.option.text }}</span>
+                            <img class="setImgImport" src="../../../../assets/img/key.svg"/><span class="option__title">{{ props.option.text }}</span>
                         </template>
                         <template slot="option" slot-scope="props">
-                            <span class="option__title">{{ props.option.text }}</span>
+                            <img class="setImgImport" src="../../../../assets/img/key.svg"/><span class="option__title">{{ props.option.text }}</span>
                         </template>
                     </multiselect>
                     <!--<select name="tabs" class="accountCurrcies change_import_accounts_tabs">-->
@@ -212,7 +212,6 @@
 
 <script>
     import  ethereum_address from 'ethereum-address';
-    import {startConnectWeb} from '../../../../../main/libs/config';
     import {getClientInfo} from '../../../../../common/clientInfo';
     import moment from 'moment';
     import fs from 'fs';
@@ -221,6 +220,7 @@
     import {db} from '../../../../../../lowdbFunc';
     import Raven from 'raven';
     import Multiselect from 'vue-multiselect'
+    import {startConnectWeb} from '../../../../../main/libs/config';
 
     var web3 = startConnectWeb();
     export default {
@@ -238,8 +238,8 @@
                 private_key_passwordError: false,
                 private_keyError: false,
                 importPrivateKeyTab: true,
-                importWatchOnlyAddTab: true,
-                importJSONfileTab: true,
+                importWatchOnlyAddTab: false,
+                importJSONfileTab: false,
                 error: false,
                 success: false,
                 passType: 'password',
@@ -257,6 +257,25 @@
             console.log(db, "db");
         },
         methods: {
+            handletab(){
+                setTimeout(() => {
+                    console.log(this.tabName,"tabName");
+                    if(this.tabName.text === "Import Private Key") {
+                        this.importPrivateKeyTab = true;
+                        this.importWatchOnlyAddTab = false;
+                        this.importJSONfileTab = false;
+                    } else if(this.tabName.text === "Import Watch Only Address") {
+                        this.importPrivateKeyTab = false;
+                        this.importWatchOnlyAddTab = true;
+                        this.importJSONfileTab = false;
+                    } else if(this.tabName.text === "Import Json File") {
+                        this.importPrivateKeyTab = false;
+                        this.importWatchOnlyAddTab = false;
+                        this.importJSONfileTab = true;
+                    }
+                }, 200)
+
+            },
             watchOnlyAdd(e){
                 e.preventDefault();
                 console.log("watchOnlyAdd");
@@ -429,14 +448,6 @@
 
 <style>
 
-    /*.impoortAccounts_dropdown .multiselect--active .multiselect__select , .currencies_dropdown .multiselect--active .multiselect__select  {*/
-        /*height: 50px!important;*/
-    /*}*/
-
-    /*.impoortAccounts_dropdown  .multiselect__select , .currencies_dropdown  .multiselect__select  {*/
-        /*height: 50px!important;*/
-    /*}*/
-
     .impoortAccounts_dropdown .multiselect__tags {
         width: 100%!important;
         border: none!important;
@@ -444,23 +455,25 @@
 
     .impoortAccounts_dropdown .multiselect__content-wrapper {
         z-index: 11111;
+        /*display: block!important;*/
+        border-radius: 0px!important;
     }
 
-    /*.impoortAccounts_dropdown .multiselect__content-wrapper, .currencies_dropdown .multiselect__content-wrapper {*/
-        /*background: none;*/
-        /*height: auto!important;*/
-        /*max-height: auto!important;*/
-    /*}*/
+    .multiselect__content-wrapper {
+        border-radius: 0px!important;
+    }
+
 
     .popup .impoortAccounts_dropdown {
         padding: 0px!important;
     }
 
-    .multiselect__input, .multiselect__single {
-        padding: 3px 0 0 5px!important;
+    .impoortAccounts_dropdown .multiselect__input, .multiselect__single {
+        padding: 0px 0 0 20px!important;
+        line-height: 39px!important;
     }
 
-    .impoortAccounts_dropdown .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {
+    .impoortAccounts_dropdown .multiselect__option--selected .multiselect__option--highlight {
         background: #ffffff;
         color: #000;
     }
@@ -476,37 +489,36 @@
     }
 
     .impoortAccounts_dropdown  .multiselect__single{
-        height: 26px;
+        height: 33px;
     }
-
-    /*.impoortAccounts_dropdown .multiselect__content-wrapper {*/
-        /*display: block!important;*/
-    /*}*/
+    .impoortAccounts_dropdown  .multiselect__single .option__title{
+        vertical-align: top!important;
+        line-height: 39px!important;
+    }
 
     .impoortAccounts_dropdown  .multiselect__option {
-        padding: 0px 0px 0px 12px!important;
+        padding: 5px 0px 0px 27px!important;
     }
 
-    /*.multiselect__spinner:after, .multiselect__spinner:before {*/
-        /*border-color: #000000 transparent transparent!important;*/
-        /*margin-top: -1px;*/
-
-    /*}*/
-
-    /*.multiselect__single .setImg {*/
-        /*margin: 8px 5px!important;*/
-    /*}*/
-
-    .multiselect__single .option__title {
-        line-height: 22px!important;
+    .setImgImport {
+        width: 35px!important;
+        margin-right: 15px;
     }
 
-    /*.multiselect__option .setImg {*/
-        /*margin: 8px 5px!important;*/
-    /*}*/
+    .impoortAccounts_dropdown .multiselect__content-wrapper {
+        margin-top: 3px;
+    }
 
-    /*.multiselect__option .option__title {*/
-        /*vertical-align: top!important;*/
-        /*line-height: 47px!important;*/
-    /*}*/
+    .impoortAccounts_dropdown .multiselect__content {
+        padding: 0px 0 0px 0px!important;
+    }
+
+    .impoortAccounts_dropdown .multiselect__element:hover {
+        background-color: #f3f3f3;
+    }
+
+    .impoortAccounts_dropdown .multiselect__option .option__title {
+        vertical-align: top!important;
+        line-height: 39px!important;
+    }
 </style>

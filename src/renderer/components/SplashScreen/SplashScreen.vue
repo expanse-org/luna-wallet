@@ -236,6 +236,7 @@
   import {startConnectWeb} from '../../../main/libs/config';
   import {downloadGexp} from '../../../common/gexpfunc';
   import {ipcRenderer} from 'electron';
+  import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
 
   var web3 = startConnectWeb();
 
@@ -247,6 +248,7 @@
        };
     },
     created(){
+        getAllAcounts();
         // console.log(this.$store)
         // this.activeScreen = this.$store.state.screenState;
         // console.log(this.activeScreen,"activeScreenAPP")

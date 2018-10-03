@@ -165,8 +165,20 @@ const template = [
         label: 'Develop',
         submenu: [
             {
+                label: 'Main Net',
+                click () { startMainNet();}
+            },
+            {
+                label: 'Test Net',
+                click () { startTestNet();}
+            },
+            {
                 label: 'Back Up',
-                click () { backup() }
+                click () { backup();}
+            },
+            {
+                label: 'Archived Accounts',
+                click () { archievedAccounts();}
             }
         ]
     }
@@ -211,14 +223,12 @@ if (process.platform === 'darwin') {
 }
 
 
-// Menu.setApplicationMenu(null)
-// Back up Files .. Expanse keystore
-function backup () {
-    try {
-        let userPath = app.getPath('home')
-        let appDataPath = app.getPath('appData')
+function backup(){
+    try{
+        let userPath = app.getPath('home');
+        let appDataPath = app.getPath('appData');
         if (process.platform === 'darwin') {
-            userPath += '/Library/Expanse/keystore'
+            userPath += '/Library/Expanse/keystore';
         }
 
         if (
@@ -226,20 +236,101 @@ function backup () {
             process.platform === 'linux' ||
             process.platform === 'sunos'
         ) {
-            userPath += '/.expanse/keystore'
+            userPath += '/.expanse/keystore';
         }
 
         if (process.platform === 'win32') {
-            userPath = `${appDataPath}\\Expanse\\keystore`
+            userPath = `${appDataPath}\\Expanse\\keystore`;
         }
-        // shell.showItemInFolder(userPath)
-    } catch (e) {
-        console.log("Error:",e);
+        shell.showItemInFolder(userPath);
+    }catch(e){
+        Raven.captureException(e);
     }
 }
 
+function archievedAccounts()
+{
+    var ArchievedAccountsWindow = new BrowserWindow({
+        width: 750,
+        height: 500,
+        frame: true,
+        transparent: false,
+        show: true, //  show the main window
+        resizable: true
+    });
+    // create a new Add Account
+    ArchievedAccountsWindow.loadURL(`http://localhost:9080/archiveAccounts`);
+    // if main window is ready to show, then destroy the splash window and show up the main window
+    ArchievedAccountsWindow.once('ready-to-show', () => {
+        ArchievedAccountsWindow.show();
+    });
+}
 
+// Starting Main Net from menu
+function startMainNet(){
+    try{
+        gexpProc.kill();
+        mainWindow.webContents.send('showLoading')
 
+        setTimeout(function(){
+            let runFile;
+            if(os.type() == 'Windows_NT')
+                runFile = 'gexp.exe --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils"'
+            else
+                runFile = './gexp --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils"'
+
+            try{
+                gexpProc = exec(runFile, {maxBuffer: 1024 * 1000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`Error 01: ${err}`);
+                        return false;
+                    }
+                    console.log('gexp Main net Started');
+                });
+            }catch(e){
+                Raven.captureException(e);
+            }
+            setTimeout(function(){
+                mainWindow.reload();
+            },4000)
+
+        },1000);
+    }catch(e){
+        Raven.captureException(e);
+    }
+
+}
+// Start Test Net From Menu
+function startTestNet(){
+    try{
+        gexpProc.kill();
+        console.log("text net starting");
+        mainWindow.webContents.send('showLoading')
+        setTimeout(function(){
+            let runFile;
+            if(os.type() == 'Windows_NT')
+                runFile = 'gexp.exe --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils" --testnet'
+            else
+                runFile = './gexp --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils" --testnet'
+            try{
+                gexpProc = exec(runFile, {maxBuffer: 1024 * 1000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`Error 01: ${err}`);
+                        return false;
+                    }
+                });
+            }catch(e){
+                Raven.captureException(e);
+            }
+            setTimeout(function(){
+                mainWindow.reload();
+            },4000)
+        },1000);
+    }catch(e){
+        Raven.captureException(e);
+    }
+
+}
 
 /**
  * Auto Updater
