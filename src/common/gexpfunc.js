@@ -96,7 +96,7 @@ const startingGexp = () => {
 };
 
 ipcRenderer.on('gexpLogs', (event, res) => {
-console.log("gexpLogs" ,res);
+    console.log("gexpLogs" ,res);
 
 });
 

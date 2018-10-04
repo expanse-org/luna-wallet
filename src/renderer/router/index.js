@@ -20,6 +20,7 @@ import Contractdetails from '../components/DasboardComponents/ContractsComponent
 import SplashApp from '../views/SplashApp'
 import MainApp from '../views/MainApp'
 import AccountApp from '../views/AccountApp'
+import gexpLogs from '../components/gexpLogs/gexpLogs'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
             name: 'ArchiveMain',
             component: ArchiveMain,
         },{
+            path: '/gexpLogs',
+            name: 'GexpLogs',
+            component: gexpLogs,
+        }
+        ,{
             path: '/',
             name: 'SplashApp',
             component: SplashApp,
