@@ -40,7 +40,7 @@ const downloadGexp = () => {
             if(er !== null){
                 updateScreen("downloadNode");
                 action("downloadNode");
-                console.log('No Internet Connection 12');
+                console.log('No Internet Connection');
             }else{
                 console.log("Connection Available");
                 if(production === true){
@@ -94,5 +94,12 @@ const startingGexp = () => {
         });
     },1000);
 };
+
+ipcRenderer.on('gexpLogs', (event, res) => {
+console.log("gexpLogs" ,res);
+
+});
+
+
 
 export { startingGexp, downloadGexp }
