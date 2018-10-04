@@ -226,7 +226,7 @@
                     });
                     clearInterval(this.intervalid1)
                 }
-            }, 3000);
+            }, 100);
         },
         methods: {
             show () {

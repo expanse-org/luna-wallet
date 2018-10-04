@@ -6,10 +6,10 @@ import {production} from "./libs/config";
 import appPath from 'path';
 import Raven from 'raven';
 import solc from 'solc';
+import os from 'os';
+var gexpProc ;
 
 ipcMain.on('ComplieContract', (event , sourceCode) => {
-    
-    
         // var source = 'contract myFirstContract { function g() {} }'
         // Setting 1 as second paramateractivates the optimiser
         let compiledContract = solc.compile(sourceCode, 1);
@@ -91,7 +91,6 @@ const runGexp = (path) => {
     try {
         console.log("startingGEXP");
         let runFile = './gexp';
-        var gexpProc ;
         //if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
         shelljs.cd(path);
@@ -103,14 +102,26 @@ const runGexp = (path) => {
             });
             gexpProc.stdout.on('data', (data) => {
                 console.log(`stdout: ${data}`);
+                // mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
+                
+                    var textChunk = data.toString('utf8');
+                    mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                    // process utf8 text chunk
             });
 
             gexpProc.stderr.on('data', (data) => {
                 console.log(`stderr: ${data}`);
+               
+                    var textChunk = data.toString('utf8');
+                    mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                    // process utf8 text chunk
+               
+               
             });
 
             gexpProc.on('close', (code) => {
                 console.log(`child process exited with code ${code}`);
+                mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
             });
         } catch (e) {
             console.log("Error:", e);
@@ -279,12 +290,19 @@ function startMainNet(){
                 runFile = './gexp --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils"'
 
             try{
-                gexpProc = exec(runFile, {maxBuffer: 1024 * 1000}, (err, stdout, stderr) => {
-                    if (err) {
-                        console.log(`Error 01: ${err}`);
-                        return false;
-                    }
-                    console.log('gexp Main net Started');
+                gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
+                    shell: true
+                });
+                gexpProc.stdout.on('data', (data) => {
+                    console.log(`stdout: ${data}`);
+                });
+    
+                gexpProc.stderr.on('data', (data) => {
+                    console.log(`stderr: ${data}`);
+                });
+    
+                gexpProc.on('close', (code) => {
+                    console.log(`child process exited with code ${code}`);
                 });
             }catch(e){
                 Raven.captureException(e);
@@ -302,9 +320,11 @@ function startMainNet(){
 // Start Test Net From Menu
 function startTestNet(){
     try{
+        console.log("STarting TEST NET");
         gexpProc.kill();
         console.log("text net starting");
-        mainWindow.webContents.send('showLoading')
+        // mainWindow.webContents.send('showLoading')
+        console.log(shelljs.ls(''));
         setTimeout(function(){
             let runFile;
             if(os.type() == 'Windows_NT')
@@ -312,19 +332,28 @@ function startTestNet(){
             else
                 runFile = './gexp --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils" --testnet'
             try{
-                gexpProc = exec(runFile, {maxBuffer: 1024 * 1000}, (err, stdout, stderr) => {
-                    if (err) {
-                        console.log(`Error 01: ${err}`);
-                        return false;
-                    }
+                gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
+                    shell: true
                 });
+                gexpProc.stdout.on('data', (data) => {
+                    console.log(`stdout: ${data}`);
+                });
+    
+                gexpProc.stderr.on('data', (data) => {
+                    console.log(`stderr: ${data}`);
+                });
+    
+                gexpProc.on('close', (code) => {
+                    console.log(`child process exited with code ${code}`);
+                });
+                console.log("STARTED TEST NET");
             }catch(e){
                 Raven.captureException(e);
             }
-            setTimeout(function(){
-                mainWindow.reload();
-            },4000)
-        },1000);
+            // setTimeout(function(){
+            //     mainWindow.reload();
+            // },4000)
+        },5000);
     }catch(e){
         Raven.captureException(e);
     }
