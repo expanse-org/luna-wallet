@@ -18,12 +18,14 @@ import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
 import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
 import Contractdetails from '../components/DasboardComponents/ContractsComponents/contractdetails'
 import SplashApp from '../views/SplashApp'
-import MainApp from '../views/MainApp'
-import AccountApp from '../views/AccountApp'
+import MainApp from '@/views/MainApp'
+import AccountApp from '@/views/AccountApp'
 
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
+    base: __dirname,
     routes: [
         {
             path: '/archiveAccounts',
