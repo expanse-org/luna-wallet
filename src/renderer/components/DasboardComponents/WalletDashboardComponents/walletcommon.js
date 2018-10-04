@@ -9,10 +9,12 @@ import _ from 'underscore';
 import store from '../../../store';
 import object_hash from 'object-hash';
 import numberToBN from 'number-to-bn';
+import axios from 'axios';
 
 var watchOnlyAccounts = [];
 var archiveAccounts = [];
 var unarchiveAccounts = [];
+var addresshashAccounts = [];
 var sortbyEXPBalance = [];
 var sortbyTOKENBalance = [];
 var web3 = startConnectWeb();
@@ -22,38 +24,42 @@ let total_balance = 0;
 const getAllAcounts = () => {
     archiveAccounts = [];
     unarchiveAccounts = [];
+    addresshashAccounts = [];
     try {
         web3.eth.getAccounts(function (error, accounts) {
             if (accounts.length > 0) {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
+                    addresshashAccounts.push(account_hash.toLowerCase());
                     let account = db.get('accounts').find({
                         hash: account_hash.toLowerCase()
                     }).value();
                     if(account){
-                        if(account.archive === true){
-                            if(account.isHd === true || account.isHd === false){}
-                            else {
-                                account = Object.assign({isHd: false}, account);
+                        if(account.hash){
+                            if(account.archive === true){
+                                if(account.isHd === true || account.isHd === false){}
+                                else {
+                                    account = Object.assign({isHd: false}, account);
+                                }
+                                archiveAccounts.push(account);
+                            } else if(account.archive === false) {
+                                if(account.isHd === true || account.isHd === false){}
+                                else {
+                                    account = Object.assign({isHd: false}, account);
+                                }
+                                unarchiveAccounts.push(account);
+                                getExpBalance(account_hash, index);
+                                gettokensBalance(account_hash, index);
+                            } else {
+                                if(account.isHd === true || account.isHd === false){}
+                                else {
+                                    account = Object.assign({isHd: false}, account);
+                                }
+                                account = Object.assign({archive: false}, account);
+                                unarchiveAccounts.push(account);
+                                getExpBalance(account_hash, index);
+                                gettokensBalance(account_hash, index);
                             }
-                            archiveAccounts.push(account);
-                        } else if(account.archive === false) {
-                            if(account.isHd === true || account.isHd === false){}
-                            else {
-                                account = Object.assign({isHd: false}, account);
-                            }
-                            unarchiveAccounts.push(account);
-                            getExpBalance(account_hash, index);
-                            gettokensBalance(account_hash, index);
-                        } else {
-                            if(account.isHd === true || account.isHd === false){}
-                            else {
-                                account = Object.assign({isHd: false}, account);
-                            }
-                            account = Object.assign({archive: false}, account);
-                            unarchiveAccounts.push(account);
-                            getExpBalance(account_hash, index);
-                            gettokensBalance(account_hash, index);
                         }
                     }
                     else {
@@ -92,13 +98,13 @@ const accAdddb = (account_hash , key) => {
 const getExpBalance = (account_hash, key) => {
     web3.eth.getBalance(account_hash).then((bal) => {
         balance = web3.utils.fromWei(bal, "ether");
+        console.log(balance, "balance");
         if(balance> 0){
             console.log(total_balance,"total_balance");
             total_balance += parseFloat(balance);
         }
         unarchiveAccounts[key] = Object.assign({balance: balance}, unarchiveAccounts[key]);
         if(unarchiveAccounts.length-1 == key){
-            console.log(total_balance,"total_balance unarchiveAccounts");
             store.dispatch('addTotalBalance',total_balance);
         }
     }, (error) => {
@@ -114,9 +120,10 @@ const gettokensBalance = (account_hash, key) => {
         } else {
                 unarchiveAccounts[key] = Object.assign({tokens: false}, unarchiveAccounts[key]);
         }
-        if(key === unarchiveAccounts.length - 1) {
+        // console.log(key == unarchiveAccounts.length - 1, key, unarchiveAccounts.length - 1,"total_balance");
+        if(key == unarchiveAccounts.length - 1) {
             sortByEXPBalances();
-            sortByTokenBalances();
+            // sortByTokenBalances();
         }
     }, (error) => {
         console.log(error, "getExpBalance");
@@ -125,17 +132,20 @@ const gettokensBalance = (account_hash, key) => {
 };
 
 const storeAction = (sortbyEXPBalance) => {
+    store.dispatch('addUserAcc', archiveAccounts);
     store.dispatch('addAllAccounts', sortbyEXPBalance);
+    store.dispatch('addAddreshash', addresshashAccounts);
 }
 
 const sortByEXPBalances = () => {
     sortbyEXPBalance = unarchiveAccounts.sort(
         function (a, b) {
-            return parseFloat(b.balance) - parseFloat(a.balance);
+            return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );
     storeAction(sortbyEXPBalance);
-    console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance")
+    getAllWatchOnlyAcounts();
+    console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance");
     console.log(archiveAccounts ,"archiveAccounts sortbyEXPBalance")
 };
 
@@ -239,5 +249,6 @@ const getAllWatchOnlyAcounts = () => {
         Raven.captureException(e);
     }
 };
+
 
 export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts }

@@ -6394,7 +6394,7 @@ mock-fs@^4.1.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/mock-fs/-/mock-fs-4.7.0.tgz#9f17e219cacb8094f4010e0a8c38589e2b33c299"
 
-moment@^2.22.2:
+moment@^2.11.1, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
@@ -6798,6 +6798,10 @@ number-to-bn@1.7.0, number-to-bn@^1.7.0:
   dependencies:
     bn.js "4.11.6"
     strip-hex-prefix "1.0.0"
+
+numeral@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
 
 oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
@@ -9813,9 +9817,21 @@ vue-loader@^15.2.4:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-moment@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/vue-moment/-/vue-moment-4.0.0.tgz#20809d1e7d7fca63d556fb8d008b95993d32f5ea"
+  dependencies:
+    moment "^2.11.1"
+
 vue-multiselect@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.0.tgz#9e8ee7087658f029d06778cdb8da0b34ee3f1e28"
+
+vue-numerals@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-numerals/-/vue-numerals-0.0.2.tgz#88b6b10315816b7564e1b0d941bc5138355926a0"
+  dependencies:
+    numeral "^2.0.6"
 
 vue-router@^3.0.1:
   version "3.0.1"

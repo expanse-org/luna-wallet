@@ -359,7 +359,7 @@
     }
 
     .fundsFrom  .multiselect__select , .currencies_dropdown  .multiselect__select  {
-        height: 50px!important;
+        height: 47px!important;
     }
 
     .fundsFrom .multiselect__tags, .currencies_dropdown .multiselect__tags {
@@ -372,6 +372,10 @@
         background: none;
         height: auto!important;
         max-height: auto!important;
+    }
+
+    .multiselect__content-wrapper {
+        margin-top: 3px;
     }
 
     .fundsFrom .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {
@@ -396,28 +400,32 @@
         height: 10px;
     }
 
-    .multiselect__spinner:after, .multiselect__spinner:before {
+    .fundsFrom  .multiselect__spinner:after, .multiselect__spinner:before, .currencies_dropdown .multiselect__spinner:after, .multiselect__spinner:before {
         border-color: #000000 transparent transparent!important;
         margin-top: -1px;
 
     }
 
-    .multiselect__single .setImg {
+    .fundsFrom  .multiselect__single .setImg , .currencies_dropdown .multiselect__single .setImg {
         margin: 8px 5px!important;
     }
 
-    .multiselect__single .option__title {
-        vertical-align: top!important;
-        line-height: 50px!important;
-    }
-
-    .multiselect__option .setImg {
-        margin: 8px 5px!important;
-    }
-
-    .multiselect__option .option__title {
+    .fundsFrom  .multiselect__single .option__title, .currencies_dropdown .multiselect__single .option__title {
         vertical-align: top!important;
         line-height: 47px!important;
+    }
+
+    .fundsFrom  .multiselect__option .setImg , .currencies_dropdown .multiselect__option .setImg {
+        margin: 8px 5px!important;
+    }
+
+    .fundsFrom  .multiselect__option .option__title , .currencies_dropdown .multiselect__option .option__title {
+        vertical-align: top!important;
+        line-height: 47px!important;
+    }
+
+    .fundsFrom   .multiselect__input, .fundsFrom   .multiselect__single ,.currencies_dropdown   .multiselect__input, .currencies_dropdown   .multiselect__single {
+        padding: 0px 0px 0px 15px!important;
     }
 
 </style>

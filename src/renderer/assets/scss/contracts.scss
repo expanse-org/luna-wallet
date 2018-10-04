@@ -183,22 +183,17 @@
 }
 
 .deploy-modal {
-    
-
-
-    
-       
         .error {
             background: #f0b1ac;
             border: 1px solid #cb4d43;
         }
         .error-message {
-            visibility: hidden;
+            //visibility: hidden;
             color: #cb4d43;
             font-size: 16px;
             font-weight: regular;
             text-align: left;
-            padding: 8px 0px;
+            //padding: 8px 0px;
         }
      
      

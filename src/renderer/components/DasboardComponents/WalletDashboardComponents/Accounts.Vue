@@ -62,17 +62,21 @@
             that.intervalid1 = setInterval(() => {
                 if (that.$store.state.allAccounts.length > 0) {
                     that.$store.state.allAccounts.map((account_hash) => {
-                        web3.eth.getCoinbase().then((res)=> {
-                            // console.log(res);
-                            if (res == account_hash.hash.toLowerCase()){
-                                // console.log(account_hash, "account_hash");
-                                that.accountTitle = account_hash.accountTitle;
-                                that.accounthash = account_hash.hash;
-                                that.accountbalance = account_hash.balance;
-                                // console.log(that.accountbalance, "accountbalance");
-                                clearInterval(that.intervalid1)
-                            }
-                        });
+                        if(account_hash){
+                            web3.eth.getCoinbase().then((res)=> {
+                                // console.log(res);
+                                if(account_hash.hash) {
+                                    if (res == (account_hash.hash).toLowerCase()){
+                                        console.log(account_hash, "account_hash");
+                                        that.accountTitle = account_hash.accountTitle;
+                                        that.accounthash = account_hash.hash;
+                                        that.accountbalance = account_hash.balance;
+                                        // console.log(that.accountbalance, "accountbalance");
+                                        clearInterval(that.intervalid1)
+                                    }
+                                }
+                            });
+                        }
                     })
                 }
             }, 3000);
@@ -89,7 +93,7 @@
             },
             hide () {
                 this.$modal.hide('openAddAccountModal');
-            }
+            },
         }
     }
 </script>

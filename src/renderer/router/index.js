@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Home/Home'
 import SplashScreen from '../components/SplashScreen/SplashScreen'
+import ArchiveMain from '../components/ArchiveMainComponent/ArchiveMain'
 import AddAccount from '../components/AccountsData/AddAccount'
 import CreateAccount from '../components/AccountsData/CreateAccount'
 import Dashboard from '../components/DasboardComponents/Dashboard'
@@ -25,6 +26,10 @@ Vue.use(Router)
 export default new Router({
     routes: [
         {
+            path: '/archiveAccounts',
+            name: 'ArchiveMain',
+            component: ArchiveMain,
+        },{
             path: '/',
             name: 'SplashApp',
             component: SplashApp,

@@ -119,11 +119,11 @@
 
             </div>
 
-            <div class="latestTransaction">
+            <div v-if="!notransactions" class="latestTransaction">
                 <div class="header">
                     <h1>Latest Transactions</h1>
                     <div class="search">
-                        <input type="text" name="fname" placeholder="Filter Transaction" id="filterDetailsTransaction">
+                        <input type="text" name="fname" v-model="searchTxn" @change="handletxn" placeholder="Filter Transaction" id="filterDetailsTransaction">
                         <button class="search">
                             <img src="../../../../assets/img/search.svg">
                         </button>
@@ -132,12 +132,34 @@
                 </div>
 
                 <div class="transactionContent accountDetailsTransactionContent">
-                    <div class="loader transactionLoader">
+                    <div v-if="loader" class="loader transactionLoader">
                         <div class="outerCircle">
                             <img src="../../../../assets/img/outer.png">
                         </div>
                         <div class="innerCircle">
                             <img src="../../../../assets/img/inner.png">
+                        </div>
+                    </div>
+                    <div v-if="istransactions" v-for="(transaction, index) in transactions">
+                        <div v-if="transaction.Type != 'mined_transaction'"  class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
+                            <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
+                            <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status"><strong>{{transaction.transactionStatus}}</strong></label>
+                            <label v-else-if="transaction.transactionStatus" class="status">{{transaction.transactionStatus}}</label>
+                            <label v-if="!transaction.transactionStatus && transaction.blockNumber" class="status">Completed</label>
+                            <label v-else-if="!transaction.transactionStatus" class="status"><strong>Pending</strong></label>
+                            <div class="account">
+                                <div class="fromAccount">{{transaction.from?transaction.from:'From'}}</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="19px" viewBox="0 0 11 19" style="enable-background:new 0 0 11 19;" xml:space="preserve">
+                            <path class="arrow" d="M0,11.6V19l0,0l11-9.4L0,0l0,0V11.6z"></path>
+                        </svg>
+                                <div class="toAccount">{{transaction.to}}</div>
+                            </div>
+                            <label class="amount">
+                                <span >{{transaction.valueDecimal?parseFloat(transaction.valueDecimal).toFixed(4):0}} Exp</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
+                            <path class="open" d="M0,17.5C0,7.8,7.8,0,17.5,0S35,7.8,35,17.5S27.2,35,17.5,35S0,27.2,0,17.5z M31.5,17.5c0-7.7-6.3-14-14-14s-14,6.3-14,14s6.3,14,14,14S31.5,25.2,31.5,17.5z M10.8,17.9l0.8-0.2L10.8,17.9l8.4-11.5l1.6,1.2l-7.5,10.3l7.7,10L19.3,29L10.8,17.9z"></path>
+                        </svg>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -161,6 +183,9 @@
     import { clipboard } from 'electron';
     var web3 = startConnectWeb();
     import QrcodeVue from 'qrcode.vue';
+    import axios from 'axios';
+    import object_hash from 'object-hash';
+
 
     export default {
         name: 'ViewAccount',
@@ -173,7 +198,19 @@
                 copiedtip: false,
                 balance: '',
                 size: 116,
+                web3,
+                transactions: '',
+                istransactions: false,
+                notransactions: false,
+                loader: true,
+                searchTxn: '',
             };
+        },
+        computed: {
+            accounts() {
+                this.expaccounts = this.$store.state.allAccounts;
+                return this.expaccounts;
+            },
         },
         components: {
             'walletInfo': WalletInfo,
@@ -182,17 +219,30 @@
         },
         created() {
             // console.log(this.$router);
+            this.notransactions = false;
             this.accountHash = this.$router.history.current.query.accountDetail;
-            this.intervalid1 = setInterval(() => {
-                if (this.$store.state.allAccounts.length > 0) {
-                    this.$store.state.allAccounts.map((account_hash) => {
+            this.intervalid2 = setInterval(() => {
+                if(this.accounts.length > 0 ){
+                    this.accounts.map((account_hash) => {
                         if(account_hash.hash === this.accountHash )
                         {
                             this.account = account_hash;
                             console.log(this.account, "account");
-                            clearInterval(this.intervalid1)
+                            clearInterval(this.intervalid2)
                         }
                     })
+                    this.accountdetailTab = true;
+                    this.istransactions = true;
+                    var postData = {
+                        skip: 0,
+                        limit: 15,
+                        addresses: [this.accountHash],
+                    };
+                    this.fetch(postData);
+                } else {
+                    this.accountdetailTab = false;
+                    this.istransactions = false;
+                    this.loader = true;
                 }
             }, 3000);
         },
@@ -259,6 +309,50 @@
                         this.copiedtip = false;
                     },2000);
                 }
+            },
+            handletxn() {
+                if(this.searchTxn){
+                    let postData = {
+                        skip: 0,
+                        limit: 15,
+                        addresses: [this.searchTxn],
+                    };
+                    this.fetch(postData);
+                } else {
+                    let postData = {
+                        skip: 0,
+                        limit: 15,
+                        addresses: [this.accountHash],
+                    };
+                    this.fetch(postData);
+                }
+            },
+            fetch(postData){
+                this.notransactions = false;
+                console.log(postData, "postData------");
+                var transaction_list_hash ,updated_transaction_list_hash;
+                axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)
+                    .then((response) => {
+                        this.transactions = response.data.message;
+                        console.log(this.transactions === null ,"this.transactions ");
+                        if(this.transactions && this.transactions.length > 0 ){
+                            console.log(this.transactions ,"this.transactions ");
+                            transaction_list_hash = object_hash(this.transactions);
+                            this.loader = false;
+                            if(transaction_list_hash == updated_transaction_list_hash && !this.searchTxn){
+                                return false;
+                            }else{
+                                updated_transaction_list_hash = transaction_list_hash;
+                            }
+                        } else {
+                            this.notransactions = true;
+                            this.loader = false;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        // Raven.captureException(error);
+                    });
             }
         }
     }
