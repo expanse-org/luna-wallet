@@ -120,9 +120,10 @@ const gettokensBalance = (account_hash, key) => {
         } else {
                 unarchiveAccounts[key] = Object.assign({tokens: false}, unarchiveAccounts[key]);
         }
-        if(key === unarchiveAccounts.length - 1) {
+        // console.log(key == unarchiveAccounts.length - 1, key, unarchiveAccounts.length - 1,"total_balance");
+        if(key == unarchiveAccounts.length - 1) {
             sortByEXPBalances();
-            sortByTokenBalances();
+            // sortByTokenBalances();
         }
     }, (error) => {
         console.log(error, "getExpBalance");
@@ -139,7 +140,7 @@ const storeAction = (sortbyEXPBalance) => {
 const sortByEXPBalances = () => {
     sortbyEXPBalance = unarchiveAccounts.sort(
         function (a, b) {
-            return parseFloat(b.balance) - parseFloat(a.balance);
+            return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );
     storeAction(sortbyEXPBalance);
