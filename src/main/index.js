@@ -189,6 +189,10 @@ const template = [
             {
                 label: 'Archived Accounts',
                 click () { archievedAccounts();}
+            },
+            {
+                label: 'Gexp Logs',
+                click () { gexpLogs();}
             }
         ]
     }
@@ -269,7 +273,24 @@ function archievedAccounts()
         resizable: true
     });
     // create a new Add Account
-    ArchievedAccountsWindow.loadURL(`http://localhost:9080/archiveAccounts`);
+    ArchievedAccountsWindow.loadURL(`http://localhost:9080/#/archiveAccounts`);
+    // if main window is ready to show, then destroy the splash window and show up the main window
+    ArchievedAccountsWindow.once('ready-to-show', () => {
+        ArchievedAccountsWindow.show();
+    });
+}
+
+function gexpLogs(){
+    var ArchievedAccountsWindow = new BrowserWindow({
+        width: 750,
+        height: 500,
+        frame: true,
+        transparent: false,
+        show: true, //  show the main window
+        resizable: true
+    });
+    // create a new Add Account
+    ArchievedAccountsWindow.loadURL(`http://localhost:9080/#/gexpLogs`);
     // if main window is ready to show, then destroy the splash window and show up the main window
     ArchievedAccountsWindow.once('ready-to-show', () => {
         ArchievedAccountsWindow.show();

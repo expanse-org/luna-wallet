@@ -18,8 +18,14 @@ import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
 import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
 import Contractdetails from '../components/DasboardComponents/ContractsComponents/contractdetails'
 import SplashApp from '../views/SplashApp'
+<<<<<<< HEAD
 import MainApp from '@/views/MainApp'
 import AccountApp from '@/views/AccountApp'
+=======
+import MainApp from '../views/MainApp'
+import AccountApp from '../views/AccountApp'
+import gexpLogs from '../components/gexpLogs/gexpLogs'
+>>>>>>> 87639704e6b87b3b1345febf175f71e9dc136358
 
 Vue.use(Router)
 
@@ -32,6 +38,11 @@ export default new Router({
             name: 'ArchiveMain',
             component: ArchiveMain,
         },{
+            path: '/gexpLogs',
+            name: 'GexpLogs',
+            component: gexpLogs,
+        }
+        ,{
             path: '/',
             name: 'SplashApp',
             component: SplashApp,
