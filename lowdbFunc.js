@@ -24,7 +24,7 @@ if (production) {
     console.log(adapter, "dir Lowdb if")
 } else {
     console.log(dir, "dir Lowdb if")
-    if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {
+    if(dir === "/Users/farina/Desktop/Projects/LunaWalleTest") {
         console.log(appPath.resolve(__dirname), " if dir Lowdb");
         adapter = new FileSync('db.json');
     }else {

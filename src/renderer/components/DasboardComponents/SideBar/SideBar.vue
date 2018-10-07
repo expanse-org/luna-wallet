@@ -1,16 +1,16 @@
 <template>
-    <div class="menu-drawer">
-        <button type="button" class="open-btn">
+    <div :class="collapseClass">
+        <button @click="handlesidebar" type="button" class="open-btn">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="89px"
                     viewBox="0 0 25 89" v-bind:style="{enableBackground:'new 0 0 25 89'}" xml:space="preserve">
                     <path class="st0" d="M0,0l25,20v49L0,89V0z"></path>
                     <path class="st1" d="M17,46.6V54l0,0L6,44.6L17,35l0,0V46.6z"></path>
                 </svg>
         </button>
-        <button class="logo" type="button">
+        <button  class="logo" type="button">
             <img src="../../../assets/img/logo-luna1.png" alt="logo" v-bind:style="{width:'61px'}">
         </button>
-        <ul>
+        <ul >
             <li :class="walletTab" @click="mainMenu($event, 'wallet')">
                 <button class="btn" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="33px" height="33px"
@@ -104,6 +104,8 @@
                 tokenTab: 'tablinks ',
                 contractsTab: 'tablinks ',
                 currencyTab: 'tablinks ',
+                isCollapsed: true,
+                collapseClass: 'menu-drawer',
             };
         },
         created(){
@@ -189,6 +191,15 @@
                 }
 
             },
+            handlesidebar(){
+                if(this.isCollapsed) {
+                    this.isCollapsed = false;
+                    this.collapseClass = "menu-drawer";
+                } else {
+                    this.isCollapsed = true;
+                    this.collapseClass = "menu-drawer open";
+                }
+            },
 
         }
     }
@@ -214,5 +225,7 @@
     .modal .v--modal .popup {
         width: 91% !important;
     }
+
+
 
 </style>

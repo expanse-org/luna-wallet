@@ -6,7 +6,7 @@
             </div>
             <div class="row">
                 <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
-                <span class="input input--nao">
+                <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                     <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                            type="text" id="input-1" />
                     <label class="input__label input__label--nao" for="input-1">
@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <p v-if="passwordError" class="error-message password-error">Password Length must be at least 8</p>
-                <span class="input input--nao">
+                <span :class="password? 'input input--nao input--filled': 'input input--nao'">
                     <input class="passwor input__field input__field--nao accountPassword" name="password" v-model="password" @focus="handleFocus"
                            :type="passType" id="input-2" />
                     <label class="input__label input__label--nao" for="input-1">
@@ -42,7 +42,7 @@
             <form>
                 <div class="row">
                     <p v-if="retypePasswordError" class="error-message retype-password-error">password unmatched</p>
-                    <span class="input input--nao">
+                    <span :class="retypePassword? 'input input--nao input--filled': 'input input--nao'">
                         <input class="retype-passwor input__field input__field--nao accountPassword" v-model="retypePassword" @focus="handleFocus"
                                name="retype-password" :type="passType" id="input-5"
                         />

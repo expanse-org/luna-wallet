@@ -27,7 +27,7 @@ const getAllAcounts = () => {
     addresshashAccounts = [];
     try {
         web3.eth.getAccounts(function (error, accounts) {
-            if (accounts.length > 0) {
+            if (accounts && accounts.length > 0) {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
                     addresshashAccounts.push(account_hash.toLowerCase());

@@ -220,7 +220,6 @@
                             var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
                             this.optionFrom.push(data);
                             this.loading= false;
-                            this.loading1= true;
                             this.fromArray.push(val);
                         }
                     });
@@ -246,6 +245,7 @@
                 this.total_coins = parseFloat(this.amount) + parseFloat(price);
             },
             handlechangeFunds(){
+                this.loading1= true;
                 setTimeout(() => {
                     console.log(this.fundsFrom,"handlechangeFunds");
                     this.optionCurrency = [];

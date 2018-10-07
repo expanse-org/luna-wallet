@@ -95,11 +95,18 @@ const startingGexp = () => {
     },1000);
 };
 
+
+
+const actiongplog = (res) => {
+    console.log("storee Action");
+    store.dispatch('addGexpLog', res)
+};
+
+
 ipcRenderer.on('gexpLogs', (event, res) => {
-    console.log("gexpLogs" ,res);
-
+    console.log(res, 'expresssss');
+    actiongplog(res);
 });
-
 
 
 export { startingGexp, downloadGexp }

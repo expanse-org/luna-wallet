@@ -8,7 +8,7 @@
                     <form id="create-new-account">
                         <div class="row">
                             <p class="error-message accountName-error error" v-if="accountNameError">{{ accountNameError }}</p>
-                            <span class="input input--nao">
+                            <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                                 <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                                        type="text" id="input-1"/>
                                 <label class="input__label input__label--nao" for="input-1">
@@ -26,7 +26,7 @@
 
                         <div class="row">
                             <p class="error-message password-error error" v-if="passError">{{ passError }}</p>
-                            <span class="input input--nao">
+                            <span :class="pass? 'input input--nao input--filled': 'input input--nao'">
                                 <input class="passwor input__field input__field--nao password" name="password" v-model="pass" @focus="handleFocus"
                                        :type="passType"/>
                                 <label class="input__label input__label--nao" for="input-1">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="row">
                             <p class="error-message retype-password-error error" v-if="rePassError">{{rePassError}}</p>
-                            <span class="input input--nao">
+                            <span :class="rePass? 'input input--nao input--filled': 'input input--nao'">
                                 <input class="passwor input__field input__field--nao retype-password" v-model="rePass" @focus="handleFocus"
                                        name="retype-password" :type="passType"/>
                                 <label class="input__label input__label--nao" for="input-1">

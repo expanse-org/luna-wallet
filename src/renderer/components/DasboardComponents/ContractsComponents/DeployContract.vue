@@ -4,9 +4,12 @@
         <div class="deploy-modal">
             <div>
                 <h1>Deploy Contract</h1>
-                <div class="row">
-                    <p v-if="AddressFromError" class="error-message from-error">FROM is reqiured</p>
-                    <span class="input input--nao">
+                <div class="row fromdpdown">
+                    <div class="fmlabel">
+                        <p v-if="AddressFromError" class="error-message from-error">FROM is reqiured</p>
+                        <label>FROM </label>
+                    </div>
+                    <div>
                       <!--  <input type="text" class="field input__field input__field--nao"  v-model="AddressFrom" @focus="handleFocus"/> -->
                          <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" label="text" :show-labels="false" placeholder="Select From Account"  v-model="AddressFrom" :options="optionFrom">
                             <template slot="singleLabel" slot-scope="props">
@@ -16,27 +19,18 @@
                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                             </template>
                         </multiselect>
-
-                        <label class="input__label input__label--nao" >
-                            <span class="input__label-content input__label-content--nao">FROM</span>
-                        </label>
-                        <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"
-                            />
-                        </svg>
-                    </span>
+                    </div>
                 </div>
                 <div class="row">
                     <p v-if="amountError" class="error-message amount-error">Amount is reqiured</p>
-                    <span class="input input--nao">
+                    <span :class="amount? 'input input--nao input--filled': 'input input--nao'">
                         <input type="text" class="field input__field input__field--nao" v-model="amount" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">Amount
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"
-                            />
+                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                         </svg>
                     </span>
                 </div>
@@ -77,16 +71,15 @@
                     </div>
                 </div>
                  <div class="row">
-                    <p v-if="accountPassword" class="error-message amount-error">Password is reqiured</p>
-                    <span class="input input--nao">
+                    <p v-if="accountPasswordError" class="error-message amount-error">Password is reqiured</p>
+                    <span :class="accountPassword? 'input input--nao input--filled': 'input input--nao'">
                         <input type="text" class="field input__field input__field--nao" v-model="accountPassword" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">Password
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"
-                            />
+                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                         </svg>
                     </span>
                 </div>
@@ -128,7 +121,6 @@
                 AddressFromError: false,
                 accountPasswordError: false,
                 amountError: false,
-                rangeError: false,
                 content: '',
             };
         },
@@ -144,11 +136,10 @@
                             var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
                             this.optionFrom.push(data);
                             this.loading= false;
-                            // this.loading1= true;
-                            // this.fromArray.push(val);
                         }
                     });
-                    clearInterval(this.intervalid1)
+                    clearInterval(this.intervalid1);
+                    this.loading= false;
                 }
             }, 3000);
         },
@@ -169,65 +160,50 @@
                 var from ,bytecode,gasEstimate,Contract,gasPrice,source;
                 console.log("FRom001", this.AddressFrom,"Password",this.accountPassword,"Amount",this.amount);
                 if(this.AddressFrom && this.accountPassword && this.amount && this.range) {
+                    try {
+                        console.log(web3);
+                        web3.eth.personal.unlockAccount(this.AddressFrom, this.accountPassword  , 10000);
+                        console.log("SUCCESSfully unlocked Account");
+                    } catch(e) {
+                        console.log("Error",e);
+                        this.accountPasswordError = true;
+                        return false;
+                    }
+                    source = this.content;//'contract test { uint256 a; uint256 b; constructor(uint256 _a, uint256 _b) public  {  a = _a;  b = _b; }  function set (uint256 _a, uint256 _b) public {   a = _a;      b = _b; }  function add() public view returns(uint256) { return a + b; } }';
+                    ipcRenderer.send('ComplieContract', source);
+                    ipcRenderer.on('CompliedContract', (event, res) => {
+                        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                        // console.log("Compiled Contract", res);
+                        res.contracts.map((contractName) => {
+                            let abi = JSON.parse(res.contracts[contractName].interface);
+                            // console.log(contractName + ': ' + res.contracts[contractName].bytecode)
+                            // console.log(JSON.parse(res.contracts[contractName].interface));
+                            let compiledContract = res;
 
-                } else if(!this.AddressFrom) {
-                    this.AddressFromError = true;
-                } else if(!this.accountPassword) {
-                    this.accountPasswordError = true;
-                } else if(!this.amount) {
-                    this.amountError = true;
-                } else if(!this.range) {
-                    this.rangeError = true;
-                }
-                console.log("FRom", this.AddressFrom,"Password",this.accountPassword,"Amount",this.amount,"Content",this.content);
-                return false;
-                from = this.AddressFrom;  //
-                var password = this.accountPassword;
-                 try {
-                     console.log(web3);
-                    web3.eth.personal.unlockAccount(from, password , 10000);
-                    console.log("SUCCESSfully unlocked Account");
-                } catch(e) {
-                    console.log("Error",e)
-                    // $('.sendFundPassword-error').show();$('.sendFundPassword-error').css({visibility:"visible"});
-                    return false;
-                }
-                source = this.content;//'contract test { uint256 a; uint256 b; constructor(uint256 _a, uint256 _b) public  {  a = _a;  b = _b; }  function set (uint256 _a, uint256 _b) public {   a = _a;      b = _b; }  function add() public view returns(uint256) { return a + b; } }';
-                ipcRenderer.send('ComplieContract', source);
-                ipcRenderer.on('CompliedContract', (event, res) => {
-                    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                    // console.log("Compiled Contract", res);
-                    for (var contractName in res.contracts) {
-                        // code and ABI that are needed by web3
-                        let abi = JSON.parse(res.contracts[contractName].interface);
-                        // console.log(contractName + ': ' + res.contracts[contractName].bytecode)
-                        // console.log(JSON.parse(res.contracts[contractName].interface));
-                        let compiledContract = res;
-                        
-                        bytecode = '0x'+res.contracts[contractName].bytecode;
-                        web3.eth.estimateGas({data: bytecode}).then(function(res){
-                            gasEstimate = res;
-                        } );
-                        Contract = new web3.eth.Contract(abi);//,"0xeef425109ae820daae1058b22abfbf04ecf2e66d"
-                        // Contract.methods.set(12, 34).send({from: from})
-                        // .then(function(receipt){
-                        //     console.log("Result", receipt);
-                        //     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                        // });
-                        Contract.methods.add().call({from: from})
-                        .then(function(receipt){
-                            console.log("Result", receipt);
-                            // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                        });
-                        console.log("MY CONTRACT", Contract);
-                        return false;  //-- Remove this 
-                        web3.eth.getGasPrice().then((price)=>{
-                            gasPrice = price;                           
-                        });
-                        console.log(bytecode,from,gasEstimate);
+                            bytecode = '0x'+res.contracts[contractName].bytecode;
+                            web3.eth.estimateGas({data: bytecode}).then(function(res){
+                                gasEstimate = res;
+                            } );
+                            Contract = new web3.eth.Contract(abi);//,"0xeef425109ae820daae1058b22abfbf04ecf2e66d"
+                            // Contract.methods.set(12, 34).send({from: from})
+                            // .then(function(receipt){
+                            //     console.log("Result", receipt);
+                            //     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                            // });
+                            Contract.methods.add().call({from: from})
+                                .then(function(receipt){
+                                    console.log("Result", receipt);
+                                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                                });
+                            console.log("MY CONTRACT", Contract);
+                            return false;  //-- Remove this
+                            web3.eth.getGasPrice().then((price)=>{
+                                gasPrice = price;
+                            });
+                            console.log(bytecode,from,gasEstimate);
                             Contract.deploy({
                                 data: bytecode,
-                                arguments : [0 , 0]                  
+                                arguments : [0 , 0]
                             })
                             .send({
                                 from: from,
@@ -237,17 +213,25 @@
                             .on('error', function(error){ console.log(error)})
                             .on('transactionHash', function(transactionHash){ console.log(transactionHash) })
                             .on('receipt', function(receipt){ console.log(receipt)
-                            console.log(receipt.contractAddress) // contains the new contract address
+                                console.log(receipt.contractAddress) // contains the new contract address
                             })
                             .on('confirmation', function(confirmationNumber, receipt){ console.log(confirmation, receipt); })
                             .then(function(newContractInstance){
                                 console.log(newContractInstance.options.address) // instance with the new contract address
                             });
+                        });
+                    })
+                } else {
+                    if(!this.AddressFrom) {
+                        this.AddressFromError = true;
                     }
-                   
-                })
-
-
+                    if(!this.accountPassword) {
+                        this.accountPasswordError = true;
+                    }
+                    if(!this.amount) {
+                        this.amountError = true;
+                    }
+                }
 
                 // ------------------------------------------------
                 // Setting 1 as second paramateractivates the optimiser
@@ -267,6 +251,7 @@
             handleFocus() {
                 this.AddressFromError = false;
                 this.amountError = false;
+                this.accountPasswordError = false;
             },
         }
     }
@@ -277,6 +262,107 @@
     .editorCode {
         margin-top: 40px;
         margin-bottom: 40px;
+    }
+
+    .deploy-modal .multiselect__content {
+        padding: 0!important;
+    }
+
+    .deploy-modal .multiselect__option {
+        padding: 7px 15px!important;
+    }
+
+    .deploy-modal .multiselect__tags {
+        width: 100%!important;
+        border: none!important;
+        padding: 6px 40px 0px 8px!important;
+        border-radius: 0!important;
+    }
+
+    .deploy-modal .multiselect__content-wrapper {
+        background: none;
+        height: auto!important;
+        max-height: auto!important;
+        /*display: block!important;*/
+    }
+
+    .multiselect__content-wrapper {
+        margin-top: 3px;
+    }
+
+    .deploy-modal .multiselect__option--selected .multiselect__option--highlight  {
+        background: #ffffff;
+        color: #000;
+    }
+
+    .deploy-modal .multiselect__option--highlight {
+        background: #ffffff;
+        color: #000;
+    }
+
+    .deploy-modal .multiselect__element {
+        background: #ffffff;
+        color: #000;
+        padding: 0px!important;
+
+    }
+
+    .deploy-modal  .multiselect__single {
+        padding-left: 15px!important;
+        margin-bottom: 0px!important;
+        line-height: 43px;
+        height: 50px;
+    }
+
+    .deploy-modal  .multiselect__spinner:after, .multiselect__spinner:before {
+        border-color: #000000 transparent transparent!important;
+        margin-top: -1px;
+
+    }
+
+    .deploy-modal  .multiselect__tags input  {
+        display: none!important;
+    }
+
+    .deploy-modal  .multiselect__single .setImg  {
+        margin: 8px 5px!important;
+    }
+
+    .deploy-modal  .multiselect__single .option__title {
+        vertical-align: top!important;
+        line-height: 47px!important;
+    }
+
+    .deploy-modal  .multiselect__option .setImg {
+        margin: 8px 5px!important;
+    }
+
+    .deploy-modal  .multiselect__option .option__title {
+        vertical-align: top!important;
+        line-height: 47px!important;
+    }
+
+    .deploy-modal   .multiselect__input, .deploy-modal   .multiselect__single {
+        padding: 0px 0px 0px 15px!important;
+    }
+
+    .fmlabel {
+        text-align: left;
+        margin-bottom: 10px;
+
+    }
+
+    .deploy-modal .fmlabel .from-error {
+        top:0px!important;
+
+    }
+
+    .deploy-modal .amount-error {
+        top:25px!important;
+    }
+
+    .fromdpdown {
+        z-index: 999;
     }
 
 </style>

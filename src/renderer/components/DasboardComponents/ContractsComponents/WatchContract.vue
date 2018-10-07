@@ -7,7 +7,7 @@
                 <input class="add_or_update_contract" type="hidden" value="0" />
                 <div class="row">
                     <p v-if="contractNameError" class="error-message contractName-error">Contract Name is required</p>
-                    <span class="input input--nao">
+                    <span :class="contractName? 'input input--nao input--filled': 'input input--nao'">
                         <input type="text" class="field input__field input__field--nao" v-model="contractName" @focus="handleFocus" name="contractName" />
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">CONTRACT NAME
@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <p v-if="contractAddressError" class="error-message contractAddress-error">{{contractAddressError}}</p>
-                    <span class="input input--nao">
+                    <span :class="contractAddress? 'input input--nao input--filled': 'input input--nao'" >
                         <input type="text" class="field input__field input__field--nao" v-model="contractAddress" @focus="handleFocus" name="contractAddress" />
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">CONTRACT ADDRESS
@@ -36,7 +36,7 @@
                 </div>
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
-                    <span class="input input--nao">
+                    <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'">
                         <textarea class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
@@ -66,7 +66,7 @@
                 <input class="add_or_update_contract" type="hidden" value="0" />
                 <div class="row">
                     <p v-if="contractNameError" class="error-message contractName-error">Contract Name is required</p>
-                    <span class="input input--nao">
+                    <span :class="contractName? 'input input--nao input--filled': 'input input--nao'" >
                         <input type="text" class="field input__field input__field--nao" v-model="contractName" @focus="handleFocus" name="contractName" />
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">CONTRACT NAME
@@ -81,7 +81,7 @@
                 </div>
                 <div class="row">
                     <p v-if="contractAddressError" class="error-message contractAddress-error">{{contractAddressError}}</p>
-                    <span class="input input--nao">
+                    <span :class="contractAddress? 'input input--nao input--filled': 'input input--nao'" >
                         <input type="text" class="field input__field input__field--nao" v-model="contractAddress" @focus="handleFocus" name="contractAddress" />
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">CONTRACT ADDRESS
@@ -96,7 +96,7 @@
                 </div>
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
-                    <span class="input input--nao">
+                    <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'" >
                         <textarea class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE

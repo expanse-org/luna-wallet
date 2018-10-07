@@ -17,21 +17,15 @@ import AddToken from '../components/DasboardComponents/TokensComponents/AddToken
 import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
 import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
 import Contractdetails from '../components/DasboardComponents/ContractsComponents/contractdetails'
+import Transactiondetail from '../components/DasboardComponents/WalletDashboardComponents/Transactiondetail'
 import SplashApp from '../views/SplashApp'
-<<<<<<< HEAD
-import MainApp from '@/views/MainApp'
-import AccountApp from '@/views/AccountApp'
-=======
 import MainApp from '../views/MainApp'
 import AccountApp from '../views/AccountApp'
 import gexpLogs from '../components/gexpLogs/gexpLogs'
->>>>>>> 87639704e6b87b3b1345febf175f71e9dc136358
 
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
-    base: __dirname,
     routes: [
         {
             path: '/archiveAccounts',
@@ -135,6 +129,11 @@ export default new Router({
                             path: '/contractdetails',
                             name: 'contractdetails',
                             component: Contractdetails
+                        },
+                        {
+                            path: '/transactiondetails',
+                            name: 'transactiondetails',
+                            component: Transactiondetail
                         }
                     ]
                 },

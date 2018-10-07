@@ -28,6 +28,7 @@ const store = new Vuex.Store({
     userAccounts: '',
     watchAccounts: '',
     addresseshash: '',
+    gexpLogs: '',
   },
   mutations: {
     increment (state) {
@@ -89,6 +90,9 @@ const store = new Vuex.Store({
     },
     pushAddreshash (state, addresseshash) {
       state.addresseshash = addresseshash;
+    },
+    pushGexpLogs (state, gexpLogs) {
+      state.gexpLogs = gexpLogs;
     }
   },
   actions: {
@@ -148,6 +152,9 @@ const store = new Vuex.Store({
       },
       addUserAcc ({ commit }, userAccounts) {
           store.commit('pushuseraccounts',userAccounts)
+      },
+      addGexpLog({ commit }, gexpLogs) {
+          store.commit('pushGexpLogs',gexpLogs)
       }
     },
     getters: {
