@@ -16,7 +16,7 @@ import CurrencyConverter from '../components/DasboardComponents/CurrencyConveter
 import AddToken from '../components/DasboardComponents/TokensComponents/AddToken'
 import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
 import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
-import Contractdetails from '../components/DasboardComponents/ContractsComponents/contractdetails'
+import ContractDetails from '../components/DasboardComponents/ContractsComponents/ContractDetails'
 import Transactiondetail from '../components/DasboardComponents/WalletDashboardComponents/Transactiondetail'
 import SplashApp from '../views/SplashApp'
 import MainApp from '../views/MainApp'
@@ -128,7 +128,7 @@ export default new Router({
                         {
                             path: '/contractdetails',
                             name: 'contractdetails',
-                            component: Contractdetails
+                            component: ContractDetails
                         },
                         {
                             path: '/transactiondetails',

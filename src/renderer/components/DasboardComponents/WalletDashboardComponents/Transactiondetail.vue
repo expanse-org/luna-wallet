@@ -76,7 +76,7 @@
                         <label>Gas Limit</label>
                         <div class="content">
                             <label class="tex_gass_limit">
-                                <!--{{transaction.transaction_info &&  web3.utils.fromWei(web3.utils.toDecimal(transaction.transaction_info.gas), 'ether') * Gwei }}-->
+                                {{transaction.transaction_info &&  web3.utils.fromWei(web3.utils.toDecimal(transaction.transaction_info.gas).toString(), 'ether') * Gwei }}
                                 (GWei)
                             </label>
                         </div>
@@ -93,7 +93,7 @@
                         <label>Gas price</label>
                         <div class="content">
                             <label class="trx_gass_price">
-                                <!--{{transaction.transaction_recipt_info && web3.utils.fromWei(web3.utils.toDecimal(transaction.transaction_recipt_info.gasUsed) * Gwei, 'ether')}}-->
+                                {{transaction.transaction_recipt_info && parseFloat(web3.utils.fromWei(web3.utils.toDecimal(transaction.transaction_recipt_info.gasUsed).toString(), 'ether') * Gwei).toFixed(6)}}
                             </label>
                         </div>
                     </div>

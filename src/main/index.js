@@ -121,7 +121,7 @@ const runGexp = (path) => {
 
             gexpProc.on('close', (code) => {
                 console.log(`child process exited with code ${code}`);
-                mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
+                mainWindow.webContents.send('gexpLogs', JSON.stringify(code));
             });
         } catch (e) {
             console.log("Error:", e);
