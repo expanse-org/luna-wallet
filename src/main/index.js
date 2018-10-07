@@ -59,13 +59,6 @@ function createWindow () {
         event.sender.send('startGexpResponse', res)
     });
 
-
-
-    // ipcMain.on('ChangeWindowSize', (event, obj) => {
-  //   windowSize = obj
-  // })
-
-
   mainWindow.on('closed', () => {
     mainWindow = null
   })
@@ -90,8 +83,8 @@ const runGexp = (path) => {
     // console.log("startGexp:path",path);
     try {
         console.log("startingGEXP");
-        let runFile = './gexp';
-        //if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
+        var runFile = '';
+        if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
         shelljs.cd(path);
         try {
@@ -100,34 +93,44 @@ const runGexp = (path) => {
             gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                 shell: true
             });
-            gexpProc.stdout.on('data', (data) => {
-                console.log(`stdout: ${data}`);
+            try{
+                gexpProc.stdout.on('data', (data) => {
+                    console.log(`stdout: ${data}`);
                 // mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
+                    
+                    var textChunk = data.toString('utf8');
+                    mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                    // process utf8 text chunk
+                });
+            }catch(e){
+                console.log("erroer", e);
+            }
+            try{
+                gexpProc.stderr.on('data', (data) => {
+                    console.log(`stderr: ${data}`);
                 
-                    var textChunk = data.toString('utf8');
+                        var textChunk = data.toString('utf8');
+                        mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                        // process utf8 text chunk
+                
+                
+                });
+            }catch(e){
+                console.log("Error",e);
+            }
+            try{
+                gexpProc.on('close', (code) => {
+                    console.log(`child process exited with code ${code}`);
+                    var textChunk = code.toString('utf8');
                     mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
-                    // process utf8 text chunk
-            });
-
-            gexpProc.stderr.on('data', (data) => {
-                console.log(`stderr: ${data}`);
-               
-                    var textChunk = data.toString('utf8');
-                    mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
-                    // process utf8 text chunk
-               
-               
-            });
-
-            gexpProc.on('close', (code) => {
-                console.log(`child process exited with code ${code}`);
-                var textChunk = code.toString('utf8');
-                mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
-            });
+                });
+            }catch(e){
+                console.log("Error",e);
+            }
         } catch (e) {
             console.log("Error:", e);
         }
-        return true
+        return true;
     } catch (e) {
 
         console.log(e);
@@ -302,16 +305,15 @@ function gexpLogs(){
 function startMainNet(){
     try{
         gexpProc.kill();
-        mainWindow.webContents.send('showLoading')
+        // mainWindow.webContents.send('showLoading')
 
         setTimeout(function(){
             let runFile;
-            if(os.type() == 'Windows_NT')
-                runFile = 'gexp.exe --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils"'
-            else
-                runFile = './gexp --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils"'
+            if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
+                var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
+                console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true
                 });
@@ -342,21 +344,20 @@ function startMainNet(){
 // Start Test Net From Menu
 function startTestNet(){
     try{
-        console.log("STarting TEST NET");
         gexpProc.kill();
-        console.log("text net starting");
         // mainWindow.webContents.send('showLoading')
         console.log(shelljs.ls(''));
         setTimeout(function(){
             let runFile;
-            if(os.type() == 'Windows_NT')
-                runFile = 'gexp.exe --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils" --testnet'
-            else
-                runFile = './gexp --rpc --rpcaddr="0.0.0.0" --rpccorsdomain="*" --rpcapi="db,eth,net,web3,personal,utils" --testnet'
+            if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
+
             try{
+                var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils', '--testnet']
+                console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true
                 });
+                
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 });
@@ -370,11 +371,11 @@ function startTestNet(){
                 });
                 console.log("STARTED TEST NET");
             }catch(e){
-                Raven.captureException(e);
+               console.log("Exception", e);
             }
-            // setTimeout(function(){
-            //     mainWindow.reload();
-            // },4000)
+            setTimeout(function(){
+                mainWindow.reload();
+            },4000)
         },5000);
     }catch(e){
         Raven.captureException(e);
