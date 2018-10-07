@@ -105,8 +105,7 @@ const actiongplog = (res) => {
 
 ipcRenderer.on('gexpLogs', (event, res) => {
     console.log(res, 'expresssss');
-    actiongplog(res);
+    // actiongplog(res);
 });
-
 
 export { startingGexp, downloadGexp }

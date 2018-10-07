@@ -8,12 +8,17 @@
 </template>
 
 <script>
+  import {ipcRenderer} from 'electron';
   import {callgexplog} from './gexplog';
   export default {
     name: 'gexpLogs',
     computed: {
         gexpLogData() {
-            this.gexplog = this.$store.state.gexpLogs;
+            ipcRenderer.on('gexpLogs', (event, res) => {
+                console.log(res, 'expresssss');
+                this.gexplog = res;
+            });
+            // console.log(this.gexpLogData,"computed dsadada");
             return this.gexplog;
         }
     },
@@ -23,13 +28,17 @@
       }
     },
     created() {
-        let interval = setInterval(() => {
-            if(this.gexpLogData){
-                console.log(this.gexpLogData,"dsadada");
-                clearInterval(interval);
-            }
-        }, 10000);
+
+        // let interval = setInterval(() => {
+        //     if(this.gexpLogData){
+        //         console.log(this.gexpLogData,"dsadada");
+        //         clearInterval(interval);
+        //     }
+        // }, 10000);
         // callgexplog();
+
+
+
         console.log('gexplog');
       console.log(this.gexpLogData,"dsadada");
     }

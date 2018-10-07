@@ -4,13 +4,16 @@
             <div class="userInfo">
                 <div class="curve"></div>
                 <div class="left">
-                    <canvas id="contract_qrCode" class="qrCode">
-                    </canvas>
+                    <div class="qrCodevue" >
+                        <qrcode-vue :value="contracts.contract_address"  level="L"></qrcode-vue>
+                    </div>
+                    <!--<canvas id="contract_qrCode" class="qrCode">-->
+                    <!--</canvas>-->
                     <div class="info detail-contract">
                         <h1>{{contracts.contract_name}}</h1>
                         <div class="balance"><img src="../../../assets/img/key1.svg"><label class="contract_hash_js">{{contracts.contract_address}}</label></div>
                         <p class="tooltip accoundID wd300 ">
-                            <lable class="detail-account-hash">000.0000000 EXPANSE</lable>
+                            <label class="detail-account-hash">000.0000000 EXPANSE</label>
                             <span class="tooltiptext parrentFont contract_hash_js">{{contracts.contract_address}}</span>
                         </p>
                     </div>
@@ -61,6 +64,34 @@
                 </div>
                 <div class="inner">
                     <div class="left contract_abi">
+                        <div v-for="value in contractConstants" :class="value.name">
+                           <div class="one-line">
+                               <div class="key">{{value.name}}</div>
+                           </div>
+                           <div v-for="output in value.outputs" class="output">
+                               <div class="key">-- ({{output.type}})</div>
+                               <div class="answer"></div>
+                               <div class="value">{{getAddress(value,output)}}</div>
+                           </div>
+                           <div v-for="(input,index) in value.inputs" class="output input-outer">
+                                <div class="inputs">
+                                    <div class="key">({{input.name}}) -- ({{input.type}})</div>
+                                    <div class="value">
+                                        <div class="query">
+                                            <input type="text" placeholder="Type your Query" :name='input.name'>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inputs">
+                                    <div class="key"></div>
+                                    <div v-if="value.inputs.length-1 === index" class="value">
+                                        <div class="query">
+                                            <button class="queryBtn" v-on:click="handleQuery(JSON.stringify(value))" :data-val="JSON.stringify(value)">Query</button>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
                         <!-- <div class="one-line">
                          <div class="key">Name</div><div class="value">Gander</div>
                         </div>
@@ -88,47 +119,69 @@
                     <div class="right">
 
                         <form id="execute_contract" target="#">
-
                             <div class="cont_select_center">
                                 <div class="select_mate contract_functions_c" data-mate-select="active">
-                                    <select name="contract_abi_functions" class="contract_abi_functions">
-                                    </select>
-                                    <p class="selecionado_opcion" onclick="open_select(this)"></p>
-                                    <span onclick="open_select(this)" class="icon_select_mate">
-                                                <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
-                                                    <path d="M0-.75h24v24H0z" fill="none" />
-                                                </svg>
-                                            </span>
-                                    <div class="cont_list_select_mate">
-                                        <ul class="cont_select_int"> </ul>
-                                    </div>
+                                    <multiselect  name="contract_abi_functions" class="contract_abi_functions" v-model="contractabiFunc" track-by="name" :allow-empty="false" label="name" :show-labels="false" placeholder="Select Function" :options="contractFunctions" >
+                                        <template slot="singleLabel" slot-scope="{option}">
+                                            <span class="option__title">{{ option.name.replace(/([a-z])([A-Z])/g, '$1 $2') }}</span>
+                                        </template>
+                                    </multiselect>
+                                    <!--<select name="contract_abi_functions" class="contract_abi_functions">-->
+                                    <!--</select>-->
+                                    <!--<p class="selecionado_opcion" onclick="open_select(this)"></p>-->
+                                    <!--<span onclick="open_select(this)" class="icon_select_mate">-->
+                                                <!--<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">-->
+                                                    <!--<path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />-->
+                                                    <!--<path d="M0-.75h24v24H0z" fill="none" />-->
+                                                <!--</svg>-->
+                                            <!--</span>-->
+                                    <!--<div class="cont_list_select_mate">-->
+                                        <!--<ul class="cont_select_int"> </ul>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
 
-                            <div class="contract_functions_details details"></div>
+                            <div class="contract_functions_details details">
+                                <div v-for="input in contractabiFunc.inputs">
+                                    <div class="lable">
+                                        <div class="key">{{input.name}}--{{input.type}}</div>
+                                        <div class="value"></div>
+                                    </div>
+                                    <div class="output">
+                                        <div class="query">
+                                            <input type="text" :name="input.name+''+input.type">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <p>Execute From</p>
+
                             <!-- <select class="contract_sendFrom" >
 
                             </select> -->
                             <div class="cont_select_center">
                                 <div class="select_mate contract_sndform" data-mate-select="active">
-                                    <select name="contract_sendFrom" class="contract_sendFrom">
-                                    </select>
-                                    <p class="selecionado_opcion" onclick="open_select(this)"></p>
-                                    <span onclick="open_select(this)" class="icon_select_mate">
-                                                <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
-                                                    <path d="M0-.75h24v24H0z" fill="none" />
-                                                </svg>
-                                            </span>
-                                    <div class="cont_list_select_mate">
-                                        <ul class="cont_select_int"> </ul>
-                                    </div>
+                                    <multiselect  name="contract_sendFrom" class="contract_sendFrom" :loading="loading" v-model="contractsendFrom" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Address" :options="optionFroms" >
+                                        <template slot="singleLabel" slot-scope="{option}">
+                                            <span class="option__title">{{ option.text }}</span>
+                                        </template>
+                                    </multiselect>
+                                    <!--<select name="contract_sendFrom" class="contract_sendFrom">-->
+                                    <!--</select>-->
+                                    <!--<p class="selecionado_opcion" onclick="open_select(this)"></p>-->
+                                    <!--<span onclick="open_select(this)" class="icon_select_mate">-->
+                                                <!--<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">-->
+                                                    <!--<path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />-->
+                                                    <!--<path d="M0-.75h24v24H0z" fill="none" />-->
+                                                <!--</svg>-->
+                                            <!--</span>-->
+                                    <!--<div class="cont_list_select_mate">-->
+                                        <!--<ul class="cont_select_int"> </ul>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                             <div class="query">
-                                <button type="submit" class="execute_contract">Execute</button>
+                                <button type="submit" v-on:click="handlExcute" class="execute_contract">Execute</button>
                             </div>
                         </form>
                         <div class="query">
@@ -179,17 +232,30 @@
         <modal class="modal" name="insufficentBal">
             <insuficentBalance ></insuficentBalance>
         </modal>
+        <modal class="modal" name="sendTransactions">
+            <sendTransaction ></sendTransaction>
+        </modal>
     </div>
 </template>
 
 <script>
     import InsuficentBalance from '../insuficentBalance'
+    import SendTransaction from '../TransferFundsComponents/SendTransaction';
     import {db} from '../../../../../lowdbFunc';
     import { clipboard } from 'electron';
+    import * as $ from 'jquery';
+    import QrcodeVue from 'qrcode.vue';
+    import Multiselect from 'vue-multiselect';
+    import {startConnectWeb} from '../../../../main/libs/config';
+    var web3 = startConnectWeb();
+    var instance;
     export default {
         name: 'ContractsDetails',
         components: {
             'insuficentBalance':InsuficentBalance,
+            'qrcode-vue': QrcodeVue,
+            'multiselect': Multiselect,
+            'sendTransaction': SendTransaction,
         },
         data() {
             return {
@@ -198,14 +264,45 @@
                 content: '',
                 comingSoonTip: false,
                 copyTip: false,
+                contractConstants: [],
+                contractFunctions: [],
+                answerOutput: '',
+                inputName: '',
+                contractabiFunc: '',
+                contractsendFrom: '',
+                optionTab: '',
+                optionFroms: [],
+                loading: '',
             };
         },
+        computed: {
+            accounts() {
+                this.accountsArray = this.$store.state.allAccounts;
+                return this.accountsArray;
+            },
+        },
         created(){
+            this.intervalid1 = setInterval(() => {
+                if (this.accounts.length > 0) {
+                    this.accounts.map((val) => {
+                        if(val.balance > 0){
+                            var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
+                            this.optionFroms.push(data);
+                            this.loading= false;
+                        }
+                    });
+                    clearInterval(this.intervalid1)
+                }
+            }, 100);
             // this.editor = ace.edit("editor");
             var contractId = this.$router.history.current.query.contractid;
             let contracts =  db.get('contracts').find({id: contractId}).value();
             this.contracts =  contracts;
             console.log(this.contracts);
+            instance = new web3.eth.Contract(this.contracts.contract_json, this.contracts.contract_address);
+
+            this.abidisplay();
+
         },
         methods: {
             mainMenu(){
@@ -218,8 +315,40 @@
                     });
                 }
             },
+            abidisplay () {
+                this.contracts.contract_json.map((cdata, key) => {
+                    if (cdata.type === 'function' ){
+                        if(cdata.constant){
+                            this.contractConstants.push(cdata);
+                        }else{
+                            // console.log(cdata.name);
+                            // var data = {value: cdata.name ,text: cdata.name.replace(/([a-z])([A-Z])/g, '$1 $2') };
+                            // var data = {value: cdata.name ,text: cdata.name.replace(/([a-z])([A-Z])/g, '$1 $2') };
+                            this.contractFunctions.push(cdata);
+                        }
+                    }
+                });
+
+            },
             show1 () {
                 this.$modal.show('insufficentBal');
+            },
+            show2 () {
+                this.$modal.show('sendTransactions');
+            },
+            getAddress (value,output){
+                var dataoinput = '';
+                if(value.inputs.length == 0) {
+                    instance.methods[value.name]().call().then((res) => {
+                        if(res){
+                            // console.log(res," res");
+                            dataoinput = res;
+                            $("."+(value.name)+" .value").html(res);
+                        }
+                    });
+                } else {
+                    return output.name;
+                }
             },
             handletooltip(tip){
                 if(tip === 'comingSoon'){
@@ -239,7 +368,251 @@
                         this.copyTip = false;
                     },2000);
                 }
+            },
+            handleInputName(inputname){
+
+            },
+            handleQuery(value) {
+                var address = [];
+                var parsedValue = JSON.parse(value);
+                // console.log("FDFDDDD", parsedValue)
+                var inputs = $("."+(parsedValue.name)+" input").val();
+                // console.log("inputt", inputs)
+                if(parsedValue.inputs.length  < 2) {
+                    var result;
+                    $("." + (parsedValue.name) + " input").each(function () {
+                        address.push($(this).val());
+                    });
+                    $("."+(parsedValue.name)+" .answer").html('');
+                    instance.methods[parsedValue.name](address[0]).call().then((res) => {
+                        if (res == true) {
+                            result = "True"
+                        }
+                        if (res == false) {
+                            result = "False"
+                        }
+                        if (web3.utils.isAddress(res)) {
+                            result = res;
+                        }
+                        else if (typeof res === 'object') {
+                            result = web3.utils.fromWei(res.toNumber(), "ether")
+                        }
+                        $("."+(parsedValue.name)+" .answer").html(result);
+                    })
+                }
+                if(parsedValue.inputs.length  > 1) {
+
+                    var result;
+                    $("."+(parsedValue.name)+" input").each(function(index) {
+                        address.push($(this).val());
+
+                    });
+
+                    $("."+(parsedValue.name)+" .answer").html('');
+                    instance.methods[parsedValue.name].apply(this,address).call().then((res) => {
+                        if (res == true) {
+                            result = "True"
+                        }
+                        if (res == false) {
+                            result = "False"
+                        }
+                        if (web3.utils.isAddress(res)) {
+                            result = res;
+                        }
+                        else if (typeof res === 'object') {
+                            result = web3.utils.fromWei(res.toNumber(), "ether")
+                        }
+                        $("."+(parsedValue.name)+" .answer").html(result);
+                    });
+                    $("."+(parsedValue.name)+" .answer").html(result);
+
+                }
+            },
+            handlExcute() {
+                let args = [];
+                var param;
+                let from = $('.contract_sendFrom').val();
+                console.log(this.contractabiFunc);
+                let contract_function = this.contractabiFunc.name;
+
+                var myForm = document.getElementById("execute_contract");
+                //Extract Each Element Value
+                for (var i = 1; i < myForm.elements.length -2; i++) {
+                    args.push(myForm.elements[i].value);
+                    param = myForm.elements[i].value;
+                }
+
+                var contractAddress = '0xeb2f13db89b352b324b8c687d799583e416a2a2f'; // contract Address
+                var to = contractAddress;
+                console.log("contract_function",contract_function);
+
+                var abiArray = db.get('contracts').find({contract_address: contractAddress}).value().contract_json;
+
+                var contract =  new web3.eth.Contract(abiArray,contractAddress);
+                console.log("contract",contract);
+                // GET RAW DATA
+                var raw_data;
+                if(args.length > 1){
+                    raw_data = contract.methods[contract_function].apply(null,args).encodeABI();
+                }else{
+                    raw_data = contract.methods[contract_function](args[0]).encodeABI();
+                }
+                console.log("raw DATA", raw_data);
+                var to_hash = contractAddress ;// Contract
+
+                $('.raw_data').html(raw_data);
+                $('.rawData').show();
+
+                web3.eth.getTransactionCount(from).then((res) => {
+                    var nonce = res;
+                    let fee = 200000;
+                    this.show2();
+                    // var gasPrice = web3.eth.gasPrice;
+                    // //gasPrice =  web3.fromWei(gasPrice, 'ether');
+                    // var sendtxndata = {
+                    //     from: from,
+                    //     to: to,
+                    //     amount: $("#final_transfer_form :input[name='amount']").val(),
+                    //     contract_function: contract_function,
+                    //     function_name: contract_function,
+                    //     is_contract: true,
+                    //     estimatedGas: 21000,
+                    //     fee: '',
+                    //     currency_hash: to,
+                    //     currency_hash: to,
+                    // }
+                    // $("#final_transfer_form :input[name='from']").val(from);
+                    // $("#final_transfer_form :input[name='to']").val(to);
+                    // $("#final_transfer_form :input[name='amount']").val('00000');
+                    // $("#final_transfer_form :input[name='contract_function']").val(contract_function);
+                    // $(".function_name").text(contract_function);
+                    // $("#final_transfer_form :input[name='is_contract']").val(1);
+                    // // $("#final_transfer_form :input[name='estimatedGas']").val(21000);
+                    // $("#final_transfer_form :input[name='fee']").val('');
+                    // $("#final_transfer_form :input[name='currency_hash']").val(to);
+                    // // $("#contract_transactions_btn").removeClass('transferFunds_submit').addClass('writeContract');
+                    // $("#final_transfer_form").removeClass('transferFunds_submit').addClass('writeContract');
+                    //
+                    // $('.send_trx_from').text(from);
+                    // $('.send_trx_to').text(to);
+                    // var gasPrice = web3.eth.gasPrice;
+                    // //gasPrice =  web3.fromWei(gasPrice, 'ether');
+                    //
+                    // $('.gas_price').text(gasPrice);
+                    // $('.amount_transfer').text('');
+                    //
+                    // $('.send_trx_gassPrice').text(gasPrice);
+                    // $("#send-transaction-modal").addClass("md-show");
+                    // $('.md-overlay').addClass('md-show');
+                    // // ----------------
+                    // var gasLimit = 2000000;
+                    // console.log("contractAddress",contractAddress,"currenyhash",currency_hash);
+
+                });
             }
         }
     }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style>
+
+    .qrCodevue {
+        padding: 10px!important;
+        width: 101px!important;
+        height: 101px!important;
+        background: white!important;
+    }
+
+    .contract_functions_c .multiselect__tags,
+    .contract_sndform .multiselect__tags {
+        width: 100%!important;
+        background: none!important;
+        border: none!important;
+    }
+
+    .contract_functions_c .multiselect__content-wrapper,
+    .contract_sndform .multiselect__content-wrapper {
+        z-index: 11111;
+        /*display: block!important;*/
+        border-radius: 0px!important;
+    }
+
+    .contract_functions_c ,
+    .contract_sndform {
+        border-radius: 0px!important;
+    }
+
+    .contract_functions_c .multiselect__input,
+    .contract_sndform .multiselect__input{
+        display: none!important;
+    }
+
+    .contract_functions_c .multiselect__input, .contract_functions_c  .multiselect__single,
+    .contract_sndform .multiselect__input, .contract_sndform  .multiselect__single {
+        padding: 0px 0 0 20px!important;
+        line-height: 39px!important;
+    }
+
+    .contract_functions_c .multiselect__option--selected .multiselect__option--highlight,
+    .contract_sndform .multiselect__option--selected .multiselect__option--highlight {
+        background: #ffffff;
+    }
+
+    .contract_functions_c .multiselect__option--highlight,
+    .contract_sndform .multiselect__option--highlight{
+        background: #265b6c!important;
+    }
+
+    .contract_functions_c .multiselect__element:nth-child(odd),
+    .contract_sndform .multiselect__element:nth-child(odd) {
+         background: #265b6c;
+     }
+
+    .contract_functions_c .multiselect__element:nth-child(even),
+    .contract_sndform .multiselect__element:nth-child(even) {
+         background: #1e4855;
+     }
+
+    .contract_functions_c  .multiselect__single,
+    .contract_sndform  .multiselect__single{
+        background: none!important;
+        color: #ffffff;
+        height: 33px;
+    }
+    .contract_functions_c  .multiselect__single .option__title,
+    .contract_sndform  .multiselect__single .option__title{
+        vertical-align: top!important;
+        line-height: 39px!important;
+    }
+
+    .contract_functions_c  .multiselect__option,
+    .contract_sndform  .multiselect__option {
+        padding: 18px 0px 5px 28px!important;
+        min-height: 46px!important;
+        /*display: -webkit-inline-box!important;*/
+    }
+
+    .contract_functions_c .multiselect__content-wrapper,
+    .contract_sndform .multiselect__content-wrapper {
+        background: #265b6c!important;
+        margin-top: 3px;
+    }
+
+    .contract_functions_c .multiselect__content,
+    .contract_sndform .multiselect__content {
+        padding: 0px 0 0px 0px!important;
+    }
+
+    .contract_functions_c .multiselect__element .multiselect__option--highlight,
+    .contract_sndform .multiselect__option--selected {
+        background: none!important;
+    }
+
+    .contract_functions_c .multiselect__option .option__title,
+    .contract_sndform .multiselect__option .option__title {
+        vertical-align: top!important;
+        line-height: 39px!important;
+    }
+</style>

@@ -23,7 +23,7 @@ import MainApp from '../views/MainApp'
 import AccountApp from '../views/AccountApp'
 import gexpLogs from '../components/gexpLogs/gexpLogs'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     routes: [
