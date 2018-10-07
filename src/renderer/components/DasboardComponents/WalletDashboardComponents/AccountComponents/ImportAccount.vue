@@ -9,7 +9,7 @@
                 <button class="button--moema" @click="fileupload('import-account-file')">Import
                     <br/>Json File</button>
             </div>
-            <div class="row">
+            <div class="row imppdrop">
                 <div class="drop-down impoortAccounts_dropdown">
                     <div class="error-label">
                     </div>
@@ -34,7 +34,7 @@
 
                     <div class="row">
                         <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
-                        <span class="input input--nao">
+                        <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                             <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                                    type="text" id="input-1" />
                             <label class="input__label input__label--nao" for="input-1">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="row">
                         <p v-if="private_keyError" class="error-message imp-privatekey-error">Enter Valid Private Key</p>
-                        <span class="input input--nao">
+                        <span :class="private_key? 'input input--nao input--filled': 'input input--nao'">
                             <input name="private-key" class="private-key input__field input__field--nao textarea" v-model="private_key" @focus="handleFocus" ></input>
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Import Private key
@@ -67,7 +67,7 @@
                     </div>
                     <div class="row">
                         <p v-if="private_key_passwordError" class="error-message private-key-password-error">Password Length must be at least 8</p>
-                        <span class="input input--nao">
+                        <span :class="private_key_password? 'input input--nao input--filled': 'input input--nao'">
                             <input class="passwor input__field input__field--nao private-key-password" v-model="private_key_password" @focus="handleFocus"
                                    name="private-key-password" :type="passType" />
                             <label class="input__label input__label--nao">
@@ -84,7 +84,7 @@
 
                     <div class="row">
                         <p v-if="private_key_repasswordError" class="error-message private-key-repassword-error">Password Do not Match</p>
-                        <span class="input input--nao">
+                        <span :class="private_key_repassword? 'input input--nao input--filled': 'input input--nao'">
                             <input class="passwor input__field input__field--nao private-key-repassword" v-model="private_key_repassword" @focus="handleFocus"
                                    name="private-key-repassword" :type="passType"
                             />
@@ -128,7 +128,7 @@
                         all of its incoming and outgoing transactions into your live transaction feed
                     </div>
                     <div class="row">
-                        <span class="input input--nao">
+                        <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                             <p v-if="accountNameError" class="error-message imp-accountName-error">Name already Exists</p>
                             <input type="text" class="import-address-name input__field input__field--nao" v-model="accountName" @focus="handleFocus" />
                             <label class="input__label input__label--nao">
@@ -143,7 +143,7 @@
                         </span>
                     </div>
                     <div class="row">
-                        <span class="input input--nao">
+                        <span :class="import_address? 'input input--nao input--filled': 'input input--nao'">
                             <p v-if="import_addressError" class="error-message imp-import-watch-address-error">{{import_addressError}}</p>
                             <input class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus"></input>
                             <label class="input__label input__label--nao">
@@ -497,7 +497,8 @@
     }
 
     .impoortAccounts_dropdown  .multiselect__option {
-        padding: 5px 0px 0px 27px!important;
+        padding: 9px 0px 5px 27px!important;
+        /*display: -webkit-inline-box!important;*/
     }
 
     .setImgImport {
@@ -520,5 +521,9 @@
     .impoortAccounts_dropdown .multiselect__option .option__title {
         vertical-align: top!important;
         line-height: 39px!important;
+    }
+
+    .imppdrop {
+        z-index: 999;
     }
 </style>

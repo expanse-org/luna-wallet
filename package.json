@@ -20,8 +20,8 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "lunawalletvuetest",
-    "appId": "com.example.yourapp",
+    "productName": "lunawallet",
+    "appId": "info@bcdapps.io",
     "directories": {
       "output": "build"
     },

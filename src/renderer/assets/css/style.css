@@ -5781,7 +5781,8 @@ perspective effects (not including the modals and the overlay).
             font-size: 18px; }
         .accountDetails .content .latestTransaction .transactionContent {
           font-family: sans-serif;
-          height: 280px;
+          max-height: 280px;
+          height: auto;
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
@@ -5911,7 +5912,8 @@ perspective effects (not including the modals and the overlay).
     .accountDetails .content .latestTransaction * {
       color: #ffffff; }
     .accountDetails .content .latestTransaction .transactionContent {
-      height: 280px;
+      max-height: 280px;
+      height: auto;
       overflow-y: scroll;
       /* Handle */ }
       .accountDetails .content .latestTransaction .transactionContent::-webkit-scrollbar {
@@ -6616,7 +6618,8 @@ FONTS
             font-size: 18px; }
         .accountDetails .content .latestTransaction .transactionContent {
           font-family: sans-serif;
-          height: 280px;
+          max-height: 280px;
+          height: auto;
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
@@ -7526,7 +7529,8 @@ FONTS
             font-size: 18px; }
         .accountDetails .content .latestTransaction .transactionContent {
           font-family: sans-serif;
-          height: 280px;
+          max-height: 280px;
+          height: auto;
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
@@ -7656,7 +7660,8 @@ FONTS
     .accountDetails .content .latestTransaction * {
       color: #ffffff; }
     .accountDetails .content .latestTransaction .transactionContent {
-      height: 280px;
+      max-height: 280px;
+      height: auto;
       overflow-y: scroll;
       /* Handle */ }
       .accountDetails .content .latestTransaction .transactionContent::-webkit-scrollbar {
@@ -8271,7 +8276,8 @@ FONTS
             font-size: 18px; }
         .accountDetails .content .latestTransaction .transactionContent {
           font-family: sans-serif;
-          height: 280px;
+          max-height: 280px;
+          height: auto;
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
@@ -8401,7 +8407,8 @@ FONTS
     .accountDetails .content .latestTransaction * {
       color: #ffffff; }
     .accountDetails .content .latestTransaction .transactionContent {
-      height: 280px;
+      max-height: 280px;
+      height: auto;
       overflow-y: scroll;
       /* Handle */ }
       .accountDetails .content .latestTransaction .transactionContent::-webkit-scrollbar {
@@ -9331,7 +9338,8 @@ FONTS
             font-size: 18px; }
         .accountDetails .content .latestTransaction .transactionContent {
           font-family: sans-serif;
-          height: 280px;
+          max-height: 280px;
+          height: auto;
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
@@ -9461,7 +9469,8 @@ FONTS
     .accountDetails .content .latestTransaction * {
       color: #ffffff; }
     .accountDetails .content .latestTransaction .transactionContent {
-      height: 280px;
+      max-height: 280px;
+      height: auto;
       overflow-y: scroll;
       /* Handle */ }
       .accountDetails .content .latestTransaction .transactionContent::-webkit-scrollbar {
@@ -10549,7 +10558,8 @@ FONTS
               width: 12px;
               height: 12px; }
       .accountDetails .content .latestTransaction .transactionContent {
-        height: 280px;
+        max-height: 280px;
+        height: auto;
         overflow-y: scroll;
         /* Handle */ }
         .accountDetails .content .latestTransaction .transactionContent h3 {

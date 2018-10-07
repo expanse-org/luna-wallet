@@ -49,7 +49,8 @@
                             c-1-0.6-1.4-1.9-0.8-2.9s1.9-1.4,2.9-0.8l0,0l3,1.7C9.3,16.4,9.6,17.7,9.1,18.7z"/>
                             </svg>
                         <label>{{ account.accountTitle }} </label>
-                        <span>({{ account.balance }}   EXP)</span>
+                        <span>({{defaultCurrencyData === '$'? '$':""}} {{ (parseFloat(accPriceData) * account.balance).toFixed(5)}} {{defaultCurrencyData !== '$'? defaultCurrencyData:""}})</span>
+                        <!--<span>({{ account.balance }}   EXP)</span>-->
                     </div>
                     <div>
                         <p class="tooltip accoundID wd180">{{ account.hash }}
@@ -120,7 +121,7 @@
                             c-1-0.6-1.4-1.9-0.8-2.9s1.9-1.4,2.9-0.8l0,0l3,1.7C9.3,16.4,9.6,17.7,9.1,18.7z"/>
                             </svg>
                         <label>{{ account.accountTitle }} </label>
-                        <span>({{ account.balance }}   EXP)</span>
+                        <span>({{defaultCurrencyData === '$'? '$':""}} {{ (parseFloat(accPriceData) * account.balance).toFixed(6)}} {{defaultCurrencyData !== '$'? defaultCurrencyData:""}})</span>
                     </div>
                     <div>
                         <p class="tooltip accoundID wd180">{{ account.hash }}
@@ -184,7 +185,7 @@
                         <img src="../../../assets/img/inner.png">
                     </div>
                 </div>
-                <div v-if="istransactions" v-for="(transaction, index) in transactions">
+                <div @click="handletxdetail(transaction)" v-if="istransactions" v-for="(transaction, index) in transactions">
                     <div v-if="transaction.Type != 'mined_transaction'"  class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
                         <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
                         <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status"><strong>{{transaction.transactionStatus}}</strong></label>
@@ -211,6 +212,9 @@
                 </div>
             </div>
         </div>
+        <modal class="modal" name="txndetals">
+            <transactiondetail :txndetaildata="txndetaildata"></transactiondetail>
+        </modal>
     </div>
 </template>
 
@@ -219,6 +223,7 @@
     import axios from 'axios';
     import object_hash from 'object-hash';
     import {startConnectWeb} from '../../../../main/libs/config';
+    import Transactiondetail from './Transactiondetail';
 
     var web3 = startConnectWeb();
     export default {
@@ -237,7 +242,13 @@
                 web3,
                 notransactions: false,
                 accountWatch: false,
+                txndetaildata: '',
+                defaultSign: '',
+                accbprice: '',
             };
+        },
+        components : {
+            'transactiondetail': Transactiondetail,
         },
         computed: {
             accounts() {
@@ -251,6 +262,18 @@
             WatchAccounts() {
                 this.watchaccounts = this.$store.state.watchAccounts ;
                 return this.watchaccounts;
+            },
+            defaultCurrencyData() {
+                this.defaultSign = this.$store.state.ac_dcurrency ;
+                console.log(this.defaultSign, "this.defaultSign -----------------------------")
+                return this.defaultSign;
+            },
+            accPriceData() {
+                var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
+                console.log(curr, "cur-----")
+                this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
+
+                return this.accbprice;
             },
         },
         created(){
@@ -273,6 +296,12 @@
             }, 3000);
         },
         methods: {
+            show () {
+                this.$modal.show('txndetals');
+            },
+            hide () {
+                this.$modal.hide('txndetals');
+            },
             mainMenu(e, account_hash){
                 this.$router.push({
                     path: '/accountdetails',
@@ -320,6 +349,10 @@
                     console.log(error);
                     // Raven.captureException(error);
                 });
+            },
+            handletxdetail(txn){
+                this.txndetaildata = txn.hash;
+                this.show();
             }
         }
     }

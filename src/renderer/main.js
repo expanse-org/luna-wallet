@@ -18,7 +18,7 @@ Vue.config.productionTip = false;
 Vue.use(VModal);
 Vue.use(VueMoment,{moment});
 Vue.use(VueNumerals, {
-    locale: 'fr'
+    locale: 'en'
 });
 
 /* eslint-disable no-new */

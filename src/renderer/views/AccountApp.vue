@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: 'lunawalletvuetest',
+        name: 'AccountApp',
         created(){
         },
         data() {

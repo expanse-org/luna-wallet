@@ -111,7 +111,7 @@
                                 <input type="hidden" name="contract_function" />
 
                                 <div class="row">
-                                        <span class="input input--nao">
+                                        <span :class="password? 'input input--nao input--filled': 'input input--nao'">
                                             <p v-if="passwordError" class="error-message sendFundPassword-error ">{{passwordError}}</p>
                                             <input class="account_password input__field input__field--nao" v-model="password" @focus="handleFocus" name="account_password" type="password" />
                                             <label class="input__label input__label--nao" >

@@ -6,7 +6,7 @@
     import { ExpApi} from '../../main/libs/config';
 
     export default {
-        name: 'lunawalletvuetest',
+        name: 'MainApp',
         created(){
             ExpApi();
         },

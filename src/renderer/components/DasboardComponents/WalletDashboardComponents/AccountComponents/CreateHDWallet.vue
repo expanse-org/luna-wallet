@@ -7,7 +7,7 @@
             </div>
             <div class="row">
                 <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
-                <span class="input input--nao">
+                <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                     <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                            type="text" id="input-1" />
                     <label class="input__label input__label--nao" for="input-1">
@@ -25,7 +25,7 @@
                 <p v-if="ValidMnemonic" class="error-message invalidmnemonic-req-error">Valid Mnemonic Phrase is Required</p>
                 <p v-if="invalidMnemonic"class="error-message invalidmnemonic-error">Invalid mnemonic</p>
                 <input type="hidden" class="invalidmnemonic-val-error" />
-                <span class="input input--nao" id="mnemonics">
+                <span :class="hdphrase? 'input input--nao input--filled': 'input input--nao'" id="mnemonics">
                     <textarea class="phrase input__field input__field--nao textarea" v-on:change="handlephrase" id="phrase"></textarea>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Enter mnemonic phrase of 12 digits
@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <input id="bip44-path" v-model="derivation_path" placeholder="Derivation Path" type="hidden" disabled>
-                <span class="input input--nao">
+                <span :class="hdderivationpath? 'input input--nao input--filled': 'input input--nao'">
                     <input class="input__field input__field--nao derivation_path"
                             type="text" disabled>
                     <label class="input__label input__label--nao" >
@@ -57,7 +57,7 @@
                 <input type="hidden" class="derived_address_index" />
             </div>
             <div class="row">
-                <span class="input input--nao" id="address">
+                <span :class="hdaddress? 'input input--nao input--filled': 'input input--nao'" id="address">
                     <input type="text" class="derived_address input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Address
@@ -69,7 +69,7 @@
                 </span>
             </div>
             <div class="row">
-                <span class="input input--nao" id="privateKey">
+                <span :class="hdprivateKey? 'input input--nao input--filled': 'input input--nao'" id="privateKey">
                     <input type="text" class="derived_private_key input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Private Key
@@ -81,7 +81,7 @@
                 </span>
             </div>
             <div class="row">
-                <span class="input input--nao" id="publicKey">
+                <span :class="hdpublicKey? 'input input--nao input--filled': 'input input--nao'" id="publicKey">
                     <input type="text" class="derived_public_key input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                            <span class="input__label-content input__label-content--nao">Public Key
@@ -94,7 +94,7 @@
             </div>
             <div class="row">
                 <p v-if="hd_wallet_passwordError" class="error-message hd_wallet_password-error">Password Length must be at least 8 </p>
-                <span class="input input--nao">
+                <span :class="hd_wallet_password? 'input input--nao input--filled': 'input input--nao'">
                     <input class="passwor input__field input__field--nao hd_wallet_password" name="hd_wallet_password" v-model="hd_wallet_password" @focus="handleFocus"
                            :type="passType" />
                     <label class="input__label input__label--nao" >
@@ -111,7 +111,7 @@
 
             <div class="row">
                 <p v-if="hd_wallet_repasswordError" class="error-message hd_wallet_repassword-error">Password do not Match</p>
-                <span class="input input--nao">
+                <span :class="hd_wallet_repassword? 'input input--nao input--filled': 'input input--nao'">
                     <input class="passwor input__field input__field--nao hd_wallet_repassword" name="hd_wallet_repassword" v-model="hd_wallet_repassword" @focus="handleFocus"
                            :type="passType"  />
                     <label class="input__label input__label--nao" >
@@ -298,4 +298,5 @@
 </script>
 
 <style>
+
 </style>
