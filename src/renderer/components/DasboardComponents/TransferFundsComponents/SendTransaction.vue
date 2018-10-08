@@ -33,7 +33,7 @@
                                     <path fill-rule="evenodd" d="M12.823,4.065 L8.954,0.169 C8.718,-0.069 8.336,-0.069 8.099,0.169 C7.863,0.407 7.863,0.792 8.099,1.030 L10.936,3.887 L0.604,3.887 C0.271,3.887 -0.000,4.159 -0.000,4.495 C-0.000,4.831 0.271,5.104 0.604,5.104 L10.936,5.104 L8.100,7.961 C7.863,8.199 7.863,8.584 8.100,8.822 C8.218,8.941 8.372,9.000 8.527,9.000 C8.682,9.000 8.836,8.941 8.954,8.822 L12.823,4.926 C13.059,4.688 13.059,4.303 12.823,4.065 Z"
                                     />
                                 </svg>
-                                <p class="function_name"></p>
+                                <p v-if="modalArray.is_contract" class="function_name">{{modalArray.contract_function}}</p>
                             </div>
                             <div class="sender">
                                 <div class="svg">
@@ -75,11 +75,13 @@
                                     </div>
                                     <div class="row">
                                         <p>Gas price</p>
-                                        <p contenteditable="true" class=" p-right gas_price">{{gasPrice}}</p>
+                                        <p v-if="!modalArray.is_contract" contenteditable="true" class=" p-right gas_price">{{gasPrice}}</p>
+                                        <p v-if="modalArray.is_contract" contenteditable="true" class=" p-right gas_price">{{modalArray.gasPrice}}</p>
                                     </div>
                                     <div class="row">
                                         <p>Amount</p>
-                                        <p contenteditable="true" class="p-right amount_transfer">{{modalArray.total_coins}}</p>
+                                        <p v-if="!modalArray.is_contract" contenteditable="true" class="p-right amount_transfer">{{modalArray.total_coins}}</p>
+                                        <p v-if="modalArray.is_contract" contenteditable="true" class="p-right amount_transfer">{{modalArray.amount}}</p>
                                     </div>
                                 </div>
 
@@ -204,7 +206,11 @@
             web3.eth.getTransactionCount(this.modalArray && this.modalArray.fundsFrom).then((count)=>{
                 this.nonce = count;
             });
+            console.log(this.modalArray , "this.modalArray.currencyHash");
 
+            if(this.modalArray && this.modalArray.is_contract) {
+                this.nonce = this.modalArray.nonce;
+            }
             var abiArray = tokenInterface; // From Config file
             var contractAddress = this.modalArray.currencyHash;
 
@@ -227,7 +233,7 @@
             }
 
             console.log(this.modalArray, this.modalArray.currencyHash, "this.modalArray.currencyHash");
-            if(this.modalArray && this.modalArray.currencyHash){
+            if(this.modalArray && this.modalArray.currencyHash && !this.modalArray.is_contract){
                 if(this.modalArray.currentArray.length === 1)
                 {
                     this.modalArray.currentArray[0].token_icons.map((data) => {
@@ -258,10 +264,16 @@
                     this.sendToken= true;
                 }
             }
+            if(this.modalArray && this.modalArray.is_contract) {
+                this.gasPrice = this.modalArray.gasPrice;
+                this.raw_dataToken = this.modalArray.raw_data;
+                this.rawdata = true;
+            }
         },
         methods: {
             hide () {
                 this.$modal.hide('sendtransactionmodal');
+                this.$modal.hide('sendTransactions');
             },
             handleFocus(){
                 this.passwordError = '';
@@ -301,6 +313,7 @@
                                     $('.trx_alert-sucess').show(300).delay(5000).hide(330);
                                 });
                             }catch(e){
+                                this.passwordError = "Invalid Password";
                                 Raven.captureException(e);
                             }
                         } else {
@@ -313,6 +326,11 @@
 
                                 this.raw_dataToken =  contract.methods.transfer(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")).encodeABI();
 
+                                if(this.modalArray && this.modalArray.is_contract) {
+                                    this.gasPrice = this.modalArray.gasPrice;
+                                    this.raw_dataToken = this.modalArray.raw_data;
+                                    this.rawdata = true;
+                                }
                                 console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
                                 console.log("this.gasPrice",this.gasPrice,"this.gasLimit",this.gasLimit);
                                 var rawTransaction = {
@@ -357,7 +375,7 @@
                                 web3.eth.sendSignedTransaction(serializedTx).then((res) => {
                                     if(res){
                                         console.log("res",res);
-                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res);
+                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res));
                                         db.get('transactions').push({
                                             id : shortid.generate(),
                                             from: this.modalArray.fundsFrom,
@@ -374,6 +392,7 @@
                                 });
                             }catch(e){
                                 console.log(e);
+                                this.passwordError = "Invalid Password";
                                 Raven.captureException(e);
                             }
                         }

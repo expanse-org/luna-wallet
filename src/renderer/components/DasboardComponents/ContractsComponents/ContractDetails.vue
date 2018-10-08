@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="query">
-                                <button type="submit" v-on:click="handlExcute" class="execute_contract">Execute</button>
+                                <button type="button" @click="handlExcute" class="execute_contract">Execute</button>
                             </div>
                         </form>
                         <div class="query">
@@ -206,7 +206,7 @@
 
                 <div class="latestTransaction">
                     <div class="header">
-                        <h1>Latest Transactions</h1>
+                        <h1>Latest Events</h1>
                         <div class="search">
                             <input type="text" name="fname" placeholder="Filter Transaction" id="filterDetailsTransaction">
                             <button class="search">
@@ -233,7 +233,7 @@
             <insuficentBalance ></insuficentBalance>
         </modal>
         <modal class="modal" name="sendTransactions">
-            <sendTransaction ></sendTransaction>
+            <sendTransaction :modalArray="modalArray"></sendTransaction>
         </modal>
     </div>
 </template>
@@ -273,6 +273,7 @@
                 optionTab: '',
                 optionFroms: [],
                 loading: '',
+                modalArray: '',
             };
         },
         computed: {
@@ -300,6 +301,22 @@
             this.contracts =  contracts;
             console.log(this.contracts);
             instance = new web3.eth.Contract(this.contracts.contract_json, this.contracts.contract_address);
+
+            var contractAddress = this.contracts.contract_address; // contract Address
+            var abiArray = db.get('contracts').find({contract_address: contractAddress}).value().contract_json;
+
+            var contract =  new web3.eth.Contract(abiArray,contractAddress);
+            console.log("contract",contract);
+            console.log("contract.events",contract.events);
+            console.log("contract.events",contract.events.allEvents());
+            var subscription = web3.eth.subscribe('logs', {
+                address: contractAddress,
+            }, function(error, result){
+                if (!error)
+                    console.log(result,"resultsss");
+                else
+                    console.log(error,"error");
+            });
 
             this.abidisplay();
 
@@ -428,10 +445,11 @@
 
                 }
             },
-            handlExcute() {
+            handlExcute(e) {
+                e.preventDefault();
                 let args = [];
                 var param;
-                let from = $('.contract_sendFrom').val();
+                let from = this.contractsendFrom.value;
                 console.log(this.contractabiFunc);
                 let contract_function = this.contractabiFunc.name;
 
@@ -442,7 +460,7 @@
                     param = myForm.elements[i].value;
                 }
 
-                var contractAddress = '0xeb2f13db89b352b324b8c687d799583e416a2a2f'; // contract Address
+                var contractAddress = this.contracts.contract_address; // contract Address
                 var to = contractAddress;
                 console.log("contract_function",contract_function);
 
@@ -458,55 +476,27 @@
                     raw_data = contract.methods[contract_function](args[0]).encodeABI();
                 }
                 console.log("raw DATA", raw_data);
-                var to_hash = contractAddress ;// Contract
-
-                $('.raw_data').html(raw_data);
-                $('.rawData').show();
 
                 web3.eth.getTransactionCount(from).then((res) => {
+                    console.log("res res", res);
                     var nonce = res;
                     let fee = 200000;
-                    this.show2();
-                    // var gasPrice = web3.eth.gasPrice;
-                    // //gasPrice =  web3.fromWei(gasPrice, 'ether');
-                    // var sendtxndata = {
-                    //     from: from,
-                    //     to: to,
-                    //     amount: $("#final_transfer_form :input[name='amount']").val(),
-                    //     contract_function: contract_function,
-                    //     function_name: contract_function,
-                    //     is_contract: true,
-                    //     estimatedGas: 21000,
-                    //     fee: '',
-                    //     currency_hash: to,
-                    //     currency_hash: to,
-                    // }
-                    // $("#final_transfer_form :input[name='from']").val(from);
-                    // $("#final_transfer_form :input[name='to']").val(to);
-                    // $("#final_transfer_form :input[name='amount']").val('00000');
-                    // $("#final_transfer_form :input[name='contract_function']").val(contract_function);
-                    // $(".function_name").text(contract_function);
-                    // $("#final_transfer_form :input[name='is_contract']").val(1);
-                    // // $("#final_transfer_form :input[name='estimatedGas']").val(21000);
-                    // $("#final_transfer_form :input[name='fee']").val('');
-                    // $("#final_transfer_form :input[name='currency_hash']").val(to);
-                    // // $("#contract_transactions_btn").removeClass('transferFunds_submit').addClass('writeContract');
-                    // $("#final_transfer_form").removeClass('transferFunds_submit').addClass('writeContract');
-                    //
-                    // $('.send_trx_from').text(from);
-                    // $('.send_trx_to').text(to);
-                    // var gasPrice = web3.eth.gasPrice;
-                    // //gasPrice =  web3.fromWei(gasPrice, 'ether');
-                    //
-                    // $('.gas_price').text(gasPrice);
-                    // $('.amount_transfer').text('');
-                    //
-                    // $('.send_trx_gassPrice').text(gasPrice);
-                    // $("#send-transaction-modal").addClass("md-show");
-                    // $('.md-overlay').addClass('md-show');
-                    // // ----------------
-                    // var gasLimit = 2000000;
-                    // console.log("contractAddress",contractAddress,"currenyhash",currency_hash);
+                    web3.eth.getGasPrice().then((price)=>{
+                        this.modalArray = {
+                            currentArray: this.currentArray,
+                            fundsFrom: from,
+                            fundsTo: to,
+                            amount: '00000',
+                            currencyHash: to,
+                            raw_data: raw_data,
+                            contract_function: contract_function,
+                            is_contract: true,
+                            estimatedGas: 21000,
+                            gasPrice: price,
+                            nonce: nonce,
+                        };
+                        this.show2();
+                    });
 
                 });
             }

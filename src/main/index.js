@@ -95,7 +95,9 @@ const runGexp = (path) => {
 
         shelljs.cd(path);
         try {
-            var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
+            var keyArgs = ['--rpc','--ws','wsaddr=0.0.0.0', '--wsorigins *', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
+
+            // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
             console.log("Starting Gexp Process");
             gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                 shell: true

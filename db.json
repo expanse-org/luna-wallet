@@ -805,7 +805,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0x18160ddd"
         },
         {
           "constant": true,
@@ -819,7 +820,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0xebf0c717"
         },
         {
           "inputs": [],
@@ -857,7 +859,8 @@
             }
           ],
           "name": "BalanceAdj",
-          "type": "event"
+          "type": "event",
+          "signature": "0x99affe65171b929cf897471b0e82d82c6cc3406b53fdbc068ea3b174e7713176"
         },
         {
           "anonymous": false,
@@ -874,7 +877,8 @@
             }
           ],
           "name": "ModuleSet",
-          "type": "event"
+          "type": "event",
+          "signature": "0x96bf850214e832f3d463d74cdf933b2aa73175e078496bd11f5e8afaeb2bbb9c"
         },
         {
           "constant": false,
@@ -897,7 +901,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x66e7ea0f"
         },
         {
           "constant": false,
@@ -920,7 +925,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0xaba00859"
         },
         {
           "constant": true,
@@ -939,7 +945,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0xf8b2cb4f"
         },
         {
           "constant": true,
@@ -953,7 +960,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0xc4e41b22"
         },
         {
           "constant": false,
@@ -972,7 +980,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0xecfc5964"
         },
         {
           "constant": false,
@@ -991,7 +1000,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x35e09095"
         },
         {
           "constant": true,
@@ -1014,7 +1024,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0x0af4187d"
         },
         {
           "constant": false,
@@ -1041,7 +1052,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x91ef14b4"
         },
         {
           "constant": false,
@@ -1068,7 +1080,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0xfcfdf7c5"
         },
         {
           "constant": true,
@@ -1087,7 +1100,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0xb5de8d4c"
         },
         {
           "constant": false,
@@ -1110,7 +1124,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0xb1662d58"
         }
       ]
     }
@@ -1298,6 +1313,46 @@
       },
       "nonce": 77,
       "timeStamp": 1538460292522
+    },
+    {
+      "id": "e_DhPhmFi",
+      "from": "0x556e689afe677deb7f33324e41ce2662d12f6158",
+      "transactionHash": {
+        "blockHash": "0xca93b433afdc6fa383d656cc663569b7c0884fe42cb6e0f1133eae3ffa9e4e85",
+        "blockNumber": 1448670,
+        "contractAddress": null,
+        "cumulativeGasUsed": 27958,
+        "from": "0x556e689afe677deb7f33324e41ce2662d12f6158",
+        "gasUsed": 27958,
+        "logs": [],
+        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "status": true,
+        "to": "0xeb2f13db89b352b324b8c687d799583e416a2a2f",
+        "transactionHash": "0xfe49a3ab1cfc26f6921acbbab85a874c0c84c594073a5dbd988dea1850ee1e1d",
+        "transactionIndex": 0
+      },
+      "nonce": 79,
+      "timeStamp": 1538977320181
+    },
+    {
+      "id": "O4KudEQNq",
+      "from": "0x556e689afe677deb7f33324e41ce2662d12f6158",
+      "transactionHash": {
+        "blockHash": "0x46a64b05c5f2ef9dffebc5317eba7a54f7c4685992e13e9f35cafc88e9ce3749",
+        "blockNumber": 1448697,
+        "contractAddress": null,
+        "cumulativeGasUsed": 48830,
+        "from": "0x556e689afe677deb7f33324e41ce2662d12f6158",
+        "gasUsed": 27830,
+        "logs": [],
+        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "status": true,
+        "to": "0xeb2f13db89b352b324b8c687d799583e416a2a2f",
+        "transactionHash": "0x5f72a03a2a89d4a8562b522fc98f56d439d85ee67198aca7a17d9746d954b958",
+        "transactionIndex": 1
+      },
+      "nonce": 80,
+      "timeStamp": 1538978167087
     }
   ]
 }

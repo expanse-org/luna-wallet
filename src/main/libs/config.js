@@ -19,7 +19,10 @@ const updateScreen = (screen) => {
 };
 
 const startConnectWeb = () => {
-    web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9656"));
+    // web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9656"));
+    web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:9657'));
+
+    // web3 = web3.setProvider(new Web3.providers.WebsocketProvider('ws://localhost:9656'));
     return web3;
 };
 
