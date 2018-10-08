@@ -19,8 +19,17 @@ const updateScreen = (screen) => {
 };
 
 const startConnectWeb = () => {
+    // if (typeof web3 !== 'undefined') {
+    //     web3 = new Web3(web3.currentProvider);
+    // } else {
+        // web3 = new Web3(('wss://gexp.gander.tech'));
+        web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:9657'));
+
+
+        // web3 = new Web3(('ws://localhost:9657'));
+    // }
     // web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9656"));
-    web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:9657'));
+    // web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:9657'));
 
     // web3 = web3.setProvider(new Web3.providers.WebsocketProvider('ws://localhost:9656'));
     return web3;

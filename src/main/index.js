@@ -88,7 +88,8 @@ const runGexp = (path) => {
 
         shelljs.cd(path);
         try {
-            var keyArgs = ['--rpc','--ws','wsaddr=0.0.0.0', '--wsorigins *', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
+            var keyArgs = ['--ws' ,'--wsaddr=0.0.0.0','--wsorigins=*','--wsapi=eth,web3,personal,admin,miner,db,net,utils'];
+            // var keyArgs = ['--ws', '--wsaddr=127.0.0.1', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
 
             // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
             console.log("Starting Gexp Process");

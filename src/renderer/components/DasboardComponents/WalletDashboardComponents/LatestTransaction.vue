@@ -4,7 +4,7 @@
             <label>ACCOUNTS</label>
         </div>
         <div class="bottom accounts-list">
-            <div v-if="accountdetailTab" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash)">
+            <div v-if="accountdetailTab && (account && account.accountTitle)" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash)">
                 <div v-if="account.isHd" class="wallet-icon"></div>
                 <div class="img">
                     <div v-if="account.tokens && (account.token_icons.length > 0 && account.token_icons.length < 3)" v-for="(ac_tokens, key ) in account.token_icons" class="icons">
@@ -280,6 +280,7 @@
             this.intervalid1 = setInterval(() => {
                 if(this.accounts.length > 0 ){
                     this.accountdetailTab = true;
+                    this.accountWatch = true;
                     this.istransactions = true;
                     var postData = {
                         skip: 0,

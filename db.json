@@ -71,13 +71,6 @@
       "isHd": false
     },
     {
-      "accountTitle": "Account 7",
-      "hash": "0x556e689afe677deb7f33324e41ce2662d12f6158",
-      "color": "#525EDF",
-      "archive": false,
-      "isHd": false
-    },
-    {
       "accountTitle": "Account 8",
       "hash": "0x8adf80d36d788ab9106d2934dcaeadda7854cdf2",
       "color": "#498D47",
@@ -151,6 +144,13 @@
       "accountTitle": "Account 18",
       "hash": "0x051f97cfaee83a09475a469f2c2b6dd4b4e9cf37",
       "color": "#9B2C2E",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 7",
+      "hash": "0x556e689afe677deb7f33324e41ce2662d12f6158",
+      "color": "#7D2383",
       "archive": false,
       "isHd": false
     }

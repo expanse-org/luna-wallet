@@ -9,7 +9,7 @@
 
                 <div class="accounts-list">
                     <div v-if="accountList" class="a1">
-                       <div class="unarchive-icon un_archive_account" @click="handleAcrchiveAcc(account.hash)" >
+                       <div class="unarchive-icon un_archive_account" @click="handleAcrchiveAcc" >
                        </div>
                        <div class="link token_edit" data-index="parseInt(key + 1)" data-val="account.hash">
                            <div class="img">
@@ -102,22 +102,16 @@
         methods: {
             handleAcrchiveAcc(){
                 var accountHash = this.account.hash;
-                if (confirm("You want to Un Archive this account")){
-                    db.get('accounts').find({ hash: accountHash }).assign({ archive : false }).write();
-                    this.listAccounts();
+                if(accountHash){
+                    if (confirm("You want to Un Archive this account")){
+                        db.get('accounts').find({ hash: accountHash }).assign({ archive : false }).write();
+                        this.$router.push({
+                            path: '/walletdashboard'
+                        });
+
+                    }
                 }
             },
-            listAccounts() {
-                try {
-                    var archiveAccounts = db.get('accounts').filter({archive: true}).value();
-                    if (archiveAccounts.length > 0) {
-                        this.accountList = true;
-                    }
-                } catch (err) {
-                    console.log("Execption Error" + err.message);
-                    Raven.captureException(err);
-                }
-            }
         }
     }
 </script>

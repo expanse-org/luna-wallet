@@ -9,7 +9,9 @@
             <!-- </div> -->
             <div class="info main-account">
                 <h1 class="m_name">{{accountTitle? accountTitle: 'Main Account'}}</h1>
-                <label class="balance">{{accountbalance? accountbalance: '0.000'}}</label>
+                <label class="balance">
+                    {{defaultCurrencyData === '$'? '$':""}} {{ (parseFloat(accPriceData) * accountbalance).toFixed(5)}} {{defaultCurrencyData !== '$'? defaultCurrencyData:""}}
+                </label>
                 <!-- <span class="currency-sign">Exp</span> -->
                 <div class=" copy accoundID wd300">
                     <label class="main-account-hash">{{accounthash? accounthash: '0X'}}</label>
@@ -56,6 +58,19 @@
              accounthash: '',
              accountbalance: '',
           };
+        },
+        computed: {
+            defaultCurrencyData() {
+                this.defaultSign = this.$store.state.ac_dcurrency ;
+                console.log(this.defaultSign, "this.defaultSign -----------------------------")
+                return this.defaultSign;
+            },
+            accPriceData() {
+                var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
+                console.log(curr, "cur-----")
+                this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
+                return this.accbprice;
+            },
         },
         created(){
             let that = this;

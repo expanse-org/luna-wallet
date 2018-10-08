@@ -180,11 +180,12 @@
     import * as $ from 'jquery';
     import {startConnectWeb} from '../../../../../main/libs/config';
     import {db} from '../../../../../../lowdbFunc';
-    import { clipboard } from 'electron';
+    import { clipboard, dialog } from 'electron';
     var web3 = startConnectWeb();
     import QrcodeVue from 'qrcode.vue';
     import axios from 'axios';
     import object_hash from 'object-hash';
+    import {getAllAcounts} from '../walletcommon';
 
 
     export default {
@@ -260,26 +261,17 @@
 
             },
             handleArchive(){
-                if(confirm("Do You want to Archive this Account")){
-                    db.get('accounts').find({ hash: this.accountHash }).assign({ archive : true }).write();
-                    var styles = {
-                        visibility: "visible",
-                        opacity: "1"
-                    };
-                    var styles2 = {
-                        visibility: "hidden",
-                        opacity: "0"
-                    };
-                    $(this).children('.tooltiptext2').css(styles);
-                    var t = $(this);
-                    setTimeout(function () {
-                        t.children('.tooltiptext2').animate(styles2, 400);
-
-                    }, 1000);
-                    setTimeout(function (){
-                        $('#back_btn').trigger("click");
-                    },2000);
+                if(this.account) {
+                    if(confirm("Do You want to Archive this Account")){
+                        db.get('accounts').find({ hash: this.accountHash }).assign({ archive : true }).write();
+                        this.$router.push({
+                            path: '/walletdashboard'
+                        });
+                        getAllAcounts();
+                    }
+                } else {
                 }
+
             },
             mainMenu(){
                 if (this.$store.state.total_balance == 0) {
