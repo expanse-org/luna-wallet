@@ -43,8 +43,8 @@
 
 <script>
     import QrcodeVue from 'qrcode.vue';
-    import {startConnectWeb} from '../../../../main/libs/config';
-    var web3 = startConnectWeb();
+    import {web3} from '../../../../main/libs/config';
+    // var web3 = startConnectWeb();
     import AddAccount from './AddAccount';
     export default {
         name: 'Accounts',

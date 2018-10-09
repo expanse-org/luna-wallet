@@ -104,14 +104,13 @@
     import Raven from 'raven';
     import classie from '../../assets/js/classie';
     import modalEffects from '../../assets/js/modalEffects';
-    import {startConnectWeb} from '../../../main/libs/config';
+    import {web3} from '../../../main/libs/config';
     import {getRandomColor} from './commonFunc';
     import {db} from '../../../../lowdbFunc';
     import {downloadGexp} from '../../../common/gexpfunc';
     import {ipcRenderer} from 'electron';
     import * as $ from 'jquery';
 
-    var web3 = startConnectWeb();
 
     export default {
         name: 'Add-Account',

@@ -233,12 +233,11 @@
 </template>
 
 <script>
-  import {startConnectWeb} from '../../../main/libs/config';
+  import {web3} from '../../../main/libs/config';
   import {downloadGexp} from '../../../common/gexpfunc';
   import {ipcRenderer} from 'electron';
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
 
-  var web3 = startConnectWeb();
 
   export default {
     name: 'Splash-screen',
@@ -259,7 +258,7 @@
         launchApplication(){
             let that = this;
             try{
-                web3 = startConnectWeb();
+                // web3 = startConnectWeb();
                 // Sending Data to Main js For further Process
                 console.log(web3.eth.getAccounts());
                 web3.eth.getAccounts().then((accounts, error) => {

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import {startConnectWeb} from '../../../main/libs/config';
+    import {web3} from '../../../main/libs/config';
     import {getClientInfo} from '../../../common/clientInfo';
     import moment from 'moment';
     import fs from 'fs';
@@ -50,7 +50,6 @@
     import {db} from '../../../../lowdbFunc';
     import Raven from 'raven';
 
-    var web3 = startConnectWeb();
 
     export default {
         name: 'Create-Account',

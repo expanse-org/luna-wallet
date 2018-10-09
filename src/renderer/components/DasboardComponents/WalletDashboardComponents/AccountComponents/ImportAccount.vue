@@ -220,9 +220,9 @@
     import {db} from '../../../../../../lowdbFunc';
     import Raven from 'raven';
     import Multiselect from 'vue-multiselect'
-    import {startConnectWeb} from '../../../../../main/libs/config';
+    import {web3} from '../../../../../main/libs/config';
 
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
     export default {
         name: 'ImportAccount',
         data() {

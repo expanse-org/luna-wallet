@@ -246,9 +246,9 @@
     import * as $ from 'jquery';
     import QrcodeVue from 'qrcode.vue';
     import Multiselect from 'vue-multiselect';
-    import {startConnectWeb} from '../../../../main/libs/config';
-    var web3 = startConnectWeb();
+    import {web3} from '../../../../main/libs/config';
     var instance;
+
     export default {
         name: 'ContractsDetails',
         components: {

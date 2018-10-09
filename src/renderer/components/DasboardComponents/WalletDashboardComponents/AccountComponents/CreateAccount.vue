@@ -86,12 +86,12 @@
 
 <script>
     import Raven from 'raven';
-    import {startConnectWeb} from '../../../../../main/libs/config';
+    import {web3} from '../../../../../main/libs/config';
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import * as $ from 'jquery';
 
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
     export default {
         name: 'CreateAccount',
         data() {

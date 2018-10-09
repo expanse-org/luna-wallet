@@ -154,13 +154,13 @@
 <script>
     import {getAllAcounts} from '../walletcommon';
     import Raven from 'raven';
-    import {startConnectWeb} from '../../../../../main/libs/config';
+    import {web3} from '../../../../../main/libs/config';
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import * as $ from 'jquery';
     import {generateStart, generatePhraseStart}  from  '../../../../assets/js/bip39-Node/js/index';
     import md5  from  'md5';
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
 
     export default {
         name: 'CreateHDWallet',

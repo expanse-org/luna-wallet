@@ -2,7 +2,7 @@
 
 import {getRandomColor} from '../../AccountsData/commonFunc';
 import {db} from '../../../../../lowdbFunc';
-import {startConnectWeb, currencies, ExpApi} from '../../../../main/libs/config';
+import {web3, currencies, ExpApi} from '../../../../main/libs/config';
 import Raven from 'raven';
 import * as $ from 'jquery';
 import _ from 'underscore';
@@ -17,7 +17,7 @@ var unarchiveAccounts = [];
 var addresshashAccounts = [];
 var sortbyEXPBalance = [];
 var sortbyTOKENBalance = [];
-var web3 = startConnectWeb();
+// var web3 = startConnectWeb();
 let balance = 0;
 let total_balance = 0;
 

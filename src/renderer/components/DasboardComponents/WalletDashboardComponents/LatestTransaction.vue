@@ -222,10 +222,10 @@
     import { sortbyEXPBalance, watchOnlyAccounts} from './walletcommon';
     import axios from 'axios';
     import object_hash from 'object-hash';
-    import {startConnectWeb} from '../../../../main/libs/config';
+    import {web3} from '../../../../main/libs/config';
     import Transactiondetail from './Transactiondetail';
 
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
     export default {
         name: 'latestTransaction',
         data() {

@@ -21,7 +21,7 @@ const updateScreen = (screen) => {
 const startConnectWeb = () => {
     const RINKEBY_WSS = "ws://127.0.0.1:9657";
     var provider = new Web3.providers.WebsocketProvider(RINKEBY_WSS);
-    var web3 = new Web3(provider);
+    web3 = new Web3(provider);
 
     provider.on('error', e => console.log('WS Error', e));
     provider.on('end', e => {
@@ -218,4 +218,4 @@ const ExpApi = () => {
     });
 }
 
-export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi, currencies }
+export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi, currencies, web3 }

@@ -99,8 +99,8 @@
     import ace from 'vue2-ace-editor';
     const fs = require("fs");
     import { ipcRenderer } from 'electron';
-    import {startConnectWeb} from '../../../../main/libs/config';
-    var web3 = startConnectWeb();
+    import {web3} from '../../../../main/libs/config';
+    // var web3 = startConnectWeb();
     import Multiselect from 'vue-multiselect'
 
     export default {

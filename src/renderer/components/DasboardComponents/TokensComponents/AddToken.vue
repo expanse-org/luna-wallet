@@ -223,12 +223,12 @@
 </template>
 
 <script>
-    import { startConnectWeb, tokenInterface } from '../../../../main/libs/config';
+    import { web3, tokenInterface } from '../../../../main/libs/config';
     import { getRandomColor } from '../../AccountsData/commonFunc';
     import { db } from '../../../../../lowdbFunc';
     import Multiselect from 'vue-multiselect'
 
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
     import shortid from 'shortid';
     import * as $ from 'jquery';
     import Raven from 'raven';

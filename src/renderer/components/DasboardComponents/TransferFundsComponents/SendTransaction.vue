@@ -163,7 +163,7 @@
 </template>
 
 <script>
-    import {startConnectWeb,tokenInterface} from '../../../../main/libs/config';
+    import {web3,tokenInterface} from '../../../../main/libs/config';
     import {db} from '../../../../../lowdbFunc';
     import shortid from 'shortid';
     import { clipboard,remote } from 'electron';
@@ -175,7 +175,7 @@
     import  * as $ from 'jquery';
     import os from 'os';
 
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
     var currentDate = new Date();
 
     export default {

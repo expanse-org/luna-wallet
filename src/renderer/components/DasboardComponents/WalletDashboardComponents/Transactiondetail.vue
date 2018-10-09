@@ -133,8 +133,8 @@
     import axios from 'axios';
     const numberToBN = require('number-to-bn');
     const Gwei = 1000000000;
-    import {startConnectWeb} from '../../../../main/libs/config';
-    var web3 = startConnectWeb();
+    import {web3} from '../../../../main/libs/config';
+    // var web3 = startConnectWeb();
     export default {
         name: 'transactiondetails',
         props : ['txndetaildata'],

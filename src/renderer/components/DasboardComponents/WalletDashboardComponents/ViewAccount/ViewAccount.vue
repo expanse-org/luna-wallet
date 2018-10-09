@@ -178,10 +178,10 @@
     import WalletInfo from './WalletInfo';
     import insuficentBalance from '../../insuficentBalance';
     import * as $ from 'jquery';
-    import {startConnectWeb} from '../../../../../main/libs/config';
+    import {web3} from '../../../../../main/libs/config';
     import {db} from '../../../../../../lowdbFunc';
     import { clipboard, dialog } from 'electron';
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
     import QrcodeVue from 'qrcode.vue';
     import axios from 'axios';
     import object_hash from 'object-hash';

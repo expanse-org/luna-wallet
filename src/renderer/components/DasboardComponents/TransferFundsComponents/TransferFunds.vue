@@ -162,12 +162,12 @@
 </template>
 
 <script>
-    import {startConnectWeb} from '../../../../main/libs/config';
+    import {web3} from '../../../../main/libs/config';
     import ethereum_address from 'ethereum-address';
     import SendTransaction from './SendTransaction';
     import Multiselect from 'vue-multiselect'
 
-    var web3 = startConnectWeb();
+    // var web3 = startConnectWeb();
 
     export default {
         name: 'TransferFunds',
