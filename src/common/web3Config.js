@@ -6,7 +6,7 @@ import store from "../renderer/store";
 import * as $ from 'jquery';
 import {ipcRenderer} from 'electron';
 
-var web3 = startConnectWeb();
+var web3 ;//= startConnectWeb();
 
 const action = (screen) => {
     // console.log("storee Action")
