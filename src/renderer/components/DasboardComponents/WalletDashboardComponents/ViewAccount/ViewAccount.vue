@@ -181,7 +181,6 @@
     import {web3} from '../../../../../main/libs/config';
     import {db} from '../../../../../../lowdbFunc';
     import { clipboard, dialog } from 'electron';
-    // var web3 = startConnectWeb();
     import QrcodeVue from 'qrcode.vue';
     import axios from 'axios';
     import object_hash from 'object-hash';
@@ -245,7 +244,7 @@
                     this.istransactions = false;
                     this.loader = true;
                 }
-            }, 3000);
+            }, 100);
         },
         methods: {
             show () {
@@ -265,7 +264,7 @@
                     if(confirm("Do You want to Archive this Account")){
                         db.get('accounts').find({ hash: this.accountHash }).assign({ archive : true }).write();
                         this.$router.push({
-                            path: '/walletdashboard'
+                            path: '/walletdashboard',
                         });
                         getAllAcounts();
                     }
@@ -274,13 +273,13 @@
 
             },
             mainMenu(){
-                if (this.$store.state.total_balance == 0) {
-                    // alert('You dont have Balane to transfer Funds');
-                    this.show1();
-                }else {
+                if (this.account.balance > 0) {
                     this.$router.push({
-                        path: '/transferfunds'
+                        path: '/transferfunds',
+                        query: { hash:  this.accountHash},
                     });
+                }else  if(this.account.balance){
+                    this.show1();
                 }
             },
             handletooltip(tip){

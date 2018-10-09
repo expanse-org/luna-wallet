@@ -122,12 +122,17 @@
         },
         computed: {
             contractData(){
+                console.log(db.get('contracts').value());
                 this.contracts = db.get('contracts').value();
                 return this.contracts;
             }
         },
         created(){
-            this.contracts = db.get('contracts').value();
+            this.intervalid1 = setInterval(() => {
+                if(this.contractData.length > 0 ){
+                    clearInterval(this.intervalid1)
+                }
+            }, 100);
         },
         methods: {
             show () {

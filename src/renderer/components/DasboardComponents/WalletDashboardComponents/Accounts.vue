@@ -73,6 +73,7 @@
             },
         },
         created(){
+            console.log(web3,"web3")
             let that = this;
             that.intervalid1 = setInterval(() => {
                 if (that.$store.state.allAccounts.length > 0) {
@@ -94,7 +95,7 @@
                         }
                     })
                 }
-            }, 3000);
+            }, 100);
         },
         methods: {
             mainMenu(){

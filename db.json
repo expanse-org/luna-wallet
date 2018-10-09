@@ -2,27 +2,6 @@
   "accounts": [
     {
       "accountTitle": "Account 0",
-      "hash": "0xf5d29b13574f069437e40537fdda87bd22605456",
-      "color": "#E9F0F3",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 1",
-      "hash": "0x426bded6a356c6da0d7d2fae779b716ea4fe8dcb",
-      "color": "#8368E1",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 2",
-      "hash": "0x7be5f5c286d7aabb0f11f4fc4cc93faff8d851a6",
-      "color": "#0A8326",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 0",
       "hash": "0xd81c09cc2496590716bcf49b61c27d56795b3d00",
       "color": "#2DFA15",
       "archive": false,
@@ -50,7 +29,7 @@
       "isHd": false
     },
     {
-      "accountTitle": "Account 4",
+      "accountTitle": "Account Testt",
       "hash": "0x1e3456d39ad42d218c8788d76f955bf1bb4a8cd7",
       "color": "#AA7E27",
       "archive": false,
@@ -148,9 +127,30 @@
       "isHd": false
     },
     {
-      "accountTitle": "Account 7",
+      "accountTitle": "Account LUNA",
       "hash": "0x556e689afe677deb7f33324e41ce2662d12f6158",
       "color": "#7D2383",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 19",
+      "hash": "0x24c5c7892a33ddef8dea8831847ecd307052479b",
+      "color": "#88799A",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Accountt test ",
+      "hash": "0x085C6732631C8CB306981bABbcF22a2B06305cb3",
+      "color": "#2AA6B5",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "User Acc 1",
+      "hash": "0x341284F8C9A6bf0e2c5202f4A1f765E6EfC53ebe",
+      "color": "#7D8A62",
       "archive": false,
       "isHd": false
     }
