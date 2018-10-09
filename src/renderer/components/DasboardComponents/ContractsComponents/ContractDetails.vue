@@ -185,11 +185,17 @@
                             </div>
                         </form>
                         <div class="query">
-                            <button type="button" data-id="" @click="getEvents" class="get_contract_events">Get Events</button>
+                            <div class="chexboxes row">
+                                <div class="checkbox perform">
+                                    <label class="filter__value">
+                                        <input class="filter__mark" type="checkbox" v-model="isshowEvents" @click="getEvents">
+                                        <i class="filter__mark"></i>
+                                        <span class="filter__text">Show Events</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="note">
                     <p class="regular">
@@ -204,7 +210,7 @@
 
                 </div>
 
-                <div class="latestTransaction">
+                <div v-if="noEvents" class="latestTransaction">
                     <div class="header">
                         <h1>Latest Events</h1>
                         <div class="search">
@@ -233,11 +239,6 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div v-if="noEvents" class="row">
-                        <h3 class="notrnas">No Transactions Found</h3>
                     </div>
                 </div>
             </div>
@@ -298,6 +299,7 @@
                 EventsData: [],
                 loadereve: true,
                 eventModalData: '',
+                isshowEvents: '',
             };
         },
         computed: {
@@ -332,38 +334,44 @@
         },
         methods: {
             getEvents() {
+                this.noEvents = true;
+                this.EventsData = [];
                 var contractAddress = this.contracts.contract_address; // contract Address
                 var abiArray = db.get('contracts').find({contract_address: contractAddress}).value().contract_json;
 
                 var contract =  new web3.eth.Contract(abiArray,contractAddress);
 
-                console.log("abiArray",abiArray);
-                console.log("contract",contract);
-                console.log("contract.events",contract.events.allEvents());
-                let that = this;
-                var subscription = web3.eth.subscribe('logs', {
-                    address: contractAddress,
-                    fromBlock: '0x0',
-                    toBlock: 'latest',
-                    topics: null
-                }, function (error, result) {
-                    if(result){
-                        // console.log(result, "result===================");
-                        web3.eth.getBlock(result.blockNumber).then((res) => {
-                            // console.log(res, "res===================");
-                            var data =  Object.assign({blockData: res, eventdata: result}, data)
-                            that.EventsData.push(data);
-                        });
-                        that.noEvents = false;
-                        that.isevents=true;
-                        that.loadereve=false;
-                    } else {
-                        that.noEvents = true;
-                        that.isevents=false;
-                        that.loadereve=false;
-                        console.log( error , "error===================");
-                    }
-                });
+                if(!this.isshowEvents) {
+                    let that = this;
+                    var subscription = web3.eth.subscribe('logs', {
+                        address: contractAddress,
+                        fromBlock: '0x0',
+                        toBlock: 'latest',
+                        topics: null
+                    }, function (error, result) {
+                        if(result){
+                            // console.log(result, "result===================");
+                            web3.eth.getBlock(result.blockNumber).then((res) => {
+                                // console.log(res, "res===================");
+                                var data =  Object.assign({blockData: res, eventdata: result}, data)
+                                that.EventsData.push(data);
+                            });
+                            that.noEvents = true;
+                            that.isevents=true;
+                            that.loadereve=false;
+                        } else {
+                            that.noEvents = false;
+                            that.isevents=false;
+                            that.loadereve=false;
+                            console.log( error , "error===================");
+                        }
+                    });
+                } else {
+                    this.noEvents = false;
+                    this.isevents=false;
+                    this.loadereve=false;
+                }
+
             },
             handleEvedetail(eventdata){
                 this.eventModalData = eventdata;

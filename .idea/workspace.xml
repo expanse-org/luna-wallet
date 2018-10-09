@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/EventDetails.vue" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/db.json" afterPath="$PROJECT_DIR$/db.json" />
-      <change beforePath="$PROJECT_DIR$/src/common/web3Config.js" afterPath="$PROJECT_DIR$/src/common/web3Config.js" />
       <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/DeployContract.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/DeployContract.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/LatestTransaction.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/LatestTransaction.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/router/index.js" afterPath="$PROJECT_DIR$/src/renderer/router/index.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -87,18 +74,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/router/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="599">
-              <caret line="139" column="48" lean-forward="false" selection-start-line="139" selection-start-column="36" selection-end-line="139" selection-end-column="48" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="EventDetails.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/EventDetails.vue">
           <provider selected="true" editor-type-id="text-editor">
@@ -121,23 +96,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContractDetails.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ContractDetails.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="353" column="51" lean-forward="false" selection-start-line="353" selection-start-column="51" selection-end-line="353" selection-end-column="51" />
+            <state relative-caret-position="348">
+              <caret line="353" column="59" lean-forward="false" selection-start-line="353" selection-start-column="59" selection-end-line="353" selection-end-column="59" />
               <folding>
-                <element signature="e#19257#19309#0" expanded="true" />
+                <element signature="e#19575#19627#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web3Config.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ImportAccount.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="211">
+              <caret line="100" column="26" lean-forward="true" selection-start-line="100" selection-start-column="26" selection-end-line="110" selection-end-column="26" />
+              <folding>
+                <element signature="e#15567#15616#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web3Config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/common/web3Config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="88" column="87" lean-forward="true" selection-start-line="88" selection-start-column="87" selection-end-line="88" selection-end-column="87" />
+            <state relative-caret-position="240">
+              <caret line="49" column="94" lean-forward="true" selection-start-line="49" selection-start-column="94" selection-end-line="49" selection-end-column="94" />
               <folding>
                 <element signature="e#2#84#0" expanded="true" />
               </folding>
@@ -156,7 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>input</find>
       <find>accountTemplate += '</find>
       <find>data</find>
       <find>contract</find>
@@ -186,6 +172,7 @@
       <find>.multiselect__spinner:after</find>
       <find>multiselect__spinner</find>
       <find>eventData[0]</find>
+      <find>checkb</find>
     </findStrings>
     <replaceStrings>
       <replace>connectWeb3</replace>
@@ -240,7 +227,6 @@
         <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Transactiondetail.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/ViewAccount/ArchiveAccount.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/SendTransaction.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" />
@@ -257,9 +243,10 @@
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue" />
         <option value="$PROJECT_DIR$/src/renderer/router/index.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/EventDetails.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue" />
         <option value="$PROJECT_DIR$/src/common/web3Config.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue" />
       </list>
     </option>
   </component>
@@ -642,12 +629,12 @@
       <workItem from="1537683160411" duration="89054000" />
       <workItem from="1537954036255" duration="93074000" />
       <workItem from="1538328101791" duration="2278000" />
-      <workItem from="1538400418599" duration="133400000" />
+      <workItem from="1538400418599" duration="134096000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="349080000" />
+    <option name="totallyTimeSpent" value="349776000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -839,14 +826,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="222" column="16" lean-forward="false" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -1115,16 +1094,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="353" column="51" lean-forward="false" selection-start-line="353" selection-start-column="51" selection-end-line="353" selection-end-column="51" />
-          <folding>
-            <element signature="e#19257#19309#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1165,10 +1134,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/common/web3Config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="88" column="87" lean-forward="true" selection-start-line="88" selection-start-column="87" selection-end-line="88" selection-end-column="87" />
+        <state relative-caret-position="240">
+          <caret line="49" column="94" lean-forward="true" selection-start-line="49" selection-start-column="94" selection-end-line="49" selection-end-column="94" />
           <folding>
             <element signature="e#2#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="100" column="26" lean-forward="true" selection-start-line="100" selection-start-column="26" selection-end-line="110" selection-end-column="26" />
+          <folding>
+            <element signature="e#15567#15616#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="353" column="59" lean-forward="false" selection-start-line="353" selection-start-column="59" selection-end-line="353" selection-end-column="59" />
+          <folding>
+            <element signature="e#19575#19627#0" expanded="true" />
           </folding>
         </state>
       </provider>
