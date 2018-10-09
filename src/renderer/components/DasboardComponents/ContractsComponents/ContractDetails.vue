@@ -341,36 +341,54 @@
 
                 var contract =  new web3.eth.Contract(abiArray,contractAddress);
 
-                if(!this.isshowEvents) {
-                    let that = this;
-                    var subscription = web3.eth.subscribe('logs', {
-                        address: contractAddress,
-                        fromBlock: '0x0',
-                        toBlock: 'latest',
-                        topics: null
-                    }, function (error, result) {
-                        if(result){
-                            // console.log(result, "result===================");
-                            web3.eth.getBlock(result.blockNumber).then((res) => {
-                                // console.log(res, "res===================");
-                                var data =  Object.assign({blockData: res, eventdata: result}, data)
-                                that.EventsData.push(data);
-                            });
-                            that.noEvents = true;
-                            that.isevents=true;
-                            that.loadereve=false;
-                        } else {
-                            that.noEvents = false;
-                            that.isevents=false;
-                            that.loadereve=false;
-                            console.log( error , "error===================");
-                        }
-                    });
-                } else {
-                    this.noEvents = false;
-                    this.isevents=false;
-                    this.loadereve=false;
-                }
+                console.log(contract, "contract")
+
+
+                contract.getPastEvents('allEvents',{
+                    fromBlock:'0x0',
+                    toBlock: 1500000
+                }, function(error, logs) {
+                    console.log(error,logs,"--")
+                });
+              var a  =contract.events.allEvents( {
+                    fromBlock:'0x0',
+                    toBlock: 'latest'
+                })
+
+                a.on('data', function(log){
+                    console.log(log,"--")
+                })
+
+
+               // if(!this.isshowEvents) {
+               //      let that = this;
+               //      var subscription = web3.eth.subscribe('logs', {
+               //          address: contractAddress,
+               //          fromBlock: '0x0',
+               //          toBlock: 'latest'
+               //      }, function (error, result) {
+               //          if(result){
+               //              console.log(result, "result===================");
+               //              web3.eth.getBlock(result.blockNumber).then((res) => {
+               //                  // console.log(res, "res===================");
+               //                  var data =  Object.assign({blockData: res, eventdata: result}, data)
+               //                  that.EventsData.push(data);
+               //              });
+               //              that.noEvents = true;
+               //              that.isevents=true;
+               //              that.loadereve=false;
+               //          } else {
+               //              that.noEvents = false;
+               //              that.isevents=false;
+               //              that.loadereve=false;
+               //              console.log( error , "error===================");
+               //          }
+               //      });
+               // } else {
+               //      this.noEvents = false;
+               //      this.isevents=false;
+               //      this.loadereve=false;
+               // }
 
             },
             handleEvedetail(eventdata){
