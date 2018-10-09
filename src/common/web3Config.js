@@ -5,9 +5,11 @@ import Raven from 'raven';
 import store from "../renderer/store";
 import * as $ from 'jquery';
 import {ipcRenderer} from 'electron';
-import {getAllAcounts} from '../renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon';
 
-var web3 ;//= startConnectWeb();
+import {getAllAcounts} from '../renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon';
+import {web3} from '../main/libs/config';
+
+
 
 const action = (screen) => {
     // console.log("storee Action")
@@ -83,10 +85,8 @@ const connectWeb3 = () => {
     console.log('connectWeb3 func--------');
     var attempt = 0;
     var web3Connect =  setInterval(function(){
-
         // Initialize web3
         try{
-            web3 = startConnectWeb();
             console.log('connecting web3', web3);
             setTimeout(function(){
                 console.log('connecting web3getAccounts-----', web3.eth.getAccounts());

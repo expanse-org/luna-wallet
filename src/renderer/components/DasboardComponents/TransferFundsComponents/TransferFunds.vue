@@ -19,7 +19,7 @@
                                     </div>
                                     <div class="fundsFrom">
                                         <div class="drop-down accounts_dropdown">
-                                            <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds(fundsFrom)" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
+                                            <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
                                                 <template slot="singleLabel" slot-scope="props">
                                                     <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                                 </template>
@@ -209,23 +209,47 @@
             },
         },
         created(){
-            this.optionFrom = [];
-            this.intervalid1 = setInterval(() => {
-                if (this.$store.state.allAccounts.length > 0) {
-                    this.total_balance = this.$store.state.total_balance;
-                    this.$store.state.allAccounts.map((val) => {
-                        if(val.balance > 0){
-                            console.log(val.balance);
-                            console.log(val);
-                            var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
-                            this.optionFrom.push(data);
-                            this.loading= false;
-                            this.fromArray.push(val);
-                        }
-                    });
-                    clearInterval(this.intervalid1)
-                }
-            }, 100);
+            var hash = this.$router.history.current.query.hash;
+            console.log(hash);
+            if(hash) {
+                this.intervalid1 = setInterval(() => {
+                    if (this.accounts.length > 0) {
+                        this.accounts.map((val) => {
+                            if(val.hash === hash) {
+                                this.fundsFrom = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.handlechangeFunds();
+                            }
+                            if(val.balance > 0){
+                                console.log(val.balance);
+                                console.log(val);
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
+                                this.optionFrom.push(data);
+                                this.loading= false;
+                                this.fromArray.push(val);
+                            }
+                        });
+                        clearInterval(this.intervalid1)
+                    }
+                }, 100);
+            } else {
+                this.optionFrom = [];
+                this.intervalid1 = setInterval(() => {
+                    if (this.$store.state.allAccounts.length > 0) {
+                        this.total_balance = this.$store.state.total_balance;
+                        this.$store.state.allAccounts.map((val) => {
+                            if(val.balance > 0){
+                                console.log(val.balance);
+                                console.log(val);
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
+                                this.optionFrom.push(data);
+                                this.loading= false;
+                                this.fromArray.push(val);
+                            }
+                        });
+                        clearInterval(this.intervalid1)
+                    }
+                }, 100);
+            }
         },
         methods: {
             show () {
@@ -400,7 +424,7 @@
         height: 10px;
     }
 
-    .fundsFrom  .multiselect__spinner:after, .multiselect__spinner:before, .currencies_dropdown .multiselect__spinner:after, .multiselect__spinner:before {
+    .fundsFrom  .multiselect__spinner:after,.fundsFrom  .multiselect__spinner:before, .currencies_dropdown .multiselect__spinner:after, .currencies_dropdown .multiselect__spinner:before {
         border-color: #000000 transparent transparent!important;
         margin-top: -1px;
 

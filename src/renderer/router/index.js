@@ -18,6 +18,7 @@ import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
 import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
 import ContractDetails from '../components/DasboardComponents/ContractsComponents/ContractDetails'
 import Transactiondetail from '../components/DasboardComponents/WalletDashboardComponents/Transactiondetail'
+import EventDetails from '../components/DasboardComponents/ContractsComponents/EventDetails'
 import SplashApp from '../views/SplashApp'
 import MainApp from '../views/MainApp'
 import AccountApp from '../views/AccountApp'
@@ -134,6 +135,11 @@ export default new Router({
                             path: '/transactiondetails',
                             name: 'transactiondetails',
                             component: Transactiondetail
+                        },
+                        {
+                            path: '/eventdetails',
+                            name: 'EventDetails',
+                            component: EventDetails
                         }
                     ]
                 },

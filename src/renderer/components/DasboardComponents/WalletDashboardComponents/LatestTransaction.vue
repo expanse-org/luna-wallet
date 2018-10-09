@@ -294,7 +294,7 @@
                     this.istransactions = false;
                     this.loader = true;
                 }
-            }, 3000);
+            }, 100);
         },
         methods: {
             show () {

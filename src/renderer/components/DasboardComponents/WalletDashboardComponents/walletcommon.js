@@ -30,6 +30,7 @@ const getAllAcounts = () => {
             if (accounts && accounts.length > 0) {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
+                    // console.log(account_hash);
                     addresshashAccounts.push(account_hash.toLowerCase());
                     let account = db.get('accounts').find({
                         hash: account_hash.toLowerCase()
@@ -63,11 +64,43 @@ const getAllAcounts = () => {
                         }
                     }
                     else {
-                        console.log(account_hash ,"else Account in Db account_hash", account);
-                        let accountdata = accAdddb(account_hash, index);
-                        unarchiveAccounts.push(accountdata);
-                        getExpBalance(account_hash, index);
-                        gettokensBalance(account_hash, index);
+                        let accountTest = db.get('accounts').find({
+                            hash: account_hash
+                        }).value();
+                        if(!accountTest) {
+                            console.log(account_hash ,"else Account in Db account_hash", account);
+                            let accountdata = accAdddb(account_hash, index);
+                            unarchiveAccounts.push(accountdata);
+                            getExpBalance(account_hash, index);
+                            gettokensBalance(account_hash, index);
+                        }else {
+                            if(accountTest.hash){
+                                if(accountTest.archive === true){
+                                    if(accountTest.isHd === true || accountTest.isHd === false){}
+                                    else {
+                                        accountTest = Object.assign({isHd: false}, accountTest);
+                                    }
+                                    archiveAccounts.push(accountTest);
+                                } else if(accountTest.archive === false) {
+                                    if(accountTest.isHd === true || accountTest.isHd === false){}
+                                    else {
+                                        accountTest = Object.assign({isHd: false}, accountTest);
+                                    }
+                                    unarchiveAccounts.push(accountTest);
+                                    getExpBalance(account_hash, index);
+                                    gettokensBalance(account_hash, index);
+                                } else {
+                                    if(accountTest.isHd === true || accountTest.isHd === false){}
+                                    else {
+                                        accountTest = Object.assign({isHd: false}, accountTest);
+                                    }
+                                    accountTest = Object.assign({archive: false}, accountTest);
+                                    unarchiveAccounts.push(accountTest);
+                                    getExpBalance(account_hash, index);
+                                    gettokensBalance(account_hash, index);
+                                }
+                            }
+                        }
                     }
                 });
             }

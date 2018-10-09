@@ -22,6 +22,7 @@ import Footer from './Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import AddToken from './TokensComponents/AddToken';
 import {getAllAcounts} from './WalletDashboardComponents/walletcommon';
+import {web3, startConnectWeb} from '../../../main/libs/config';
 
 export default {
     name: 'Dashboard-page',
@@ -37,10 +38,14 @@ export default {
         };
     },
     created(){
-        getAllAcounts();
-        setInterval(() => {
+        if(web3){
             getAllAcounts();
-        }, 500000);
+            setInterval(() => {
+                getAllAcounts();
+            }, 500000);
+        } else {
+            startConnectWeb();
+        }
     },
     methods: {
 

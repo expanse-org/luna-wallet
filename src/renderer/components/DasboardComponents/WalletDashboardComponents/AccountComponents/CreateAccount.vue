@@ -90,6 +90,7 @@
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import * as $ from 'jquery';
+    import {getAllAcounts} from '../walletcommon';
 
     // var web3 = startConnectWeb();
     export default {
@@ -177,6 +178,7 @@
                             db.get('accounts')
                                 .push({ accountTitle: acName, hash : hash, color:color, archive: false, isHd: false})
                                 .write();
+                            getAllAcounts();
                             $('.alert-sucess').show(300).delay(5000).hide(330);
                         }
                     });

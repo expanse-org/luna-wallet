@@ -185,18 +185,14 @@
                                 gasEstimate = res;
                             } );
                             Contract = new web3.eth.Contract(abi);//,"0xeef425109ae820daae1058b22abfbf04ecf2e66d"
-                            // Contract.methods.set(12, 34).send({from: from})
-                            // .then(function(receipt){
-                            //     console.log("Result", receipt);
-                            //     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                            // });
+
                             Contract.methods.add().call({from: from})
                                 .then(function(receipt){
                                     console.log("Result", receipt);
                                     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
                                 });
                             console.log("MY CONTRACT", Contract);
-                            return false;  //-- Remove this
+
                             web3.eth.getGasPrice().then((price)=>{
                                 gasPrice = price;
                             });
@@ -232,21 +228,6 @@
                         this.amountError = true;
                     }
                 }
-
-                // ------------------------------------------------
-                // Setting 1 as second paramateractivates the optimiser
-               
-              
-                
-               
-                // Deploy contract syncronous: The address will be added as soon as the contract is mined.
-                // Additionally you can watch the transaction by using the "transactionHash" property
-                // var myContractInstance = MyContract.new(param1, param2, {data: bytecode, gas: 300000, from: mySenderAddress});
-                // myContractInstance.transactionHash // The hash of the transaction, which created the contract
-                // myContractInstance.address // undefined at start, but will be auto-filled later
-
-
-
             },
             handleFocus() {
                 this.AddressFromError = false;
@@ -314,7 +295,7 @@
         height: 50px;
     }
 
-    .deploy-modal  .multiselect__spinner:after, .multiselect__spinner:before {
+    .deploy-modal  .multiselect__spinner:after,.deploy-modal  .multiselect__spinner:before {
         border-color: #000000 transparent transparent!important;
         margin-top: -1px;
 

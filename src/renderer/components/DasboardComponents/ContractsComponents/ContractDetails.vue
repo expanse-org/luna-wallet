@@ -185,7 +185,7 @@
                             </div>
                         </form>
                         <div class="query">
-                            <button type="button" data-id="" class="get_contract_events">Get Events</button>
+                            <button type="button" data-id="" @click="getEvents" class="get_contract_events">Get Events</button>
                         </div>
                     </div>
 
@@ -217,7 +217,7 @@
                     </div>
 
                     <div class="transactionContent accountDetailsTransactionContent">
-                        <div class="loader transactionLoader">
+                        <div v-if="loadereve" class="loader transactionLoader">
                             <div class="outerCircle">
                                 <img src="../../../assets/img/outer.png">
                             </div>
@@ -225,6 +225,19 @@
                                 <img src="../../../assets/img/inner.png">
                             </div>
                         </div>
+                        <div @click="handleEvedetail(event)" v-if="isevents && !loadereve" v-for="(event, index) in EventsData">
+                            <div class="row transactionDetail md-trigger" data-modal="modal-4" >
+                                <label class="date">{{ event.blockData.timestamp | moment("MMM-DD")}}</label>
+                                <label class="amount">
+                                    <span ></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div v-if="noEvents" class="row">
+                        <h3 class="notrnas">No Transactions Found</h3>
                     </div>
                 </div>
             </div>
@@ -235,15 +248,20 @@
         <modal class="modal" name="sendTransactions">
             <sendTransaction :modalArray="modalArray"></sendTransaction>
         </modal>
+        <modal class="modal" name="eventdetailsMD">
+            <eventDetails :eventsData="eventModalData"></eventDetails>
+        </modal>
     </div>
 </template>
 
 <script>
     import InsuficentBalance from '../insuficentBalance'
     import SendTransaction from '../TransferFundsComponents/SendTransaction';
+    import EventDetails from './EventDetails';
     import {db} from '../../../../../lowdbFunc';
     import { clipboard } from 'electron';
     import * as $ from 'jquery';
+    import axios from 'axios';
     import QrcodeVue from 'qrcode.vue';
     import Multiselect from 'vue-multiselect';
     import {web3} from '../../../../main/libs/config';
@@ -256,6 +274,7 @@
             'qrcode-vue': QrcodeVue,
             'multiselect': Multiselect,
             'sendTransaction': SendTransaction,
+            'eventDetails': EventDetails,
         },
         data() {
             return {
@@ -274,6 +293,11 @@
                 optionFroms: [],
                 loading: '',
                 modalArray: '',
+                isevents: false,
+                noEvents: false,
+                EventsData: [],
+                loadereve: true,
+                eventModalData: '',
             };
         },
         computed: {
@@ -300,29 +324,51 @@
             let contracts =  db.get('contracts').find({id: contractId}).value();
             this.contracts =  contracts;
             console.log(this.contracts);
-            instance = new web3.eth.Contract(this.contracts.contract_json, this.contracts.contract_address);
+            instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts && this.contracts.contract_address);
 
-            var contractAddress = this.contracts.contract_address; // contract Address
-            var abiArray = db.get('contracts').find({contract_address: contractAddress}).value().contract_json;
-
-            var contract =  new web3.eth.Contract(abiArray,contractAddress);
-
-            console.log("contract",contract);
-            console.log("contract.events",contract.events);
-            console.log("contract.events",contract.events.allEvents());
-            // var subscription = web3.eth.subscribe('logs', {
-            //     address: contractAddress,
-            // }, function(error, result){
-            //     if (!error)
-            //         console.log(result,"resultsss");
-            //     else
-            //         console.log(error,"error");
-            // });
 
             this.abidisplay();
 
         },
         methods: {
+            getEvents() {
+                var contractAddress = this.contracts.contract_address; // contract Address
+                var abiArray = db.get('contracts').find({contract_address: contractAddress}).value().contract_json;
+
+                var contract =  new web3.eth.Contract(abiArray,contractAddress);
+
+                console.log("abiArray",abiArray);
+                console.log("contract",contract);
+                console.log("contract.events",contract.events.allEvents());
+                let that = this;
+                var subscription = web3.eth.subscribe('logs', {
+                    address: contractAddress,
+                    fromBlock: '0x0',
+                    toBlock: 'latest',
+                    topics: null
+                }, function (error, result) {
+                    if(result){
+                        // console.log(result, "result===================");
+                        web3.eth.getBlock(result.blockNumber).then((res) => {
+                            // console.log(res, "res===================");
+                            var data =  Object.assign({blockData: res, eventdata: result}, data)
+                            that.EventsData.push(data);
+                        });
+                        that.noEvents = false;
+                        that.isevents=true;
+                        that.loadereve=false;
+                    } else {
+                        that.noEvents = true;
+                        that.isevents=false;
+                        that.loadereve=false;
+                        console.log( error , "error===================");
+                    }
+                });
+            },
+            handleEvedetail(eventdata){
+                this.eventModalData = eventdata;
+                this.show3();
+            },
             mainMenu(){
                 if (this.$store.state.total_balance == 0) {
                     // alert('You dont have Balane to transfer Funds');
@@ -339,9 +385,6 @@
                         if(cdata.constant){
                             this.contractConstants.push(cdata);
                         }else{
-                            // console.log(cdata.name);
-                            // var data = {value: cdata.name ,text: cdata.name.replace(/([a-z])([A-Z])/g, '$1 $2') };
-                            // var data = {value: cdata.name ,text: cdata.name.replace(/([a-z])([A-Z])/g, '$1 $2') };
                             this.contractFunctions.push(cdata);
                         }
                     }
@@ -353,6 +396,9 @@
             },
             show2 () {
                 this.$modal.show('sendTransactions');
+            },
+            show3 () {
+                this.$modal.show('eventdetailsMD');
             },
             getAddress (value,output){
                 var dataoinput = '';
@@ -393,9 +439,7 @@
             handleQuery(value) {
                 var address = [];
                 var parsedValue = JSON.parse(value);
-                // console.log("FDFDDDD", parsedValue)
                 var inputs = $("."+(parsedValue.name)+" input").val();
-                // console.log("inputt", inputs)
                 if(parsedValue.inputs.length  < 2) {
                     var result;
                     $("." + (parsedValue.name) + " input").each(function () {
@@ -419,13 +463,11 @@
                     })
                 }
                 if(parsedValue.inputs.length  > 1) {
-
                     var result;
                     $("."+(parsedValue.name)+" input").each(function(index) {
                         address.push($(this).val());
 
                     });
-
                     $("."+(parsedValue.name)+" .answer").html('');
                     instance.methods[parsedValue.name].apply(this,address).call().then((res) => {
                         if (res == true) {
@@ -606,4 +648,10 @@
         vertical-align: top!important;
         line-height: 39px!important;
     }
+
+    .contract_sndform  .multiselect__spinner:before, .contract_sndform .multiselect__spinner:after {
+        border-color: #000000 transparent transparent!important;
+        margin-top: -11px;
+    }
+
 </style>
