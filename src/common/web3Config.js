@@ -5,6 +5,7 @@ import Raven from 'raven';
 import store from "../renderer/store";
 import * as $ from 'jquery';
 import {ipcRenderer} from 'electron';
+import {getAllAcounts} from '../renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon';
 
 var web3 ;//= startConnectWeb();
 
@@ -106,6 +107,7 @@ const connectWeb3 = () => {
                         //3: Look For Peers
 
                         clearInterval(web3Connect);
+                        getAllAcounts();
 
                         // Syncing Peers
                         setTimeout(function(){
