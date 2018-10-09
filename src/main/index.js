@@ -70,13 +70,13 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
-})
+});
 
 
 const runGexp = (path) => {
@@ -88,16 +88,16 @@ const runGexp = (path) => {
 
         shelljs.cd(path);
         try {
-            var keyArgs = ['--ws',' --wsaddr=127.0.0.1',' --wsorigins=*',' --wsapi=eth,web3,personal,admin,miner,db,net,utils'];
+            // var keyArgs = ['--ws','--wsaddr=127.0.0.1','--wsorigins=*','--wsapi=eth,web3,personal,admin,miner,db,net,utils'];
             // --ws --wsaddr="0.0.0.0" --wsorigins="*" --wsapi="db,eth,net,web3,personal,utils"
-            // var keyArgs = ['--ws', '--wsaddr=127.0.0.1', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
+            var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
 
             // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
             console.log("keyArgs", keyArgs);
             gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                 shell: true
             });
-            console.log("gexpProc",gexpProc);
+            // console.log("gexpProc",gexpProc);
             try{
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);

@@ -19,19 +19,25 @@ const updateScreen = (screen) => {
 };
 
 const startConnectWeb = () => {
-    // if (typeof web3 !== 'undefined') {
-    //     web3 = new Web3(web3.currentProvider);
-    // } else {
-        // web3 = new Web3(('wss://gexp.gander.tech'));
-        web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:9657'));
+    const RINKEBY_WSS = "ws://127.0.0.1:9657";
+    var provider = new Web3.providers.WebsocketProvider(RINKEBY_WSS);
+    var web3 = new Web3(provider);
 
+    provider.on('error', e => console.log('WS Error', e));
+    provider.on('end', e => {
+        console.log('WS closed');
+        console.log('Attempting to reconnect...');
+        provider = new Web3.providers.WebsocketProvider(RINKEBY_WSS);
 
-        // web3 = new Web3(('ws://localhost:9657'));
-    // }
+        provider.on('connect', function () {
+            console.log('WSS Reconnected');
+        });
+
+        web3.setProvider(provider);
+    });
+
     // web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9656"));
     // web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:9657'));
-
-    // web3 = web3.setProvider(new Web3.providers.WebsocketProvider('ws://localhost:9656'));
     return web3;
 };
 

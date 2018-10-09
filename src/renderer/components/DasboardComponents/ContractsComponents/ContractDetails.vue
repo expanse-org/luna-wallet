@@ -306,17 +306,18 @@
             var abiArray = db.get('contracts').find({contract_address: contractAddress}).value().contract_json;
 
             var contract =  new web3.eth.Contract(abiArray,contractAddress);
+
             console.log("contract",contract);
             console.log("contract.events",contract.events);
             console.log("contract.events",contract.events.allEvents());
-            var subscription = web3.eth.subscribe('logs', {
-                address: contractAddress,
-            }, function(error, result){
-                if (!error)
-                    console.log(result,"resultsss");
-                else
-                    console.log(error,"error");
-            });
+            // var subscription = web3.eth.subscribe('logs', {
+            //     address: contractAddress,
+            // }, function(error, result){
+            //     if (!error)
+            //         console.log(result,"resultsss");
+            //     else
+            //         console.log(error,"error");
+            // });
 
             this.abidisplay();
 

@@ -248,7 +248,9 @@
        };
     },
     created(){
-        getAllAcounts();
+        setTimeout(()=>{
+            getAllAcounts();
+        }, 3000);
         // console.log(this.$store)
         // this.activeScreen = this.$store.state.screenState;
         // console.log(this.activeScreen,"activeScreenAPP")
@@ -257,9 +259,10 @@
         launchApplication(){
             let that = this;
             try{
+                web3 = startConnectWeb();
                 // Sending Data to Main js For further Process
-                web3.eth.getAccounts(function (error, accounts) {
-                    // console.log(accounts,"accounts");
+                console.log(web3.eth.getAccounts());
+                web3.eth.getAccounts().then((accounts, error) => {
                     if(accounts && accounts.length > 0){
                         // ipcRenderer.send('launchApplication', 'Launch App');
                         that.$router.push({

@@ -33,7 +33,7 @@
                         <label>Contracts</label>
                     </div>
                     <div class="bottom contracts_list_js">
-                        <div v-for="(contract, key) in contracts" class="a1 contractDetail" :data-val="contract.id" @click="mainMenu(contract.id)">
+                        <div v-for="(contract, key) in contractData" class="a1 contractDetail" :data-val="contract.id" @click="mainMenu(contract.id)">
                            <div class="delete-icon contract_delete" :data-val="contract.id" >
                            </div>
                            <div class="link contract_edit-1" :data-index="parseInt(key + 1)" :data-val="contract.id">
@@ -119,6 +119,12 @@
                 contractid: '',
                 getRandomColor,
             };
+        },
+        computed: {
+            contractData(){
+                this.contracts = db.get('contracts').value();
+                return this.contracts;
+            }
         },
         created(){
             this.contracts = db.get('contracts').value();

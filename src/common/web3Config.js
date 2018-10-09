@@ -85,6 +85,7 @@ const connectWeb3 = () => {
 
         // Initialize web3
         try{
+            web3 = startConnectWeb();
             console.log('connecting web3', web3);
             setTimeout(function(){
                 console.log('connecting web3getAccounts-----', web3.eth.getAccounts());
@@ -112,7 +113,7 @@ const connectWeb3 = () => {
                         },1000)
                     }
                 })
-            },2000);
+            },5000);
         }catch(e){
             Raven.captureException(e);
             console.log(e);
