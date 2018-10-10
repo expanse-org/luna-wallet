@@ -4,7 +4,7 @@
             <img class="logo-luna" src="../../assets/img/logo-luna.png" alt="Logo"/>
 
             <!----------version page starts------------>
-            <div  v-if="this.$store.state.screenState==='version'" class="version">
+            <div  v-if="this.$store.state.screenState=='version'" class="version">
                 <div class="content">
                     <div class="logo">
                         <h1>New Expanse Wallet version available</h1>
@@ -22,7 +22,7 @@
             <!----------version page ends------------>
 
             <!----------configuration page starts------------>
-            <div v-if="this.$store.state.screenState==='config'" class="configuration client-configuration">
+            <div v-if="this.$store.state.screenState=='config'" class="configuration client-configuration">
                 <div class="content">
                     <div class="logo">
                         <div class="gearAnimation">
@@ -36,7 +36,7 @@
             <!----------configuration page ends------------>
 
             <!----------cloudSync page starts------------>
-            <div v-else-if="this.$store.state.screenState==='cloudSync'" class="cloudSync"> <!-- done -->
+            <div v-if="this.$store.state.screenState=='cloudSync'" class="cloudSync"> <!-- done -->
                 <div class="content">
                     <div class="logo">
                         <div class="svgs">
@@ -56,7 +56,7 @@
             <!----------cloudSync page ends------------>
 
             <!----------nodeConnected page starts------------>
-            <div v-if="this.$store.state.screenState==='nodeConnected'"  class="nodeConnected">  <!-- done -->
+            <div v-if="this.$store.state.screenState=='nodeConnected'"  class="nodeConnected">  <!-- done -->
                 <div class="content">
                     <div class="logo">
                         <div class="wifiAnimation">
@@ -79,7 +79,7 @@
             <!----------nodeConnected page ends------------>
 
             <!----------nodeStart page starts------------>
-            <div v-if="this.$store.state.screenState==='nodeStart'"  class="nodeStart"> <!-- node -->
+            <div v-if="this.$store.state.screenState=='nodeStart'"  class="nodeStart"> <!-- node -->
                 <div class="content">
                     <div class="logo">
                         <div class="rocketAnimation">
@@ -106,7 +106,7 @@
             <!----------nodeStart page ends------------>
 
             <!----------nodeUpToDate page starts------------>
-            <div v-if="this.$store.state.screenState==='nodeUpToDate'"  class="nodeUpToDate"> <!-- done -->
+            <div v-if="this.$store.state.screenState=='nodeUpToDate'"  class="nodeUpToDate"> <!-- done -->
                 <div class="content">
                     <div class="logo">
                         <div class="svgs">
@@ -133,7 +133,7 @@
             <!----------nodeUpToDate page ends------------>
 
             <!----------downloadNode page starts------------>
-            <div v-if="this.$store.state.screenState==='downloadNode'"  class="downloadNode">  <!-- done -->
+            <div v-if="this.$store.state.screenState=='downloadNode'"  class="downloadNode">  <!-- done -->
                 <div class="content">
                     <div class="logo">
                         <div class="svgs">
@@ -159,7 +159,7 @@
             <!----------downloadNode page ends------------>
 
             <!----------downloading page starts------------>
-            <div v-if="this.$store.state.screenState==='downloading'"  class="downloading downloading-peers"> <!-- done -->
+            <div v-if="this.$store.state.screenState=='downloading'"  class="downloading downloading-peers"> <!-- done -->
                 <div class="content">
                     <div class="logo">
                         <label>Downloading block <span class="c-block">0</span> of <span
@@ -176,7 +176,7 @@
             <!----------downloading page ends------------>
 
             <!----------connectionError page starts------------>
-            <div v-if="this.$store.state.screenState==='connectionError'"  class="connectionError node-network-error">  <!-- done -->
+            <div v-if="this.$store.state.screenState=='connectionError'"  class="connectionError node-network-error">  <!-- done -->
                 <div class="content">
                     <div class="logo">
 
@@ -205,7 +205,7 @@
             <!----------connectionError page ends------------>
 
             <!----------error page starts------------>
-            <div v-if="this.$store.state.screenState === 'error-downloading'"  class="error error-downloading-node"> <!-- done -->
+            <div v-if="this.$store.state.screenState == 'error-downloading'"  class="error error-downloading-node"> <!-- done -->
                 <div class="content">
                     <div class="logo">
                         <svg class="shake" xmlns="http://www.w3.org/2000/svg" width="99" height="99"
@@ -224,8 +224,7 @@
                 </div>
             </div>
             <!----------error page ends------------>
-
-            <div v-if="this.$store.state.screenState === 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
+            <div v-if="this.$store.state.screenState == 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>
             </div>
         </div>
@@ -237,7 +236,6 @@
   import {downloadGexp} from '../../../common/gexpfunc';
   import {ipcRenderer} from 'electron';
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
-
 
   export default {
     name: 'Splash-screen',

@@ -8,11 +8,11 @@
                 </div>
                 <div class="accounts-list">
                     <div v-for="(account, key) in userAccounts" class="a1">
-                        <div class="unarchive-icon un_archive_account" :data-val="account.hash">
+                        <div @click="handleunarchive(account.hash)" class="unarchive-icon un_archive_account" :data-val="account.hash">
                         </div>
                         <div class="link token_edit" :data-index="parseInt(key + 1)" :data-val="account.hash">
                             <div class="img">
-                                <svg :class="'svg-1 svg'+parseInt(key + 1)" v-bind:style="{fill: color, enableBackground:'new 0 0 43 43' }"
+                                <svg :class="'svg-1 svg'+parseInt(key + 1)" v-bind:style="{fill: account.color, enableBackground:'new 0 0 43 43' }"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
                                 <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
@@ -58,8 +58,10 @@
 </template>
 
 <script>
-    import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
+    import {getArchiveaccounts, getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
     import {startConnectWeb, web3} from '../../../main/libs/config';
+    import {db} from '../../../../lowdbFunc';
+
     export default {
         name: 'ArchiveMain',
         data() {
@@ -69,35 +71,33 @@
         },
         computed: {
             userAccounts() {
-                console.log( this.$store.state, "archive accounts");
-                console.log( this.$store.state.userAccounts, "archive accounts");
                 this.archiveaccount = this.$store.state.userAccounts;
                 return this.archiveaccount;
             },
         },
         created(){
-            if (typeof web3 !== 'undefined') {
-                console.log("else web condition");
-                getAllAcounts();
-            } else {
-                // set the provider you want from Web3.providers
-                startConnectWeb();
-                this.intervalid1 = setInterval(() => {
-                    if(typeof web3 !== 'undefined' ){
-                        getAllAcounts();
-                        if(this.userAccounts && this.userAccounts.length >0) {
-                            console.log(this.userAccounts);
-                            clearInterval(this.intervalid1);
-                        }
-                    }
-                }, 100);
-            }
+            this.intervalid1 = setInterval(() => {
+                getArchiveaccounts();
+                if(this.userAccounts && this.userAccounts.length >0) {
+                    console.log(this.userAccounts);
+                    clearInterval(this.intervalid1);
+                }
+            }, 100);
         },
         methods: {
+            handleunarchive(accounthash) {
+                console.log(accounthash);
+                var accountHash = accounthash;
+                if (confirm("You want to Un Archive this account")){
+                    db.get('accounts').find({ hash: accountHash }).assign({ archive : false }).write();
+                    getArchiveaccounts();
+                    getAllAcounts();
+                }
+            }
         }
     }
 </script>
 
 <style>
-
+    @import "../../assets/css/style.css";
 </style>

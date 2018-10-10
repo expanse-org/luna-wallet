@@ -110,8 +110,6 @@
     import {downloadGexp} from '../../../common/gexpfunc';
     import {ipcRenderer} from 'electron';
     import * as $ from 'jquery';
-
-
     export default {
         name: 'Add-Account',
         data() {

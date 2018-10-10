@@ -50,7 +50,6 @@
     import {db} from '../../../../lowdbFunc';
     import Raven from 'raven';
 
-
     export default {
         name: 'Create-Account',
         data() {

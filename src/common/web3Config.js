@@ -25,6 +25,7 @@ const actionSync = (gexpSync,isgexpSync, peerCount) => {
 
 
 const syncPeers = () => {
+    console.log("syncPeers Func1");
     updateScreen("cloudSync");
     action("cloudSync");
     $('.launch').show();
@@ -37,6 +38,7 @@ const syncPeers = () => {
 
                     if(sync) {
                         var peerCount = web3.eth.net.peerCount;
+                        // console.log(sync,"sync if true",sync);
                         actionSync(sync, true, peerCount);
                         // console.log("sync if true",sync);
 
@@ -85,16 +87,19 @@ const connectWeb3 = () => {
     console.log('connectWeb3 func--------');
     var attempt = 0;
     var web3Connect =  setInterval(function(){
-      if(web3 == undefined) {
-        startConnectWeb();
-      }
+      // if(web3 == undefined) {
+      //   startConnectWeb();
+      //   return false;
+      // }
         // Initialize web3
         try{
+            startConnectWeb();
             console.log('connecting web3', web3);
             setTimeout(function(){
                 console.log('connecting web3getAccounts-----', web3.eth.getAccounts());
                 web3.eth.net.isListening()
                 .then((res)=>{
+                    console.log(res, 'attemptattemptattemptattemptconnecting web3getAccounts-----');
                     if(!res){
                         console.log('Attempt :',attempt);
                         if( attempt == 100){
@@ -118,7 +123,7 @@ const connectWeb3 = () => {
                         },1000)
                     }
                 })
-            },5000);
+            },2000);
         }catch(e){
             Raven.captureException(e);
             console.log(e);

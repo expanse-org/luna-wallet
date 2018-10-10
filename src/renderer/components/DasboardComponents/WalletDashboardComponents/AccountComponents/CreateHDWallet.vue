@@ -23,9 +23,9 @@
             </div>
             <div class="row">
                 <p v-if="ValidMnemonic" class="error-message invalidmnemonic-req-error">Valid Mnemonic Phrase is Required</p>
-                <p v-if="invalidMnemonic"class="error-message invalidmnemonic-error">Invalid mnemonic</p>
+                <p v-if="invalidMnemonic" class="error-message invalidmnemonic-error">Invalid mnemonic</p>
                 <input type="hidden" class="invalidmnemonic-val-error" />
-                <span :class="hdphrase? 'input input--nao input--filled': 'input input--nao'" id="mnemonics">
+                <span :class="fillinput? 'input input--nao input--filled': 'input input--nao'" id="mnemonics">
                     <textarea class="phrase input__field input__field--nao textarea" v-on:change="handlephrase" id="phrase"></textarea>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Enter mnemonic phrase of 12 digits
@@ -37,13 +37,13 @@
                         <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                     </svg>
                 </span>
-                <div @click="generateHandle" class="buttons gen">
+                <div class="buttons gen">
                     <button @click="generateHandle" class="inner-btn ok generate" id="ge_1">Generate / Paste </button>
                 </div>
             </div>
             <div class="row">
                 <input id="bip44-path" v-model="derivation_path" placeholder="Derivation Path" type="hidden" disabled>
-                <span :class="hdderivationpath? 'input input--nao input--filled': 'input input--nao'">
+                <span :class="fillinput? 'input input--nao input--filled': 'input input--nao'">
                     <input class="input__field input__field--nao derivation_path"
                             type="text" disabled>
                     <label class="input__label input__label--nao" >
@@ -57,7 +57,7 @@
                 <input type="hidden" class="derived_address_index" />
             </div>
             <div class="row">
-                <span :class="hdaddress? 'input input--nao input--filled': 'input input--nao'" id="address">
+                <span :class="fillinput? 'input input--nao input--filled': 'input input--nao'" id="address">
                     <input type="text" class="derived_address input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Address
@@ -69,7 +69,7 @@
                 </span>
             </div>
             <div class="row">
-                <span :class="hdprivateKey? 'input input--nao input--filled': 'input input--nao'" id="privateKey">
+                <span :class="fillinput? 'input input--nao input--filled': 'input input--nao'" id="privateKey">
                     <input type="text" class="derived_private_key input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Private Key
@@ -81,7 +81,7 @@
                 </span>
             </div>
             <div class="row">
-                <span :class="hdpublicKey? 'input input--nao input--filled': 'input input--nao'" id="publicKey">
+                <span :class="fillinput? 'input input--nao input--filled': 'input input--nao'" id="publicKey">
                     <input type="text" class="derived_public_key input__field input__field--nao" disabled>
                     <label class="input__label input__label--nao" >
                            <span class="input__label-content input__label-content--nao">Public Key
@@ -186,6 +186,7 @@
                 invalidMnemonic: false,
                 success: false,
                 error: false,
+                fillinput: false,
             };
         },
         computed: {
@@ -221,14 +222,13 @@
         },
         methods: {
             handleFocus(){
-                this.mnemonicsTextareaError = false;
-                this.derivation_pathError = false;
-                this.derived_addressError = false;
+                this.accountNameError = '';
                 this.hd_wallet_passwordError = false;
                 this.hd_wallet_repasswordError = false;
             },
             handlephrase() {
                 this.mnemonicsTextarea = $('.phrase').val();
+                this.fillinput = true;
                 generatePhraseStart(this.mnemonicsTextarea);
             },
             CreateHDWallet(e){
@@ -290,6 +290,7 @@
             },
             generateHandle(e){
                 e.preventDefault();
+                this.fillinput = true;
                 generateStart();
 
             }

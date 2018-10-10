@@ -5453,6 +5453,281 @@ perspective effects (not including the modals and the overlay).
               .dashboard .content .latestTransaction .transactionContent .row .amount svg .open {
                 fill: #FFFFFF; }
 
+.archive-accounts {
+  padding: 0;
+}
+.archive-accounts .content .accounts {
+  margin-top: 0;
+}
+.archive-accounts .content .accounts .top {
+  display: block;
+  text-align: center;
+}
+.archive-accounts .content .accounts .accounts-list {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 6px;
+  background: linear-gradient(to bottom, #293450, #204854);
+  box-shadow: 0 2px 51px -10px #223247;
+  padding: 20px;
+  border-radius: 7px;
+  width: 560px;
+  max-height: 246px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /* Handle */
+}
+
+.archive-accounts .content .accounts .accounts-list::-webkit-scrollbar {
+  width: 11px;
+  border-radius: 0 7px 7px 0;
+  background: #485e66;
+}
+.archive-accounts .content .accounts .accounts-list::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+
+  background: #ffffff url("../img/scrollThumb.svg") center center no-repeat;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img {
+  position: relative;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ1 {
+  fill: #CB4D43;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .rec1 {
+  fill: #8D352E;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ2 {
+  fill: #c3c3c3;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .rec2 {
+  fill: #838383;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ3 {
+  fill: #1e84be;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .rec3 {
+  fill: #093249;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ4 {
+  fill: #3ec144;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ5 {
+  fill: #e6e600;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ6 {
+  fill: #e600ac;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ7 {
+  fill: #00cc99;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .circ8 {
+  fill: #1a1aff;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons {
+  width: 10px;
+  position: absolute;
+  left: -10px;
+  bottom: 0px;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons:first-child {
+  top: 0px;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons svg {
+  width: 13px;
+  height: 13px;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ1 {
+  fill: #CB4D43;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .rec1 {
+  fill: #8D352E;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ2 {
+  fill: #c3c3c3;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .rec2 {
+  fill: #838383;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ3 {
+  fill: #1e84be;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .rec3 {
+  fill: #093249;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ4 {
+  fill: #3ec144;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ5 {
+  fill: #e6e600;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ6 {
+  fill: #e600ac;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ7 {
+  fill: #00cc99;
+}
+.archive-accounts .content .accounts .accounts-list .account1 .img .icons .circ8 {
+  fill: #1a1aff;
+}
+.archive-accounts .content .accounts .accounts-list > div {
+  display: grid;
+  grid-template-columns: max-content auto;
+  background-color: #1a3640;
+  align-items: center;
+  position: relative;
+  padding: 15px;
+  grid-gap: 10px;
+}
+.archive-accounts .content .accounts .accounts-list > div .wallet-icon {
+  background: url(../img/wallet.svg) no-repeat;
+  width: 20px;
+  background-size: 20px;
+  height: 20px;
+  right: 10px;
+  top: 10px;
+  position: absolute;
+}
+.archive-accounts .content .accounts .accounts-list > div .link {
+  display: grid;
+  grid-template-columns: max-content auto;
+  background-color: #1a3640;
+  align-items: center;
+  padding: 0px;
+  grid-gap: 10px;
+  grid-column: 1/2;
+}
+.archive-accounts .content .accounts .accounts-list > div .link .details {
+  margin: 0;
+}
+.archive-accounts .content .accounts .accounts-list > div .link > div > div > div {
+  margin-top: 5px;
+}
+.archive-accounts .content .accounts .accounts-list > div .delete-icon {
+  background: url(../img/delete.svg) top left 10px no-repeat;
+  width: 23px;
+  z-index: 222;
+  background-size: 16px;
+  border-left: 1px solid #204854;
+  height: 22px;
+  right: 20px;
+  transition: all 300ms;
+  padding-left: 5px;
+  top: 28px;
+  cursor: pointer;
+  position: absolute;
+}
+.archive-accounts .content .accounts .accounts-list > div .delete-icon:hover {
+  opacity: 0.5;
+}
+.archive-accounts .content .accounts .accounts-list > div .unarchive-icon {
+  background: url(../img/unarchive.svg) top left 10px no-repeat;
+  width: 23px;
+  z-index: 222;
+  background-size: 16px;
+  border-left: 1px solid #204854;
+  height: 22px;
+  right: 20px;
+  transition: all 300ms;
+  padding-left: 5px;
+  top: 28px;
+  cursor: pointer;
+  position: absolute;
+}
+.archive-accounts .content .accounts .accounts-list > div .unarchive-icon:hover {
+  opacity: 0.5;
+}
+.archive-accounts .content .accounts .accounts-list .details {
+  position: relative;
+  display: grid;
+  grid-gap: 7px;
+}
+.archive-accounts .content .accounts .accounts-list .details .key1 {
+  fill: #CB4D43;
+}
+.archive-accounts .content .accounts .accounts-list .details .key2 {
+  fill: #CB4D43;
+}
+.archive-accounts .content .accounts .accounts-list .details .key3 {
+  fill: #CB4D43;
+}
+.archive-accounts .content .accounts .accounts-list .details * {
+  color: #ffffff;
+}
+.archive-accounts .content .accounts .accounts-list .details span {
+  font-size: 12px;
+  /* font-weight: bold; */
+  color: #c4eefd;
+  font-family: sans-serif;
+}
+.archive-accounts .content .accounts .accounts-list .details p {
+  font-size: 12px;
+}
+.archive-accounts .content .accounts .accounts-list .details .wd180 {
+  cursor: pointer;
+}
+.archive-accounts .content .accounts .accounts-list .details .wd180 .parrentFont {
+  z-index: 222;
+  top: 55px;
+  left: -30%;
+  font-size: inherit;
+}
+.archive-accounts .content .accounts .accounts-list .details .wd180 .parrentFont:after {
+  left: 50%;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 {
+  width: 100%;
+  margin-top: 2px;
+  display: flex;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons {
+  width: 13px;
+  height: 13px;
+  left: -10px;
+  margin-right: 2px;
+  bottom: 0px;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons:first-child {
+  top: 0px;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons svg {
+  width: 100%;
+  height: 100%;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ1 {
+  fill: #CB4D43;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .rec1 {
+  fill: #8D352E;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ2 {
+  fill: #c3c3c3;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .rec2 {
+  fill: #838383;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ3 {
+  fill: #1e84be;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .rec3 {
+  fill: #093249;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ4 {
+  fill: #3ec144;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ5 {
+  fill: #e6e600;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ6 {
+  fill: #e600ac;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ7 {
+  fill: #00cc99;
+}
+.archive-accounts .content .accounts .accounts-list .details .icons2 .icons .circ8 {
+  fill: #1a1aff;
+}
+
 .transactionDetail:hover {
   cursor: pointer; }
 
@@ -9925,7 +10200,7 @@ FONTS
   display: block; }
 
 .tabchange {
-  display: none;
+  /*display: none;*/
   padding: 6px 6px;
   border-top: none; }
   .tabchange .error {
@@ -10030,7 +10305,7 @@ FONTS
           border: none;
           cursor: context-menu; }
     .tabchange .import-inner #fields-Privat-key {
-      display: none;
+      /*display: none;*/
       padding: 10px 0px;
       text-align: left; }
       .tabchange .import-inner #fields-Privat-key label {
@@ -10038,7 +10313,7 @@ FONTS
         font-size: 18px;
         font-weight: regular; }
     .tabchange .import-inner #fields-address {
-      display: none;
+      /*display: none;*/
       padding: 21px 0px; }
       .tabchange .import-inner #fields-address .account-name {
         padding-top: 25px;

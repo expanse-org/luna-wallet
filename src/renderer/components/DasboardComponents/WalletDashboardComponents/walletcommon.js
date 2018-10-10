@@ -111,6 +111,17 @@ const getAllAcounts = () => {
     }
 };
 
+const getArchiveaccounts = () => {
+    archiveAccounts = [];
+    let accounts = db.get('accounts').value();
+    accounts.map((account) => {
+        if(account.archive === true){
+            archiveAccounts.push(account);
+        }
+    });
+    storeActionArchive();
+};
+
 const accAdddb = (account_hash , key) => {
     let color = getRandomColor();
     let accountdata = {
@@ -164,8 +175,11 @@ const gettokensBalance = (account_hash, key) => {
     });
 };
 
-const storeAction = (sortbyEXPBalance) => {
+const storeActionArchive = () => {
     store.dispatch('addUserAcc', archiveAccounts);
+}
+
+const storeAction = () => {
     store.dispatch('addAllAccounts', sortbyEXPBalance);
     store.dispatch('addAddreshash', addresshashAccounts);
 }
@@ -176,7 +190,7 @@ const sortByEXPBalances = () => {
             return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );
-    storeAction(sortbyEXPBalance);
+    storeAction();
     getAllWatchOnlyAcounts();
     console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance");
     console.log(archiveAccounts ,"archiveAccounts sortbyEXPBalance")
@@ -284,4 +298,4 @@ const getAllWatchOnlyAcounts = () => {
 };
 
 
-export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts }
+export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts ,getArchiveaccounts}

@@ -58,7 +58,7 @@
                         c0.5,0,0.9,0.4,0.9,0.8c0,0,0,0,0,0C20.4,30.6,20,31,19.5,31C19.6,31,19.5,31,19.5,31z"
                     />
                 </svg>
-                <label class="time-since-last-block">{{timeStamp? timeStamp: "0s since last block"}}</label>
+                <label class="time-since-last-block">{{timestampData? timestampData:(timeStamp ? timeStamp: "0s since last block")}}</label>
             </div>
 
             <div class="price">
@@ -144,6 +144,7 @@
                 selectCurrency: 'USD',
                 total_balance: 0,
                 tb: 0,
+                tmspm: 0,
                 price: 0,
             };
         },
@@ -153,7 +154,7 @@
                 return this.cb;
             },
             highestblockData: function(){
-                this.hb = this.$store.state.gexpSync.highestblock;
+                this.hb = this.$store.state.gexpSync.highestBlock;
                 return this.hb;
             },
             peerCountData: function(){
@@ -170,6 +171,18 @@
                 console.log(this.tb, "tb");
                 return this.tb;
             },
+            timestampData: function(){
+                if(this.currentblockData) {
+                    web3.eth.getBlock(this.currentblockData).then((res) => {
+                        this.tmspm = moment(res.timestamp * 1000).fromNow();
+                    });
+                } else {
+                    web3.eth.getBlock(this.totalblock).then((res) => {
+                        this.tmspm = moment(res.timestamp * 1000).fromNow();
+                    });
+                }
+                return this.tmspm;
+            },
             dashboardbalanceData: function(){
                 var price = this.$store.state.currencies && this.$store.state.currencies[this.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
                 this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
@@ -184,7 +197,10 @@
             // console.log(this.$store.state.gexpSync)
             console.log(this.currenciesData, "currencies")
             if(this.$store.state.gexpSync){
-
+                console.log(this.$store.state.gexpSync, "this.$store.state.gexpSync.currentBlock")
+                web3.eth.getBlock(this.$store.state.gexpSync.currentBlock).then((res) => {
+                    that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                });
             }else {
                 syncPeers();
                 web3.eth.getBlockNumber().then((res) => {
@@ -192,10 +208,9 @@
                         // console.log("ersr",res);
                         var blockNumber = res;
                         that.totalblock = blockNumber;
-                        timestamp = web3.eth.getBlock(blockNumber).timestamp;
-                        // console.log("web3 totalblock", timestamp , this.totalblock)
-                        that.timeStamp = moment(timestamp * 1000).fromNow();
-
+                        web3.eth.getBlock(blockNumber).then((res) => {
+                            that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                        });
                     }
                 } );
                 web3.eth.net.getPeerCount().then((res) => {
@@ -204,7 +219,7 @@
                         // console.log("web3 totalPeers", that.totalPeers)
                     }
                 });
-                web3.eth.getBlock(this.totalblock).then((res) => {
+                web3.eth.getBlock(that.totalblock).then((res) => {
                     if(res){
                         // console.log("web3 totalPeers", res, res.timestamp)
                         that.timeStamp = moment(res.timestamp * 1000).fromNow();
