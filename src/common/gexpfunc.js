@@ -43,7 +43,7 @@ const downloadGexp = () => {
                 console.log('No Internet Connection');
             }else{
                 console.log("Connection Available");
-                if(production === true){
+                if(production == true){
                     shell.cd(appPath);
                     console.log("production");
                     console.log(shell.ls(''));
@@ -72,7 +72,7 @@ const startingGexp = () => {
     var dlData =   getClientInfo();
     setTimeout(function(){
         let path;
-        if(production === true)
+        if(production == true)
             path = dlData.appPath+ dlData.dirPath;
         else path =  dlData.dirPath;
 

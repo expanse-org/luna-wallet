@@ -54,7 +54,7 @@ export const generateStart = () => {
         let obj = networkData.find((o, i) => {
             // console.log(obj, "obj");
             // console.log(o, i, "o, i");
-            if (o.name === "Expanse") {
+            if (o.name == "Expanse") {
                 return true; // stop searching
             }
         });
@@ -73,7 +73,7 @@ export const generatePhraseStart = (phrase) => {
         // console.log("ff1")
         let obj = networkData.find((o, i) => {
             // console.log(obj, "obj");
-            if (o.name === "Expanse") {
+            if (o.name == "Expanse") {
                 return true; // stop searching
             }
         });

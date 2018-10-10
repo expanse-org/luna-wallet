@@ -18,7 +18,7 @@ const getClientInfo = () => {
         switch (osType) {
             case "Linux":
                 app_path = "~/.config/"+prod_app_directory;
-                if(arch === 'ia32'){
+                if(arch == 'ia32'){
                     let data =({
                         'url' : upPlatForms.linux.ia32.download.url,
                         'dirPath' : 'binaries/gexp-linux-386/',
@@ -27,7 +27,7 @@ const getClientInfo = () => {
                         'gexpFile' :"gexp"
                     });
                     return data;
-                }else if(arch === 'x64'){
+                }else if(arch == 'x64'){
                     let data =({
                         'url' : upPlatForms.linux.x64.download.url ,
                         'dirPath' : 'binaries/gexp-linux-amd64/',
@@ -40,7 +40,7 @@ const getClientInfo = () => {
                 break;
             case "Darwin":
                 app_path = "~/Library/Application Support/"+prod_app_directory;
-                if(arch === 'ia32'){
+                if(arch == 'ia32'){
                     let data =({
                         'url' : upPlatForms.mac.ia32.download.url,
                         'dirPath' : 'binaries/gexp-darwin-386',
@@ -49,7 +49,7 @@ const getClientInfo = () => {
                         'gexpFile' :"gexp"
                     });
                     return data;
-                }else if(arch === 'x64'){
+                }else if(arch == 'x64'){
                     let data = ({
                         'url' : upPlatForms.mac.x64.download.url,
                         'dirPath' : 'binaries/gexp-darwin-amd64',
@@ -62,7 +62,7 @@ const getClientInfo = () => {
                 break;
             case "Windows_NT":
                 app_path = "~/AppData/Roaming/"+prod_app_directory;
-                if(arch === 'x32'){
+                if(arch == 'x32'){
                     let data = ({
                         'url' : upPlatForms.win.ia32.download.url,
                         'dirPath' : 'binaries/gexp-windows-386',

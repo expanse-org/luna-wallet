@@ -41,7 +41,7 @@ $(function() {
       $('#qrCode').toggleClass("hide");
       $(this).text(function(i, v){
         console.log(v);
-        return v === 'Show qr-code' ? 'Hide qr-code' : 'Show qr-code'
+        return v == 'Show qr-code' ? 'Hide qr-code' : 'Show qr-code'
      })
     })
   });

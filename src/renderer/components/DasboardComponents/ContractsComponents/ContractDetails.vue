@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="inputs">
                                     <div class="key"></div>
-                                    <div v-if="value.inputs.length-1 === index" class="value">
+                                    <div v-if="value.inputs.length-1 == index" class="value">
                                         <div class="query">
                                             <button class="queryBtn" v-on:click="handleQuery(JSON.stringify(value))" :data-val="JSON.stringify(value)">Query</button>
                                         </div>
@@ -508,7 +508,7 @@
                         if (web3.utils.isAddress(res)) {
                             result = res;
                         }
-                        else if (typeof res === 'object') {
+                        else if (typeof res == 'object') {
                             result = web3.utils.fromWei(res.toNumber(), "ether")
                         }
                         $("."+(parsedValue.name)+" .answer").html(result);

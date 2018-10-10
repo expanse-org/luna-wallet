@@ -159,20 +159,7 @@ const template = [
             {role: 'selectall'}
         ]
     },
-    {
-        label: 'View',
-        submenu: [
-            {role: 'reload'},
-            {role: 'forcereload'},
-            {role: 'toggledevtools'},
-            {type: 'separator'},
-            {role: 'resetzoom'},
-            {role: 'zoomin'},
-            {role: 'zoomout'},
-            {type: 'separator'},
-            {role: 'togglefullscreen'}
-        ]
-    },
+   
     {
         role: 'window',
         submenu: [
@@ -207,7 +194,7 @@ const template = [
     }
 ]
 
-if (process.platform === 'darwin') {
+if (process.platform == 'darwin') {
     template.unshift({
         label: app.getName(),
         submenu: [
@@ -250,19 +237,19 @@ function backup(){
     try{
         let userPath = app.getPath('home');
         let appDataPath = app.getPath('appData');
-        if (process.platform === 'darwin') {
+        if (process.platform == 'darwin') {
             userPath += '/Library/Expanse/keystore';
         }
 
         if (
-            process.platform === 'freebsd' ||
-            process.platform === 'linux' ||
-            process.platform === 'sunos'
+            process.platform == 'freebsd' ||
+            process.platform == 'linux' ||
+            process.platform == 'sunos'
         ) {
             userPath += '/.expanse/keystore';
         }
 
-        if (process.platform === 'win32') {
+        if (process.platform == 'win32') {
             userPath = `${appDataPath}\\Expanse\\keystore`;
         }
         shell.showItemInFolder(userPath);

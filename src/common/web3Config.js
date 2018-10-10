@@ -85,7 +85,7 @@ const connectWeb3 = () => {
     console.log('connectWeb3 func--------');
     var attempt = 0;
     var web3Connect =  setInterval(function(){
-      if(web3 === undefined) {
+      if(web3 == undefined) {
         startConnectWeb();
       }
         // Initialize web3
@@ -97,7 +97,7 @@ const connectWeb3 = () => {
                 .then((res)=>{
                     if(!res){
                         console.log('Attempt :',attempt);
-                        if( attempt === 100){
+                        if( attempt == 100){
                             updateScreen("connectionError");
                             action("connectionError");
                         }

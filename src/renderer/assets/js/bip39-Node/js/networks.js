@@ -2178,7 +2178,7 @@ function estimateFee (type) {
       var byteSize = tx.toBuffer().length
   
       var fee = baseFee * Math.ceil(byteSize / 1000)
-      if (network.dustSoftThreshold === undefined) return fee
+      if (network.dustSoftThreshold == undefined) return fee
   
       tx.outs.forEach(function (e) {
         if (e.value < network.dustSoftThreshold) {

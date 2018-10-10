@@ -80,7 +80,7 @@ const loadingProgress = (dlData) =>{
                                 // Start Gexp Application
                                 setTimeout(function(){
                                     let path;
-                                    if(production === true)
+                                    if(production == true)
                                         path = getClientInfo().appPath+getClientInfo().dirPath;
                                     else path =  getClientInfo().dirPath;
                                     // Node start Animation
@@ -90,7 +90,7 @@ const loadingProgress = (dlData) =>{
                                     ipcRenderer.send('startGexp', path);
                                     ipcRenderer.on('startGexpResponse', (event, res) => {
                                         console.log(res)
-                                        if(res === true){
+                                        if(res == true){
                                             setTimeout(function(){
                                                 connectWeb3();
                                                 console.log("connectWeb3");
@@ -114,7 +114,7 @@ const loadingProgress = (dlData) =>{
                 Raven.captureException(e);
                 console.log(e);
             }
-        }else if(os.type() === 'Windows_NT'){
+        }else if(os.type() == 'Windows_NT'){
             try{
 
                 decompress(filePath, './').then(files => {
@@ -127,7 +127,7 @@ const loadingProgress = (dlData) =>{
 
                     setTimeout(function(){
                         let path;
-                        if(production === true)
+                        if(production == true)
                             path = getClientInfo().appPath+getClientInfo().dirPath;
                         else path =  getClientInfo().dirPath;
                         // Node start Animation
@@ -137,7 +137,7 @@ const loadingProgress = (dlData) =>{
                         ipcRenderer.send('startGexp', path);
                         ipcRenderer.on('startGexpResponse', (event, res) => {
                             console.log(res)
-                            if(res === true){
+                            if(res == true){
                                 setTimeout(function(){
                                     connectWeb3();
                                     console.log("connectWeb3");

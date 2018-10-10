@@ -174,7 +174,7 @@
                 var that = this;
                 if(this.accountName && this.pass && this.rePass){
                     if(this.pass.length >= 8 ){
-                        if(this.pass === this.rePass){
+                        if(this.pass == this.rePass){
                             try{
                                 that.createSimpleAccount(this.accountName , this.pass);
                                 $('form').trigger("reset");
@@ -240,7 +240,7 @@
                 }
             },
             showPass(){
-                if(this.passType === "password")
+                if(this.passType == "password")
                     this.passType = "text";
                 else
                     this.passType = "password";

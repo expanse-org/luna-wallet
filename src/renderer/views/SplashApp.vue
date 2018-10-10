@@ -62,7 +62,7 @@
                         let cmd;
                         let versionUpdate = false;
                         let that= this;
-                        if(os.type === 'Windows_NT')
+                        if(os.type == 'Windows_NT')
                             cmd = 'ping www.google.com';
                         else
                             cmd = 'ping -c 1 www.google.com';
