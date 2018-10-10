@@ -234,9 +234,11 @@
                         <div @click="handleEvedetail(event)" v-if="isevents && !loadereve" v-for="(event, index) in EventsData">
                             <div class="row transactionDetail md-trigger" data-modal="modal-4" >
                                 <label class="date">{{ event.blockData.timestamp | moment("MMM-DD")}}</label>
-                                <label class="amount">
-                                    <span ></span>
-                                </label>
+                                <div>
+                                    <p>Event Name: {{event.eventdata.event}}</p>
+                                    <p>Amount: {{event.eventdata.returnValues.amount}}</p>
+                                    <p>polarity: {{event.eventdata.returnValues.polarity}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -342,22 +344,46 @@
                 var contract =  new web3.eth.Contract(abiArray,contractAddress);
 
                 console.log(contract, "contract")
+                if(!this.isshowEvents) {
+                    let that = this;
+                    var subscription = contract.events.allEvents({
+                        fromBlock: '0x0',
+                        toBlock: 'latest'
+                    });
+
+                    contract.getPastEvents('allEvents', {
+                        fromBlock: '0x0',
+                        toBlock: 'latest'
+                    }, function (error, logs) {
+                        console.log(logs, "result===================");
+
+                    });
 
 
-                contract.getPastEvents('allEvents',{
-                    fromBlock:'0x0',
-                    toBlock: 1500000
-                }, function(error, logs) {
-                    console.log(error,logs,"--")
-                });
-              var a  =contract.events.allEvents( {
-                    fromBlock:'0x0',
-                    toBlock: 'latest'
-                })
-
-                a.on('data', function(log){
-                    console.log(log,"--")
-                })
+                    subscription.on('data', function (logs) {
+                        console.log(logs, "--")
+                        if (logs) {
+                            console.log(logs, "result===================");
+                            web3.eth.getBlock(logs.blockNumber).then((res) => {
+                                // console.log(res, "res===================");
+                                var data = Object.assign({blockData: res, eventdata: logs}, data)
+                                that.EventsData.push(data);
+                            });
+                            that.noEvents = true;
+                            that.isevents = true;
+                            that.loadereve = false;
+                        } else {
+                            that.noEvents = false;
+                            that.isevents = false;
+                            that.loadereve = false;
+                            console.log(error, "error===================");
+                        }
+                    })
+                } else {
+                     this.noEvents = false;
+                     this.isevents=false;
+                     this.loadereve=false;
+                }
 
 
                // if(!this.isshowEvents) {

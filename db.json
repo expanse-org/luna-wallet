@@ -153,6 +153,27 @@
       "color": "#7D8A62",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Account 0",
+      "hash": "0xf5d29b13574f069437e40537fdda87bd22605456",
+      "color": "#776112",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 1",
+      "hash": "0x426bded6a356c6da0d7d2fae779b716ea4fe8dcb",
+      "color": "#567002",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 2",
+      "hash": "0x7be5f5c286d7aabb0f11f4fc4cc93faff8d851a6",
+      "color": "#68C9DD",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [

@@ -14,7 +14,7 @@
                         <label>Event name</label>
                         <div class="content">
                             <label class="trx_amount">
-
+                                {{eventData.eventdata && eventData.eventdata.event}}
                             </label>
                         </div>
                     </div>
