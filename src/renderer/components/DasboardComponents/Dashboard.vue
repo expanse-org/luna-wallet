@@ -38,13 +38,18 @@ export default {
         };
     },
     created(){
-        if(web3){
+        if (typeof web3 !== 'undefined') {
+            console.log("else web condition");
             getAllAcounts();
-            setInterval(() => {
-                getAllAcounts();
-            }, 500000);
         } else {
+            // set the provider you want from Web3.providers
             startConnectWeb();
+            this.intervalid1 = setInterval(() => {
+                if(typeof web3 !== 'undefined' ){
+                    getAllAcounts();
+                    clearInterval(this.intervalid1)
+                }
+            }, 100);
         }
     },
     methods: {

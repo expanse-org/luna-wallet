@@ -68,7 +68,7 @@ const getAllAcounts = () => {
                             hash: account_hash
                         }).value();
                         if(!accountTest) {
-                            console.log(account_hash ,"else Account in Db account_hash", account);
+                            console.log(account_hash ,"else Account in Db account_hash", account, accountTest);
                             let accountdata = accAdddb(account_hash, index);
                             unarchiveAccounts.push(accountdata);
                             getExpBalance(account_hash, index);

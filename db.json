@@ -67,7 +67,7 @@
       "accountTitle": "Account 10",
       "hash": "0x435f59a650a1e78e51c6bbec0195410a086d51be",
       "color": "#6749D3",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
@@ -151,27 +151,6 @@
       "accountTitle": "User Acc 1",
       "hash": "0x341284F8C9A6bf0e2c5202f4A1f765E6EfC53ebe",
       "color": "#7D8A62",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 0",
-      "hash": "0xf5d29b13574f069437e40537fdda87bd22605456",
-      "color": "#776112",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 1",
-      "hash": "0x426bded6a356c6da0d7d2fae779b716ea4fe8dcb",
-      "color": "#567002",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 2",
-      "hash": "0x7be5f5c286d7aabb0f11f4fc4cc93faff8d851a6",
-      "color": "#68C9DD",
       "archive": false,
       "isHd": false
     }
@@ -1149,6 +1128,19 @@
           "signature": "0xb1662d58"
         }
       ]
+    },
+    {
+      "id": "trgaZEODi",
+      "contract_name": "Contract1",
+      "contract_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
+      "contract_json": [
+        {
+          "name": "Contract",
+          "type": "Contract",
+          "value": "Contract"
+        }
+      ],
+      "color": "#08E43C"
     }
   ],
   "tokens": [

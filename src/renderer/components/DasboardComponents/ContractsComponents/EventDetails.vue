@@ -6,8 +6,8 @@
                 <h2>Events</h2>
                 <p class="trx_hash"></p>
                 <p class="trx_time">
-                    {{eventData.blockData &&  eventData.blockData.timestamp | moment("LLLL")}}<br />
-                    <span>({{eventData.blockData &&  eventData.blockData.timestamp | moment("from", "now")}})</span>
+                    {{eventData &&  eventData.timestamp | moment("LLLL")}}<br />
+                    <span>({{eventData &&  eventData.timestamp | moment("from", "now")}})</span>
                 </p>
                 <div class="table">
                     <div class="rows">
@@ -18,10 +18,11 @@
                             </label>
                         </div>
                     </div>
-                    <div class="rows">
+                    <div class="rows rtvalues">
                         <label>Return values</label>
-                        <div class="content">
-                            <label class="trx_from">
+                        <div class="content setdisp">
+                            <label v-if="isNaN(index)" v-for="(value, index) in (eventData.eventdata && eventData.eventdata.returnValues)"  class="trx_from">
+                                {{index}}: <b class="setvaluetxt">{{value}}</b>
                             </label>
                         </div>
                     </div>
@@ -42,7 +43,10 @@
                                     <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9" />
                                     <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6" />
                                 </svg>
-                            <label class="trx_to">
+                            <label v-if="eventData.contractName" class="trx_to">
+                                <router-link :to="'/contractdetails?contractid='+eventData.eventdata &&  eventData.eventdata.address">{{eventData &&  eventData.contractName}}</router-link>
+                            </label>
+                            <label v-else class="trx_to">
                                 {{eventData.eventdata &&  eventData.eventdata.address}}
                             </label>
                         </div>
@@ -71,19 +75,14 @@
                             </label>
                         </div>
                     </div>
-                    <div class="rows">
+                    <div class="rows rtvalues">
                         <label>Block</label>
-                        <div class="content">
+                        <div class="content setdisp">
                             <a :href="'https://gander.tech/block/'+(eventData.eventdata && eventData.eventdata.blockNumber)" class='trx_block' target="_blank">
                                 {{eventData.eventdata &&  eventData.eventdata.blockNumber}}
                             </a>
-                        </div>
-                    </div>
-                    <div class="rows">
-                        <label>Block Hash</label>
-                        <div class="content">
-                            <label class="trx_gass_price">
-                             {{eventData.eventdata &&  eventData.eventdata.blockHash}}
+                            <label class="trx_from">
+                                {{eventData.eventdata &&  eventData.eventdata.blockHash}}
                             </label>
                         </div>
                     </div>
@@ -119,5 +118,22 @@
 </script>
 
 <style>
+    .rtvalues .setdisp {
+        display: grid!important;
+        text-align: left!important;
+    }
+    .rtvalues .trx_from {
+        margin-bottom: 2px!important;
+        line-height: 20px!important;
+    }
+    .rtvalues {
+        height: auto!important;
+        padding-top: 10px!important;
+        padding-bottom: 10px!important;
+    }
 
+    .rtvalues .setvaluetxt {
+        font-weight: bold;
+        margin-bottom: 2px!important;
+    }
 </style>
