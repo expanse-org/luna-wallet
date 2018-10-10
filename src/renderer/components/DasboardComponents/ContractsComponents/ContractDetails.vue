@@ -232,13 +232,13 @@
                             </div>
                         </div>
                         <div @click="handleEvedetail(event)" v-if="isevents && !loadereve" v-for="(event, index) in EventsData">
-                            <div class="row transactionDetail md-trigger" data-modal="modal-4" >
-                                <label class="date">{{ event.blockData.timestamp | moment("MMM-DD")}}</label>
-                                <div>
-                                    <p>Event Name: {{event.eventdata.event}}</p>
-                                    <p>Amount: {{event.eventdata.returnValues.amount}}</p>
-                                    <p>polarity: {{event.eventdata.returnValues.polarity}}</p>
+                            <div >
+                                <label class="date">{{ event && event.timestamp | moment("MMM-DD")}}</label>
+                                <label class="status"><strong>{{event.eventdata && event.eventdata.event}}</strong></label>
+                                <div v-for="(value, index) in (event.eventdata && event.eventdata.returnValues)" >
+                                    <label v-if="isNaN(index)">{{index}}: {{value}}</label>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -366,7 +366,7 @@
                             console.log(logs, "result===================");
                             web3.eth.getBlock(logs.blockNumber).then((res) => {
                                 // console.log(res, "res===================");
-                                var data = Object.assign({blockData: res, eventdata: logs}, data)
+                                var data = Object.assign({timestamp: res.timestamp, eventdata: logs, contractName:that.contracts && that.contracts.contract_name }, data)
                                 that.EventsData.push(data);
                             });
                             that.noEvents = true;

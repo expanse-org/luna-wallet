@@ -247,9 +247,6 @@
        };
     },
     created(){
-        setTimeout(()=>{
-            // getAllAcounts();
-        }, 3000);
         // console.log(this.$store)
         // this.activeScreen = this.$store.state.screenState;
         // console.log(this.activeScreen,"activeScreenAPP")

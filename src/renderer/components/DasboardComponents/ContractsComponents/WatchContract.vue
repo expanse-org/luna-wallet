@@ -129,6 +129,8 @@
     import  ethereum_address from 'ethereum-address';
     import  shortid from 'shortid';
     import  * as $ from 'jquery';
+    import {listContracts} from './DeployFunc';
+
     export default {
         name: 'WatchContracts',
         props:['contractid'],
@@ -201,6 +203,7 @@
                             color: getRandomColor(),
                         }).write();
                     }
+                    listContracts();
                 } else if(!this.contractName) {
                     this.contractNameError = true;
                 } else if(!this.contractAddress) {

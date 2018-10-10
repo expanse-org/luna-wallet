@@ -107,6 +107,7 @@
     import {db} from '../../../../../lowdbFunc';
     import WatchContract from './WatchContract';
     import DeployContract from './DeployContract';
+    import {listContracts} from './DeployFunc';
     export default {
         name: 'Contracts',
         components: {
@@ -122,8 +123,8 @@
         },
         computed: {
             contractData(){
-                console.log(db.get('contracts').value());
-                this.contracts = db.get('contracts').value();
+                this.contracts = listContracts();
+                console.log( this.contracts);
                 return this.contracts;
             }
         },
