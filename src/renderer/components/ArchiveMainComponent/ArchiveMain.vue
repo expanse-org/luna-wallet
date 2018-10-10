@@ -58,6 +58,8 @@
 </template>
 
 <script>
+    import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
+    import {startConnectWeb, web3} from '../../../main/libs/config';
     export default {
         name: 'ArchiveMain',
         data() {
@@ -67,20 +69,29 @@
         },
         computed: {
             userAccounts() {
+                console.log( this.$store.state, "archive accounts");
+                console.log( this.$store.state.userAccounts, "archive accounts");
                 this.archiveaccount = this.$store.state.userAccounts;
                 return this.archiveaccount;
             },
         },
         created(){
-            // console.log(this.$router.history.current.path, this.$router.history)
-            // if(this.$router.history.current.path === "/accountdetails"){
-            //     this.accdetails = false;
-            // }
-            this.intervalid1 = setInterval(() => {
-                if(this.userAccounts && this.userAccounts.length >0) {
-
-                }
-            }, 3000);
+            if (typeof web3 !== 'undefined') {
+                console.log("else web condition");
+                getAllAcounts();
+            } else {
+                // set the provider you want from Web3.providers
+                startConnectWeb();
+                this.intervalid1 = setInterval(() => {
+                    if(typeof web3 !== 'undefined' ){
+                        getAllAcounts();
+                        if(this.userAccounts && this.userAccounts.length >0) {
+                            console.log(this.userAccounts);
+                            clearInterval(this.intervalid1);
+                        }
+                    }
+                }, 100);
+            }
         },
         methods: {
         }

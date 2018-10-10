@@ -88,11 +88,8 @@ const runGexp = (path) => {
 
         shelljs.cd(path);
         try {
-            // var keyArgs = ['--ws','--wsaddr=127.0.0.1','--wsorigins=*','--wsapi=eth,web3,personal,admin,miner,db,net,utils'];
-            // --ws --wsaddr="0.0.0.0" --wsorigins="*" --wsapi="db,eth,net,web3,personal,utils"
             var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
 
-            // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
             console.log("keyArgs", keyArgs);
             gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                 shell: true
@@ -126,8 +123,8 @@ const runGexp = (path) => {
             try{
                 gexpProc.on('close', (code) => {
                     console.log(`child process exited with code ${code}`);
-                    var textChunk = code.toString('utf8');
-                    mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                    // var textChunk = code.toString('utf8');
+                    // mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
                 });
             }catch(e){
                 console.log("Error",e);
@@ -159,7 +156,20 @@ const template = [
             {role: 'selectall'}
         ]
     },
-   
+    {
+        label: 'View',
+        submenu: [
+            {role: 'reload'},
+            {role: 'forcereload'},
+            {role: 'toggledevtools'},
+            {type: 'separator'},
+            {role: 'resetzoom'},
+            {role: 'zoomin'},
+            {role: 'zoomout'},
+            {type: 'separator'},
+            {role: 'togglefullscreen'}
+        ]
+    },
     {
         role: 'window',
         submenu: [
@@ -194,7 +204,7 @@ const template = [
     }
 ]
 
-if (process.platform == 'darwin') {
+if (process.platform === 'darwin') {
     template.unshift({
         label: app.getName(),
         submenu: [
@@ -237,19 +247,19 @@ function backup(){
     try{
         let userPath = app.getPath('home');
         let appDataPath = app.getPath('appData');
-        if (process.platform == 'darwin') {
+        if (process.platform === 'darwin') {
             userPath += '/Library/Expanse/keystore';
         }
 
         if (
-            process.platform == 'freebsd' ||
-            process.platform == 'linux' ||
-            process.platform == 'sunos'
+            process.platform === 'freebsd' ||
+            process.platform === 'linux' ||
+            process.platform === 'sunos'
         ) {
             userPath += '/.expanse/keystore';
         }
 
-        if (process.platform == 'win32') {
+        if (process.platform === 'win32') {
             userPath = `${appDataPath}\\Expanse\\keystore`;
         }
         shell.showItemInFolder(userPath);
