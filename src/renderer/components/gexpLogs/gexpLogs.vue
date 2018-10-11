@@ -9,31 +9,17 @@
 
 <script>
   import {ipcRenderer} from 'electron';
-<<<<<<< HEAD
-  import {callgexplog} from './gexplog';
-  import * as $ from 'jquery';
-  import {gexplogs} from '../../../common/gexpfunc';
-
-  let gexplog = [];
-
-=======
   // import {callgexplog} from './gexplog';
   import {db} from '../../../../lowdbFunc';
->>>>>>> 95b6308eef639ec4421053fbba693782185c8070
   export default {
     name: 'gexpLogs',
     computed: {
         gexpLogData() {
-<<<<<<< HEAD
-            this.gexplog = gexplogs;
-            console.log(gexplogs,gexplog,"computed dsadada");
-=======
             ipcRenderer.on('gexpLogs', (event, res) => {
                 console.log(res, 'expr------01');
                 this.gexplog = res;
             });
             // console.log(this.gexpLogData,"computed dsadada");
->>>>>>> 95b6308eef639ec4421053fbba693782185c8070
             return this.gexplog;
         }
     },
