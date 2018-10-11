@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="gexplogs">
     <div class="title">Gexp Logs</div>
     <div class="items">
       {{gexpLogData}}
@@ -10,15 +10,15 @@
 <script>
   import {ipcRenderer} from 'electron';
   import {callgexplog} from './gexplog';
+  import {gexplogs} from '../../../common/gexpfunc';
+
   export default {
     name: 'gexpLogs',
     computed: {
         gexpLogData() {
-            ipcRenderer.on('gexpLogs', (event, res) => {
-                console.log(res, 'expresssss');
-                this.gexplog = res;
-            });
-            // console.log(this.gexpLogData,"computed dsadada");
+            this.gexplog = gexplogs;
+            console.log(gexplogs,"computed dsadada");
+            console.log(this.$store.state,"$store computed dsadada");
             return this.gexplog;
         }
     },
@@ -28,18 +28,7 @@
       }
     },
     created() {
-
-        // let interval = setInterval(() => {
-        //     if(this.gexpLogData){
-        //         console.log(this.gexpLogData,"dsadada");
-        //         clearInterval(interval);
-        //     }
-        // }, 10000);
-        // callgexplog();
-
-
-
-        console.log('gexplog');
+        console.log(gexplogs, 'gexplog');
       console.log(this.gexpLogData,"dsadada");
     }
   }
