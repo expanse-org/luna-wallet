@@ -5,6 +5,7 @@ import appPath from 'path';
 import shell from 'shelljs';
 import fs from 'fs';
 import {remote} from 'electron';
+import {ipcRenderer} from 'electron';
 const path = require('path')
 const app = remote.app;
 
@@ -24,19 +25,19 @@ if (production) {
     console.log(adapter, "dir Lowdb if")
 } else {
     console.log(dir, "dir Lowdb if");
-    if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {
-        console.log(appPath.resolve(__dirname), " if dir Lowdb");
-        adapter = new FileSync('db.json');
-    }else {
-        shell.cd('..');
-        shell.cd('..');
-        const dir =  appPath.resolve(__dirname);
-        console.log(dir, "dir Lowdb else ");
-        adapter = new FileSync(dir+'/db.json');
-    }
-    // const dir =  path.resolve(__dirname);
+    // if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {
+    //     console.log(appPath.resolve(__dirname), " if dir Lowdb");
+    //     adapter = new FileSync('db.json');
+    // }else {
+    //     shell.cd('..');
+    //     shell.cd('..');
+    //     const dir =  appPath.resolve(__dirname);
+    //     console.log(dir, "dir Lowdb else ");
+    //     adapter = new FileSync(dir+'/db.json');
+    // }
+    const dir =  path.resolve(__dirname);
     // console.log(dir, "dir Lowdb else")
-    // adapter = new FileSync(dir+'/db.json');
+    adapter = new FileSync(dir+'/db.json');
 }
 // const adapter = new FileSync('db.json')
 const db = low(adapter);
@@ -63,7 +64,10 @@ db.defaults({ accounts: [], contracts: [], tokens: [
     ] , accountsAdresses:[] , hdWallets:[] , transactions : [] })
     .write();
 
-
+    ipcRenderer.on('gexpLogs', (event, res) => {
+        console.log(res, 'logs gexp');
+        // actiongplog(res);
+    });
 
 export {
     db

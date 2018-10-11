@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="gexplogs">
     <div class="title">Gexp Logs</div>
     <div class="items">
       {{gexpLogData}}
@@ -29,18 +29,7 @@
       }
     },
     created() {
-
-        // let interval = setInterval(() => {
-        //     if(this.gexpLogData){
-        //         console.log(this.gexpLogData,"dsadada");
-        //         clearInterval(interval);
-        //     }
-        // }, 10000);
-        // callgexplog();
-
-
-
-        console.log('gexplog');
+        console.log(gexplogs, 'gexplog');
       console.log(this.gexpLogData,"dsadada");
     }
   }

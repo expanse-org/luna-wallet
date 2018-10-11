@@ -96,6 +96,7 @@ const startingGexp = () => {
     },1000);
 };
 
+let gexplogs = [];
 
 
 // const actiongplog = (res) => {
@@ -109,4 +110,4 @@ ipcRenderer.on('gexpLogs', (event, res) => {
     // actiongplog(res);
 });
 
-export { startingGexp, downloadGexp }
+export { startingGexp, downloadGexp, gexplogs }
