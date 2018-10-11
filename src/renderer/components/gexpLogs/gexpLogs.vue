@@ -9,13 +9,14 @@
 
 <script>
   import {ipcRenderer} from 'electron';
-  import {callgexplog} from './gexplog';
+  // import {callgexplog} from './gexplog';
+  import {db} from '../../../../lowdbFunc';
   export default {
     name: 'gexpLogs',
     computed: {
         gexpLogData() {
             ipcRenderer.on('gexpLogs', (event, res) => {
-                console.log(res, 'expresssss');
+                console.log(res, 'expr------01');
                 this.gexplog = res;
             });
             // console.log(this.gexpLogData,"computed dsadada");
