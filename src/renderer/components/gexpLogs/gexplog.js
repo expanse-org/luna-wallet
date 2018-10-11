@@ -2,6 +2,7 @@
 
 import {ipcRenderer} from 'electron';
 import store from "../../store";
+import {db} from '../../../../lowdbFunc';
 
 
 export const callgexplog = ()  => {
@@ -10,4 +11,5 @@ export const callgexplog = ()  => {
         store.dispatch('addGexpLog', res);
     });
 }
+
 

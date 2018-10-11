@@ -99,11 +99,21 @@ const startingGexp = () => {
 let gexplogs = [];
 
 
+// const actiongplog = (res) => {
+//     console.log("storee Action");
+//     store.dispatch('addGexpLog', res)
+// };
+
+//
 ipcRenderer.on('gexpLogs', (event, res) => {
     console.log(res, 'expresssss');
+<<<<<<< HEAD
     // $('#gexplogs .items').append( "<p>" + res + "</p>")
     // gexplogs.push(res);
     // console.log(gexplogs, 'gexplogs');
+=======
+    // actiongplog(res);
+>>>>>>> 95b6308eef639ec4421053fbba693782185c8070
 });
 
 export { startingGexp, downloadGexp, gexplogs }
