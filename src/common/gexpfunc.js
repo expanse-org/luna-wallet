@@ -105,11 +105,11 @@ let gexplogs = [];
 // };
 
 //
-ipcRenderer.on('gexpLogs', (event, res) => {
-    console.log(res, 'expresssss');
-    // $('#gexplogs .items').append( "<p>" + res + "</p>")
-    // gexplogs.push(res);
-    // console.log(gexplogs, 'gexplogs');
-});
+// ipcRenderer.on('gexpLogs', (event, res) => {
+//     console.log(res, 'expresssss');
+//     // $('#gexplogs .items').append( "<p>" + res + "</p>")
+//     // gexplogs.push(res);
+//     // console.log(gexplogs, 'gexplogs');
+// });
 
 export { startingGexp, downloadGexp, gexplogs }

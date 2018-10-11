@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="" />
+    <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/lowdbFunc.js" afterPath="$PROJECT_DIR$/lowdbFunc.js" />
+      <change beforePath="$PROJECT_DIR$/src/common/gexpfunc.js" afterPath="$PROJECT_DIR$/src/common/gexpfunc.js" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue" afterPath="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexplog.js" afterPath="" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -30,21 +36,43 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gexplog.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/gexpLogs/gexplog.js">
+      <file leaf-file-name="gexpLogs.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="106">
+              <caret line="31" column="49" lean-forward="true" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gexpLogs.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue">
+      <file leaf-file-name="gexpfunc.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/common/gexpfunc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="8" lean-forward="true" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+            <state relative-caret-position="556">
+              <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="3" selection-end-line="112" selection-end-column="6" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lowdbFunc.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lowdbFunc.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="571">
+              <caret line="67" column="33" lean-forward="true" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArchiveMain.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/ArchiveMainComponent/ArchiveMain.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="10" lean-forward="true" selection-start-line="0" selection-start-column="10" selection-end-line="56" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -66,18 +94,6 @@
             <state relative-caret-position="191">
               <caret line="77" column="25" lean-forward="false" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1467">
-              <caret line="116" column="62" lean-forward="false" selection-start-line="116" selection-start-column="62" selection-end-line="116" selection-end-column="62" />
-              <folding>
-                <marker date="1539243164802" expanded="true" signature="8399:8420" ph="{...}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -178,7 +194,6 @@
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Accounts.Vue" />
         <option value="$PROJECT_DIR$/src/renderer/main.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexplog.js" />
         <option value="$PROJECT_DIR$/src/renderer/views/MainApp.Vue" />
         <option value="$PROJECT_DIR$/src/renderer/views/AccountApp.Vue" />
         <option value="$PROJECT_DIR$/package.json" />
@@ -200,7 +215,6 @@
         <option value="$PROJECT_DIR$/src/main/libs/config.js" />
         <option value="$PROJECT_DIR$/db.json" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Dashboard.vue" />
-        <option value="$PROJECT_DIR$/lowdbFunc.js" />
         <option value="$PROJECT_DIR$/src/main/index.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue" />
@@ -216,11 +230,13 @@
         <option value="$PROJECT_DIR$/src/renderer/components/SplashScreen/SplashScreen.vue" />
         <option value="$PROJECT_DIR$/src/common/web3Config.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Header/Header.vue" />
-        <option value="$PROJECT_DIR$/src/common/gexpfunc.js" />
-        <option value="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/LatestTransaction.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Transactiondetail.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue" />
+        <option value="$PROJECT_DIR$/src/common/gexpfunc.js" />
+        <option value="$PROJECT_DIR$/lowdbFunc.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/gexpLogs/gexplog.js" />
       </list>
     </option>
   </component>
@@ -337,6 +353,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="renderer" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="ArchiveMainComponent" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
@@ -499,12 +523,12 @@
       <workItem from="1537683160411" duration="89054000" />
       <workItem from="1537954036255" duration="93074000" />
       <workItem from="1538328101791" duration="2278000" />
-      <workItem from="1538400418599" duration="171065000" />
+      <workItem from="1538400418599" duration="172041000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="388588000" />
+    <option name="totallyTimeSpent" value="389564000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -629,16 +653,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lowdbFunc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="54" column="30" lean-forward="false" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
-          <folding>
-            <element signature="e#2#52#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/assets/img/unarchive.svg">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -683,16 +697,6 @@
         <state relative-caret-position="298">
           <caret line="48" column="48" lean-forward="true" selection-start-line="48" selection-start-column="48" selection-end-line="49" selection-end-column="45" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/ArchiveMainComponent/ArchiveMain.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="78" column="50" lean-forward="true" selection-start-line="78" selection-start-column="50" selection-end-line="79" selection-end-column="37" />
-          <folding>
-            <element signature="e#4187#4298#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -904,14 +908,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/gexpfunc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-853">
-          <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AddAccount.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-60">
@@ -984,18 +980,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/ArchiveMainComponent/ArchiveMain.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="10" lean-forward="true" selection-start-line="0" selection-start-column="10" selection-end-line="56" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/gexpfunc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="556">
+          <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="3" selection-end-line="112" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lowdbFunc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="67" column="33" lean-forward="true" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/gexpLogs/gexplog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="135">
+          <caret line="9" column="41" lean-forward="false" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/gexpLogs/gexpLogs.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="8" lean-forward="true" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+        <state relative-caret-position="106">
+          <caret line="31" column="49" lean-forward="true" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
           <folding />
         </state>
       </provider>

@@ -1,8 +1,17 @@
 <template>
-  <div id="gexplogs">
-    <div class="title">Gexp Logs</div>
-    <div class="items">
-      {{gexpLogData}}
+  <div class="main-container dashboard archive-accounts">
+    <div class="create-acccount content">
+      <div class="accounts">
+        <div class="top">
+          <label>Gexp Logs</label>
+          <!-- <label>No Records Found</label> -->
+        </div>
+        <div class="accounts-list gexplistdiv">
+          <div v-for="(gexplog, key) in gexpLogData" class="a1">
+            <p class="gexptxt">{{gexplog}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -15,9 +24,10 @@
     name: 'gexpLogs',
     computed: {
         gexpLogData() {
+            let that = this;
             ipcRenderer.on('gexpLogs', (event, res) => {
                 console.log(res, 'expr------01');
-                this.gexplog = res;
+                that.gexplog.push(res);
             });
             // console.log(this.gexpLogData,"computed dsadada");
             return this.gexplog;
@@ -25,49 +35,35 @@
     },
     data () {
       return {
-          gexplog: '',
+          gexplog: [],
       }
     },
     created() {
-        // this.intervalid1 = setInterval(() => {
+        let that = this;
+        this.intervalid1 = setInterval(() => {
             ipcRenderer.on('gexpLogs', (event, res) => {
                 console.log(res, 'expresssss');
-                $('#gexplogs .items').append( "<p>" + res + "</p>")
-                gexplog.push(res);
-                console.log(gexplog, 'gexplogs');
+                that.gexplog.push(res);
+                console.log(that.gexplog, 'gexplogs');
             });
-            // clearInterval(this.intervalid1)
-        // }, 1000);
-        console.log(gexplogs, 'gexplog');
-        console.log(this.gexpLogData,"dsadada");
+            clearInterval(this.intervalid1)
+        }, 1000);
     }
   }
 
 </script>
 
 <style scoped>
-  .title {
-    color: #888;
-    font-size: 18px;
-    font-weight: initial;
-    letter-spacing: .25px;
-    margin-top: 10px;
+  .gexplistdiv{
+    width: 610px;
+    max-height: 806px;
   }
 
-  .items { margin-top: 8px; }
-
-  .item {
-    display: flex;
-    margin-bottom: 6px;
+  .gexplistdiv div{
+    display: block;
   }
 
-  .item .name {
-    color: #6a6a6a;
-    margin-right: 6px;
-  }
-
-  .item .value {
-    color: #35495e;
-    font-weight: bold;
+  .gexptxt {
+    color: #ffffff;
   }
 </style>
