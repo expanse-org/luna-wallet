@@ -230,7 +230,7 @@
         methods: {
             handleCurrency(curr){
                 console.log("web3 this.curr", curr);
-                if(curr === 'USD'){
+                if(curr == 'USD'){
                     this.defaultCurrencySign = '$';
                 }else {
                     this.defaultCurrencySign = curr;

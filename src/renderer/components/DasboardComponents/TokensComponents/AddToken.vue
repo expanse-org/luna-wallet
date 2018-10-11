@@ -277,7 +277,7 @@
                     this.tokenName = token.token_name;
                     this.tokensymbol = token.token_symbol;
                     this.decimalplaces = token.decimal_places;
-                    this.tokenType = token.tokenType === 'erc20' ? {value: 'erc20',text:' ERC20'}:{value: 'standard',text:'Standard Interface'};
+                    this.tokenType = token.tokenType == 'erc20' ? {value: 'erc20',text:' ERC20'}:{value: 'standard',text:'Standard Interface'};
                     this.tokenID = token.id;
                 }
             }
