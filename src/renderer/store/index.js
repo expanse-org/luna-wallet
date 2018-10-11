@@ -10,7 +10,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     count: 0,
-    screenState: activeScreen,
+    screenState: 'config',
     gexpRes: false,
     gexpSync: '',
     isgexpSync: '',

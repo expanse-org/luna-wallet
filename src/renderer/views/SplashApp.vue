@@ -82,6 +82,8 @@
                                 .then(response => {
                                     let latestGethVersion = response.body.tag_name;
                                     newClinetBinaries.clients.Gexp.version = latestGethVersion;
+                                    // console.log(latestGethVersion, "ulatestGethVersionrl1---------------------------");
+                                    // console.log(response.body.tag_name, "urresponsel1---------------------------");
                                     if(response.body.tag_name !== localGethVersion){
                                         versionUpdate = true;
                                         console.log('update binaries files');
@@ -90,12 +92,16 @@
                                             _.keys(platForms[platform]).forEach(arch => {
                                                 // Update URL
                                                 let url = platForms[platform][arch].download.url;
-                                                url = url.replace(/v[0-9].[0-9].[0-9][0-9][0-9]/,`${latestGethVersion}`);
+                                                // console.log(url, url.substring(url.indexOf("/v")+1, url.indexOf("/ge")), "url1---------------------------");
+                                                url = url.replace(url.substring(url.indexOf("/v")+1, url.indexOf("/ge")),`${latestGethVersion}`);
+                                                // console.log(url, "url2----------------------");
                                                 platForms[platform][arch].download.url = url;
 
                                                 // Update bin name (path in archive)
                                                 let bin = platForms[platform][arch].download.bin;
-                                                bin = bin.replace(/v[0-9].[0-9].[0-9][0-9][0-9]/,`${latestGethVersion}`);
+                                                // console.log(bin, "bin1-----------------");
+                                                bin = bin.replace(bin.substring(bin.indexOf("-v")+1, bin.indexOf("/ge")),`${latestGethVersion}`);
+                                                // console.log(bin, "bin2-----------------");
                                                 platForms[platform][arch].download.bin = bin;
 
                                                 // Update expected sanity-command version output

@@ -23,7 +23,7 @@ const action = (screen) => {
 
 
 const loadingProgress = (dlData) =>{
-    console.log(dlData,"loadingProgress Func");
+    console.log(dlData,"loadingProgress Func11");
     progress(request({
             url:  dlData.url,
             timeout: 20000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
@@ -84,8 +84,8 @@ const loadingProgress = (dlData) =>{
                                         path = getClientInfo().appPath+getClientInfo().dirPath;
                                     else path =  getClientInfo().dirPath;
                                     // Node start Animation
-                                    updateScreen("error-nodeStart");
-                                    action("error-nodeStart");
+                                    updateScreen("nodeStart");
+                                    action("nodeStart");
 
                                     ipcRenderer.send('startGexp', path);
                                     ipcRenderer.on('startGexpResponse', (event, res) => {

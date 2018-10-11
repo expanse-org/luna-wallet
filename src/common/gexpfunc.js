@@ -38,8 +38,8 @@ const downloadGexp = () => {
     try{
         var child = exec(cmd, function(er, stdout, stderr){
             if(er !== null){
-                updateScreen("downloadNode");
-                action("downloadNode");
+                updateScreen("error-downloading");
+                action("error-downloading");
                 console.log('No Internet Connection');
             }else{
                 console.log("Connection Available");
@@ -68,7 +68,7 @@ const downloadGexp = () => {
 };
 
 const startingGexp = () => {
-    // console.log(store,"store========,GexpStart")
+    console.log("GexpStart")
     var dlData =   getClientInfo();
     setTimeout(function(){
         let path;
@@ -85,6 +85,7 @@ const startingGexp = () => {
             if(res){
                 setTimeout(function(){
                     connectWeb3();
+                    console.log("connectweb3 funcction start")
                 },2000)
             }
             else{
@@ -102,10 +103,10 @@ const actiongplog = (res) => {
     store.dispatch('addGexpLog', res)
 };
 
-
-ipcRenderer.on('gexpLogs', (event, res) => {
-    console.log(res, 'expresssss');
-    // actiongplog(res);
-});
+//
+// ipcRenderer.on('gexpLogs', (event, res) => {
+//     console.log(res, 'expresssss');
+//     // actiongplog(res);
+// });
 
 export { startingGexp, downloadGexp }

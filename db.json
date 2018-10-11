@@ -137,7 +137,7 @@
       "accountTitle": "Account 19",
       "hash": "0x24c5c7892a33ddef8dea8831847ecd307052479b",
       "color": "#88799A",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {

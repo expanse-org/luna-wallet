@@ -1,14 +1,6 @@
 <template>
-    <div id="import-account">
+    <div id="import-account"  class="tabchange">
         <div class="import-inner">
-            <div class="import-btns h-hide">
-                <button class="button--moema" @click="privatekey('private-key')">Import
-                    <br/>Private Key</button>
-                <button class="button--moema" @click="address('import-address')">Import Watch
-                    <br/>Only Address</button>
-                <button class="button--moema" @click="fileupload('import-account-file')">Import
-                    <br/>Json File</button>
-            </div>
             <div class="row imppdrop">
                 <div class="drop-down impoortAccounts_dropdown">
                     <div class="error-label">
@@ -243,7 +235,7 @@
                 error: false,
                 success: false,
                 passType: 'password',
-                tabName: '',
+                tabName: {text:'Import Private Key'},
                 optionTab: [{text:'Import Private Key'},{text:'Import Watch Only Address'},{text:'Import Json File' } ]
             };
         },
