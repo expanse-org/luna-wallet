@@ -110,7 +110,7 @@
                     <div class="rows">
                         <label>Block</label>
                         <div class="content">
-                            <a :href="'https://gander.tech/block/'+transaction.transaction_info.blockNumberDecimal" class='trx_block' target="_blank">
+                            <a @click="openGanderUrl('https://gander.tech/block/'+transaction.transaction_info.blockNumberDecimal)" href="" class='trx_block' target="_blank">
                                 {{transaction.transaction_info && transaction.transaction_info.blockNumberDecimal}}
                             </a>
                         </div>
@@ -134,7 +134,10 @@
     const numberToBN = require('number-to-bn');
     const Gwei = 1000000000;
     import {web3} from '../../../../main/libs/config';
+    import os from 'os';
+    import  * as child_process from 'child_process';
     // var web3 = startConnectWeb();
+
     export default {
         name: 'transactiondetails',
         props : ['txndetaildata'],
@@ -162,7 +165,7 @@
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://beta-api.gander.tech/gettransactionbyhash', postData)
                     .then((response) => {
-                        console.log(response, "response------");
+                        console.log(response.data.message, "response------");
                         if(response.data.message){
                             this.transaction = response.data.message;
                         }
@@ -171,6 +174,18 @@
                         console.log(error);
                         // Raven.captureException(error);
                     });
+            },
+            openGanderUrl(url){
+                console.log(url);
+                if(os.type() == 'Windows_NT') {
+                    child_process.execSync('start '+url)
+                }
+                if(os.type() == 'Linux') {
+                    child_process.execSync('xdg-open '+url)
+                }
+                if(os.type() == 'Darwin') {
+                    child_process.execSync('open '+url)
+                }
             },
         }
     }

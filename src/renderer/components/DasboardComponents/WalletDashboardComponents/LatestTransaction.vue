@@ -352,7 +352,7 @@
                 });
             },
             handletxdetail(txn){
-                this.txndetaildata = txn.hash;
+                this.txndetaildata = txn.transactionHash;
                 this.show();
             }
         }

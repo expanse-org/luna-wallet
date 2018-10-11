@@ -10,15 +10,17 @@
 <script>
   import {ipcRenderer} from 'electron';
   import {callgexplog} from './gexplog';
+  import * as $ from 'jquery';
   import {gexplogs} from '../../../common/gexpfunc';
+
+  let gexplog = [];
 
   export default {
     name: 'gexpLogs',
     computed: {
         gexpLogData() {
             this.gexplog = gexplogs;
-            console.log(gexplogs,"computed dsadada");
-            console.log(this.$store.state,"$store computed dsadada");
+            console.log(gexplogs,gexplog,"computed dsadada");
             return this.gexplog;
         }
     },
@@ -28,8 +30,17 @@
       }
     },
     created() {
+        // this.intervalid1 = setInterval(() => {
+            ipcRenderer.on('gexpLogs', (event, res) => {
+                console.log(res, 'expresssss');
+                $('#gexplogs .items').append( "<p>" + res + "</p>")
+                gexplog.push(res);
+                console.log(gexplog, 'gexplogs');
+            });
+            // clearInterval(this.intervalid1)
+        // }, 1000);
         console.log(gexplogs, 'gexplog');
-      console.log(this.gexpLogData,"dsadada");
+        console.log(this.gexpLogData,"dsadada");
     }
   }
 
