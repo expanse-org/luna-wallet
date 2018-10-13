@@ -15,9 +15,9 @@
                 <!-- <span class="currency-sign">Exp</span> -->
                 <div class=" copy accoundID wd300">
                     <label class="main-account-hash">{{accounthash? accounthash: '0X'}}</label>
-                    <div class="tooltip3 copytext" data-val=".main-account-hash-input">
-                        <img src="../../../assets/img/copy.svg" />
-                        <span class="tooltiptext2">Copied</span>
+                    <div @click="handletooltip" class="tooltip3 copytext" data-val=".main-account-hash-input">
+                        <img src="../../../assets/img/copy.svg"  />
+                        <span v-if="copiedtip" class="tooltiptext2">Copied</span>
                     </div>
                     <input type="hidden" v-model="accounthash" class="main-account-hash-input" />
 
@@ -44,6 +44,7 @@
 <script>
     import QrcodeVue from 'qrcode.vue';
     import {web3} from '../../../../main/libs/config';
+    import { clipboard, dialog } from 'electron';
     // var web3 = startConnectWeb();
     import AddAccount from './AddAccount';
     export default {
@@ -57,6 +58,7 @@
              accountTitle: '',
              accounthash: '',
              accountbalance: '',
+              copiedtip: false,
           };
         },
         computed: {
@@ -67,7 +69,6 @@
             },
             accPriceData() {
                 var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
-                console.log(curr, "cur-----")
                 this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
                 return this.accbprice;
             },
@@ -83,7 +84,7 @@
                                 // console.log(res);
                                 if(account_hash.hash) {
                                     if (res == (account_hash.hash).toLowerCase()){
-                                        console.log(account_hash, "account_hash");
+                                        // console.log(account_hash, "account_hash");
                                         that.accountTitle = account_hash.accountTitle;
                                         that.accounthash = account_hash.hash;
                                         that.accountbalance = account_hash.balance;
@@ -109,6 +110,17 @@
             },
             hide () {
                 this.$modal.hide('openAddAccountModal');
+            },
+            handletooltip(){
+                this.copiedtip = true;
+                var copyText = this.accounthash;
+                if (copyText) {
+                    clipboard.writeText(copyText, 'selected');
+                }
+                setTimeout(() => {
+                    this.copiedtip = false;
+                },2000);
+
             },
         }
     }

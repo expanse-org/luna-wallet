@@ -1,5 +1,5 @@
 <template>
-    <div id="transaction-modal">
+    <div id="transaction-modal" class="txns_details">
         <div class="popup  md-content ">
             <a href="#" @click="hide" class="btn-close md-close"></a>
             <div v-if="transaction.transaction_info" class="transaction transaction_details">
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div  v-else class="loader transactionLoader">
+            <div v-else class="loader transactionLoader">
                 <div class="outerCircle">
                     <img src="../../../assets/img/outer.png">
                 </div>

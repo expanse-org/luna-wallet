@@ -2157,8 +2157,8 @@ FONTS
     .row-3 .tooltip3:hover {
       opacity: 0.8; }
     .row-3 .tooltip3 .tooltiptext2 {
-      visibility: hidden;
-      width: 120px;
+      visibility: visible;
+      width: 100px;
       background-color: #fff !important;
       color: #214653;
       text-align: center;
@@ -2166,9 +2166,9 @@ FONTS
       position: absolute;
       z-index: 1;
       bottom: 125%;
-      left: 10px;
+      left: 20px;
       margin-left: -60px;
-      opacity: 0;
+      opacity: 1;
       transition: opacity 0.3s; }
       .row-3 .tooltip3 .tooltiptext2:after {
         content: "";
@@ -4932,7 +4932,7 @@ perspective effects (not including the modals and the overlay).
               .dashboard .content .userInfo .left .info .copy .tooltip3:hover {
                 opacity: 0.8; }
               .dashboard .content .userInfo .left .info .copy .tooltip3 .tooltiptext2 {
-                visibility: hidden;
+                visibility: visible;
                 width: 120px;
                 background-color: #fff !important;
                 color: #214653;
@@ -4943,7 +4943,7 @@ perspective effects (not including the modals and the overlay).
                 bottom: 125%;
                 left: 10px;
                 margin-left: -60px;
-                opacity: 0;
+                opacity: 1;
                 transition: opacity 0.3s; }
                 .dashboard .content .userInfo .left .info .copy .tooltip3 .tooltiptext2:after {
                   content: "";
@@ -10869,6 +10869,29 @@ FONTS
             align-items: center;
             -moz-animation: spinoffPulse 1s infinite linear;
             -webkit-animation: spinoffPulse 1s infinite linear; }
+            .txns_details .md-content .loader {
+              display: grid;
+              grid-template-columns: auto;
+              justify-items: center;
+              align-items: center;
+              background-color: #1a3640;
+              height: 100%; }
+            .txns_details .md-content .loader .outerCircle {
+              grid-column: 1/2;
+              grid-row: 1/2;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              -moz-animation: spinPulse 3s infinite ease-in-out;
+              -webkit-animation: spinPulse 3s infinite ease-in-out; }
+            .txns_details .md-content .loader .innerCircle {
+              grid-column: 1/2;
+              grid-row: 1/2;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              -moz-animation: spinoffPulse 1s infinite linear;
+              -webkit-animation: spinoffPulse 1s infinite linear; }
 @-moz-keyframes spinPulse {
   0% {
     -moz-transform: rotate(160deg); }

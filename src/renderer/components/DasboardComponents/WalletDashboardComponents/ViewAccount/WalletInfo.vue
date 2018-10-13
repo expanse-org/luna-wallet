@@ -30,9 +30,9 @@
                 <span>Address</span>
                 <div class="value publicAddress">{{publicAddress}}</div>
                 <input type="hidden" v-model="publicAddress" class="publicAddress-inp" />
-                <div class="tooltip3 copytext" @click="copy(publicAddress)" data-val=".publicAddress-inp">
+                <div class="tooltip3 copytext" @click="copy(publicAddress,'pubadd')" data-val=".publicAddress-inp">
                     <img src="../../../../assets/img/copy.svg" />
-                    <span class="tooltiptext2">Copied</span>
+                    <span v-if="copiedtip" class="tooltiptext2">Copied</span>
                 </div>
             </div>
 
@@ -62,9 +62,9 @@
                 <span>Private Key</span>
                 <div class="value privateKey">{{privateKey}}</div>
                 <input type="hidden" v-model="privateKey" class="privateKey-inp" />
-                <div class="tooltip3 copytext" @click="copy(privateKey)" data-val=".privateKey-inp">
+                <div class="tooltip3 copytext" @click="copy(privateKey, 'pkey')" data-val=".privateKey-inp">
                     <img src="../../../../assets/img/copy.svg" />
-                    <span class="tooltiptext2">Copied</span>
+                    <span v-if="copiedtipk" class="tooltiptext2">Copied</span>
                 </div>
             </div>
         </div>
@@ -108,6 +108,8 @@
                 publicKey: '',
                 hidedata: false,
                 privateKeyhide: false,
+                copiedtip: false,
+                copiedtipk: false,
             };
         },
         components:{
@@ -124,24 +126,23 @@
             handleFocus(){
                 this.privateKeyPassError = false;
             },
-            copy(data){
+            copy(data, tab){
                 var copyText = data;
                 if (copyText) {
                     clipboard.writeText(copyText, 'selected');
                 }
-                var styles = {
-                    visibility: "visible",
-                    opacity: "1"
-                };
-                var styles2 = {
-                    visibility: "hidden",
-                    opacity: "0"
-                };
-                // $(this).children('.tooltiptext2').css(styles);
-                // var t = $(this);
-                // setTimeout(function () {
-                //     t.children('.tooltiptext2').animate(styles2, 400);
-                // }, 1000);
+                switch(tab){
+                    case 'pubadd':
+                        this.copiedtip = true;
+                        break;
+                    case 'pkey':
+                        this.copiedtipk = true;
+                        break;
+                }
+                setTimeout(() => {
+                    this.copiedtip = false;
+                    this.copiedtipk = false;
+                },2000);
             },
             handleUnlock(e){
                 e.preventDefault();

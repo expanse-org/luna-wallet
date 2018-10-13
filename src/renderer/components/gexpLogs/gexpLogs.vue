@@ -7,8 +7,8 @@
           <!-- <label>No Records Found</label> -->
         </div>
         <div class="accounts-list gexplistdiv">
-          <div v-for="(gexplog, key) in gexpLogData" class="a1">
-            <p class="gexptxt">{{gexplog}}</p>
+          <div v-for="(gexp, key) in gexpLogData" class="a1">
+            <p class="gexptxt">{{gexp}}</p>
           </div>
         </div>
       </div>
@@ -29,8 +29,8 @@
                 console.log(res, 'expr------01');
                 that.gexplog.push(res);
             });
-            // console.log(this.gexpLogData,"computed dsadada");
-            return this.gexplog;
+            // console.log(that.gexplog,"computed dsadada");
+            return that.gexplog;
         }
     },
     data () {
@@ -39,15 +39,6 @@
       }
     },
     created() {
-        let that = this;
-        this.intervalid1 = setInterval(() => {
-            ipcRenderer.on('gexpLogs', (event, res) => {
-                console.log(res, 'expresssss');
-                that.gexplog.push(res);
-                console.log(that.gexplog, 'gexplogs');
-            });
-            clearInterval(this.intervalid1)
-        }, 1000);
     }
   }
 
@@ -55,12 +46,12 @@
 
 <style scoped>
   .gexplistdiv{
-    width: 610px;
-    max-height: 806px;
+    width: 610px!important;
+    max-height: 806px!important;
   }
 
   .gexplistdiv div{
-    display: block;
+    display: block!important;
   }
 
   .gexptxt {

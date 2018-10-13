@@ -185,11 +185,11 @@
                         <img src="../../../assets/img/inner.png">
                     </div>
                 </div>
-                <div @click="handletxdetail(transaction)" v-if="istransactions" v-for="(transaction, index) in transactions">
+                <div @click="handletxdetail(transaction)" v-if="istransactions" v-for="(transaction, index) in filtertransaction? filtertransaction: transactions">
                     <div v-if="transaction.Type != 'mined_transaction'"  class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
                         <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
-                        <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status"><strong>{{transaction.transactionStatus}}</strong></label>
-                        <label v-else-if="transaction.transactionStatus" class="status">{{transaction.transactionStatus}}</label>
+                        <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status statstf"><strong>{{transaction.transactionStatus}}</strong></label>
+                        <label v-else-if="transaction.transactionStatus" class="status statstf">{{transaction.transactionStatus}}</label>
                         <label v-if="!transaction.transactionStatus && transaction.blockNumber" class="status">Completed</label>
                         <label v-else-if="!transaction.transactionStatus" class="status"><strong>Pending</strong></label>
                         <div class="account">
@@ -275,6 +275,13 @@
 
                 return this.accbprice;
             },
+            filtertransaction() {
+                if(this.searchTxn.trim()){
+                    return this.transactions.filter(item => {
+                        return item.to.indexOf(this.searchTxn.toLowerCase()) > -1 || item.from.indexOf(this.searchTxn.toLowerCase()) > -1 || item.transactionStatus && item.transactionStatus.indexOf(this.searchTxn.toLowerCase()) > -1 || item.valueDecimal && (parseFloat(item.valueDecimal).toFixed(4)).indexOf(this.searchTxn.toLowerCase()) > -1
+                    })
+                }
+            }
         },
         created(){
             this.intervalid1 = setInterval(() => {
@@ -311,12 +318,12 @@
             },
             handletxn() {
                 if(this.searchTxn){
-                    let postData = {
-                        skip: 0,
-                        limit: 15,
-                        addresses: [this.searchTxn],
-                    };
-                    this.fetch(postData);
+                    // let postData = {
+                    //     skip: 0,
+                    //     limit: 15,
+                    //     addresses: [this.searchTxn],
+                    // };
+                    // this.fetch(postData);
                 } else {
                     let postData = {
                         skip: 0,
@@ -331,6 +338,8 @@
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)
                 .then((response) => {
+                    this.notransactions = false;
+                    this.istransactions = true;
                     this.transactions = response.data.message;
                     if(this.transactions && this.transactions.length>0){
                         transaction_list_hash = object_hash(this.transactions);
@@ -364,6 +373,9 @@
     .notrnas {
         margin: 0px auto;
         width: 178px;
+    }
+    .statstf {
+        text-transform: capitalize;
     }
 
 </style>

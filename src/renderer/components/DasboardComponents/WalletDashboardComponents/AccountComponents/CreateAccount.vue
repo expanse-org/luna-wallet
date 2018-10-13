@@ -5,7 +5,7 @@
                 Accounts are password protected keys that can hold Expanse and Expanse-based tokens.
             </div>
             <div class="row">
-                <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
+                <p v-if="accountNameError" class="error-message accountName-error">{{accountNameError}}</p>
                 <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                     <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                            type="text" id="input-1" />
@@ -21,7 +21,7 @@
                 </span>
             </div>
             <div class="row">
-                <p v-if="passwordError" class="error-message password-error">Password Length must be at least 8</p>
+                <p v-if="passwordError" class="error-message password-error">{{passwordError}}</p>
                 <span :class="password? 'input input--nao input--filled': 'input input--nao'">
                     <input class="passwor input__field input__field--nao accountPassword" name="password" v-model="password" @focus="handleFocus"
                            :type="passType" id="input-2" />
@@ -41,7 +41,7 @@
             </div>
             <form>
                 <div class="row">
-                    <p v-if="retypePasswordError" class="error-message retype-password-error">password unmatched</p>
+                    <p v-if="retypePasswordError" class="error-message retype-password-error">{{retypePasswordError}}</p>
                     <span :class="retypePassword? 'input input--nao input--filled': 'input input--nao'">
                         <input class="retype-passwor input__field input__field--nao accountPassword" v-model="retypePassword" @focus="handleFocus"
                                name="retype-password" :type="passType" id="input-5"
@@ -134,10 +134,11 @@
                                 $('.alert-sucess').show(400).delay(5000).hide(330);
                             } catch (err) {
                                 console.log("Execption Error" + err.message);
+                                this.accountNameError = 'Title is already exists';
                                 Raven.captureException(err);
                             }
                         }else {
-                            this.retypePasswordError = "Password Do not match";
+                            this.retypePasswordError = "Password unmatch";
                         }
                     }else if(this.password.length < 8 ){
                         this.passwordError = "Error : Password length must be Atleast 8";
@@ -150,7 +151,7 @@
                         this.passwordError = "Error : Password length must be Atleast 8";
                     }
                     if(!this.retypePassword){
-                        this.retypePasswordError = "Password Do not match";
+                        this.retypePasswordError = "Password is required";
                     }
                 }
             },

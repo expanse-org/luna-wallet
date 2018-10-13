@@ -74,7 +74,7 @@
                     />
                 </svg>
                 <label>EXP Price:
-                    <span class="currValue">{{currenciesData && currenciesData['EXP'].PRICE}}</span>
+                    <span class="currValue">{{currenciesData && currenciesData['USD'].PRICE}}</span>
                 </label>
             </div>
 

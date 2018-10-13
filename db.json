@@ -78,7 +78,7 @@
       "isHd": false
     },
     {
-      "accountTitle": "Account 12",
+      "accountTitle": "Account 122",
       "hash": "0x6f7003556d27136f0afab9e1d4406e0667cd24b4",
       "color": "#B920AC",
       "archive": false,
@@ -1187,22 +1187,6 @@
     }
   ],
   "hdWallets": [
-    {
-      "public_key": "0x02f84618d002ff9266ebb174a662390b5f8c87473b0830eeea60f5e44a34e8856c",
-      "index": "",
-      "phrase_hash": "0f7a818ee17e920b1ac3dc93a3c61ef4",
-      "address": "0x435f59a650a1e78e51c6bbec0195410a086d51be",
-      "derivationPath": "m/44'/40'/0'/0/0",
-      "color": "#153AE5"
-    },
-    {
-      "public_key": "0x03aa76c2aa2089a8ba0667f2cfb95d881a3f6a69f5c26921c50963bebbef4c749f",
-      "index": "",
-      "phrase_hash": "0b32649d3cec301565fd1436d895ac80",
-      "address": "0x9174fffc419c468dbd98c957085ea746e7df7c99",
-      "derivationPath": "m/44'/40'/0'/0/0",
-      "color": "#7140CB"
-    },
     {
       "public_key": "0x039c559c16bc51679ee0a346b1ed054b8b40dfda7201386cc2c9552b14a5d95402",
       "index": "0",

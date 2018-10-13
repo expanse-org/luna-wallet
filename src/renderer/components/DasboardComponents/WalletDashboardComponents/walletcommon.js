@@ -49,8 +49,6 @@ const getAllAcounts = () => {
                                     account = Object.assign({isHd: false}, account);
                                 }
                                 unarchiveAccounts.push(account);
-                                getExpBalance(account_hash, index);
-                                gettokensBalance(account_hash, index);
                             } else {
                                 if(account.isHd === true || account.isHd === false){}
                                 else {
@@ -58,8 +56,6 @@ const getAllAcounts = () => {
                                 }
                                 account = Object.assign({archive: false}, account);
                                 unarchiveAccounts.push(account);
-                                getExpBalance(account_hash, index);
-                                gettokensBalance(account_hash, index);
                             }
                         }
                     }
@@ -71,8 +67,6 @@ const getAllAcounts = () => {
                             console.log(account_hash ,"else Account in Db account_hash", account, accountTest);
                             let accountdata = accAdddb(account_hash, index);
                             unarchiveAccounts.push(accountdata);
-                            getExpBalance(account_hash, index);
-                            gettokensBalance(account_hash, index);
                         }else {
                             if(accountTest.hash){
                                 if(accountTest.archive === true){
@@ -87,8 +81,6 @@ const getAllAcounts = () => {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
                                     unarchiveAccounts.push(accountTest);
-                                    getExpBalance(account_hash, index);
-                                    gettokensBalance(account_hash, index);
                                 } else {
                                     if(accountTest.isHd === true || accountTest.isHd === false){}
                                     else {
@@ -96,13 +88,13 @@ const getAllAcounts = () => {
                                     }
                                     accountTest = Object.assign({archive: false}, accountTest);
                                     unarchiveAccounts.push(accountTest);
-                                    getExpBalance(account_hash, index);
-                                    gettokensBalance(account_hash, index);
                                 }
                             }
                         }
                     }
                 });
+                getallExpBalance();
+                getalltokenBalance();
             }
         });
     } catch (e) {
@@ -138,40 +130,38 @@ const accAdddb = (account_hash , key) => {
     return accountdata;
 };
 
-
-const getExpBalance = (account_hash, key) => {
-    web3.eth.getBalance(account_hash).then((bal) => {
-        balance = web3.utils.fromWei(bal, "ether");
-        console.log(balance, "balance");
-        if(balance> 0){
-            console.log(total_balance,"total_balance");
-            total_balance += parseFloat(balance);
-        }
-        unarchiveAccounts[key] = Object.assign({balance: balance}, unarchiveAccounts[key]);
-        if(unarchiveAccounts.length-1 == key){
-            store.dispatch('addTotalBalance',total_balance);
-        }
-    }, (error) => {
-        console.log(error, "getExpBalance");
-        Raven.captureException(error);
+const getallExpBalance = () => {
+    unarchiveAccounts.map((account, index) => {
+        web3.eth.getBalance(account.hash).then((bal) => {
+            balance = web3.utils.fromWei(bal, "ether");
+            console.log(balance, "balance");
+            if(balance> 0){
+                total_balance += parseFloat(balance);
+            }
+            unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index] );
+        }, (error) => {
+            console.log(error, "getallExpBalance");
+            Raven.captureException(error);
+        });
     });
+    store.dispatch('addTotalBalance',total_balance);
 };
 
-const gettokensBalance = (account_hash, key) => {
-    get_tokens_balance_by_address(account_hash).then((res) => {
-        if(res){
-                unarchiveAccounts[key] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[key]);
-        } else {
-                unarchiveAccounts[key] = Object.assign({tokens: false}, unarchiveAccounts[key]);
-        }
-        // console.log(key == unarchiveAccounts.length - 1, key, unarchiveAccounts.length - 1,"total_balance");
-        if(key == unarchiveAccounts.length - 1) {
+const getalltokenBalance = () => {
+    unarchiveAccounts.map((account, index) => {
+        get_tokens_balance_by_address(account.hash).then((res) => {
+            if(res){
+                unarchiveAccounts[index] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[index]);
+            } else {
+                unarchiveAccounts[index] = Object.assign({tokens: false}, unarchiveAccounts[index]);
+            }
+        }, (error) => {
+            console.log(error, "getalltokenBalance");
+            Raven.captureException(error);
+        });
+        if(index === unarchiveAccounts.length -1) {
             sortByEXPBalances();
-            // sortByTokenBalances();
         }
-    }, (error) => {
-        console.log(error, "getExpBalance");
-        Raven.captureException(error);
     });
 };
 
@@ -185,9 +175,11 @@ const storeAction = () => {
 }
 
 const sortByEXPBalances = () => {
+    console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
     sortbyEXPBalance = unarchiveAccounts.sort(
-        function (a, b) {
-            return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
+         (a, b) => {
+            // console.log(a,  "unarchiveAccount getalltokenBalances");
+            //return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );
     storeAction();
@@ -198,7 +190,8 @@ const sortByEXPBalances = () => {
 
 const sortByTokenBalances = () => {
     sortbyTOKENBalance = sortbyEXPBalance.sort(
-        function (a, b) {
+        (a, b) => {
+            console.log(a, b, "sortbyTOKENBalance sortbyTOKENBalance");
             return parseFloat(b.token_icons && b.token_icons.balance) - parseFloat(a.token_icons && a.token_icons.balance);
         }
     );

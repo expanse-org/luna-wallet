@@ -8,8 +8,8 @@
                         <qrcode-vue :value="accountHash"  level="L"></qrcode-vue>
                     </div>
                     <div class="info detail-account">
-                        <h1 class="update_account_title" contenteditable="true">{{account && account.accountTitle}}</h1>
-                        <label class="balance">{{account && account.balance}} </label>
+                        <h1 class="update_account_title" @blur="changetitle" contenteditable="true">{{account && account.accountTitle}}</h1>
+                        <label class="balance">{{defaultCurrencyData === '$'? '$':""}}  {{ (parseFloat(accPriceData) * (account && account.balance)).toFixed(5)}} {{defaultCurrencyData !== '$'? defaultCurrencyData:""}}</label>
                         <!-- <span class="currency-sign">EXP</span> -->
                         <p class="tooltip accoundID wd300 ">
                             <label class="detail-account-hash">{{accountHash}}</label>
@@ -140,11 +140,11 @@
                             <img src="../../../../assets/img/inner.png">
                         </div>
                     </div>
-                    <div @click="handletxdetail(transaction)"  v-if="istransactions" v-for="(transaction, index) in transactions">
+                    <div @click="handletxdetail(transaction)"  v-if="istransactions" v-for="(transaction, index) in filtertransaction? filtertransaction:transactions">
                         <div v-if="transaction.Type != 'mined_transaction'"  class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
                             <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
-                            <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status"><strong>{{transaction.transactionStatus}}</strong></label>
-                            <label v-else-if="transaction.transactionStatus" class="status">{{transaction.transactionStatus}}</label>
+                            <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status statstf"><strong>{{transaction.transactionStatus}}</strong></label>
+                            <label v-else-if="transaction.transactionStatus" class="status statstf">{{transaction.transactionStatus}}</label>
                             <label v-if="!transaction.transactionStatus && transaction.blockNumber" class="status">Completed</label>
                             <label v-else-if="!transaction.transactionStatus" class="status"><strong>Pending</strong></label>
                             <div class="account">
@@ -217,6 +217,22 @@
                 this.expaccounts = this.$store.state.allAccounts;
                 return this.expaccounts;
             },
+            defaultCurrencyData() {
+                this.defaultSign = this.$store.state.ac_dcurrency ;
+                return this.defaultSign;
+            },
+            accPriceData() {
+                var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
+                this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
+                return this.accbprice;
+            },
+            filtertransaction() {
+                if(this.searchTxn.trim()){
+                    return this.transactions.filter(item => {
+                        return item.to.indexOf(this.searchTxn.toLowerCase()) > -1 || item.from.indexOf(this.searchTxn.toLowerCase()) > -1 || item.transactionStatus && item.transactionStatus.indexOf(this.searchTxn.toLowerCase()) > -1 || item.valueDecimal && (parseFloat(item.valueDecimal).toFixed(4)).indexOf(this.searchTxn.toLowerCase()) > -1
+                    })
+                }
+            }
         },
         components: {
             'walletInfo': WalletInfo,
@@ -323,12 +339,12 @@
             },
             handletxn() {
                 if(this.searchTxn){
-                    let postData = {
-                        skip: 0,
-                        limit: 15,
-                        addresses: [this.searchTxn],
-                    };
-                    this.fetch(postData);
+                    // let postData = {
+                    //     skip: 0,
+                    //     limit: 15,
+                    //     addresses: [this.searchTxn],
+                    // };
+                    // this.fetch(postData);
                 } else {
                     let postData = {
                         skip: 0,
@@ -344,6 +360,8 @@
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)
                     .then((response) => {
+                        this.istransactions = true;
+                        this.notransactions = false;
                         this.transactions = response.data.message;
                         console.log(this.transactions === null ,"this.transactions ");
                         if(this.transactions && this.transactions.length > 0 ){
@@ -366,12 +384,24 @@
                     });
             },
             handletxdetail(txn){
-                this.txndetaildata = txn.transactionHash;
+                // console.log(txn);
+                if(txn.hash){
+                    this.txndetaildata = txn.hash;
+                } else if(txn.transactionHash) {
+                    this.txndetaildata = txn.transactionHash;
+                }
                 this.showtxn();
             },
             showtxn () {
                 this.$modal.show('txndetals');
             },
+            changetitle(evt){
+                let newtitle = evt.target.innerText;
+                console.log(newtitle);
+                db.get('accounts').find({ hash: this.accountHash }).assign({ accountTitle : newtitle}).write();
+                // console.log(db.get('accounts').find({hash: this.accountHash}));
+                getAllAcounts();
+            }
         }
     }
 </script>
@@ -382,6 +412,10 @@
         width: 101px!important;
         height: 101px!important;
         background: white!important;
+    }
+
+    .statstf {
+        text-transform: capitalize;
     }
 </style>
 

@@ -25,7 +25,7 @@
                 <form>
 
                     <div class="row">
-                        <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
+                        <p v-if="accountNameError" class="error-message accountName-error">{{accountNameError}}</p>
                         <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                             <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                                    type="text" id="input-1" />
@@ -44,7 +44,7 @@
                         Enter any wallet private key here to import
                     </div>
                     <div class="row">
-                        <p v-if="private_keyError" class="error-message imp-privatekey-error">Enter Valid Private Key</p>
+                        <p v-if="private_keyError" class="error-message imp-privatekey-error">{{private_keyError}}</p>
                         <span :class="private_key? 'input input--nao input--filled': 'input input--nao'">
                             <input name="private-key" class="private-key input__field input__field--nao textarea" v-model="private_key" @focus="handleFocus" ></input>
                             <label class="input__label input__label--nao">
@@ -58,7 +58,7 @@
                         </span>
                     </div>
                     <div class="row">
-                        <p v-if="private_key_passwordError" class="error-message private-key-password-error">Password Length must be at least 8</p>
+                        <p v-if="private_key_passwordError" class="error-message private-key-password-error">{{private_key_passwordError}}</p>
                         <span :class="private_key_password? 'input input--nao input--filled': 'input input--nao'">
                             <input class="passwor input__field input__field--nao private-key-password" v-model="private_key_password" @focus="handleFocus"
                                    name="private-key-password" :type="passType" />
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="row">
-                        <p v-if="private_key_repasswordError" class="error-message private-key-repassword-error">Password Do not Match</p>
+                        <p v-if="private_key_repasswordError" class="error-message private-key-repassword-error">{{private_key_repasswordError}}</p>
                         <span :class="private_key_repassword? 'input input--nao input--filled': 'input input--nao'">
                             <input class="passwor input__field input__field--nao private-key-repassword" v-model="private_key_repassword" @focus="handleFocus"
                                    name="private-key-repassword" :type="passType"
@@ -121,7 +121,7 @@
                     </div>
                     <div class="row">
                         <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
-                            <p v-if="accountNameError" class="error-message imp-accountName-error">Name already Exists</p>
+                            <p v-if="accountNameError" class="error-message imp-accountName-error">{{accountNameError}}</p>
                             <input type="text" class="import-address-name input__field input__field--nao" v-model="accountName" @focus="handleFocus" />
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Account Name
@@ -256,14 +256,29 @@
                         this.importPrivateKeyTab = true;
                         this.importWatchOnlyAddTab = false;
                         this.importJSONfileTab = false;
+                        this.import_address = '';
+                        this.accountName = '';
+                        this.private_key_repassword = '';
+                        this.private_key_password = '';
+                        this.private_key = '';
                     } else if(this.tabName.text === "Import Watch Only Address") {
                         this.importPrivateKeyTab = false;
                         this.importWatchOnlyAddTab = true;
                         this.importJSONfileTab = false;
+                        this.import_address = '';
+                        this.accountName = '';
+                        this.private_key_repassword = '';
+                        this.private_key_password = '';
+                        this.private_key = '';
                     } else if(this.tabName.text === "Import Json File") {
                         this.importPrivateKeyTab = false;
                         this.importWatchOnlyAddTab = false;
                         this.importJSONfileTab = true;
+                        this.import_address = '';
+                        this.accountName = '';
+                        this.private_key_repassword = '';
+                        this.private_key_password = '';
+                        this.private_key = '';
                     }
                 }, 200)
 
@@ -274,8 +289,8 @@
               if(this.accountName && this.import_address){
                   if (ethereum_address.isAddress(this.import_address)) {
                       let checkadd = false;
-                      this.import_addressError = false;
-                      this.accountNameError = false;
+                      this.import_addressError = '';
+                      this.accountNameError = '';
                       let color = getRandomColor();
                       try {
                           let address_accounts = db.get('accountsAdresses').filter({hash: this.import_address});
@@ -293,6 +308,8 @@
                                   color: color,
                                   archive: false
                               }).write();
+                              this.import_address = '';
+                              this.accountName = '';
                           }
 
                       } catch (err) {
@@ -300,11 +317,11 @@
                           Raven.captureException(err);
                       }
                   }else {
-                      this.import_addressError = 'Address is not valid';
+                      this.import_addressError = 'Invalid Address ';
                   }
               }  else {
                   if (!this.accountName) {
-                      this.accountNameError = true;
+                      this.accountNameError = 'Title is required';
                   }
                   if (!this.import_address) {
                       this.import_addressError = 'Account Already Exits';
@@ -322,7 +339,7 @@
 
                             let name_accounts = db.get('accounts').filter({accountTitle: this.accountName});
                             if(name_accounts) {
-                                this.accountNameError = true;
+                                this.accountNameError = 'Title is already exists';
                             } else {
                                 let that = this;
                                 let account = web3.eth.personal.importRawKey(this.private_key, this.private_key_password);
@@ -345,25 +362,28 @@
                                     $('.imp-privatekey-error').show(300).delay(5000).hide(330);
                                     console.log(error," error)account")
                                 })
+                                this.private_key_repassword = '';
+                                this.private_key_password = '';
+                                this.private_key = '';
                             }
                         }else {
-                            this.private_key_repasswordError = true;
+                            this.private_key_repasswordError = 'Password unmatch';
                         }
                     } else {
-                        this.private_key_passwordError = true;
+                        this.private_key_passwordError = 'Error : Password length must be Atleast 8';
                     }
                 }else {
                     if (!this.accountName) {
-                        this.accountNameError = true;
+                        this.accountNameError = 'Title is Required';
                     }
                     if (!this.private_key) {
-                        this.private_keyError = true;
+                        this.private_keyError = 'Private key is Required';
                     }
                     if (!this.private_key_password) {
-                        this.private_key_passwordError = true;
+                        this.private_key_passwordError = 'Password is Required';
                     }
                     if (!this.private_key_repassword) {
-                        this.private_key_repasswordError = true;
+                        this.private_key_repasswordError = 'Repassword is Required';
                     }
                 }
             },

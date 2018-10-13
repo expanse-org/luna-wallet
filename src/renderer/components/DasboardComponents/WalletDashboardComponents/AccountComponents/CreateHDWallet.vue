@@ -6,7 +6,7 @@
                 addresses
             </div>
             <div class="row">
-                <p v-if="accountNameError" class="error-message accountName-error">Title already Exists</p>
+                <p v-if="accountNameError" class="error-message accountName-error">{{accountNameError}}</p>
                 <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
                     <input class="accountName input__field input__field--nao" name="accountName" v-model="accountName" @focus="handleFocus"
                            type="text" id="input-1" />
@@ -93,7 +93,7 @@
                 </span>
             </div>
             <div class="row">
-                <p v-if="hd_wallet_passwordError" class="error-message hd_wallet_password-error">Password Length must be at least 8 </p>
+                <p v-if="hd_wallet_passwordError" class="error-message hd_wallet_password-error">{{hd_wallet_passwordError}}</p>
                 <span :class="hd_wallet_password? 'input input--nao input--filled': 'input input--nao'">
                     <input class="passwor input__field input__field--nao hd_wallet_password" name="hd_wallet_password" v-model="hd_wallet_password" @focus="handleFocus"
                            :type="passType" />
@@ -110,7 +110,7 @@
             </div>
 
             <div class="row">
-                <p v-if="hd_wallet_repasswordError" class="error-message hd_wallet_repassword-error">Password do not Match</p>
+                <p v-if="hd_wallet_repasswordError" class="error-message hd_wallet_repassword-error">{{hd_wallet_repasswordError}}</p>
                 <span :class="hd_wallet_repassword? 'input input--nao input--filled': 'input input--nao'">
                     <input class="passwor input__field input__field--nao hd_wallet_repassword" name="hd_wallet_repassword" v-model="hd_wallet_repassword" @focus="handleFocus"
                            :type="passType"  />
@@ -170,7 +170,7 @@
                 derivation_path: 'm/44\'/40\'/0\'/0',
                 accountName: '',
                 derived_address: '',
-                derivedaddressindex: '',
+                derivedaddressindex: 0,
                 privateKey: '',
                 publicKey: '',
                 hd_wallet_password: '',
@@ -207,6 +207,7 @@
                 return this.mnemonicsTextarea;
             },
             hdaddressIndex() {
+                console.log("if HD wallet",  $('.derived_address_index').val());
                 this.derivedaddressindex = $('.derived_address_index').val();
                 return this.derivedaddressindex;
             },
@@ -223,8 +224,8 @@
         methods: {
             handleFocus(){
                 this.accountNameError = '';
-                this.hd_wallet_passwordError = false;
-                this.hd_wallet_repasswordError = false;
+                this.hd_wallet_passwordError = '';
+                this.hd_wallet_repasswordError = '';
             },
             handlephrase() {
                 this.mnemonicsTextarea = $('.phrase').val();
@@ -233,52 +234,58 @@
             },
             CreateHDWallet(e){
                 e.preventDefault();
-                console.log(this.hdaddressIndex ,"hdaddressIndex");
+                console.log("if HD wallet", this.hdaddressIndex);
                 if(this.hdaddressIndex && this.accountName && this.hdderivationpath && this.hdphrase && this.hdaddress && this.hdprivateKey&& this.hdpublicKey && this.hd_wallet_password && this.hd_wallet_repassword){
-                    try {
-                        let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
-                        console.log("if HD wallet", account_address);
-                        var phrase_hash = md5(this.hdphrase);
-                        account_address.then((res) => {
-                            console.log(res, "HD wallet");
-                            let color = getRandomColor();
-                            db.get('accounts').push({
-                                accountTitle: this.accountName,
-                                hash: res,
-                                isHd: true,
-                                color: color,
-                                archive: false
-                            }).write();
-                            db.get('hdWallets').push({
-                                public_key: this.hdpublicKey,
-                                index: this.hdaddressIndex,
-                                phrase_hash: phrase_hash,
-                                address: res,
-                                derivationPath: this.hdderivationpath,
-                                color: color
-                            }).write();
-                            this.success = true;
-                            $('.alert-sucess').show(300).delay(5000).hide(330);
-                            getAllAcounts();
-                            $('form').trigger("reset");
-                        }, (err) => {
-                            console.log(err, "HD wallet")
-                            this.accountNameError = true;
-                        });
 
-                    } catch (err) {
-                        console.log("Execption Error" + err.message);
-                        Raven.captureException(err);
+                    console.log("if HD wallet", this.hd_wallet_password === this.hd_wallet_repassword);
+                    if(this.hd_wallet_password === this.hd_wallet_repassword) {
+                        try {
+                            let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
+                            console.log("if HD wallet", account_address);
+                            var phrase_hash = md5(this.hdphrase);
+                            account_address.then((res) => {
+                                console.log(res, "HD wallet");
+                                let color = getRandomColor();
+                                db.get('accounts').push({
+                                    accountTitle: this.accountName,
+                                    hash: res,
+                                    isHd: true,
+                                    color: color,
+                                    archive: false
+                                }).write();
+                                db.get('hdWallets').push({
+                                    public_key: this.hdpublicKey,
+                                    index: this.hdaddressIndex,
+                                    phrase_hash: phrase_hash,
+                                    address: res,
+                                    derivationPath: this.hdderivationpath,
+                                    color: color
+                                }).write();
+                                this.success = true;
+                                $('.alert-sucess').show(300).delay(5000).hide(330);
+                                getAllAcounts();
+                                $('form').trigger("reset");
+                            }, (err) => {
+                                console.log(err, "HD wallet")
+                                this.accountNameError = "Title is already exists";
+                            });
+
+                        } catch (err) {
+                            console.log("Execption Error" + err.message);
+                            Raven.captureException(err);
+                        }
+                    } else {
+                        this.hd_wallet_repasswordError = "Password unmatch";
                     }
                 } else {
                     if(!this.accountName){
-                        this.accountNameError = true;
+                        this.accountNameError = "Name is Required";
                     }
                     if(!this.hd_wallet_password){
-                        this.hd_wallet_passwordError = true;
+                        this.hd_wallet_passwordError = "Password is Required";
                     }
                     if(!this.hd_wallet_repassword){
-                        this.hd_wallet_repasswordError = true;
+                        this.hd_wallet_repasswordError = "Repassword is Required";
                     }
                 }
             },
