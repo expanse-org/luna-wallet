@@ -327,8 +327,8 @@ function displayBip32Info(bipRootKey, extentedKey) {
     }else
     {
         $(".derivation_path").val("m/44'/40'/0'/0/0");
+        $('.derived_address_index').val(index);
     }
-    // console.log("index",index);
 }
 
 

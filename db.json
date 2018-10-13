@@ -153,6 +153,13 @@
       "color": "#7D8A62",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Account HDW",
+      "hash": "0x89737681d9090777ab136d54bdd89f0964a62d04",
+      "isHd": true,
+      "color": "#E80F85",
+      "archive": false
     }
   ],
   "contracts": [
@@ -1234,6 +1241,14 @@
       "address": "0xa6dd8e605c5bb76cc28960edf02191f81a38ee31",
       "derivationPath": "m/44'/40'/0'/0/2",
       "color": "#16ABE0"
+    },
+    {
+      "public_key": "0x02d9a4251371a195bba0839bffd39cfc8b89191650e3848fd292f3c8d7a98714f1",
+      "index": "0",
+      "phrase_hash": "ae0e9efd9ed6db384798d310d2b7990e",
+      "address": "0x89737681d9090777ab136d54bdd89f0964a62d04",
+      "derivationPath": "m/44'/40'/0'/0/0",
+      "color": "#E80F85"
     }
   ],
   "transactions": [

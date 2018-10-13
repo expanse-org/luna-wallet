@@ -92,9 +92,12 @@ const getAllAcounts = () => {
                             }
                         }
                     }
+                    if(index === accounts.length -1) {
+                        store.dispatch('addTotalBalance',total_balance);
+                        getallExpBalance();
+                        getalltokenBalance();
+                    }
                 });
-                getallExpBalance();
-                getalltokenBalance();
             }
         });
     } catch (e) {
@@ -134,11 +137,10 @@ const getallExpBalance = () => {
     unarchiveAccounts.map((account, index) => {
         web3.eth.getBalance(account.hash).then((bal) => {
             balance = web3.utils.fromWei(bal, "ether");
-            console.log(balance, "balance");
             if(balance> 0){
                 total_balance += parseFloat(balance);
             }
-            unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index] );
+            unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index]);
         }, (error) => {
             console.log(error, "getallExpBalance");
             Raven.captureException(error);
@@ -159,8 +161,10 @@ const getalltokenBalance = () => {
             console.log(error, "getalltokenBalance");
             Raven.captureException(error);
         });
-        if(index === unarchiveAccounts.length -1) {
-            sortByEXPBalances();
+        if(index === unarchiveAccounts.length-1){
+            setTimeout(() =>{
+                sortByEXPBalances();
+            }, 1000);
         }
     });
 };
@@ -178,8 +182,7 @@ const sortByEXPBalances = () => {
     console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
     sortbyEXPBalance = unarchiveAccounts.sort(
          (a, b) => {
-            // console.log(a,  "unarchiveAccount getalltokenBalances");
-            //return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
+            return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );
     storeAction();
