@@ -160,6 +160,27 @@
       "isHd": true,
       "color": "#E80F85",
       "archive": false
+    },
+    {
+      "accountTitle": "Account HD1",
+      "hash": "0x1fa42ea79bc5e6b31d2cdce58bb75b6a289fa420",
+      "isHd": true,
+      "color": "#9D1D97",
+      "archive": false
+    },
+    {
+      "accountTitle": "Account HDTest2",
+      "hash": "0x2a6f4801e7eac23b3464e65c3d4f0ecff06d6b07",
+      "isHd": true,
+      "color": "#753314",
+      "archive": false
+    },
+    {
+      "accountTitle": "Account Tesssttt1",
+      "hash": "0xCf5D57369dB86f21Ae951a3E074445E8F1Ac84Dd",
+      "color": "#9C3492",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [
@@ -1168,15 +1189,6 @@
       "tokenType": "erc20",
       "decimal_places": 18,
       "color": "#0297da"
-    },
-    {
-      "id": "tkyyZMVpz",
-      "token_address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
-      "token_name": "BANKEX",
-      "token_symbol": "BANKEX",
-      "tokenType": "erc20",
-      "decimal_places": "18",
-      "color": "#BAB3FF"
     }
   ],
   "accountsAdresses": [
@@ -1249,6 +1261,22 @@
       "address": "0x89737681d9090777ab136d54bdd89f0964a62d04",
       "derivationPath": "m/44'/40'/0'/0/0",
       "color": "#E80F85"
+    },
+    {
+      "public_key": "0x02e78341d6b9ec2b0b07713732af8105396586c00ce1b27f4bfed16b9b921578a6",
+      "index": "3",
+      "phrase_hash": "8712c6855b2c503bd150546da8ac0cb5",
+      "address": "0x1fa42ea79bc5e6b31d2cdce58bb75b6a289fa420",
+      "derivationPath": "m/44'/40'/0'/0/3",
+      "color": "#9D1D97"
+    },
+    {
+      "public_key": "0x0384f5b763a5648f609911f5171ba9a2c9caf4dbca912970544db71bdfacbee90c",
+      "index": "4",
+      "phrase_hash": "8712c6855b2c503bd150546da8ac0cb5",
+      "address": "0x2a6f4801e7eac23b3464e65c3d4f0ecff06d6b07",
+      "derivationPath": "m/44'/40'/0'/0/4",
+      "color": "#753314"
     }
   ],
   "transactions": [

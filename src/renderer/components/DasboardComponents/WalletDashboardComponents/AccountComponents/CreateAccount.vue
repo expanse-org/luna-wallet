@@ -131,7 +131,11 @@
                             try{
                                 that.success = true;
                                 that.createSimpleAccount(this.accountName ,this.password );
-                                $('.alert-sucess').show(400).delay(5000).hide(330);
+                                setTimeout(() => {
+                                    this.success = false;
+                                }, 2000);
+                                this.accountName = '';
+                                this.password = '';
                             } catch (err) {
                                 console.log("Execption Error" + err.message);
                                 this.accountNameError = 'Title is already exists';
@@ -140,7 +144,7 @@
                         }else {
                             this.retypePasswordError = "Password unmatch";
                         }
-                    }else if(this.password.length < 8 ){
+                    }else if(this.password.length <= 8 ){
                         this.passwordError = "Error : Password length must be Atleast 8";
                     }
                 }else {

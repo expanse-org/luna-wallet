@@ -120,7 +120,7 @@
         },
         computed: {
             AddTokenData: function () {
-                this.tokens = this.$store.getters.getTokenList;
+                this.tokens = this.$store.state.tokenList;
                 return this.tokens;
             },
         },
@@ -159,7 +159,6 @@
                         db.get('tokens').remove({ id: token_id}).write();
                         listTokens();
                         console.log(this.AddTokenData, this.$store.state.tokenList, "AddTokenData");
-                        // listAccounts();
                     }
                 }
             }

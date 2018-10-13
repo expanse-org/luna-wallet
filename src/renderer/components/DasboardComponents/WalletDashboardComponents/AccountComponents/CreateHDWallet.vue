@@ -158,7 +158,7 @@
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
     import * as $ from 'jquery';
-    import {generateStart, generatePhraseStart}  from  '../../../../assets/js/bip39-Node/js/index';
+    import {generateStart, generatePhraseStart, findPhraseErrors}  from  '../../../../assets/js/bip39-Node/js/index';
     import md5  from  'md5';
     // var web3 = startConnectWeb();
 
@@ -228,55 +228,69 @@
                 this.hd_wallet_repasswordError = '';
             },
             handlephrase() {
+                this.invalidMnemonic = false;
                 this.mnemonicsTextarea = $('.phrase').val();
-                this.fillinput = true;
-                generatePhraseStart(this.mnemonicsTextarea);
+                console.log(findPhraseErrors(this.mnemonicsTextarea),"dsadada findPhraseErrors");
+                if(findPhraseErrors(this.mnemonicsTextarea) === 'Invalid mnemonic'){
+                    this.invalidMnemonic = true;
+                } else {
+                    this.fillinput = true;
+                    generatePhraseStart(this.mnemonicsTextarea);
+                }
             },
             CreateHDWallet(e){
                 e.preventDefault();
                 console.log("if HD wallet", this.hdaddressIndex);
                 if(this.hdaddressIndex && this.accountName && this.hdderivationpath && this.hdphrase && this.hdaddress && this.hdprivateKey&& this.hdpublicKey && this.hd_wallet_password && this.hd_wallet_repassword){
+                    if(this.hd_wallet_password >= 8 ){
+                        if(this.hd_wallet_password === this.hd_wallet_repassword) {
+                            try {
+                                let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
+                                console.log("if HD wallet", account_address);
+                                var phrase_hash = md5(this.hdphrase);
+                                account_address.then((res) => {
+                                    console.log(res, "HD wallet");
+                                    let color = getRandomColor();
+                                    db.get('accounts').push({
+                                        accountTitle: this.accountName,
+                                        hash: res,
+                                        isHd: true,
+                                        color: color,
+                                        archive: false
+                                    }).write();
+                                    db.get('hdWallets').push({
+                                        public_key: this.hdpublicKey,
+                                        index: this.hdaddressIndex,
+                                        phrase_hash: phrase_hash,
+                                        address: res,
+                                        derivationPath: this.hdderivationpath,
+                                        color: color
+                                    }).write();
+                                    this.success = true;
+                                    setTimeout(() => {
+                                        this.success = false;
+                                    }, 2000)
+                                    getAllAcounts();
+                                    this.accountName = '';
+                                    this.hd_wallet_password = '';
+                                    this.hd_wallet_repassword = '';
+                                    $('form').trigger("reset");
+                                }, (err) => {
+                                    console.log(err, "HD wallet");
+                                    this.accountNameError = "Account is already exists";
+                                });
 
-                    console.log("if HD wallet", this.hd_wallet_password === this.hd_wallet_repassword);
-                    if(this.hd_wallet_password === this.hd_wallet_repassword) {
-                        try {
-                            let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
-                            console.log("if HD wallet", account_address);
-                            var phrase_hash = md5(this.hdphrase);
-                            account_address.then((res) => {
-                                console.log(res, "HD wallet");
-                                let color = getRandomColor();
-                                db.get('accounts').push({
-                                    accountTitle: this.accountName,
-                                    hash: res,
-                                    isHd: true,
-                                    color: color,
-                                    archive: false
-                                }).write();
-                                db.get('hdWallets').push({
-                                    public_key: this.hdpublicKey,
-                                    index: this.hdaddressIndex,
-                                    phrase_hash: phrase_hash,
-                                    address: res,
-                                    derivationPath: this.hdderivationpath,
-                                    color: color
-                                }).write();
-                                this.success = true;
-                                $('.alert-sucess').show(300).delay(5000).hide(330);
-                                getAllAcounts();
-                                $('form').trigger("reset");
-                            }, (err) => {
-                                console.log(err, "HD wallet")
-                                this.accountNameError = "Title is already exists";
-                            });
-
-                        } catch (err) {
-                            console.log("Execption Error" + err.message);
-                            Raven.captureException(err);
+                            } catch (err) {
+                                console.log("Execption Error" + err.message);
+                                Raven.captureException(err);
+                            }
+                        } else {
+                            this.hd_wallet_repasswordError = "Password unmatch";
                         }
                     } else {
-                        this.hd_wallet_repasswordError = "Password unmatch";
+                        this.hd_wallet_passwordError = "Error : Password length must be Atleast 8";
                     }
+
                 } else {
                     if(!this.accountName){
                         this.accountNameError = "Name is Required";

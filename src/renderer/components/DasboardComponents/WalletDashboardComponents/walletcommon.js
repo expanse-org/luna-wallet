@@ -93,7 +93,6 @@ const getAllAcounts = () => {
                         }
                     }
                     if(index === accounts.length -1) {
-                        store.dispatch('addTotalBalance',total_balance);
                         getallExpBalance();
                         getalltokenBalance();
                     }
@@ -140,13 +139,13 @@ const getallExpBalance = () => {
             if(balance> 0){
                 total_balance += parseFloat(balance);
             }
+            store.dispatch('addTotalBalance',total_balance);
             unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index]);
         }, (error) => {
             console.log(error, "getallExpBalance");
             Raven.captureException(error);
         });
     });
-    store.dispatch('addTotalBalance',total_balance);
 };
 
 const getalltokenBalance = () => {
@@ -163,6 +162,7 @@ const getalltokenBalance = () => {
         });
         if(index === unarchiveAccounts.length-1){
             setTimeout(() =>{
+                store.dispatch('addTotalBalance',total_balance);
                 sortByEXPBalances();
             }, 1000);
         }

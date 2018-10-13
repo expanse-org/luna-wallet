@@ -67,7 +67,7 @@
                 </span>
                 <span :class="decimalplaces? 'input items input--nao input--filled': 'input items input--nao'">
                     <p v-if="decimalplacesError" class="error-message tokendecimal-error">Decimal Value is required</p>
-                    <input type="text" class="input__field input__field--nao input_number" value="0" min="0"
+                    <input type="number" class="input__field input__field--nao input_number" value="0" min="0"
                            name="decimal_places"  v-model="decimalplaces" @focus="handleFoucs"/>
 
                     <label class="input__label input__label--nao" >
@@ -190,7 +190,7 @@
                     </svg>
                 </span>
                 <span :class="decimalplaces? 'input items input--nao input--filled': 'input items input--nao'" >
-                    <p v-if="decimalplacesError" class="error-message tokendecimal-error">Decimal Value is required</p>
+                    <p v-if="decimalplacesError" class="error-message tokendecimal-error">{{decimalplacesError}}</p>
                     <input type="text" class="input__field input__field--nao input_number" value="0" min="0"
                            name="decimal_places"  v-model="decimalplaces" @focus="handleFoucs"/>
 
@@ -344,37 +344,49 @@
                 e.preventDefault();
                 if(this.tokenAddress && this.tokenName && this.tokenType.value && this.tokensymbol && this.decimalplaces){
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
-                    if(this.tokenAddress.length < 5){
-                        this.tokenAddressError = 'Hash Address is required';
-                    }else{
-                        if((!ethereum_address.isAddress(this.tokenAddress))){
-                            this.tokenAddressError = 'Invalid Hash Address';
-                        }
-                        if(this.editForm){
-                            if(token){
-                                this.tokenAddressError = "Token Already Exists";
-                            }
-                        }
-                        try{
-                            if(!this.editForm){
-                                var color = getRandomColor();
-                                db.get('tokens').push({  id : shortid.generate(), token_address: this.tokenAddress, token_name : this.tokenName, token_symbol: this.tokensymbol, tokenType:this.tokenType.value, decimal_places: this.decimalplaces, color:color}).write()
-                                listTokens();
-                                console.log(this.$store.state.tokenList, "add tokenList");
-                            }else{
-                                // console.log('update tokens');
-                                db.get('tokens').find({ id: this.tokenID  }).assign({  token_name : this.tokenName, token_symbol: this.tokensymbol,tokenType:this.tokenType.value, decimal_places: this.decimalplaces }).write();
-                                listTokens();
-                            }
-                            $('.alert-sucess').show(300).delay(5000).hide(330);
-                        }catch(err) {
-                            console.log("Execption Error",err.message);
-                            Raven.captureException(err);
-                        }
-                        // listTokens();
-                        // listAccounts();
-                    }
                     this.decimalplaces = parseInt(this.decimalplaces);
+                    if(this.decimalplaces >= 36) {
+                        if(this.tokenAddress.length < 5){
+                            this.tokenAddressError = 'Hash Address is required';
+                        }else{
+                            if((!ethereum_address.isAddress(this.tokenAddress))){
+                                this.tokenAddressError = 'Invalid Hash Address';
+                            }
+                            if(this.editForm){
+                                if(token){
+                                    this.tokenAddressError = "Token Already Exists";
+                                }
+                            }
+                            try{
+                                if(!this.editForm){
+                                    var color = getRandomColor();
+                                    db.get('tokens').push({  id : shortid.generate(), token_address: this.tokenAddress, token_name : this.tokenName, token_symbol: this.tokensymbol, tokenType:this.tokenType.value, decimal_places: this.decimalplaces, color:color}).write()
+                                    listTokens();
+                                    this.tokenAddress = '';
+                                    this.tokenName = '';
+                                    this.tokensymbol = '';
+                                    this.decimalplaces = '';
+                                    this.tokenType = {value: 'erc20',text:' ERC20'};
+                                }else{
+                                    // console.log('update tokens');
+                                    db.get('tokens').find({ id: this.tokenID  }).assign({  token_name : this.tokenName, token_symbol: this.tokensymbol,tokenType:this.tokenType.value, decimal_places: this.decimalplaces }).write();
+                                    this.tokenAddress = '';
+                                    this.tokenName = '';
+                                    this.tokensymbol = '';
+                                    this.decimalplaces = '';
+                                    this.tokenType = {value: 'erc20',text:' ERC20'};
+                                    listTokens();
+                                }
+                                $('.alert-sucess').show(300).delay(5000).hide(330);
+                            }catch(err) {
+                                console.log("Execption Error",err.message);
+                                Raven.captureException(err);
+                            }
+                            // listTokens();
+                        }
+                    } else {
+                        this.decimalplacesError = 'Value less than 36';
+                    }
                 }else {
                     if (!this.tokenAddress){
                         this.tokenAddressError = 'Hash Address is required';
@@ -389,7 +401,7 @@
                         this.tokensymbolError = true;
                     }
                     if (!this.decimalplaces){
-                        this.decimalplacesError = true;
+                        this.decimalplacesError = 'Decimal Value is required';
                     }
                 }
             },

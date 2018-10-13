@@ -4,6 +4,7 @@ var $ = jQuery;
 let bitcoin = require('bitcoinjs-lib')
 const keccak = require('./sha3.js')
 
+var sjcl = require("./sjcl-bip39.js");
 import {db} from '../../../../../../lowdbFunc';
 
 var PBKDF2_ROUNDS = 2048;
@@ -25,7 +26,6 @@ var hmacSHA512 = function(key) {
 
 
 import md5 from 'md5';
-var sjcl = require("./sjcl-bip39.js");
 
 // require("sha3");
 var WORDSLIST = require("./wordlist_english.js");
@@ -86,6 +86,7 @@ export const generatePhraseStart = (phrase) => {
     phrase_hash = md5(phrase);
     calcBip32Seed(phrase, passphrase, derivationPath);
 };
+
 
 var Mnemonic = require("./jsbip39.js");
 
@@ -256,6 +257,23 @@ function makeProperPhrase(phrase) {
     }
     // TODO some levenstein on the words
     return proper.join(' ');
+}
+
+
+export const findPhraseErrors = (phrase) => {
+    var properPhrase = makeProperPhrase(phrase);
+    console.log(properPhrase,'(***********properPhrase****************');
+    // Check the words are valid
+    var isValid = mnemonic.check(properPhrase);
+    console.log(isValid,'(**************isValid*************');
+    if (!isValid) {
+        console.log("Invalid mnemonic");
+        $('.invalidmnemonic-error').css({visibility: "visible"});
+        $('.invalidmnemonic-error').show();
+        $('.invalidmnemonic-val-error').val(0)
+        return "Invalid mnemonic";
+    }
+    return false;
 }
 
 function toSeed(mnemonic, passphrase) {

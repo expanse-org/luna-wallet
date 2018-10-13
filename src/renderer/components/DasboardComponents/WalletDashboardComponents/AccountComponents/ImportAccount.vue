@@ -213,6 +213,7 @@
     import Raven from 'raven';
     import Multiselect from 'vue-multiselect'
     import {web3} from '../../../../../main/libs/config';
+    import {getAllAcounts} from '../walletcommon';
 
     // var web3 = startConnectWeb();
     export default {
@@ -308,8 +309,13 @@
                                   color: color,
                                   archive: false
                               }).write();
+                              that.success = true;
                               this.import_address = '';
                               this.accountName = '';
+                              getAllAcounts();
+                              setTimeout(() => {
+                                  this.success = false;
+                              }, 2000)
                           }
 
                       } catch (err) {
@@ -331,7 +337,7 @@
             handleimportPrivateKey(e){
                 e.preventDefault();
                 if(this.accountName && this.private_key && this.private_key_password && this.private_key_repassword){
-                    if(this.private_key_password.length > 8){
+                    if(this.private_key_password.length >= 8){
                         if(this.private_key_password === this.private_key_repassword) {
                             this.private_keyError = false;
                             this.private_key_passwordError = false;
@@ -353,13 +359,20 @@
                                         isHd: false,
                                         color: color, archive: false
                                     }).write();
+                                    getAllAcounts();
                                     that.success = true;
+                                    setTimeout(() => {
+                                        this.success = false;
+                                    }, 2000)
                                     $('.alert-private-key').show(300).delay(5000).hide(330);
                                     console.log(res," res)account");
                                 }, (error)  =>  {
                                     that.success = false;
                                     that.private_keyError = true;
                                     $('.imp-privatekey-error').show(300).delay(5000).hide(330);
+                                    setTimeout(() => {
+                                        this.private_keyError = false;
+                                    }, 2000)
                                     console.log(error," error)account")
                                 })
                                 this.private_key_repassword = '';
@@ -432,6 +445,9 @@
                                 if (err) throw err;
                                 that.error= false;
                                 that.success= true;
+                                setTimeout(() => {
+                                    that.success = false;
+                                }, 2000);
                                 console.log("It's saved!");
                             });
                         } catch (err) {

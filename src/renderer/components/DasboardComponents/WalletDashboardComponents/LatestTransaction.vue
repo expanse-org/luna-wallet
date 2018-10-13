@@ -361,7 +361,11 @@
                 });
             },
             handletxdetail(txn){
-                this.txndetaildata = txn.transactionHash;
+                if(txn.hash){
+                    this.txndetaildata = txn.hash;
+                } else if(txn.transactionHash) {
+                    this.txndetaildata = txn.transactionHash;
+                }
                 this.show();
             }
         }

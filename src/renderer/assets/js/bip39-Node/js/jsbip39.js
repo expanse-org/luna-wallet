@@ -26,6 +26,7 @@
  * https://github.com/bitwiseshiftleft/sjcl
  */
 
+var sjcl = require("./sjcl-bip39.js");
 var Mnemonic = function(language) {
 
     var PBKDF2_ROUNDS = 2048;
