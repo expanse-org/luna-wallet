@@ -12,7 +12,6 @@ export default {
     created() {
         // console.log(this.$store,"APP");
 
-        this.$store.dispatch('addScreen', 'config')
     },
     data() {
         return {

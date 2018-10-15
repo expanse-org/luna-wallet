@@ -101,8 +101,8 @@ const runGexp = (path) => {
                 // mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
                     
                     var textChunk = data.toString('utf8');
-                    if(gexpLogsWindow){
-                        gexpLogsWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                    if(mainWindow){
+                        mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
                     }
                     
                     // process utf8 text chunk
@@ -115,8 +115,8 @@ const runGexp = (path) => {
                     console.log(`stderr: ${data}`);
                 
                         var textChunk = data.toString('utf8');
-                        if(gexpLogsWindow){
-                            gexpLogsWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
+                        if(mainWindow){
+                            mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
                         }
                        
                         // process utf8 text chunk

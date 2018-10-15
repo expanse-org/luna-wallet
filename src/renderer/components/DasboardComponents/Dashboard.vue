@@ -1,18 +1,15 @@
 <template>
-    <div class="main-container">
-        <sidebar-app />
-        <div class="container-outer">
-            <div class="contant-outer">
-                <header-app />
-                <router-view />
+    <div>
+        <div class="main-container">
+            <sidebar-app />
+            <div class="container-outer">
+                <div class="contant-outer">
+                    <header-app />
+                    <router-view />
+                </div>
             </div>
         </div>
-        <div class="md-modal md-effect-1" id="modal-2">
-            <div class="popup popup1 md-content ">
-                <a href="#" class="btn-close md-close"></a>
-                <addtoken-app />
-            </div>
-        </div>
+        <footer-app />
     </div>
 </template>
 

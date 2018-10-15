@@ -288,14 +288,16 @@
                 if(this.accounts.length > 0 ){
                     this.accountdetailTab = true;
                     this.accountWatch = true;
-                    this.istransactions = true;
-                    var postData = {
-                        skip: 0,
-                        limit: 15,
-                        addresses: this.hashaccounts,
+                    if(this.hashaccounts.length > 0){
+                        this.istransactions = true;
+                        var postData = {
+                            skip: 0,
+                            limit: 15,
+                            addresses: this.hashaccounts,
+                        }
+                        this.fetch(postData);
+                        clearInterval(this.intervalid1);
                     }
-                    this.fetch(postData);
-                    clearInterval(this.intervalid1)
                 } else {
                     this.accountdetailTab = false;
                     this.istransactions = false;

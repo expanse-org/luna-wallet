@@ -1,0 +1,39 @@
+footer {
+  background-color: #0a3640;
+  right: 0;
+  height: auto;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 999; }
+  footer .footer-Data {
+    background-color: #0a3640;
+    z-index: 2;
+    padding: 3px 10px 0px;
+    display: flex;
+    justify-content: flex-end; }
+    footer .footer-Data .termbtN {
+      background: none;
+      border: none; }
+      footer .footer-Data .termbtN img {
+        width: 20px; }
+    footer .footer-Data .termbtN:hover, footer .footer-Data .termbtN:focus {
+      outline: none !important; }
+  footer .footer-DataUp {
+    background-color: #0d4956;
+    height: 300px;
+    z-index: 2; }
+    footer .footer-DataUp .footer-container {
+      padding: 10px;
+      color: #ffffff; }
+      footer .footer-DataUp .footer-container h1 {
+        margin-bottom: 10px;
+        font-weight: bold; }
+      footer .footer-DataUp .footer-container .gexplogscontent {
+        overflow-y: scroll;
+        height: 250px;
+        margin-bottom: 10px;
+        border: 1px solid #0a3640;
+        padding: 7px 0px 0px 9px; }
+
+/*# sourceMappingURL=footer.css.map */
