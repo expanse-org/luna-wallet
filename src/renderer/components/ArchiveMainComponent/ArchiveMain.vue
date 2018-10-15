@@ -84,7 +84,9 @@
                     clearInterval(this.intervalid1);
                 }
             }, 100);
-            
+            setInterval(() => {
+                getArchiveaccounts();
+            }, 500);
            
         },
         methods: {
@@ -94,7 +96,18 @@
                 if (confirm("You want to Un Archive this account")){
                     db.get('accounts').find({ hash: accountHash }).assign({ archive : false }).write();
                     getArchiveaccounts();
-                    getAllAcounts();
+                    if (typeof web3 !== 'undefined') {
+                        getAllAcounts();
+                    } else {
+                        // set the provider you want from Web3.providers
+                        startConnectWeb();
+                        this.intervalid1 = setInterval(() => {
+                            if(typeof web3 !== 'undefined' ){
+                                getAllAcounts();
+                                clearInterval(this.intervalid1)
+                            }
+                        }, 100);
+                    }
                 }
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard tabcontent" id="dashboard" style="display: block">
+    <div class="dashboard tabcontent" id="dashboard" v-bind:style="{display: 'block',zIndex: '0'}">
         <div class="content">
             <accounts />
             <div v-if="accdetails">

@@ -21,6 +21,15 @@ var sortbyTOKENBalance = [];
 let balance = 0;
 let total_balance = 0;
 
+
+const checkupdate = () => {
+    web3.eth.getAccounts(function (error, accounts) {
+        if (accounts && accounts.length > 0 && accounts >= unarchiveAccounts.length) {
+            getAllAcounts();
+        }
+    })
+}
+
 const getAllAcounts = () => {
     archiveAccounts = [];
     unarchiveAccounts = [];
@@ -42,7 +51,6 @@ const getAllAcounts = () => {
                                 else {
                                     account = Object.assign({isHd: false}, account);
                                 }
-                                archiveAccounts.push(account);
                             } else if(account.archive === false) {
                                 if(account.isHd === true || account.isHd === false){}
                                 else {
@@ -74,7 +82,6 @@ const getAllAcounts = () => {
                                     else {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
-                                    archiveAccounts.push(accountTest);
                                 } else if(accountTest.archive === false) {
                                     if(accountTest.isHd === true || accountTest.isHd === false){}
                                     else {
@@ -106,6 +113,7 @@ const getAllAcounts = () => {
 };
 
 const getArchiveaccounts = () => {
+    store.dispatch('addUserAcc', []);
     archiveAccounts = [];
     let accounts = db.get('accounts').value();
     accounts.map((account) => {
@@ -179,7 +187,7 @@ const storeAction = () => {
 }
 
 const sortByEXPBalances = () => {
-    console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
+    // console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
     sortbyEXPBalance = unarchiveAccounts.sort(
          (a, b) => {
             return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
@@ -188,7 +196,6 @@ const sortByEXPBalances = () => {
     storeAction();
     getAllWatchOnlyAcounts();
     console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance");
-    console.log(archiveAccounts ,"archiveAccounts sortbyEXPBalance")
 };
 
 const sortByTokenBalances = () => {
@@ -294,4 +301,4 @@ const getAllWatchOnlyAcounts = () => {
 };
 
 
-export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts ,getArchiveaccounts}
+export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts ,getArchiveaccounts, checkupdate}

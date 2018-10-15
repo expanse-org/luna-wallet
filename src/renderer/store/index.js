@@ -1,3 +1,5 @@
+export const strict = false;
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import debug from 'debug'
@@ -8,9 +10,10 @@ import {activeScreen} from '../../main/libs/config'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+    strict: false,
   state: {
     count: 0,
-    screenState: 'config',
+    screenState: '',
     gexpRes: false,
     gexpSync: '',
     isgexpSync: '',
@@ -24,7 +27,7 @@ const store = new Vuex.Store({
     ac_dcurrency: "$",
     editTokenHash: 0,
     tokenList: 0,
-    allAccounts: '',
+    allAccounts: ' ',
     userAccounts: '',
     watchAccounts: '',
     addresseshash: '',
@@ -49,50 +52,50 @@ const store = new Vuex.Store({
     pushIsGexpSync (state, isgexpsync) {
       state.isgexpSync = isgexpsync;
     },
-    pushPeerCount (state, peerCount) {
-      state.peerCount = peerCount;
+    pushPeerCount (state, peercount) {
+      state.peerCount = peercount;
     },
-    pushCurrencies (state, currencies) {
-      state.currencies = currencies;
+    pushCurrencies (state, curre) {
+      state.currencies = curre;
     },
-    pushTotalBalance (state, total_balance) {
-      state.total_balance = total_balance;
+    pushTotalBalance (state, totalbalance) {
+      state.total_balance = totalbalance;
     },
-    pushAccTab (state, accountTab) {
-      state.accountTab = accountTab;
+    pushAccTab (state, accounttab) {
+      state.accountTab = accounttab;
     },
-    pushActokens (state, ac_tokens) {
-      state.ac_tokens = ac_tokens;
+    pushActokens (state, actokens) {
+      state.ac_tokens = actokens;
     },
-    pushAcbalance (state, ac_balance) {
-      state.ac_balance = ac_balance;
+    pushAcbalance (state, acbalance) {
+      state.ac_balance = acbalance;
     },
-    pushAcprice (state, ac_price) {
-      state.ac_price = ac_price;
+    pushAcprice (state, acprice) {
+      state.ac_price = acprice;
     },
-    pushEditTokenHash (state, editTokenHash) {
-      state.editTokenHash = editTokenHash;
+    pushEditTokenHash (state, edittokenhash) {
+      state.editTokenHash = edittokenhash;
     },
-    pushTokenList (state, tokenList) {
-      state.tokenList = tokenList;
+    pushTokenList (state, tokenlist) {
+      state.tokenList = tokenlist;
     },
-    pushAcdcurrency (state, ac_dcurrency) {
-      state.ac_dcurrency = ac_dcurrency;
+    pushAcdcurrency (state, acdcurrency) {
+      state.ac_dcurrency = acdcurrency;
     },
-    pushAllAccounts (state, allAccounts) {
-      state.allAccounts = allAccounts;
+    pushAllAccounts (state, allaccounts) {
+      state.allAccounts = allaccounts;
     },
-    pushWatchAccounts (state, watchAccounts) {
-      state.watchAccounts = watchAccounts;
+    pushWatchAccounts (state, watchaccounts) {
+      state.watchAccounts = watchaccounts;
     },
-    pushuseraccounts (state, userAccounts) {
-      state.userAccounts = userAccounts;
+    pushuseraccounts (state, useraccounts) {
+      state.userAccounts = useraccounts;
     },
-    pushAddreshash (state, addresseshash) {
-      state.addresseshash = addresseshash;
+    pushAddreshash (state, addreshash) {
+      state.addresseshash = addreshash;
     },
-    pushGexpLogs (state, gexpLogs) {
-      state.gexpLogs = gexpLogs;
+    pushGexpLogs (state, gexplogs) {
+      state.gexpLogs = gexplogs;
     }
   },
   actions: {

@@ -10,7 +10,9 @@
 export default {
     name: 'lunawalletvuetest',
     created() {
-        // console.log(this.$store,"APP")
+        // console.log(this.$store,"APP");
+
+        this.$store.dispatch('addScreen', 'config')
     },
     data() {
         return {

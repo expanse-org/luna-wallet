@@ -91,10 +91,14 @@
             </li>-->
 
         </ul>
+        <modal class="modal" name="insufficentBal">
+            <insuficentBalance ></insuficentBalance>
+        </modal>
     </div>
 </template>
 
 <script>
+    import  insuficentBalance from '../insuficentBalance';
     export default {
         name: 'SideBar-page',
         data() {
@@ -107,6 +111,15 @@
                 isCollapsed: true,
                 collapseClass: 'menu-drawer',
             };
+        },
+        computed:{
+            totalBalanceData: function(){
+                let tb = this.$store.state.total_balance;
+                return tb;
+            },
+        },
+        components: {
+            'insuficentBalance': insuficentBalance,
         },
         created(){
             this.update();
@@ -146,6 +159,9 @@
 
         },
         methods: {
+            show () {
+                this.$modal.show('insufficentBal');
+            },
             update(){
                 console.log("update");
                 this.walletTab= 'tablinks';
@@ -165,10 +181,17 @@
                         this.walletTab = 'tablinks active';
                         break;
                     case 'transferfund':
-                        this.$router.push({
-                            path: '/transferfunds'
-                        });
-                        this.transferfundTab = 'tablinks active';
+                        console.log(this.totalBalanceData, "balanceedsasdedadasdsada")
+                        if (this.totalBalanceData > 0) {
+                            console.log("balanceeedadasdsada")
+                            this.$router.push({
+                                path: '/transferfunds'
+                            });
+                            this.transferfundTab = 'tablinks active';
+                        }else if(this.totalBalanceData === 0){
+                            console.log("balanceeedasada")
+                            this.show();
+                        }
                         break;
                     case 'token':
                         this.$router.push({

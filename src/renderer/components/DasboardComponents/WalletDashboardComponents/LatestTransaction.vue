@@ -4,7 +4,7 @@
             <label>ACCOUNTS</label>
         </div>
         <div class="bottom accounts-list">
-            <div v-if="accountdetailTab && (account && account.accountTitle)" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash)">
+            <div v-if="accountdetailTab && (account && account.accountTitle)" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'notwatch')">
                 <div v-if="account.isHd" class="wallet-icon"></div>
                 <div class="img">
                     <div v-if="account.tokens && (account.token_icons.length > 0 && account.token_icons.length < 3)" v-for="(ac_tokens, key ) in account.token_icons" class="icons">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="accountWatch" v-for="(account, key ) in WatchAccounts" class="account2 a2" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash)">
+            <div v-if="accountWatch" v-for="(account, key ) in WatchAccounts" class="account2 a2" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'watch')">
                 <div v-if="account.isHd" class="wallet-icon"></div>
                 <div class="img">
                     <div v-if="account.tokens && (account.token_icons.length > 0 && account.token_icons.length < 3)" v-for="(ac_tokens, key ) in account.token_icons" class="icons">
@@ -310,10 +310,10 @@
             hide () {
                 this.$modal.hide('txndetals');
             },
-            mainMenu(e, account_hash){
+            mainMenu(e, account_hash, option){
                 this.$router.push({
                     path: '/accountdetails',
-                    query: { accountDetail:  account_hash}
+                    query: { accountDetail:  account_hash, option: option}
                 });
             },
             handletxn() {

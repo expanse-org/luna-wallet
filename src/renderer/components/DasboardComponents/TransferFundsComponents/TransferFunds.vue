@@ -97,7 +97,7 @@
                                 <div class="row">
                                     <div class="checkbox">
                                         <label class="filter__value send_everything">
-                                            <input class="filter__mark send_everthing_chkbox" @focus="handleFocus" v-model="sendAllCheck" type="checkbox">
+                                            <input class="filter__mark send_everthing_chkbox" @click="handlesendall" @focus="handleFocus" v-model="sendAllCheck" type="checkbox">
                                             <i class="filter__mark"></i>
                                             <span class="filter__text">Send All</span>
                                         </label>
@@ -166,7 +166,7 @@
     import ethereum_address from 'ethereum-address';
     import SendTransaction from './SendTransaction';
     import Multiselect from 'vue-multiselect'
-
+    import  * as $ from 'jquery';
     // var web3 = startConnectWeb();
 
     export default {
@@ -207,6 +207,10 @@
                 this.accountsArray = this.$store.state.allAccounts;
                 return this.accountsArray;
             },
+            totalBalanceData: function(){
+                let tb = this.$store.state.total_balance;
+                return tb;
+            },
         },
         created(){
             var hash = this.$router.history.current.query.hash;
@@ -216,7 +220,7 @@
                     if (this.accounts.length > 0) {
                         this.accounts.map((val) => {
                             if(val.hash === hash) {
-                                this.fundsFrom = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
                                 this.handlechangeFunds();
                             }
                             if(val.balance > 0){
@@ -234,12 +238,14 @@
             } else {
                 this.optionFrom = [];
                 this.intervalid1 = setInterval(() => {
-                    if (this.$store.state.allAccounts.length > 0) {
-                        this.total_balance = this.$store.state.total_balance;
-                        this.$store.state.allAccounts.map((val) => {
+                    if (this.accounts.length > 0) {
+                        this.total_balance = this.totalBalanceData;
+                        this.accounts.map((val) => {
                             if(val.balance > 0){
                                 console.log(val.balance);
                                 console.log(val);
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.handlechangeFunds();
                                 var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
@@ -267,6 +273,19 @@
             handlepriceChange(){
                 var price = '0.00'+this.price;
                 this.total_coins = parseFloat(this.amount) + parseFloat(price);
+            },
+            handlesendall(){
+                if(this.currencyHash) {
+                    this.accounts.map((val) => {
+                        if(val.hash == this.currencyHash.value) {
+                            // console.log(this.currencyHash.text.split("(")[1].split(" ")[0], val.balance);
+                            this.amount = val.balance;
+                        }
+                    });
+                } else {
+                    this.amount = this.totalBalanceData;
+                }
+                this.handleAmount();
             },
             handlechangeFunds(){
                 this.loading1= true;
@@ -311,39 +330,38 @@
                 this.total_coinsError= false;
             },
             handleSendFund(){
-                console.log(this.fundsFrom , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
-                if(this.fundsFrom && this.fundsTo && this.amount && this.currencyHash ){
+                console.log(this.fundsFrom.value, this.currencyHash.value , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
+                if(this.fundsFrom.value && this.fundsTo && this.amount && this.currencyHash.value ){
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
-                    }
-                    console.log(this.total_balance > this.amount, "this.total_balance > this.amount")
-                    console.log(this.total_balance , this.amount, "this.total_balance, this.amount")
-                    if(this.total_balance > this.amount){
-                        if(this.fundsFrom === this.fundsTo){
-                            this.fundsToError = 'Invalid Address';
-                        }else {
-                            this.modalArray = {
-                                currentArray: this.currentArray,
-                                fundsFrom: this.fundsFrom,
-                                fundsTo: this.fundsTo,
-                                amount: this.amount,
-                                currencyHash: this.currencyHash,
-                                price: this.price,
-                                total_coins: this.total_coins,
-                            };
-                            this.show();
-                        }
-                    } else {
-                        this.amountError = 'Seems You dont have sufficient Amount To send';
+                    } else{
+                        if(this.total_balance >= this.amount){
+                            if(this.fundsFrom.value === this.fundsTo){
+                                this.fundsToError = 'Invalid Address';
+                            }else {
+                                this.modalArray = {
+                                    currentArray: this.currentArray,
+                                    fundsFrom: this.fundsFrom.value,
+                                    fundsTo: this.fundsTo,
+                                    amount: this.amount,
+                                    currencyHash: this.currencyHash.value,
+                                    price: this.price,
+                                    total_coins: this.total_coins,
+                                };
+                                this.show();
+                            }
+                        } else {
+                            this.amountError = 'Seems You dont have sufficient Amount To send';
 
+                        }
                     }
-                }else if(!this.fundsFrom) {
+                }else if(!this.fundsFrom.value) {
                     this.fundsFromError = true;
                 }else if(!this.fundsTo) {
                     this.fundsToError = 'To is required';
                 }else if(!this.amount) {
                     this.amountError = 'Amount is required';
-                }else if(!this.currencyHash) {
+                }else if(!this.currencyHash.value) {
                     this.currencyHashError = true;
                 }
 

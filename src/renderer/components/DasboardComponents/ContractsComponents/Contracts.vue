@@ -33,10 +33,12 @@
                         <label>Contracts</label>
                     </div>
                     <div class="bottom contracts_list_js">
-                        <div v-for="(contract, key) in contractData" class="a1 contractDetail" :data-val="contract.id" @click="mainMenu(contract.id)">
-                           <div class="delete-icon contract_delete" :data-val="contract.id" >
+                        <div v-for="(contract, key) in contractData" class="a1 contractDetail" :data-val="contract.id" >
+                           <div class="edit-icon contract_delete" @click="handleedit(contract.id)" :data-val="contract.id" >
                            </div>
-                           <div class="link contract_edit-1" :data-index="parseInt(key + 1)" :data-val="contract.id">
+                            <div class="delete-icon contract_delete" @click="handledelete(contract.id)" :data-val="contract.id" >
+                            </div>
+                           <div class="link contract_edit-1" @click="mainMenu(contract.id)" :data-index="parseInt(key + 1)" :data-val="contract.id">
                                <div class="img">
                                    <svg  :class="'svg-1 svg'+parseInt(key + 1)" v-bind:style="{fill: contract.color ? contract.color :getRandomColor ,enableBackground:'new 0 0 43 43'}"
                                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
@@ -107,6 +109,7 @@
     import {db} from '../../../../../lowdbFunc';
     import WatchContract from './WatchContract';
     import DeployContract from './DeployContract';
+    import _  from 'lodash';
     import {listContracts} from './DeployFunc';
     export default {
         name: 'Contracts',
@@ -119,24 +122,25 @@
                 contracts: '',
                 contractid: '',
                 getRandomColor,
+                db,
             };
         },
         computed: {
-            contractData(){
-                this.contracts = listContracts();
-                console.log( this.contracts);
-                return this.contracts;
+            contractData: function () {
+                let condata = db.get('contracts').value();
+                return condata;
             }
         },
         created(){
             this.intervalid1 = setInterval(() => {
-                if(this.contractData.length > 0 ){
+                if(this.contractData && this.contractData.length > 0 ){
                     clearInterval(this.intervalid1)
                 }
             }, 100);
         },
         methods: {
             show () {
+                this.contractid = '';
                 this.$modal.show('watchContract');
             },
             hide () {
@@ -149,14 +153,24 @@
                 this.$modal.hide('deployContract');
             },
             mainMenu(contractid) {
-                // console.log(this.contractid);
-                // this.contractid = contractid;
-                // this.$modal.show('watchContract');
-
                 this.$router.push({
                     path: '/contractdetails',
                     query: { contractid: contractid }
                 });
+            },
+            handleedit(contractid) {
+                console.log(this.contractid);
+                this.contractid = contractid;
+                this.$modal.show('watchContract');
+            },
+            handledelete(contractid) {
+                let contract = db.get('contracts').find({ id: contractid }).value();
+                if(contract){
+                    let con = confirm('You want To Delete: '+contract.contractName+' Contract');
+                    if(con){
+                        db.get('contracts').remove({ id: contractid}).write();
+                    }
+                }
             }
         }
     }

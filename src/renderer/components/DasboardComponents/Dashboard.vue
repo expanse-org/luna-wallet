@@ -21,7 +21,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import AddToken from './TokensComponents/AddToken';
-import {getAllAcounts} from './WalletDashboardComponents/walletcommon';
+import {getAllAcounts, checkupdate} from './WalletDashboardComponents/walletcommon';
 import {web3, startConnectWeb} from '../../../main/libs/config';
 
 export default {
@@ -41,6 +41,9 @@ export default {
         if (typeof web3 !== 'undefined') {
             console.log("else web condition");
             getAllAcounts();
+            setInterval(() => {
+                getAllAcounts();
+            }, 5000);
         } else {
             // set the provider you want from Web3.providers
             startConnectWeb();

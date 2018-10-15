@@ -1,6 +1,6 @@
 <template>
-    <div class="contract tabcontent" id="tokens">
-        <div class="content">
+    <div class="contract tabcontent" id="tokens" >
+        <div class="content"  v-bind:style="{zIndex: '0'}">
             <div class="heading">
                 <label>Tokens</label>
             </div>
@@ -29,7 +29,7 @@
                         <label>Tokens</label>
                     </div>
                     <div class="bottom tokens_list_js">
-                        <div v-if="tokenlist && tokens.length > 0" v-for="(token, key) in AddTokenData" class="a1">
+                        <div v-if="tokenlist && token" v-for="(token, key) in AddTokenData" class="a1">
                             <div class="delete-icon token_delete" @click="deleteToken(token.id)" data-val="token.token_address">
                            </div>
                            <div class="link token_edit" @click="editToken(token.id)" :data-index="parseInt(key + 1)" :data-val="token.token_address">
@@ -101,36 +101,31 @@
     import {db} from '../../../../../lowdbFunc';
     import AddToken from './AddToken';
     import {listTokens,updated_tokens_list_hash, tokens } from './listTokenfunc';
+    import { mapState } from 'Vuex';
     export default {
-        name: 'token',
+        name: 'tokenDetails',
         components: {
             AddToken: AddToken
         },
         data() {
             return{
-                tokens: {
-                    token_name: '',
-                    token_symbol: '',
-                    token_address: '',
-                },
+                token: '',
                 tokenlist: false,
                 token_edit: false,
                 color: '',
             };
         },
         computed: {
-            AddTokenData: function () {
-                this.tokens = this.$store.state.tokenList;
-                return this.tokens;
+            ...mapState(['tokenList']),
+            AddTokenData() {
+                this.token = this.$store.state.tokenList;
+                return this.token;
             },
         },
         created(){
             listTokens();
             if(tokens){
                 this.tokenlist = true;
-                if(updated_tokens_list_hash){
-                    this.$store.dispatch('addTokenList', tokens);
-                }
             }
         },
         methods: {
@@ -157,7 +152,9 @@
                     let con = confirm('You want To Delete: '+token.token_name+' Token');
                     if(con){
                         db.get('tokens').remove({ id: token_id}).write();
-                        listTokens();
+                        setTimeout(()=>{
+                            listTokens();
+                        }, 1000);
                         console.log(this.AddTokenData, this.$store.state.tokenList, "AddTokenData");
                     }
                 }

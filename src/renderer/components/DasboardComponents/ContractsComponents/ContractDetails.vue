@@ -184,8 +184,8 @@
                                 <button type="button" @click="handlExcute" class="execute_contract">Execute</button>
                             </div>
                         </form>
-                        <div class="query">
-                            <div class="chexboxes row">
+                        <div class="condetail">
+                            <div class="chexboxes">
                                 <div class="checkbox perform">
                                     <label class="filter__value">
                                         <input class="filter__mark" type="checkbox" v-model="isshowEvents" @click="getEvents">
@@ -214,7 +214,7 @@
                     <div class="header">
                         <h1>Latest Events</h1>
                         <div class="search">
-                            <input type="text" name="fname" placeholder="Filter Transaction" id="filterDetailsTransaction">
+                            <input type="text" name="fname" v-model="eventsearch" placeholder="Filter Events" id="filterDetailsTransaction">
                             <button class="search">
                                 <img src="../../../assets/img/search.svg">
                             </button>
@@ -222,7 +222,7 @@
 
                     </div>
 
-                    <div class="transactionContent accountDetailsTransactionContent">
+                    <div class="transactionContent accountDetailsTransactionContent eventdetailsContnt">
                         <div v-if="loadereve" class="loader transactionLoader">
                             <div class="outerCircle">
                                 <img src="../../../assets/img/outer.png">
@@ -231,11 +231,13 @@
                                 <img src="../../../assets/img/inner.png">
                             </div>
                         </div>
-                        <div @click="handleEvedetail(event)" v-if="isevents && !loadereve" v-for="(event, index) in EventsData">
-                            <div >
+                        <div class="latestevents" @click="handleEvedetail(event)" v-if="isevents && !loadereve" v-for="(event, index) in filterEvents? filterEvents:EventsData">
+                            <div class="leftcontent">
                                 <label class="date">{{ event && event.timestamp | moment("MMM-DD")}}</label>
+                            </div>
+                            <div class="rightcontent">
                                 <label class="status"><strong>{{event.eventdata && event.eventdata.event}}</strong></label>
-                                <div v-for="(value, index) in (event.eventdata && event.eventdata.returnValues)" >
+                                <div class="valuetxt" v-for="(value, index) in (event.eventdata && event.eventdata.returnValues)" >
                                     <label v-if="isNaN(index)">{{index}}: {{value}}</label>
                                 </div>
 
@@ -302,6 +304,7 @@
                 loadereve: true,
                 eventModalData: '',
                 isshowEvents: '',
+                eventsearch: '',
             };
         },
         computed: {
@@ -309,10 +312,24 @@
                 this.accountsArray = this.$store.state.allAccounts;
                 return this.accountsArray;
             },
+            filterEvents() {
+                this.isevents = true;
+                this.loadereve = false;
+                this.eventsearch = this.eventsearch.trim();
+                if(this.eventsearch){
+                    return this.EventsData.filter(item => {
+                        return item.eventdata.event.indexOf(this.eventsearch) > -1 ||
+                            (item.eventdata.returnValues.Account && item.eventdata.returnValues.Account.indexOf(this.eventsearch) > -1) ||
+                            (item.eventdata.returnValues.Amount && item.eventdata.returnValues.Amount.indexOf(this.eventsearch) > -1) ||
+                            (item.eventdata.returnValues.Module && item.eventdata.returnValues.Module.indexOf(this.eventsearch) > -1) ||
+                            (item.eventdata.returnValues.Polarity && item.eventdata.returnValues.Polarity.indexOf(this.eventsearch) > -1)
+                    })
+                }
+            }
         },
         created(){
             this.intervalid1 = setInterval(() => {
-                if (this.accounts.length > 0) {
+                if (this.accounts.length > 0 && this.accounts != ' ') {
                     this.accounts.map((val) => {
                         if(val.balance > 0){
                             var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
@@ -327,9 +344,8 @@
             var contractId = this.$router.history.current.query.contractid;
             let contracts =  db.get('contracts').find({id: contractId}).value();
             this.contracts =  contracts;
-            console.log(this.contracts);
+            console.log(this.contracts && this.contracts.contract_json);
             instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts && this.contracts.contract_address);
-
 
             this.abidisplay();
 
@@ -355,15 +371,15 @@
                         fromBlock: '0x0',
                         toBlock: 'latest'
                     }, function (error, logs) {
-                        console.log(logs, "result===================");
+                        // console.log(logs, "result===================");
 
                     });
 
 
                     subscription.on('data', function (logs) {
-                        console.log(logs, "--")
+                        // console.log(logs, "--")
                         if (logs) {
-                            console.log(logs, "result===================");
+                            // console.log(logs, "result===================");
                             web3.eth.getBlock(logs.blockNumber).then((res) => {
                                 // console.log(res, "res===================");
                                 var data = Object.assign({timestamp: res.timestamp, eventdata: logs, contractName:that.contracts && that.contracts.contract_name }, data)
@@ -376,7 +392,7 @@
                             that.noEvents = false;
                             that.isevents = false;
                             that.loadereve = false;
-                            console.log(error, "error===================");
+                            // console.log(error, "error===================");
                         }
                     })
                 } else {
@@ -660,6 +676,14 @@
          background: #1e4855;
      }
 
+    .latestevents:nth-child(even) {
+        background: #1e4855;
+    }
+
+    .latestevents:nth-child(odd) {
+        background: #265b6c;
+    }
+
     .contract_functions_c  .multiselect__single,
     .contract_sndform  .multiselect__single{
         background: none!important;
@@ -705,5 +729,33 @@
         border-color: #000000 transparent transparent!important;
         margin-top: -11px;
     }
+
+    .condetail {
+        margin-top: 10px;
+    }
+
+    .eventdetailsContnt {
+        max-height: 450px!important;
+    }
+
+
+    .condetail label{
+        width: 119px;
+        margin-top: 3px;
+    }
+
+    .latestevents  {
+       display: flex;
+    }
+
+    .latestevents .leftcontent, .latestevents .rightcontent {
+        margin-right: 40px;
+        padding: 15px;
+    }
+
+    .latestevents .rightcontent .valuetxt {
+        margin-top: 8px;
+    }
+
 
 </style>

@@ -62,6 +62,10 @@
           };
         },
         computed: {
+            accounts() {
+                this.expaccounts = this.$store.state.allAccounts;
+                return this.expaccounts;
+            },
             defaultCurrencyData() {
                 this.defaultSign = this.$store.state.ac_dcurrency ;
                 console.log(this.defaultSign, "this.defaultSign -----------------------------")
@@ -77,8 +81,8 @@
             console.log(web3,"web3")
             let that = this;
             that.intervalid1 = setInterval(() => {
-                if (that.$store.state.allAccounts.length > 0) {
-                    that.$store.state.allAccounts.map((account_hash) => {
+                if (that.accounts.length > 0 && that.accounts !== ' ') {
+                    that.accounts.map((account_hash) => {
                         if(account_hash){
                             web3.eth.getCoinbase().then((res)=> {
                                 // console.log(res);

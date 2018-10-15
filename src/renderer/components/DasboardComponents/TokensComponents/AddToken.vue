@@ -212,7 +212,6 @@
                 <p>ERROR</p>
             </div>
             <div class="buttons">
-
                 <button class=" ok button button--shikoba" @click="handleAddToken($event)" type="submit">
                     <img class="button__icon" src="../../../assets/img/add.svg">
                     <span>Update</span>
@@ -239,6 +238,7 @@
         name: 'Addtoken',
         data() {
             return {
+                tokend: '',
                 tokenAddress: '',
                 tokenName: '',
                 tokenType: {value: 'erc20',text:' ERC20'},
@@ -259,6 +259,10 @@
             'multiselect': Multiselect,
         },
         computed: {
+            AddTokenData() {
+                this.tokend = this.$store.state.tokenList;
+                return this.tokend;
+            },
             tokenIDData: function () {
                 this.tokenID = this.$store.state.editTokenHash;
                 if(this.tokenID){
@@ -285,6 +289,7 @@
         },
         methods: {
             hide () {
+                listTokens();
                 this.$modal.hide('watchtoken');
             },
             handleContractAdd(){
@@ -345,7 +350,7 @@
                 if(this.tokenAddress && this.tokenName && this.tokenType.value && this.tokensymbol && this.decimalplaces){
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
                     this.decimalplaces = parseInt(this.decimalplaces);
-                    if(this.decimalplaces >= 36) {
+                    if(this.decimalplaces <= 36) {
                         if(this.tokenAddress.length < 5){
                             this.tokenAddressError = 'Hash Address is required';
                         }else{
@@ -360,7 +365,7 @@
                             try{
                                 if(!this.editForm){
                                     var color = getRandomColor();
-                                    db.get('tokens').push({  id : shortid.generate(), token_address: this.tokenAddress, token_name : this.tokenName, token_symbol: this.tokensymbol, tokenType:this.tokenType.value, decimal_places: this.decimalplaces, color:color}).write()
+                                    db.get('tokens').assign().push({  id : shortid.generate(), token_address: this.tokenAddress, token_name : this.tokenName, token_symbol: this.tokensymbol, tokenType:this.tokenType.value, decimal_places: this.decimalplaces, color:color}).write()
                                     listTokens();
                                     this.tokenAddress = '';
                                     this.tokenName = '';
@@ -369,14 +374,10 @@
                                     this.tokenType = {value: 'erc20',text:' ERC20'};
                                 }else{
                                     // console.log('update tokens');
+                                    var color = getRandomColor();
                                     db.get('tokens').find({ id: this.tokenID  }).assign({  token_name : this.tokenName, token_symbol: this.tokensymbol,tokenType:this.tokenType.value, decimal_places: this.decimalplaces }).write();
-                                    this.tokenAddress = '';
-                                    this.tokenName = '';
-                                    this.tokensymbol = '';
-                                    this.decimalplaces = '';
-                                    this.tokenType = {value: 'erc20',text:' ERC20'};
-                                    listTokens();
                                 }
+                                listTokens();
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
                             }catch(err) {
                                 console.log("Execption Error",err.message);

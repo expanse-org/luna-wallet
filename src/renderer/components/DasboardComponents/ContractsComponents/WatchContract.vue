@@ -48,7 +48,7 @@
                         </svg>
                     </span>
                 </div>
-                <div v-if="success" class="alert-sucess contract_alert-sucess">
+                <div class="alert-sucess contract_alert-sucess hide">
                     <p>Contract Saved</p>
                 </div>
                 <div class="buttons">
@@ -108,7 +108,7 @@
                         </svg>
                     </span>
                 </div>
-                <div v-if="success" class="alert-sucess contract_alert-sucess">
+                <div class="alert-sucess contract_alert-sucess hide">
                     <p>Contract Saved</p>
                 </div>
                 <div class="buttons">
@@ -178,6 +178,7 @@
                                     contract_json: this.jsonAbi,
                                     color: getRandomColor(),
                                 }).write();
+                                listContracts();
                                 this.success = true;
                                 this.contractName = '';
                                 this.contractAddress = '';
@@ -193,23 +194,28 @@
                             this.contractAddressError = 'Invalid Address';
                         }
                     }else {
+                        var jsonabiupdate = JSON.parse(this.jsonAbi)
                         console.log('update tokens');
                         db.get('contracts').find({
                             id: this.contractID
                         }).assign({
                             contract_name: this.contractName,
                             contract_address: this.contractAddress,
-                            contract_json: this.jsonAbi,
+                            contract_json: jsonabiupdate,
                             color: getRandomColor(),
                         }).write();
+                        $('.contract_alert-sucess').show(300).delay(5000).hide(330);
                     }
-                    listContracts();
-                } else if(!this.contractName) {
-                    this.contractNameError = true;
-                } else if(!this.contractAddress) {
-                    this.contractAddressError = "Address is required";
-                } else if(!this.jsonAbi) {
-                    this.jsonAbiError = 'JSON is required';
+                } else {
+                    if(!this.contractName) {
+                        this.contractNameError = true;
+                    }
+                    if(!this.contractAddress) {
+                        this.contractAddressError = "Address is required";
+                    }
+                    if(!this.jsonAbi) {
+                        this.jsonAbiError = 'JSON is required';
+                    }
                 }
             },
             handleFocus() {

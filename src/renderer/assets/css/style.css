@@ -5187,6 +5187,21 @@ perspective effects (not including the modals and the overlay).
             position: absolute; }
             .dashboard .content .accounts .bottom > div .delete-icon:hover {
               opacity: 0.5; }
+          .dashboard .content .accounts .bottom > div .edit-icon {
+            background: url(../img/edit.svg) top left 10px no-repeat;
+            width: 23px;
+            z-index: 222;
+            background-size: 16px;
+            border-left: 1px solid #204854;
+            height: 22px;
+            right: 26px;
+            transition: all 300ms;
+            padding-left: 35px;
+            top: 28px;
+            cursor: pointer;
+            position: absolute; }
+            .dashboard .content .accounts .bottom > div .edit-icon:hover {
+              opacity: 0.5; }
         .dashboard .content .accounts .bottom .details {
           position: relative;
           display: grid;
@@ -11012,6 +11027,42 @@ FONTS
             align-items: center;
             -moz-animation: spinoffPulse 1s infinite linear;
             -webkit-animation: spinoffPulse 1s infinite linear; }
+          .condetail .checkbox {
+            margin-bottom: 30px; }
+          .condetail .checkbox .filter__value {
+            display: inline-block; }
+          .condetail .filter__value input[type='checkbox'] {
+            display: none; }
+          .condetail .filter__mark {
+            box-sizing: border-box;
+            width: 4px;
+            height: 4px;
+            border: 3px solid #ffffff;
+            position: relative;
+            margin-right: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            background: #ffffff;
+            padding: 5px;
+            outline: none; }
+          .condetail .checkbox .filter__mark:hover, .condetail .checkbox .filter__mark:focus {
+            cursor: pointer; }
+          .condetail .checkbox .filter__text {
+            display: inline-block;
+            vertical-align: middle;
+            color: #ededed;
+            font-size: 16px;
+            line-height: 19px; }
+          .condetail .checkbox input[type='checkbox']:checked + .filter__mark::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            bottom: 1px;
+            left: 1px;
+            background: #cb4d43;
+            border-radius: 2px; }
 @-moz-keyframes spinPulse {
   0% {
     -moz-transform: rotate(160deg); }

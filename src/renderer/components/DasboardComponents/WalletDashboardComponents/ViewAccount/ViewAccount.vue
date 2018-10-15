@@ -210,12 +210,17 @@
                 loader: true,
                 searchTxn: '',
                 txndetaildata: '',
+                option: '',
             };
         },
         computed: {
             accounts() {
                 this.expaccounts = this.$store.state.allAccounts;
                 return this.expaccounts;
+            },
+            WatchAccounts() {
+                this.watchaccounts = this.$store.state.watchAccounts ;
+                return this.watchaccounts;
             },
             defaultCurrencyData() {
                 this.defaultSign = this.$store.state.ac_dcurrency ;
@@ -244,30 +249,61 @@
             // console.log(this.$router);
             this.notransactions = false;
             this.accountHash = this.$router.history.current.query.accountDetail;
-            this.intervalid2 = setInterval(() => {
-                if(this.accounts.length > 0 ){
-                    this.accounts.map((account_hash) => {
-                        if(account_hash.hash === this.accountHash )
-                        {
-                            this.account = account_hash;
-                            console.log(this.account, "account");
-                            clearInterval(this.intervalid2)
-                        }
-                    })
-                    this.accountdetailTab = true;
-                    this.istransactions = true;
-                    var postData = {
-                        skip: 0,
-                        limit: 15,
-                        addresses: [this.accountHash],
-                    };
-                    this.fetch(postData);
-                } else {
-                    this.accountdetailTab = false;
-                    this.istransactions = false;
-                    this.loader = true;
-                }
-            }, 100);
+            this.option = this.$router.history.current.query.option;
+            if(this.option == 'watch') {
+                this.intervalid3 = setInterval(() => {
+                    if(this.WatchAccounts.length > 0 ){
+                        this.WatchAccounts.map((account_hash) => {
+                            console.log(account_hash,this.accountHash, "account_hash");
+                            if(account_hash.hash === this.accountHash )
+                            {
+                                this.account = account_hash;
+                                console.log(this.account, "account");
+                                clearInterval(this.intervalid3);
+                            }
+                        })
+                        this.accountdetailTab = true;
+                        this.istransactions = true;
+                        var postData = {
+                            skip: 0,
+                            limit: 15,
+                            addresses: [this.accountHash],
+                        };
+                        this.fetch(postData);
+                    } else {
+                        this.accountdetailTab = false;
+                        this.istransactions = false;
+                        this.loader = true;
+                    }
+                }, 100);
+            } else {
+                this.intervalid2 = setInterval(() => {
+                    if(this.accounts.length > 0 ){
+                        this.accounts.map((account_hash) => {
+                            if(account_hash.hash === this.accountHash )
+                            {
+                                this.account = account_hash;
+                                console.log(this.account, "account");
+                            }
+                        })
+                        this.accountdetailTab = true;
+                        this.istransactions = true;
+                        var postData = {
+                            skip: 0,
+                            limit: 15,
+                            addresses: [this.accountHash],
+                        };
+                        this.fetch(postData);
+                        clearInterval(this.intervalid2);
+                    } else {
+                        clearInterval(this.intervalid2);
+                        this.accountdetailTab = false;
+                        this.istransactions = false;
+                        this.loader = true;
+                    }
+                }, 100);
+            }
+
         },
         methods: {
             show () {
@@ -290,7 +326,6 @@
                             path: '/walletdashboard',
                         });
                         getAllAcounts();
-                        getArchiveaccounts();
                     }
                 } else {
                 }

@@ -18,7 +18,7 @@
       "accountTitle": "Account 2",
       "hash": "0xdb242e1260e68af05d64433105677babbf1d9238",
       "color": "#8F03E7",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
@@ -81,21 +81,21 @@
       "accountTitle": "Account 122",
       "hash": "0x6f7003556d27136f0afab9e1d4406e0667cd24b4",
       "color": "#B920AC",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
       "accountTitle": "Account 13",
       "hash": "0xe2cb61cb196695f9125f835973518a1d72fb94f9",
       "color": "#1B8EA3",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
       "accountTitle": "Account 14",
       "hash": "0x304935fe4abde7a539bf84d4d2df85f437a3dd15",
       "color": "#6C10FE",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
@@ -185,17 +185,10 @@
   ],
   "contracts": [
     {
-      "id": "rEe9EtZb7",
-      "contract_name": "Contract Test",
-      "contract_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
-      "contract_json": "{\"name\":\"Contract\",\"type\":\"Contract\",\"value\":\"Contract\"}",
-      "color": "#F6AAEA"
-    },
-    {
       "id": "O_OfHLGeZ",
       "contract_name": "GND Balances",
       "contract_address": "0x17e47ac0e6cef8183037da6722e5febaa151734e",
-      "color": "#9B2C2E",
+      "color": "#E79E9C",
       "contract_json": [
         {
           "constant": true,
@@ -209,7 +202,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0x7bb98a68"
         },
         {
           "constant": true,
@@ -223,7 +217,8 @@
           ],
           "payable": false,
           "stateMutability": "view",
-          "type": "function"
+          "type": "function",
+          "signature": "0xebf0c717"
         },
         {
           "inputs": [
@@ -261,7 +256,8 @@
             }
           ],
           "name": "AdminMint",
-          "type": "event"
+          "type": "event",
+          "signature": "0x28fd9fbb29f2d3f34710bf1fa0ed2722e1304f538424b08b1923d5898614631e"
         },
         {
           "anonymous": false,
@@ -283,7 +279,8 @@
             }
           ],
           "name": "AdminMoveTokens",
-          "type": "event"
+          "type": "event",
+          "signature": "0x27885ca3c2607d181c7c5c1dc50088fff4d8bf4b7182cbc04de2b8c749862029"
         },
         {
           "constant": false,
@@ -306,7 +303,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x6a46ce66"
         },
         {
           "constant": false,
@@ -329,7 +327,8 @@
           ],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0xd1b8631d"
         },
         {
           "constant": false,
@@ -343,7 +342,8 @@
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x486581ea"
         },
         {
           "constant": false,
@@ -352,7 +352,8 @@
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x41c0e1b5"
         },
         {
           "constant": false,
@@ -366,7 +367,8 @@
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0xc296302a"
         },
         {
           "constant": false,
@@ -384,7 +386,8 @@
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
-          "type": "function"
+          "type": "function",
+          "signature": "0x4b0bddd2"
         }
       ]
     },
@@ -1168,15 +1171,15 @@
           "value": "Contract"
         }
       ],
-      "color": "#08E43C"
+      "color": "#51EC14"
     }
   ],
   "tokens": [
     {
       "id": "DrZsGjQIZ",
       "token_address": "0xa887adb722cf15bc1efe3c6a5d879e0482e8d197",
-      "token_name": "Tokan Lab",
-      "token_symbol": "LAB2",
+      "token_name": "Token Lab",
+      "token_symbol": "LAB",
       "tokenType": "erc20",
       "decimal_places": 18,
       "color": "#fa0fa0"
@@ -1185,10 +1188,19 @@
       "id": "6zxjBkREl",
       "token_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
       "token_name": "PEX TOKEN",
-      "token_symbol": "PEX2",
+      "token_symbol": "PEX",
       "tokenType": "erc20",
       "decimal_places": 18,
       "color": "#0297da"
+    },
+    {
+      "id": "juR0z2JEW",
+      "token_address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+      "token_name": "BANKEX",
+      "token_symbol": "BANKEX",
+      "tokenType": "erc20",
+      "decimal_places": 18,
+      "color": "#C6C07B"
     }
   ],
   "accountsAdresses": [
