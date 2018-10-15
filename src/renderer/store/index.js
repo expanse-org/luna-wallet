@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     ac_dcurrency: "$",
     editTokenHash: 0,
     tokenList: 0,
-    allAccounts: ' ',
+    allAccounts: '',
     userAccounts: '',
     watchAccounts: '',
     addresseshash: '',

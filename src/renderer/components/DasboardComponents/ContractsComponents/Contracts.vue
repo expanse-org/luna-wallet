@@ -96,7 +96,7 @@
             </div>
         </div>
         <modal name="watchContract" class="modal">
-            <watch-Contract :contractid="contractid"></watch-Contract>
+            <watch-Contract :contractid="contractid" :updatedata="updatedata"></watch-Contract>
         </modal>
         <modal name="deployContract" class="modal">
             <deploy-Contract></deploy-Contract>
@@ -128,7 +128,6 @@
         computed: {
             contractData: function () {
                 let condata = db.get('contracts').value();
-                this.$forceUpdate();
                 return condata;
             }
         },
@@ -173,6 +172,9 @@
                         this.$forceUpdate();
                     }
                 }
+            },
+            updatedata(){
+                this.$forceUpdate();
             }
         }
     }

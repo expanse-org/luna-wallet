@@ -33,7 +33,7 @@
         name: 'Footer-page',
         data() {
             return {
-                terminalup: true,
+                terminalup: false,
                 gexplog: [],
                 pauseimg: "pause",
                 pausegexp: true,
@@ -41,12 +41,12 @@
         },
         computed: {
             gexpLogData() {
-                if(this.pausegexp){
-                    ipcRenderer.on('gexpLogs', (event, res) => {
-                        console.log(res, 'expr------01');
+                ipcRenderer.on('gexpLogs', (event, res) => {
+                    console.log(res, 'expr------01');
+                    if(this.pausegexp){
                         this.gexplog.push(res);
-                    });
-                }
+                    }
+                });
                 return this.gexplog;
             }
         },

@@ -40,21 +40,19 @@
                                         <p v-if="fundsToError" class=" error-message send_to_error">{{fundsToError}}</p>
                                     </div>
                                     <div class="fundsTo">
-                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px"
-                                                    height="43px" viewBox="0 0 43 43" style="enable-background:new 0 0 43 43;"
-                                                    xml:space="preserve">
-                                                    <defs>
-                                                    </defs>
-                                                    <circle class="st012" cx="21.5" cy="21.5" r="21.5" />
-                                                    <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4" />
-                                                    <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8" />
-                                                    <rect x="14.3" y="15.6" class="st125" width="14.6" height="8" />
-                                                    <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8" />
-                                                    <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4" />
-                                                    <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6" />
-                                                    <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9" />
-                                                    <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6" />
-                                                </svg>
+                                       <svg version="1.1" class="svg-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px"
+                                            viewBox="0 0 43 43" v-bind:style="{enableBackground:'new 0 0 43 43',fill:getRandomColor}" xml:space="preserve">
+                                           <defs>
+                                           </defs>
+                                           <circle class="st012" cx="21.5" cy="21.5" r="21.5"></circle>
+                                           <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"></rect>
+                                           <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"></rect>
+                                           <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"></rect>
+                                           <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"></rect>
+                                           <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"></rect>
+                                           <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"></rect>
+                                           <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"></rect>
+                                       </svg>
                                         <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" selected="fundsTo"  class="sendTo" data-err=".send_to_error" />
                                     </div>
                                 </div>
@@ -165,6 +163,7 @@
     import ethereum_address from 'ethereum-address';
     import SendTransaction from './SendTransaction';
     import Multiselect from 'vue-multiselect'
+    import { getRandomColor } from '../../AccountsData/commonFunc';
     import  * as $ from 'jquery';
     // var web3 = startConnectWeb();
 
@@ -195,6 +194,7 @@
                 defaultoptionCurrency: '',
                 loading: true,
                 loading1: false,
+                getRandomColor,
             };
         },
         components:{
