@@ -3,6 +3,8 @@
         <div class="footer-Data">
             <div class="footer-container">
                 <div>
+                    <button class="termbtN" @click="handlerefresh"><img src="../../../assets/img/refresh.svg"/></button>
+                    <button class="termbtN" @click="handlepause"><img :src="getPic(pauseimg)" /></button>
                     <button class="termbtN" @click="handleterm"><img src="../../../assets/img/terminal.svg"/></button>
                 </div>
             </div>
@@ -33,14 +35,18 @@
             return {
                 terminalup: true,
                 gexplog: [],
+                pauseimg: "pause",
+                pausegexp: true,
             };
         },
         computed: {
             gexpLogData() {
-                ipcRenderer.on('gexpLogs', (event, res) => {
-                    console.log(res, 'expr------01');
-                    this.gexplog.push(res);
-                });
+                if(this.pausegexp){
+                    ipcRenderer.on('gexpLogs', (event, res) => {
+                        console.log(res, 'expr------01');
+                        this.gexplog.push(res);
+                    });
+                }
                 return this.gexplog;
             }
         },
@@ -54,9 +60,22 @@
                     this.terminalup = true;
                 }
             },
-            handleClose() {
-                this.terminalup = false;
+            getPic(index) {
+                return require('../../../assets/img/' + index + '.svg');
             },
+            handlepause() {
+                if(this.pausegexp) {
+                    this.pausegexp = false;
+                    this.pauseimg = "play";
+                } else {
+                    this.pausegexp = true;
+                    this.pauseimg = "pause";
+                }
+            },
+            handlerefresh(){
+                this.pausegexp = true;
+                this.pauseimg = "pause";
+            }
         }
     }
 </script>

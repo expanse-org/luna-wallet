@@ -152,6 +152,7 @@
                     let con = confirm('You want To Delete: '+token.token_name+' Token');
                     if(con){
                         db.get('tokens').remove({ id: token_id}).write();
+                        this.$forceUpdate();
                         setTimeout(()=>{
                             listTokens();
                         }, 1000);

@@ -6,9 +6,8 @@
                     <h1>
                         <button class="back-btn button   active" type="button" id="back_btn" data-val="0" @click="mainMenu()">
                             <img class="button__icon" src="../../../assets/img/back-btn.svg">
-
-                        </button>Send Funds</h1>
-
+                        </button>Send Funds
+                    </h1>
                     <div class="contentInner">
                         <div class="sentDetails">
                             <div class="fundTransfer">
@@ -77,7 +76,7 @@
                                         <p v-if="currencyHashError" class=" error-message send_amount_currency_error">Amount is Required</p>
                                     </div>
                                     <div class="drop-down currencies_dropdown">
-                                        <multiselect name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  v-model="currencyHash" :options="optionCurrency">
+                                        <multiselect name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  @select="handlecurrchange" v-model="currencyHash" :options="optionCurrency">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                             </template>
@@ -276,16 +275,22 @@
             },
             handlesendall(){
                 if(this.currencyHash) {
-                    this.accounts.map((val) => {
-                        if(val.hash == this.currencyHash.value) {
-                            // console.log(this.currencyHash.text.split("(")[1].split(" ")[0], val.balance);
-                            this.amount = val.balance;
-                        }
-                    });
+                    console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
+                    this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
                 } else {
                     this.amount = this.totalBalanceData;
                 }
                 this.handleAmount();
+            },
+            handlecurrchange(){
+                console.log("handlecurrchange");
+                setTimeout(() => {
+                    if(this.currencyHash && this.sendAllCheck) {
+                        console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
+                        this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
+                        this.handleAmount();
+                    }
+                }, 200)
             },
             handlechangeFunds(){
                 this.loading1= true;
@@ -297,7 +302,7 @@
                         let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
                         this.optionCurrency.push(defaultCurr);
                         this.fromArray[0].token_icons.map((acc_token) => {
-                            var data = {value: acc_token.token_name , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
+                            var data = {value: acc_token.token_name , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
@@ -308,7 +313,7 @@
                                 let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance+' EXP)'};
                                 this.optionCurrency.push(defaultCurr);
                                 account.token_icons.map((acc_token) => {
-                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - ( ' +acc_token.balance + ' )'};
+                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;
                                 })

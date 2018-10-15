@@ -178,6 +178,7 @@
                                     contract_json: this.jsonAbi,
                                     color: getRandomColor(),
                                 }).write();
+                                this.$forceUpdate();
                                 listContracts();
                                 this.success = true;
                                 this.contractName = '';
@@ -204,6 +205,7 @@
                             contract_json: jsonabiupdate,
                             color: getRandomColor(),
                         }).write();
+                        this.$forceUpdate();
                         $('.contract_alert-sucess').show(300).delay(5000).hide(330);
                     }
                 } else {

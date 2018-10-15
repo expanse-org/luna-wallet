@@ -128,6 +128,7 @@
         computed: {
             contractData: function () {
                 let condata = db.get('contracts').value();
+                this.$forceUpdate();
                 return condata;
             }
         },
@@ -169,6 +170,7 @@
                     let con = confirm('You want To Delete: '+contract.contractName+' Contract');
                     if(con){
                         db.get('contracts').remove({ id: contractid}).write();
+                        this.$forceUpdate();
                     }
                 }
             }
