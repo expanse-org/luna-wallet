@@ -219,13 +219,13 @@
                     if (this.accounts.length > 0) {
                         this.accounts.map((val) => {
                             if(val.hash === hash) {
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
                                 this.handlechangeFunds();
                             }
                             if(val.balance > 0){
                                 console.log(val.balance);
                                 console.log(val);
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -243,9 +243,9 @@
                             if(val.balance > 0){
                                 console.log(val.balance);
                                 console.log(val);
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
                                 this.handlechangeFunds();
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -299,10 +299,10 @@
                     this.optionCurrency = [];
                     if(this.fromArray.length === 1) {
                         this.currentArray = this.fromArray;
-                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
+                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ parseFloat(this.fromArray[0].balance).toFixed(4)+' EXP)'};
                         this.optionCurrency.push(defaultCurr);
                         this.fromArray[0].token_icons.map((acc_token) => {
-                            var data = {value: acc_token.token_name , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
+                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +parseFloat(acc_token.balance).toFixed(4) + ' )'};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
@@ -310,10 +310,10 @@
                         this.fromArray.map((account) => {
                             if(account.hash === this.fundsFrom.value ) {
                                 this.currentArray = account;
-                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance+' EXP)'};
+                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ parseFloat(account.balance).toFixed(4) +' EXP)'};
                                 this.optionCurrency.push(defaultCurr);
                                 account.token_icons.map((acc_token) => {
-                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
+                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +parseFloat(acc_token.balance).toFixed(4) + ' )'};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;
                                 })
@@ -340,7 +340,8 @@
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
                     } else{
-                        if(this.total_balance >= this.amount){
+                        console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
+                        if(parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) >= parseFloat(this.amount)){
                             if(this.fundsFrom.value === this.fundsTo){
                                 this.fundsToError = 'Invalid Address';
                             }else {

@@ -73,7 +73,7 @@
                  <div class="row">
                     <p v-if="accountPasswordError" class="error-message amount-error">Password is reqiured</p>
                     <span :class="accountPassword? 'input input--nao input--filled': 'input input--nao'">
-                        <input type="text" class="field input__field input__field--nao" v-model="accountPassword" @focus="handleFocus"/>
+                        <input type="password" class="field input__field input__field--nao" v-model="accountPassword" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">Password
                             </span>
@@ -158,11 +158,12 @@
             handledeployContract(e) {
                 e.preventDefault();
                 var from ,bytecode,gasEstimate,Contract,gasPrice,source;
-                console.log("FRom001", this.AddressFrom,"Password",this.accountPassword,"Amount",this.amount);
-                if(this.AddressFrom && this.accountPassword && this.amount && this.range) {
+                console.log("FRom001", this.AddressFrom.value,"Password",this.accountPassword,"Amount",this.amount);
+                return false;
+                if(this.AddressFrom.value && this.accountPassword && this.amount && this.range) {
                     try {
                         console.log(web3);
-                        web3.eth.personal.unlockAccount(this.AddressFrom, this.accountPassword  , 10000);
+                        web3.eth.personal.unlockAccount(this.AddressFrom.value, this.accountPassword  , 10000);
                         console.log("SUCCESSfully unlocked Account");
                     } catch(e) {
                         console.log("Error",e);
@@ -218,7 +219,7 @@
                         });
                     })
                 } else {
-                    if(!this.AddressFrom) {
+                    if(!this.AddressFrom.value) {
                         this.AddressFromError = true;
                     }
                     if(!this.accountPassword) {

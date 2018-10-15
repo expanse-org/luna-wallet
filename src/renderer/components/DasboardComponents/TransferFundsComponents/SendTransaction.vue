@@ -67,21 +67,19 @@
                                 <div class="name">
                                     <div class="hide row">
                                         <p>Estimated fee consumption</p>
-                                        <p class="error-p p-right "> We Couldn’t estimate the gas.</p>
+                                        <p contenteditable="true" @blur="changecontent($event,'egas')" class="error-p p-right "> {{estimatedGas}}</p>
                                     </div>
                                     <div class="row">
                                         <p>Provide maximum fee</p>
-                                        <p contenteditable="true" class="p-right">exp (21,000 gas)</p>
+                                        <p contenteditable="true" @blur="changecontent($event,'expgas')"  class="p-right">exp ({{maximumfee}} gas)</p>
                                     </div>
                                     <div class="row">
                                         <p>Gas price</p>
-                                        <p v-if="!modalArray.is_contract" contenteditable="true" class=" p-right gas_price">{{gasPrice}}</p>
-                                        <p v-if="modalArray.is_contract" contenteditable="true" class=" p-right gas_price">{{modalArray.gasPrice}}</p>
+                                        <p @blur="changecontent($event,'gasp')" contenteditable="true" class=" p-right gas_price">{{gasPrice}}</p>
                                     </div>
                                     <div class="row">
                                         <p>Amount</p>
-                                        <p v-if="!modalArray.is_contract" contenteditable="true" class="p-right amount_transfer">{{modalArray.total_coins}}</p>
-                                        <p v-if="modalArray.is_contract" contenteditable="true" class="p-right amount_transfer">{{modalArray.amount}}</p>
+                                        <p @blur="changecontent($event,'amount')"  contenteditable="true" class="p-right amount_transfer">{{amount}}</p>
                                     </div>
                                 </div>
 
@@ -192,9 +190,11 @@
                 passwordError: '',
                 gasPrice: '',
                 gasLimit: 900000,
-                estimatedGas : 21000,
+                estimatedGas : 100000,
                 nonce: 0,
                 raw_dataToken: 0,
+                amount: 0,
+                maximumfee: 21000,
             };
         },
         components:{
@@ -206,10 +206,18 @@
             web3.eth.getTransactionCount(this.modalArray && this.modalArray.fundsFrom).then((count)=>{
                 this.nonce = count;
             });
-            console.log(this.modalArray , "this.modalArray.currencyHash");
+
+            web3.eth.estimateGas({from: this.modalArray && this.modalArray.fundsFrom, to: this.modalArray && this.modalArray.fundsTo, amount: web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")}, (res, err) => {
+                console.log(res, err, "estimatedgass response")
+            })
+            console.log(this.modalArray , this.estimatedGas, "this.modalArray.currencyHash");
 
             if(this.modalArray && this.modalArray.is_contract) {
+                this.gasPrice = this.modalArray.gasPrice;
                 this.nonce = this.modalArray.nonce;
+                this.amount = this.modalArray.amount;
+            } else {
+                this.amount = this.modalArray.total_coins;
             }
             var abiArray = tokenInterface; // From Config file
             var contractAddress = this.modalArray.currencyHash;
@@ -266,8 +274,12 @@
             }
             if(this.modalArray && this.modalArray.is_contract) {
                 this.gasPrice = this.modalArray.gasPrice;
+                this.gasPrice = this.modalArray.gasPrice;
                 this.raw_dataToken = this.modalArray.raw_data;
                 this.rawdata = true;
+                this.amount = this.modalArray.amount;
+            }else {
+                this.amount = this.modalArray.total_coins;
             }
         },
         methods: {
@@ -278,10 +290,51 @@
             handleFocus(){
                 this.passwordError = '';
             },
+            changecontent(evt, text){
+                console.log( evt, text)
+                switch(text)
+                {
+                    case 'egas':
+                        console.log( evt.target.innerText, text)
+                        this.estimatedGas = evt.target.innerText;
+                    break;
+
+                    case 'expgas':
+                        console.log( evt.target.innerText, text)
+                        this.maximumfee = evt.target.innerText;
+                    break;
+
+                    case 'gasp':
+                        console.log( evt.target.innerText, text)
+                        this.gasPrice = evt.target.innerText;
+                    break;
+
+                    case 'amount':
+                        console.log( evt.target.innerText, text)
+                        this.amount = evt.target.innerText;
+                    break;
+
+                }
+            },
             sendTransaction(e){
                 e.preventDefault();
+                console.log("From Nonce:",this.estimatedGas, this.gasPrice, this.amount);
                 if(this.password){
                     try {
+                        var trans_nonce;
+                        var latest_transaction = db.get('transactions').filter({from: this.modalArray && this.modalArray.fundsFrom}).value();
+                        latest_transaction = lodash.orderBy(latest_transaction, ['nonce'], ['desc']);
+                        console.log("From Nonce:",this.nonce);
+                        console.log("latest_transaction",latest_transaction);
+
+
+                        if(latest_transaction.length > 0){
+                            console.log("transactiopn recoerd found");
+                            trans_nonce = latest_transaction[0].nonce;
+                            console.log("trans_nonce:",trans_nonce);
+                            this.nonce = this.nonce > trans_nonce ? this.nonce : trans_nonce + 1;
+                        }
+
                         web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fundsFrom, this.password , 3000);
                         if(this.sendToken) {
                             try{
@@ -329,7 +382,10 @@
                                 if(this.modalArray && this.modalArray.is_contract) {
                                     this.gasPrice = this.modalArray.gasPrice;
                                     this.raw_dataToken = this.modalArray.raw_data;
+                                    this.amount = this.modalArray.amount;
                                     this.rawdata = true;
+                                }else {
+                                    this.amount = this.modalArray.total_coins;
                                 }
                                 console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
                                 console.log("this.gasPrice",this.gasPrice,"this.gasLimit",this.gasLimit);
@@ -375,7 +431,9 @@
                                 web3.eth.sendSignedTransaction(serializedTx).then((res) => {
                                     if(res){
                                         console.log("res",res);
-                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res));
+                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res.transactionHash));
+                                        $('.trx_alert-sucess p').css({color:'#ffffff'});
+                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
                                         db.get('transactions').push({
                                             id : shortid.generate(),
                                             from: this.modalArray.fundsFrom,
@@ -383,8 +441,9 @@
                                             nonce : this.nonce,
                                             timeStamp : currentDate.getTime()
                                         }).write();
-                                        $('.trx_alert-sucess p').css({color:'#ffffff'});
-                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                        this.$router.push({
+                                            path: '/walletdashboard'
+                                        });
                                     }
                                 }, (err) => {
                                     console.log(err);

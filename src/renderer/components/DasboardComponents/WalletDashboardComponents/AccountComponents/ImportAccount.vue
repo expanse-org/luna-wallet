@@ -23,7 +23,6 @@
             </div>
             <div v-if="importPrivateKeyTab" id="fields-Privat-key" class="importtabchange" >
                 <form>
-
                     <div class="row">
                         <p v-if="accountNameError" class="error-message accountName-error">{{accountNameError}}</p>
                         <span :class="accountName? 'input input--nao input--filled': 'input input--nao'">
@@ -295,12 +294,12 @@
                       let color = getRandomColor();
                       try {
                           let address_accounts = db.get('accountsAdresses').filter({hash: this.import_address});
-                          let name_accounts = db.get('accountsAdresses').filter({accountTitle: this.accountName});
                           if(address_accounts) {
                                   this.import_addressError = "Account Already Exits";
                           }
-                          if(name_accounts) {
-                                  this.accountNameError = "Account Title Already Exits";
+                          let name_accounts = db.get('accounts').filter({accountTitle: this.accountName}).value();
+                          if(name_accounts.length > 0) {
+                              this.accountNameError = 'Title is already exists';
                           }  else {
                               console.log(color,"account");
                               db.get('accountsAdresses').push({
@@ -342,9 +341,8 @@
                             this.private_keyError = false;
                             this.private_key_passwordError = false;
                             this.private_key_repasswordError = false;
-
-                            let name_accounts = db.get('accounts').filter({accountTitle: this.accountName});
-                            if(name_accounts) {
+                            let name_accounts = db.get('accounts').filter({accountTitle: this.accountName}).value();
+                            if(name_accounts.length > 0) {
                                 this.accountNameError = 'Title is already exists';
                             } else {
                                 let that = this;
@@ -375,6 +373,7 @@
                                     }, 2000)
                                     console.log(error," error)account")
                                 })
+                                this.accountName = '';
                                 this.private_key_repassword = '';
                                 this.private_key_password = '';
                                 this.private_key = '';
@@ -496,7 +495,7 @@
         padding: 0px!important;
     }
 
-    .impoortAccounts_dropdown .multiselect__input, .multiselect__single {
+    .impoortAccounts_dropdown .multiselect__input,  .impoortAccounts_dropdown .multiselect__single {
         padding: 0px 0 0 20px!important;
         line-height: 39px!important;
     }
