@@ -14,13 +14,16 @@
                 <div>
                     <h1>GEXP LOGS</h1>
                 </div>
-                <div class="gexplogscontent">
+                <div id="gexpcontent" class="gexplogscontent">
                     <div v-if="gexp" v-for="(gexp, key) in gexpLogData" class="a1">
                         <p class="gexptxt">{{gexp}}</p>
                     </div>
                     <div v-else class="a1">
                         <p class="gexptxt">Loading...</p>
                     </div>
+                    <br/>
+                    <br/>
+                    <br/>
                 </div>
             </div>
         </div>
@@ -43,6 +46,13 @@
         computed: {
             gexpLogData() {
                 console.log("computed");
+                var objDiv = document.getElementById("gexpcontent");
+                console.log("objDiv", objDiv);
+                if(this.gexplog.length > 6) {
+                    var objDiv = document.getElementById("gexpcontent");
+                    console.log("objDiv", objDiv);
+                    // objDiv[0].scrollTop = objDiv[0].scrollHeight;
+                }
                 if(this.gexplog.length > 50) {
                     this.gexplog = this.gexplog.slice(this.gexplog.length - 50, 50);
                     console.log(this.gexplog.length, this.gexplog.length - 50);
@@ -76,6 +86,10 @@
         },
         methods: {
             handleterm() {
+                if(this.gexplog.length > 6) {
+                    var objDiv = document.getElementById("gexpcontent");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }
                 if(this.terminalup) {
                     this.terminalup = false;
                 } else {

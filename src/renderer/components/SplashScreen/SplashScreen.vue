@@ -228,7 +228,6 @@
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>
             </div>
         </div>
-        <footer-app />
     </div>
 </template>
 
@@ -237,7 +236,6 @@
   import {downloadGexp} from '../../../common/gexpfunc';
   import {ipcRenderer} from 'electron';
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
-  import Footer from '../DasboardComponents/Footer/Footer';
 
   export default {
     name: 'Splash-screen',
@@ -245,9 +243,6 @@
        return {
            activeScreen: this.$store.state.screenState,
        };
-    },
-    components:{
-      'footer-app': Footer,
     },
     created(){
         this.$store.dispatch('addScreen', 'config')
@@ -264,7 +259,8 @@
                 console.log(web3.eth.getAccounts());
                 web3.eth.getAccounts().then((accounts, error) => {
                     if(accounts && accounts.length > 0){
-                        // ipcRenderer.send('launchApplication', 'Launch App');
+                        // ipcRender
+                        // er.send('launchApplication', 'Launch App');
                         that.$router.push({
                             path: '/walletdashboard'
                         });
@@ -295,7 +291,6 @@
 </script>
 
 <style>
-
     .cls-1 {
         fill: #b63f37;
         width: 20px;

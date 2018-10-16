@@ -297,6 +297,7 @@
                 setTimeout(() => {
                     console.log(this.fundsFrom,"handlechangeFunds");
                     this.optionCurrency = [];
+                    this.currencyHash = '';
                     if(this.fromArray.length === 1) {
                         this.currentArray = this.fromArray;
                         let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ parseFloat(this.fromArray[0].balance).toFixed(4)+' EXP)'};

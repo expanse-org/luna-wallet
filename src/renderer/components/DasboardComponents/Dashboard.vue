@@ -9,13 +9,11 @@
                 </div>
             </div>
         </div>
-        <footer-app />
     </div>
 </template>
 
 <script>
 import Header from './Header/Header';
-import Footer from './Footer/Footer';
 import SideBar from './SideBar/SideBar';
 import AddToken from './TokensComponents/AddToken';
 import {getAllAcounts, checkupdate} from './WalletDashboardComponents/walletcommon';
@@ -25,7 +23,6 @@ export default {
     name: 'Dashboard-page',
     components:{
         'header-app': Header,
-        'footer-app': Footer,
         'sidebar-app': SideBar,
         'addtoken-app': AddToken,
     },

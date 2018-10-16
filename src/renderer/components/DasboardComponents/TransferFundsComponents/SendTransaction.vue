@@ -173,7 +173,6 @@
     import  * as $ from 'jquery';
     import os from 'os';
 
-    // var web3 = startConnectWeb();
     var currentDate = new Date();
 
     export default {
