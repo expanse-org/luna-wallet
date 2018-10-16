@@ -25,10 +25,10 @@
     computed: {
         gexpLogData() {
             let that = this;
-            ipcRenderer.on('gexpLogs', (event, res) => {
-                console.log(res, 'expr------01');
-                that.gexplog.push(res);
-            });
+            // ipcRenderer.on('gexpLogs', (event, res) => {
+            //     console.log(res, 'expr------01');
+            //     that.gexplog.push(res);
+            // });
             // console.log(that.gexplog,"computed dsadada");
             return that.gexplog;
         }

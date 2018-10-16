@@ -41,6 +41,7 @@
             <div class="row imppdrop">
                 <p v-if="tokenTypeError" class="error-message tokenType-error">Type is required</p>
                 <div class="cont_select_center">
+                    <label >Token Type<span class="mandatory">*</span></label>
                     <div class="select_mate" data-mate-select="active">
                         <multiselect  name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
                             <template slot="singleLabel" slot-scope="{option}">
@@ -66,7 +67,7 @@
                     </svg>
                 </span>
                 <span :class="decimalplaces? 'input items input--nao input--filled': 'input items input--nao'">
-                    <p v-if="decimalplacesError" class="error-message tokendecimal-error">Decimal Value is required</p>
+                    <p v-if="decimalplacesError" class="error-message tokendecimal-error">{{decimalplacesError}}</p>
                     <input type="number" class="input__field input__field--nao input_number" value="0" min="0"
                            name="decimal_places"  v-model="decimalplaces" @focus="handleFoucs"/>
 
@@ -80,37 +81,6 @@
                         <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                     </svg>
                 </span>
-            </div>
-            <div class="row">
-        <!--    <div class="place">
-            <div class="minus-plus">
-                            <button type="button" class="minus">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="16" height="16" viewBox="0 0 16 16">
-                                <path d="M8.000,16.000 C3.582,16.000 -0.000,12.418 -0.000,8.000 C-0.000,3.582 3.582,0.000 8.000,0.000 C12.418,0.000 16.000,3.582 16.000,8.000 C16.000,12.418 12.418,16.000 8.000,16.000 ZM13.000,7.000 L3.000,7.000 L3.000,9.000 L13.000,9.000 L13.000,7.000 Z" class="subtract"/>
-                                </svg>
-                            </button>
-                            <button type="button" class="plus">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="16" height="16" viewBox="0 0 16 16">
-                                <path d="M8.000,16.000 C3.582,16.000 -0.000,12.418 -0.000,8.000 C-0.000,3.582 3.582,0.000 8.000,0.000 C12.418,0.000 16.000,3.582 16.000,8.000 C16.000,12.418 12.418,16.000 8.000,16.000 ZM13.000,7.000 L9.000,7.000 L9.000,3.000 L7.000,3.000 L7.000,7.000 L3.000,7.000 L3.000,9.000 L7.000,9.000 L7.000,13.000 L9.000,13.000 L9.000,9.000 L13.000,9.000 L13.000,7.000 Z" class="add"/>
-                                </svg>
-                            </button>
-                        </div>
-                </div>
-                <div class="test token_values">
-                    <div class="expanse">
-                        <label>TEST</label>
-                        <label>0.00
-                            <span class="token_symbol">EXP</span>
-                        </label>
-                    </div>
-                    <button type="button" class="del">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="12"
-                            height="16" viewBox="0 0 12 16">
-                            <path d="M-0.000,2.917 L-0.000,1.329 C-0.000,1.050 0.228,0.824 0.508,0.824 L3.998,0.824 L3.998,0.169 C3.998,0.075 4.074,-0.000 4.168,-0.000 L7.832,-0.000 C7.926,-0.000 8.002,0.075 8.002,0.169 L8.002,0.824 L11.492,0.824 C11.772,0.824 12.000,1.050 12.000,1.329 L12.000,2.917 L-0.000,2.917 ZM10.592,15.228 C10.574,15.660 10.216,16.000 9.782,16.000 L2.218,16.000 C1.784,16.000 1.427,15.660 1.408,15.228 L0.868,3.896 L11.132,3.896 L10.592,15.228 ZM4.006,6.330 C4.006,6.152 3.882,6.009 3.729,6.009 L3.286,6.009 C3.133,6.009 3.009,6.153 3.009,6.330 L3.009,12.691 C3.009,12.868 3.133,13.012 3.286,13.012 L3.729,13.012 C3.882,13.012 4.006,12.868 4.006,12.691 L4.006,6.330 ZM6.997,6.330 C6.997,6.152 6.749,6.009 6.443,6.009 L5.557,6.009 C5.251,6.009 5.003,6.153 5.003,6.330 L5.003,12.691 C5.003,12.868 5.251,13.012 5.557,13.012 L6.443,13.012 C6.749,13.012 6.997,12.868 6.997,12.691 L6.997,6.330 ZM8.991,6.330 C8.991,6.152 8.867,6.009 8.714,6.009 L8.271,6.009 C8.118,6.009 7.994,6.153 7.994,6.330 L7.994,12.691 C7.994,12.868 8.118,13.012 8.271,13.012 L8.714,13.012 C8.867,13.012 8.991,12.868 8.991,12.691 L8.991,6.330 Z"
-                                class="bin" />
-                        </svg>
-                    </button>
-                </div>-->
             </div>
             <div class="alert-sucess hide">
                 <p>Sweet! Token successfully Added.</p>
@@ -350,6 +320,7 @@
                 if(this.tokenAddress && this.tokenName && this.tokenType.value && this.tokensymbol && this.decimalplaces){
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
                     this.decimalplaces = parseInt(this.decimalplaces);
+                    console.log(this.decimalplaces , this.decimalplaces <= 36)
                     if(this.decimalplaces <= 36) {
                         if(this.tokenAddress.length < 5){
                             this.tokenAddressError = 'Hash Address is required';
@@ -383,10 +354,10 @@
                                 console.log("Execption Error",err.message);
                                 Raven.captureException(err);
                             }
-                            // listTokens();
                         }
                     } else {
                         this.decimalplacesError = 'Value less than 36';
+                        console.log(this.decimalplacesError , this.decimalplaces <= 36)
                     }
                 }else {
                     if (!this.tokenAddress){
@@ -395,7 +366,7 @@
                     if (!this.tokenName){
                         this.tokenNameError = true;
                     }
-                    if (!this.tokenType){
+                    if (!this.tokenType.value){
                         this.tokenTypeError = true;
                     }
                     if (!this.tokensymbol){
@@ -407,11 +378,11 @@
                 }
             },
             handleFoucs(){
-                this.tokenAddressError = false;
+                this.tokenAddressError = '';
                 this.tokenNameError = false;
                 this.tokenTypeError = false;
                 this.tokensymbolError = false;
-                this.decimalplacesError = false;
+                this.decimalplacesError = '';
             },
         }
     }
@@ -490,4 +461,11 @@
     .imppdrop {
         z-index: 999;
     }
+
+    .imppdrop .cont_select_center label {
+        text-align: left !important;
+        vertical-align: super;
+        display: inline-block;
+    }
+
 </style>

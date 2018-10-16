@@ -98,9 +98,9 @@ const startingGexp = () => {
 
 let gexplogs = [];
 
-
-ipcRenderer.on('gexpLogs', (event, res) => {
-    console.log(res, 'expresssss');
-});
+//
+// ipcRenderer.on('gexpLogs', (event, res) => {
+//     console.log(res, 'expresssss');
+// });
 
 export { startingGexp, downloadGexp, gexplogs }

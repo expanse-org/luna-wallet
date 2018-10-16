@@ -64,11 +64,6 @@ db.defaults({ accounts: [], contracts: [], tokens: [
     ] , accountsAdresses:[] , hdWallets:[] , transactions : [] })
     .write();
 
-    ipcRenderer.on('gexpLogs', (event, res) => {
-        // console.log(res, 'logs gexp');
-        // actiongplog(res);
-    });
-
 export {
     db
 }

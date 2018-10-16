@@ -37,14 +37,36 @@
                 gexplog: [],
                 pauseimg: "pause",
                 pausegexp: true,
+                server: null
             };
         },
         computed: {
             gexpLogData() {
+                console.log("computed");
+                if(this.gexplog.length > 50) {
+                    this.gexplog = this.gexplog.slice(this.gexplog.length - 50, 50);
+                    console.log(this.gexplog.length, this.gexplog.length - 50);
+                }
                 ipcRenderer.on('gexpLogs', (event, res) => {
-                    console.log(res, 'expr------01');
-                    if(this.pausegexp){
-                        this.gexplog.push(res);
+                    console.log(res, 'expr------01', this.gexplog.length);
+                    if(this.gexplog[this.gexplog.length-1] === res)
+                    {
+
+                    } else{
+                        if(this.pausegexp){
+                            this.gexplog.push(res);
+                        }
+                    }
+                });
+                ipcRenderer.on('gexpLogsstder', (event, res) => {
+                    console.log(res, 'exprerrrrr------01', this.gexplog.length);
+                    if(this.gexplog[this.gexplog.length-1] === res)
+                    {
+
+                    } else{
+                        if(this.pausegexp){
+                            this.gexplog.push(res);
+                        }
                     }
                 });
                 return this.gexplog;

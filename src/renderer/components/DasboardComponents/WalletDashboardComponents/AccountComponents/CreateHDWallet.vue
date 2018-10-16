@@ -26,7 +26,7 @@
                 <p v-if="invalidMnemonic" class="error-message invalidmnemonic-error">Invalid mnemonic</p>
                 <input type="hidden" class="invalidmnemonic-val-error" />
                 <span :class="fillinput? 'input input--nao input--filled': 'input input--nao'" id="mnemonics">
-                    <textarea class="phrase input__field input__field--nao textarea" v-on:change="handlephrase" id="phrase"></textarea>
+                    <input class="phrase input__field input__field--nao textarea" v-on:change="handlephrase" id="phrase"></input>
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Enter mnemonic phrase of 12 digits
                             <span class="details">Mnemonic phrases are 12 words master key which stores all the information

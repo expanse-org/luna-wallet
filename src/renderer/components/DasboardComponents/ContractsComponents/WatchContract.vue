@@ -37,7 +37,7 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'">
-                        <textarea class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
+                        <input class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></input>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
                                 <span class="mandatory">*</span>
@@ -97,7 +97,7 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'" >
-                        <textarea class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
+                        <input class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></input>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
                                 <span class="mandatory">*</span>
@@ -171,22 +171,26 @@
                             }).value();
                             try {
                                 this.jsonAbi = JSON.parse(this.jsonAbi);
-                                db.get('contracts').push({
-                                    id : shortid.generate(),
-                                    contract_name: this.contractName,
-                                    contract_address: this.contractAddress,
-                                    contract_json: this.jsonAbi,
-                                    color: getRandomColor(),
-                                }).write();
-                                this.updatedata();
-                                listContracts();
-                                this.success = true;
-                                this.contractName = '';
-                                this.contractAddress = '';
-                                this.jsonAbi = '';
-                                console.log('saving contracts', this.jsonAbi);
-                                $('.contract_alert-sucess').show(300).delay(5000).hide(330);
-                                $('form').trigger('reset');
+                                if(isNaN(this.jsonAbi)) {
+                                    db.get('contracts').push({
+                                        id: shortid.generate(),
+                                        contract_name: this.contractName,
+                                        contract_address: this.contractAddress,
+                                        contract_json: this.jsonAbi,
+                                        color: getRandomColor(),
+                                    }).write();
+                                    this.updatedata();
+                                    listContracts();
+                                    this.success = true;
+                                    this.contractName = '';
+                                    this.contractAddress = '';
+                                    this.jsonAbi = '';
+                                    console.log('saving contracts', this.jsonAbi);
+                                    $('.contract_alert-sucess').show(300).delay(5000).hide(330);
+                                    $('form').trigger('reset');
+                                } else {
+                                    this.jsonAbiError = 'Invalid JSON';
+                                }
                             } catch (err) {
                                 console.log(err);
                                 this.jsonAbiError = 'Invalid JSON';
@@ -195,17 +199,26 @@
                             this.contractAddressError = 'Invalid Address';
                         }
                     }else {
-                        var jsonabiupdate = JSON.parse(this.jsonAbi)
-                        console.log('update tokens');
-                        db.get('contracts').find({
-                            id: this.contractID
-                        }).assign({
-                            contract_name: this.contractName,
-                            contract_address: this.contractAddress,
-                            contract_json: jsonabiupdate,
-                            color: getRandomColor(),
-                        }).write();
-                        $('.contract_alert-sucess').show(300).delay(5000).hide(330);
+                        try {
+                            var jsonabiupdate = JSON.parse(this.jsonAbi);
+                            if(isNaN(this.jsonAbi)) {
+                                console.log('update tokens');
+                                db.get('contracts').find({
+                                    id: this.contractID
+                                }).assign({
+                                    contract_name: this.contractName,
+                                    contract_address: this.contractAddress,
+                                    contract_json: jsonabiupdate,
+                                    color: getRandomColor(),
+                                }).write();
+                                $('.contract_alert-sucess').show(300).delay(5000).hide(330);
+                            }else {
+                                this.jsonAbiError = 'Invalid JSON';
+                            }
+                        } catch (err) {
+                            console.log(err);
+                            this.jsonAbiError = 'Invalid JSON';
+                        }
                     }
                 } else {
                     if(!this.contractName) {

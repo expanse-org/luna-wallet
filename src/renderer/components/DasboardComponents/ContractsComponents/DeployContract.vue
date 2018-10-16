@@ -159,7 +159,6 @@
                 e.preventDefault();
                 var from ,bytecode,gasEstimate,Contract,gasPrice,source;
                 console.log("FRom001", this.AddressFrom.value,"Password",this.accountPassword,"Amount",this.amount);
-                return false;
                 if(this.AddressFrom.value && this.accountPassword && this.amount && this.range) {
                     try {
                         console.log(web3);
@@ -171,6 +170,7 @@
                         return false;
                     }
                     source = this.content;//'contract test { uint256 a; uint256 b; constructor(uint256 _a, uint256 _b) public  {  a = _a;  b = _b; }  function set (uint256 _a, uint256 _b) public {   a = _a;      b = _b; }  function add() public view returns(uint256) { return a + b; } }';
+                    console.log(source);
                     ipcRenderer.send('ComplieContract', source);
                     ipcRenderer.on('CompliedContract', (event, res) => {
                         console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
