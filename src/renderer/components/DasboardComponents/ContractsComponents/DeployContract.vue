@@ -71,7 +71,7 @@
                     </div>
                 </div>
                  <div class="row">
-                    <p v-if="accountPasswordError" class="error-message amount-error">Password is reqiured</p>
+                    <p v-if="accountPasswordError" class="error-message amount-error">{{accountPasswordError}}</p>
                     <span :class="accountPassword? 'input input--nao input--filled': 'input input--nao'">
                         <input type="password" class="field input__field input__field--nao" v-model="accountPassword" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
@@ -160,15 +160,22 @@
                 var from ,bytecode,gasEstimate,Contract,gasPrice,source;
                 console.log("FRom001", this.AddressFrom.value,"Password",this.accountPassword,"Amount",this.amount);
                 if(this.AddressFrom.value && this.accountPassword && this.amount && this.range) {
-                    try {
-                        console.log(web3);
-                        web3.eth.personal.unlockAccount(this.AddressFrom.value, this.accountPassword  , 10000);
-                        console.log("SUCCESSfully unlocked Account");
-                    } catch(e) {
-                        console.log("Error",e);
-                        this.accountPasswordError = true;
-                        return false;
-                    }
+                    web3.eth.personal.unlockAccount(this.AddressFrom.value, this.accountPassword , 600)
+                        .then((response) => {
+                            console.log(response);
+                        }).catch((error) => {
+                        // console.log(error);
+                        this.accountPasswordError = "Invalid Password";
+                    });
+                    // try {
+                    //     console.log(web3);
+                    //     web3.eth.personal.unlockAccount(this.AddressFrom.value, this.accountPassword , 3000);
+                    //     console.log("SUccessfully Unlock")
+                    // } catch(e) {
+                    //     console.log("Error",e);
+                    //     this.accountPasswordError = "Invalid Password";
+                    //     return false;
+                    // }
                     source = this.content;//'contract test { uint256 a; uint256 b; constructor(uint256 _a, uint256 _b) public  {  a = _a;  b = _b; }  function set (uint256 _a, uint256 _b) public {   a = _a;      b = _b; }  function add() public view returns(uint256) { return a + b; } }';
                     console.log(source);
                     ipcRenderer.send('ComplieContract', source);
@@ -223,7 +230,7 @@
                         this.AddressFromError = true;
                     }
                     if(!this.accountPassword) {
-                        this.accountPasswordError = true;
+                        this.accountPasswordError = "Password is required";
                     }
                     if(!this.amount) {
                         this.amountError = true;
@@ -233,7 +240,7 @@
             handleFocus() {
                 this.AddressFromError = false;
                 this.amountError = false;
-                this.accountPasswordError = false;
+                this.accountPasswordError = '';
             },
         }
     }

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <footer-app />
+    <footer-app v-if="!archive"/>
   </div>
 </template>
 
@@ -14,10 +14,14 @@ export default {
     },
     created() {
         // console.log(this.$store,"APP");
-
+        console.log(this.$router.history.current.path,"APP");
+        if(this.$router.history.current.path === '/archiveAccounts'){
+            this.archive = true;
+        }
     },
     data() {
         return {
+            archive: false,
         };
     },
     methods: {},

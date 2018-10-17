@@ -60,7 +60,7 @@
 <script>
     import {getArchiveaccounts, getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
     import {startConnectWeb, web3} from '../../../main/libs/config';
-    import {db} from '../../../../lowdbFunc';
+    import {db, adapter, low} from '../../../../lowdbFunc';
     import {ipcRenderer} from 'electron';
 
     export default {
@@ -87,7 +87,6 @@
             setInterval(() => {
                 getArchiveaccounts();
             }, 500);
-           
         },
         methods: {
             handleunarchive(accounthash) {
@@ -95,6 +94,7 @@
                 var accountHash = accounthash;
                 if (confirm("You want to Un Archive this account")){
                     db.get('accounts').find({ hash: accountHash }).assign({ archive : false }).write();
+                    this.$forceUpdate();
                     getArchiveaccounts();
                     if (typeof web3 !== 'undefined') {
                         getAllAcounts();

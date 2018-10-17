@@ -15,7 +15,7 @@ ipcMain.on('ComplieContract', (event , sourceCode) => {
         let compiledContract = solc.compile(sourceCode, 1);
         setTimeout(function(){
             event.sender.send('CompliedContract', compiledContract)
-        })
+        },500)
     
     
 });

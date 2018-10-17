@@ -1,7 +1,7 @@
 
 
 import {getRandomColor} from '../../AccountsData/commonFunc';
-import {db} from '../../../../../lowdbFunc';
+import {db, adapter, low} from '../../../../../lowdbFunc';
 import {web3, currencies, ExpApi} from '../../../../main/libs/config';
 import Raven from 'raven';
 import * as $ from 'jquery';
@@ -10,6 +10,7 @@ import store from '../../../store';
 import object_hash from 'object-hash';
 import numberToBN from 'number-to-bn';
 import axios from 'axios';
+import {tokens, tokens_list_hash, updated_tokens_list_hash} from "../TokensComponents/listTokenfunc";
 
 var watchOnlyAccounts = [];
 var archiveAccounts = [];
@@ -34,6 +35,7 @@ const getAllAcounts = () => {
     archiveAccounts = [];
     unarchiveAccounts = [];
     addresshashAccounts = [];
+    let db2 = low(adapter);
     try {
         web3.eth.getAccounts(function (error, accounts) {
             if (accounts && accounts.length > 0) {
@@ -41,7 +43,8 @@ const getAllAcounts = () => {
                 accounts.map((account_hash , index) => {
                     // console.log(account_hash);
                     addresshashAccounts.push(account_hash.toLowerCase());
-                    let account = db.get('accounts').find({
+                    // console.log(db.getState());
+                    let account = db2.get('accounts').find({
                         hash: account_hash.toLowerCase()
                     }).value();
                     if(account){
@@ -51,6 +54,7 @@ const getAllAcounts = () => {
                                 else {
                                     account = Object.assign({isHd: false}, account);
                                 }
+                                // console.log(account, "archive accounts")
                             } else if(account.archive === false) {
                                 if(account.isHd === true || account.isHd === false){}
                                 else {
@@ -68,7 +72,7 @@ const getAllAcounts = () => {
                         }
                     }
                     else {
-                        let accountTest = db.get('accounts').find({
+                        let accountTest = db2.get('accounts').find({
                             hash: account_hash
                         }).value();
                         if(!accountTest) {
@@ -115,12 +119,8 @@ const getAllAcounts = () => {
 const getArchiveaccounts = () => {
     store.dispatch('addUserAcc', []);
     archiveAccounts = [];
-    let accounts = db.get('accounts').value();
-    accounts.map((account) => {
-        if(account.archive === true){
-            archiveAccounts.push(account);
-        }
-    });
+    let db2 = low(adapter);
+    archiveAccounts = db2.get('accounts').filter({archive: true}).value()
     storeActionArchive();
 };
 
@@ -134,7 +134,8 @@ const accAdddb = (account_hash , key) => {
         isHd: false
     };
     // console.log(account_hash ,"Add Account in Db account_hash", accountdata);
-    db.get('accounts')
+    let db2 = low(adapter);
+    db2.get('accounts')
         .push(accountdata)
         .write();
     return accountdata;
@@ -172,6 +173,17 @@ const getalltokenBalance = () => {
             setTimeout(() =>{
                 store.dispatch('addTotalBalance',total_balance);
                 sortByEXPBalances();
+                // let updated_account_list_hash;
+                // let account_list_hash = object_hash(unarchiveAccounts);
+                // if (account_list_hash == updated_account_list_hash) {
+                //     return false;
+                // } else {
+                //     // First Clear Previous Listed Tokens
+                //     updated_account_list_hash = account_list_hash;
+                //     if(updated_account_list_hash){
+                //         sortByEXPBalances();
+                //     }
+                // }
             }, 1000);
         }
     });

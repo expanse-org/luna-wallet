@@ -5160,6 +5160,14 @@ perspective effects (not including the modals and the overlay).
             right: 10px;
             top: 10px;
             position: absolute; }
+          .dashboard .content .accounts .bottom > div .watchEye-icon {
+            background: url(../img/view_only.svg) no-repeat;
+            width: 20px;
+            background-size: 20px;
+            height: 20px;
+            right: 10px;
+            top: 10px;
+            position: absolute; }
           .dashboard .content .accounts .bottom > div .link {
             display: grid;
             grid-template-columns: max-content auto;

@@ -81,7 +81,7 @@
       "accountTitle": "Account 122",
       "hash": "0x6f7003556d27136f0afab9e1d4406e0667cd24b4",
       "color": "#B920AC",
-      "archive": true,
+      "archive": false,
       "isHd": false
     },
     {
@@ -109,14 +109,14 @@
       "accountTitle": "Account 16",
       "hash": "0xb51ee20cecc5c5a0d5a3b86c9ebbcd42f268faaf",
       "color": "#4AEE76",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
       "accountTitle": "Account 17",
       "hash": "0xa6dd8e605c5bb76cc28960edf02191f81a38ee31",
       "color": "#1E448B",
-      "archive": false,
+      "archive": true,
       "isHd": false
     },
     {
@@ -137,7 +137,7 @@
       "accountTitle": "Account 19",
       "hash": "0x24c5c7892a33ddef8dea8831847ecd307052479b",
       "color": "#88799A",
-      "archive": true,
+      "archive": false,
       "isHd": false
     },
     {
@@ -181,6 +181,41 @@
       "color": "#9C3492",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Ikram Account",
+      "hash": "0x9a6cdb7658e66421ead4abd79cf03d63cf987e4f",
+      "isHd": false,
+      "color": "#943F34",
+      "archive": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "0x6ff43389b8cbaeebdc419afe794cf07b454ceabb",
+      "isHd": false,
+      "color": "#1B2688",
+      "archive": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "0x89510504f321dc63a30228ef6feb6ce96e32b9b4",
+      "isHd": false,
+      "color": "#A34087",
+      "archive": false
+    },
+    {
+      "accountTitle": "qweqweq",
+      "hash": "0xf21771d17a4b7ef361ba9f1cd6e66697a2faba3b",
+      "isHd": false,
+      "color": "#670089",
+      "archive": false
+    },
+    {
+      "accountTitle": "testtt",
+      "hash": "0xd2e3c4c5c1369e04dd06924824f9b4d8f44b8a6c",
+      "isHd": false,
+      "color": "#BEAAFC",
+      "archive": false
     }
   ],
   "contracts": [

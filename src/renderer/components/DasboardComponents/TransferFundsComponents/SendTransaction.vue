@@ -252,19 +252,16 @@
                             this.sendToken= false;
                         }
                     });
-                }else if(this.modalArray.currentArray.length > 1)
+                }else
                 {
-                    this.modalArray.currentArray.map((account) =>
-                    {
-                        account.token_icons.map((data) => {
-                            if(data.tokenHash === this.modalArray.currencyHash )
-                            {
-                                console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
-                                this.tokenData = data;
-                                this.rawdata= true;
-                                this.sendToken= false;
-                            }
-                        });
+                    this.modalArray.currentArray.token_icons.map((data) => {
+                        if(data.tokenHash === this.modalArray.currencyHash )
+                        {
+                            console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
+                            this.tokenData = this.modalArray.currentArray.token_icons;
+                            this.rawdata= true;
+                            this.sendToken= false;
+                        }
                     });
                 }
                 if(!this.rawdata){

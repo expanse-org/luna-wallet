@@ -335,6 +335,8 @@
             },
             handleimportPrivateKey(e){
                 e.preventDefault();
+
+                console.log(this.accountName,"account");
                 if(this.accountName && this.private_key && this.private_key_password && this.private_key_repassword){
                     if(this.private_key_password.length >= 8){
                         if(this.private_key_password === this.private_key_repassword) {
@@ -346,7 +348,7 @@
                                 this.accountNameError = 'Title is already exists';
                             } else {
                                 let that = this;
-                                let account = web3.eth.personal.importRawKey(this.private_key, this.private_key_password);
+                                let account = web3.eth.personal.importRawKey(this.private_key.replace(/0x/g, ''), this.private_key_password);
                                 account.then((res) => {
                                     console.log(account,"account");
                                     console.log(res,"res account");
@@ -360,23 +362,23 @@
                                     getAllAcounts();
                                     that.success = true;
                                     setTimeout(() => {
-                                        this.success = false;
+                                        that.success = false;
+                                        that.accountName = '';
+                                        that.private_key_repassword = '';
+                                        that.private_key_password = '';
+                                        that.private_key = '';
                                     }, 2000)
                                     $('.alert-private-key').show(300).delay(5000).hide(330);
                                     console.log(res," res)account");
                                 }, (error)  =>  {
                                     that.success = false;
-                                    that.private_keyError = true;
+                                    that.private_keyError = 'Private key is invalid';
                                     $('.imp-privatekey-error').show(300).delay(5000).hide(330);
                                     setTimeout(() => {
                                         this.private_keyError = false;
                                     }, 2000)
                                     console.log(error," error)account")
                                 })
-                                this.accountName = '';
-                                this.private_key_repassword = '';
-                                this.private_key_password = '';
-                                this.private_key = '';
                             }
                         }else {
                             this.private_key_repasswordError = 'Password unmatch';
