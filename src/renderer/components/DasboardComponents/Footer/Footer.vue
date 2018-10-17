@@ -46,10 +46,6 @@
         computed: {
             gexpLogData() {
                 console.log("computed");
-                if(this.gexplog.length > 6) {
-                    var objDiv = document.getElementById("gexpcontent");
-                    objDiv.scrollTop = objDiv.scrollHeight;
-                }
                 if(this.gexplog.length > 50) {
                     this.gexplog = this.gexplog.slice(this.gexplog.length - 50, 50);
                     console.log(this.gexplog.length, this.gexplog.length - 50);

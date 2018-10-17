@@ -249,7 +249,7 @@
                             console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
                             this.tokenData = this.modalArray.currentArray[0].token_icons;
                             this.rawdata= true;
-                            this.sendToken= false;
+                            this.sendToken= true;
                         }
                     });
                 }else
@@ -260,12 +260,12 @@
                             console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
                             this.tokenData = this.modalArray.currentArray.token_icons;
                             this.rawdata= true;
-                            this.sendToken= false;
+                            this.sendToken= true;
                         }
                     });
                 }
                 if(!this.rawdata){
-                    this.sendToken= true;
+                    this.sendToken= false;
                 }
             }
             if(this.modalArray && this.modalArray.is_contract) {
@@ -332,10 +332,10 @@
                         }
 
                         web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fundsFrom, this.password , 3000);
-                        if(this.sendToken) {
+                        if(!this.sendToken) {
                             try{
                                 web3.eth.sendTransaction({
-                                    from: this.modalArray.fundsFrom,
+                                    from: this.modalArray && this.modalArray.fundsFrom,
                                     to: this.modalArray.fundsTo,
                                     value: web3.utils.toWei(this.modalArray.amount, "ether"),
                                     gasPrice: this.gasPrice,
@@ -350,7 +350,7 @@
                                     console.log("transaction Hash", txHash);
                                     db.get('transactions').push({
                                         id : shortid.generate(),
-                                        from: this.modalArray.fundsFrom,
+                                        from: this.modalArray && this.modalArray.fundsFrom,
                                         transactionHash: txHash,
                                         nonce : this.nonce,
                                         timeStamp : currentDate.getTime()
@@ -386,7 +386,7 @@
                                 console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
                                 console.log("this.gasPrice",this.gasPrice,"this.gasLimit",this.gasLimit);
                                 var rawTransaction = {
-                                    "from": this.modalArray.fundsFrom,
+                                    "from": this.modalArray && this.modalArray.fundsFrom,
                                     "nonce": this.nonce,
                                     "gasPrice": web3.utils.toHex(this.gasPrice),
                                     "gasLimit": web3.utils.toHex(this.gasLimit),
@@ -437,9 +437,11 @@
                                             nonce : this.nonce,
                                             timeStamp : currentDate.getTime()
                                         }).write();
-                                        this.$router.push({
-                                            path: '/walletdashboard'
-                                        });
+                                        setTimeout(() => {
+                                            this.$router.push({
+                                                path: '/walletdashboard'
+                                            });
+                                        }, 5000);
                                     }
                                 }, (err) => {
                                     console.log(err);
