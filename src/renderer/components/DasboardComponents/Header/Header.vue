@@ -168,7 +168,7 @@
             },
             totalBalanceData: function(){
                 this.tb = this.$store.state.total_balance;
-                console.log(this.tb, "tb");
+                // console.log(this.tb, "tb");
                 return this.tb;
             },
             timestampData: function(){

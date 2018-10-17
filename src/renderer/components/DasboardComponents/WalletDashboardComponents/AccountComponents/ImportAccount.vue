@@ -39,9 +39,6 @@
                             </svg>
                         </span>
                     </div>
-                    <div class="row description">
-                        Enter any wallet private key here to import
-                    </div>
                     <div class="row">
                         <p v-if="private_keyError" class="error-message imp-privatekey-error">{{private_keyError}}</p>
                         <span :class="private_key? 'input input--nao input--filled': 'input input--nao'">
@@ -55,6 +52,9 @@
                                 <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                             </svg>
                         </span>
+                    </div>
+                    <div class="row description">
+                        Enter any wallet private key here to import
                     </div>
                     <div class="row">
                         <p v-if="private_key_passwordError" class="error-message private-key-password-error">{{private_key_passwordError}}</p>

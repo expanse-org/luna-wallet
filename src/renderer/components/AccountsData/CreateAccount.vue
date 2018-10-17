@@ -25,6 +25,9 @@
                                 </svg>
                                 <p>Choose file</p>
                             </label>
+                            <div class="alert-sucess hide">
+                                <p>Sweet! Account successfully Created.</p>
+                            </div>
                             <p v-if="error" class="error-message2 not-valid-file error">Not a Valid Account File</p>
                         </div>
                         <div class="buttons">
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-    import {web3} from '../../../main/libs/config';
+    import {web3, startConnectWeb} from '../../../main/libs/config';
     import {getClientInfo} from '../../../common/clientInfo';
     import moment from 'moment';
     import fs from 'fs';
@@ -75,11 +78,10 @@
                 var input = event.target;
                 var clientInfo = getClientInfo();
                 var reader = new FileReader();
-                let that = this;
-                console.log('res reader',reader);
-                reader.onload = function () {
+                // console.log('res reader',reader);
+                reader.onload =  () => {
                     var res = reader.result;
-                    console.log('res reader.result',res);
+                    // console.log('res reader.result',res);
                     let json_res;
                     try {
                         json_res = JSON.parse(res)
@@ -92,6 +94,7 @@
 
                     if (json_res.address !== undefined) {
                         try{
+                            this.error= false;
                             const fileName = moment().format('UTC--YYYY-MM-DD-hh-mm-ss') + '--' + json_res.address;
 
                             var keyStore = clientInfo.keyStore;
@@ -102,9 +105,11 @@
 
                             let path = keyStore+'/'+fileName;
                             // path = "./binaries/testfile.txt";
+                            let that = this;
                             fs.writeFile(path, res, { flag: 'wx' }, function (err) {
                                 if (err) throw err;
                                 console.log("It's saved!");
+                                $('.alert-sucess').show(300).delay(5000).hide(330);
                                 that.launchApplication();
                             });
                         } catch (err) {
@@ -119,16 +124,32 @@
                 reader.readAsText(input.files[0]);
             },
             launchApplication(){
-                let that = this;
                 try{
-                    web3.eth.getAccounts(function (error, accounts) {
-                        console.log("Accounts",accounts.length);
-                        if(accounts.length > 0){
-                            that.$router.push({
-                                path: '/walletdashboard'
-                            })
-                        }
-                    });
+                    if (typeof web3 !== 'undefined') {
+                        web3.eth.getAccounts( (error, accounts) => {
+                            if(accounts.length > 0){
+                                this.$router.push({
+                                    path: '/walletdashboard'
+                                })
+                            }
+                        });
+                    } else {
+                        // set the provider you want from Web3.providers
+                        startConnectWeb();
+                        this.intervalid1 = setInterval(() => {
+                            if(typeof web3 !== 'undefined' ){
+                                web3.eth.getAccounts( (error, accounts) => {
+                                    console.log("Accounts",accounts.length);
+                                    if(accounts.length > 0){
+                                        this.$router.push({
+                                            path: '/walletdashboard'
+                                        })
+                                    }
+                                });
+                                clearInterval(this.intervalid1)
+                            }
+                        }, 100);
+                    }
                 }catch(e){
                     Raven.captureException(e);
                     console.log(e, "Raven")

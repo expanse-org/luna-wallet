@@ -216,6 +216,69 @@
       "color": "#781697",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "9459a4347810a1cd201c6dfc17a86954af782b40",
+      "color": "#14916A",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "9459a4347810a1cd201c6dfc17a86954af782b40",
+      "color": "#9CF11F",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "e52d3018061e38c8fa74a1b1c3dabc13ce579161",
+      "color": "#FAFDE2",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "c82d5b1bb3aded58ea014c8d970b66d2dc486762",
+      "color": "#75DC6E",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "9459a4347810a1cd201c6dfc17a86954af782b40",
+      "color": "#522F83",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "304935fe4abde7a539bf84d4d2df85f437a3dd15",
+      "color": "#B5313C",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "",
+      "hash": "1fa42ea79bc5e6b31d2cdce58bb75b6a289fa420",
+      "color": "#D357A1",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 1",
+      "hash": "0xe52d3018061e38c8fa74a1b1c3dabc13ce579161",
+      "color": "#21F877",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 2",
+      "hash": "0xc82d5b1bb3aded58ea014c8d970b66d2dc486762",
+      "color": "#4FBE89",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [

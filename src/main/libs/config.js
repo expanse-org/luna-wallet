@@ -1,5 +1,5 @@
 
-var production = false;
+var production = true;
 var prod_app_directory = "luna-wallet/";
 // var prod_app_directory = "lunawalletvuetest/"
 // var Raven = require('raven');

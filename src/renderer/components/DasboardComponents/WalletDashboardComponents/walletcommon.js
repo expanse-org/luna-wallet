@@ -38,7 +38,6 @@ const getAllAcounts = () => {
     let db2 = low(adapter);
     try {
         web3.eth.getAccounts(function (error, accounts) {
-            console.log(accounts, "accounts");
             if (accounts && accounts.length > 0) {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
@@ -48,22 +47,19 @@ const getAllAcounts = () => {
                         hash: account_hash.toLowerCase()
                     }).value();
                     if(account){
+                        if(account && !account.accountTitle) {
+                            console.log(account);
+                            db.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
+                                .assign({accountTitle: "Account "+index }).write();
+                        }
                         if(account.hash){
-                            if(account.archive === true){
-                                if(account.isHd === true || account.isHd === false){}
-                                else {
-                                    account = Object.assign({isHd: false}, account);
-                                }
-                                // console.log(account, "archive accounts")
-                            } else if(account.archive === false) {
-                                if(account.isHd === true || account.isHd === false){}
-                                else {
+                            if(account.archive === false) {
+                                if(account && !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
                                 unarchiveAccounts.push(account);
                             } else {
-                                if(account.isHd === true || account.isHd === false){}
-                                else {
+                                if(account&& !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
                                 account = Object.assign({archive: false}, account);
@@ -80,21 +76,19 @@ const getAllAcounts = () => {
                             let accountdata = accAdddb(account_hash, index);
                             unarchiveAccounts.push(accountdata);
                         }else {
+                            if(accountTest && !accountTest.accountTitle) {
+                                console.log(account);
+                                db.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
+                                    .assign({accountTitle: "Account "+index }).write();
+                            }
                             if(accountTest.hash){
-                                if(accountTest.archive === true){
-                                    if(accountTest.isHd === true || accountTest.isHd === false){}
-                                    else {
-                                        accountTest = Object.assign({isHd: false}, accountTest);
-                                    }
-                                } else if(accountTest.archive === false) {
-                                    if(accountTest.isHd === true || accountTest.isHd === false){}
-                                    else {
+                                if(accountTest.archive === false) {
+                                    if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
                                     unarchiveAccounts.push(accountTest);
                                 } else {
-                                    if(accountTest.isHd === true || accountTest.isHd === false){}
-                                    else {
+                                    if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
                                     accountTest = Object.assign({archive: false}, accountTest);
@@ -104,6 +98,7 @@ const getAllAcounts = () => {
                         }
                     }
                     if(index === accounts.length -1) {
+                        getAllWatchOnlyAcounts();
                         getallExpBalance();
                         getalltokenBalance();
                     }
@@ -173,17 +168,6 @@ const getalltokenBalance = () => {
             setTimeout(() =>{
                 store.dispatch('addTotalBalance',total_balance);
                 sortByEXPBalances();
-                // let updated_account_list_hash;
-                // let account_list_hash = object_hash(unarchiveAccounts);
-                // if (account_list_hash == updated_account_list_hash) {
-                //     return false;
-                // } else {
-                //     // First Clear Previous Listed Tokens
-                //     updated_account_list_hash = account_list_hash;
-                //     if(updated_account_list_hash){
-                //         sortByEXPBalances();
-                //     }
-                // }
             }, 1000);
         }
     });
@@ -194,7 +178,17 @@ const storeActionArchive = () => {
 }
 
 const storeAction = () => {
-    store.dispatch('addAllAccounts', sortbyEXPBalance);
+    let updated_account_list_hash, updated_watch_list_hash;
+    let account_list_hash = object_hash(unarchiveAccounts);
+    if (account_list_hash == updated_account_list_hash) {
+        return false;
+    } else {
+        // First Clear Previous Listed Tokens
+        updated_account_list_hash = account_list_hash;
+        if(updated_account_list_hash){
+            store.dispatch('addAllAccounts', sortbyEXPBalance);
+        }
+    }
     store.dispatch('addAddreshash', addresshashAccounts);
 }
 
@@ -206,7 +200,21 @@ const sortByEXPBalances = () => {
         }
     );
     storeAction();
-    getAllWatchOnlyAcounts();
+    // console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance");
+};
+
+const storeWatchAccounts = () => {
+    let  updated_watch_list_hash;
+    let watch_list_hash = object_hash(watchOnlyAccounts);
+    if (watch_list_hash == updated_watch_list_hash) {
+        return false;
+    } else {
+        // First Clear Previous Listed Tokens
+        updated_watch_list_hash = watch_list_hash;
+        if(updated_watch_list_hash){
+            store.dispatch('addWatchAccounts', watchOnlyAccounts);
+        }
+    }
     // console.log(sortbyEXPBalance ,"unarchiveAccounts sortbyEXPBalance");
 };
 
@@ -276,29 +284,31 @@ const get_tokens_balance_by_address = (accountHash = '') => {
 const getAllWatchOnlyAcounts = () => {
     watchOnlyAccounts = [];
     let color ;
-    let address_accounts = db.get('accountsAdresses').value();
+    let db2 = low(adapter);
+    let address_accounts = db2.get('accountsAdresses').value();
     try {
         if(address_accounts) {
             address_accounts.map((account , index) => {
                 web3.eth.getBalance(account.hash).then((bal) => {
-                    // total_balance += bal;
-                    // store.dispatch('addTotalBalance',total_balance);
+                    // console.log(bal);
                     balance = web3.utils.fromWei(bal, "ether");
-                    if(!account.archive && account.archive !== false) {
+                    if(!account.archive) {
                         account = Object.assign({archive: false}, account);
-                        db.get('accountsAdresses').chain().filter({hash: account.hash}).first()
+                        db2.get('accountsAdresses').chain().filter({hash: account.hash}).first()
                             .assign({ archive: false }).write();
                     }
                     if(!account.color) {
                         color = getRandomColor();
                         account = Object.assign({color: color}, account);
-                        db.get('accountsAdresses').chain().find({hash: account.hash}).first()
+                        db2.get('accountsAdresses').chain().find({hash: account.hash}).first()
                             .assign({ color: color }).write();
                     }
                     account = Object.assign({balance: balance}, account);
                     watchOnlyAccounts.push(account);
-                    if(index === address_accounts.length -1) {
-                        store.dispatch('addWatchAccounts', watchOnlyAccounts);
+                    if(index === address_accounts.length-1){
+                        setTimeout(() =>{
+                            storeWatchAccounts();
+                        }, 2000);
                     }
                 }, (error) => {
                     console.log(error, "getExpBalance");

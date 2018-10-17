@@ -327,10 +327,12 @@
                         }else{
                             if((!ethereum_address.isAddress(this.tokenAddress))){
                                 this.tokenAddressError = 'Invalid Hash Address';
+                                return false;
                             }
                             if(this.editForm){
                                 if(token){
                                     this.tokenAddressError = "Token Already Exists";
+                                    return false;
                                 }
                             }
                             try{
@@ -356,7 +358,7 @@
                             }
                         }
                     } else {
-                        this.decimalplacesError = 'Value less than 36';
+                        this.decimalplacesError = 'Value must be less than 36';
                         console.log(this.decimalplacesError , this.decimalplaces <= 36)
                     }
                 }else {
