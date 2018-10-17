@@ -245,7 +245,7 @@
        };
     },
     created(){
-        this.$store.dispatch('addScreen', 'config')
+        // this.$store.dispatch('addScreen', 'config')
         // console.log(this.$store)
         // this.activeScreen = this.$store.state.screenState;
         // console.log(this.activeScreen,"activeScreenAPP")

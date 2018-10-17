@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     strict: false,
   state: {
     count: 0,
-    screenState: '',
+    screenState: 'config',
     gexpRes: false,
     gexpSync: '',
     isgexpSync: '',
