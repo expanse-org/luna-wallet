@@ -38,10 +38,10 @@ const getAllAcounts = () => {
     let db2 = low(adapter);
     try {
         web3.eth.getAccounts(function (error, accounts) {
+            console.log(accounts, "accounts");
             if (accounts && accounts.length > 0) {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
-                    // console.log(account_hash);
                     addresshashAccounts.push(account_hash.toLowerCase());
                     // console.log(db.getState());
                     let account = db2.get('accounts').find({

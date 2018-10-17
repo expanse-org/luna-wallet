@@ -33,11 +33,8 @@ export default {
     },
     created(){
         if (typeof web3 !== 'undefined') {
-            console.log("else web condition");
+            console.log("if (typeof web3 !== 'undefined')");
             getAllAcounts();
-            setInterval(() => {
-                getAllAcounts();
-            }, 5000);
         } else {
             // set the provider you want from Web3.providers
             startConnectWeb();

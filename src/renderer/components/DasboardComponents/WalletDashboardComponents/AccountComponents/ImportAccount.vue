@@ -294,29 +294,29 @@
                       let color = getRandomColor();
                       try {
                           let address_accounts = db.get('accountsAdresses').filter({hash: this.import_address});
-                          if(address_accounts) {
+                          if(address_accounts.length > 0) {
                                   this.import_addressError = "Account Already Exits";
+                          } else{
+                              let name_accounts = db.get('accounts').filter({accountTitle: this.accountName}).value();
+                              if(name_accounts.length > 0) {
+                                  this.accountNameError = 'Title is already exists';
+                              }  else {
+                                  console.log(color, "account");
+                                  db.get('accountsAdresses').push({
+                                      accountTitle: this.accountName,
+                                      hash: this.import_address,
+                                      color: color,
+                                      archive: false
+                                  }).write();
+                                  this.success = true;
+                                  getAllAcounts();
+                                  setTimeout(() => {
+                                      this.success = false;
+                                      this.import_address = '';
+                                      this.accountName = '';
+                                  }, 2000)
+                              }
                           }
-                          let name_accounts = db.get('accounts').filter({accountTitle: this.accountName}).value();
-                          if(name_accounts.length > 0) {
-                              this.accountNameError = 'Title is already exists';
-                          }  else {
-                              console.log(color,"account");
-                              db.get('accountsAdresses').push({
-                                  accountTitle: this.accountName,
-                                  hash: this.import_address,
-                                  color: color,
-                                  archive: false
-                              }).write();
-                              that.success = true;
-                              this.import_address = '';
-                              this.accountName = '';
-                              getAllAcounts();
-                              setTimeout(() => {
-                                  this.success = false;
-                              }, 2000)
-                          }
-
                       } catch (err) {
                           console.log("ERROR:" + err.message);
                           Raven.captureException(err);
