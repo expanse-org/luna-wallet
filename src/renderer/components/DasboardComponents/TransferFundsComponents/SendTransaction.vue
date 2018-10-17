@@ -334,6 +334,7 @@
                         web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fundsFrom, this.password , 3000);
                         if(!this.sendToken) {
                             try{
+                                console.log("transaction Hash", this.gasPrice,this.estimatedGas, web3.utils.toWei(this.modalArray.amount, "ether"), this.modalArray.fundsTo, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce);
                                 web3.eth.sendTransaction({
                                     from: this.modalArray && this.modalArray.fundsFrom,
                                     to: this.modalArray.fundsTo,
@@ -341,13 +342,13 @@
                                     gasPrice: this.gasPrice,
                                     gas: this.estimatedGas,
                                     nonce : this.nonce
-                                }, function(error, txHash){
+                                }, (error, txHash) => {
                                     console.log("Error", error);
                                     if(error){
                                         $('.alert-sucess').show();
                                         console.log(error);
                                     }
-                                    console.log("transaction Hash", txHash);
+                                    // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce, currentDate.getTime());
                                     db.get('transactions').push({
                                         id : shortid.generate(),
                                         from: this.modalArray && this.modalArray.fundsFrom,
@@ -360,6 +361,11 @@
                                     $('form').trigger('reset');
                                     clipboard.writeText(txHash, 'selected');
                                     $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                    setTimeout(() => {
+                                        this.$router.push({
+                                            path: '/walletdashboard'
+                                        });
+                                    }, 5000);
                                 });
                             }catch(e){
                                 this.passwordError = "Invalid Password";
