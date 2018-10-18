@@ -2202,7 +2202,8 @@ FONTS
   height: 100%; }
 
 .popup1 {
-  height: auto !important; }
+  /*height: auto !important; */
+}
 
 .popup {
   padding: 50px 30px !important;

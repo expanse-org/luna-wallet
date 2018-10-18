@@ -231,8 +231,8 @@
 
 <style>
     .modal .v--modal {
-        top: 20% !important;;
-        left: 25% !important;;
+        top: 20% !important;
+        /*left: 25% !important;;*/
         max-width: 630px !important;
         min-width: 320px !important;
         height: auto !important;

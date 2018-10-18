@@ -137,6 +137,9 @@
         height: 101px!important;
         background: white!important;
     }
+    .multiselect__select{
+        top: 5px !important;
+    }
 
 </style>
 

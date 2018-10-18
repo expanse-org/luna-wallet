@@ -377,28 +377,12 @@
     }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+    @import "../../../../../static/modalcomponent.css";
+    @import "../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
+</style>
 
 <style>
-
-    .tmodal .v--modal {
-        top: 20% !important;;
-        left: 25% !important;;
-        max-width: 670px !important;
-        min-width: 320px !important;
-        height: auto !important;
-        position: fixed !important;
-        border-radius: 10px !important;
-        box-sizing: border-box !important;
-        border-radius: 10px !important;
-        width: 80vw !important;
-        padding:0 !important;
-        z-index: 2000;
-    }
-
-    .tmodal .v--modal .popup {
-        width: 91% !important;
-    }
     .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {
         padding: 0px;
     }
@@ -428,18 +412,18 @@
     }
 
     .fundsFrom .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .fundsFrom .multiselect__option--highlight, .currencies_dropdown .multiselect__option--highlight{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .fundsFrom .multiselect__element, .currencies_dropdown .multiselect__element{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .fundsFrom  .multiselect__single, .currencies_dropdown .multiselect__single{

@@ -60,10 +60,10 @@ npm manifest:
         ]
       },
       "mac": {
-        "icon": "build/icons/icon.icns"
+        "icon": "build/icons/logo-luna_384x384.icns"
       },
       "win": {
-        "icon": "build/icons/icon.ico"
+        "icon": "build/icons/logo-luna.ico"
       },
       "linux": {
         "icon": "build/icons"

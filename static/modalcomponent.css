@@ -1,7 +1,7 @@
 
 .modal .v--modal {
-    top: 20% !important;;
-    left: 25% !important;;
+    top: 18% !important;
+    /*left: 25% !important;;*/
     max-width: 630px !important;
     min-width: 320px !important;
     height: auto !important;
@@ -16,4 +16,49 @@
 
 .modal .v--modal .popup {
     width: 91% !important;
+}
+
+
+
+.tmodal .v--modal {
+    top: 18% !important;
+    /*left: 25% !important;;*/
+    max-width: 670px !important;
+    min-width: 320px !important;
+    height: auto !important;
+    position: fixed !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+    width: 80vw !important;
+    padding:0 !important;
+    z-index: 2000;
+}
+
+.tmodal .v--modal .popup {
+    width: 92% !important;
+}
+
+@media only screen and (max-width: 1100px) {
+
+    .modal .v--modal {
+        top: 12% !important;
+    }
+
+    .tmodal .v--modal {
+        top: 12% !important;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+
+    .modal .v--modal {
+        top: 5% !important;
+    }
+
+    .tmodal .v--modal {
+        top: 5% !important;
+    }
+
 }

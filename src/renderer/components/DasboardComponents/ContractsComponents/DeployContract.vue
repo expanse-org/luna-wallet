@@ -23,8 +23,8 @@
                 </div>
                 <div class="row">
                     <p v-if="amountError" class="error-message amount-error">Amount is reqiured</p>
-                    <span :class="amount? 'input input--nao input--filled': 'input input--nao'">
-                        <input type="text" class="field input__field input__field--nao" v-model="amount" @focus="handleFocus"/>
+                    <span :class="amount || amount === 0? 'input input--nao input--filled': 'input input--nao'">
+                        <input type="number" class="field input__field input__field--nao" v-model="amount" @focus="handleFocus"/>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">Amount
                             </span>
@@ -37,7 +37,7 @@
                 <div class="chexboxes row">
                     <div class="checkbox perform">
                         <label class="filter__value">
-                            <input class="filter__mark showPass" type="checkbox" v-model="sendAllAmount" @focus="handleFocus" id="input-3">
+                            <input class="filter__mark showPass" type="checkbox" v-model="sendAllAmount" id="input-3">
                             <i class="filter__mark"></i>
                             <span class="filter__text">Send All
                                 <span> 0 Expasne</span>
@@ -47,11 +47,15 @@
                 </div>
 
                 <div class="row editorCode">
-                    <editor v-model="content" @init="editorInit" lang="javascript" theme="chrome" width="500" height="100"></editor>
+                    <div class="fmlabel">
+                        <p v-if="contentError" class="error-message from-error">{{contentError}}</p>
+                        <label>Source Code </label>
+                    </div>
+                    <editor v-model="content" @init="editorInit" :onChange="onChange"  :onFocus="onChange" lang="javascript" theme="chrome" height="150"></editor>
                 </div>
                 <div class="row">
                     <div class="slidecontainer">
-                        <input type="range" min="1" v-model="range" @focus="handleFocus" max="100" class="slider" id="myRange">
+                        <input type="range" min="0" v-model="range" @focus="handleFocus" max="211816" class="slider" id="myRange">
                     </div>
                 </div>
                 <div class="limits">
@@ -65,23 +69,24 @@
                     </p>
                     <div class="total">
                         <p class="totalp">TOTAL</p>
-                        <p>0.153681 USD
-                            <span>(0.0003 EXP)</span>
+                        <p>{{parseFloat(amount?amount:0) + parseFloat(range/ 1000000000)}} EXP
+                            <!--<span>(0.0003 EXP)</span>-->
                         </p>
                     </div>
                 </div>
-                 <div class="row">
-                    <p v-if="accountPasswordError" class="error-message amount-error">{{accountPasswordError}}</p>
-                    <span :class="accountPassword? 'input input--nao input--filled': 'input input--nao'">
-                        <input type="password" class="field input__field input__field--nao" v-model="accountPassword" @focus="handleFocus"/>
-                        <label class="input__label input__label--nao" >
-                            <span class="input__label-content input__label-content--nao">Password
-                            </span>
-                        </label>
-                        <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
-                        </svg>
-                    </span>
+                {{contentChange}}
+                <div v-if="contractdeploytab" class="row fromdpdown">
+                    <div class="fmlabel">
+                        <p v-if="contractdeployError" class="error-message from-error">Contract To Deploy is reqiured</p>
+                        <label>Contract To Deploy</label>
+                    </div>
+                    <div>
+                        <multiselect name="SendFunds" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select From Account"  v-model="contractdeploy" :options="contractdeployoption">
+                            <template slot="singleLabel" slot-scope="{option}">
+                                <span class="option__title">{{ option.text }}</span>
+                            </template>
+                        </multiselect>
+                    </div>
                 </div>
                 <div class="buttons">
                     <button class="ok button button--shikoba" @click="handledeployContract($event)">
@@ -91,6 +96,11 @@
                 </div>
             </div>
         </div>
+        <div class="scmodal">
+            <modal class="modal" name="sendContract">
+                <sendContract :contractData="contractData"></sendContract>
+            </modal>
+        </div>
     </div>
 </template>
 
@@ -98,6 +108,7 @@
     import './DeployContract'
     import ace from 'vue2-ace-editor';
     const fs = require("fs");
+    import SendContract from './SendContract';
     import { ipcRenderer } from 'electron';
     import {web3} from '../../../../main/libs/config';
     // var web3 = startConnectWeb();
@@ -108,20 +119,35 @@
         components: {
             editor: ace, 
             'multiselect': Multiselect,       
+            'sendContract': SendContract,
+        },
+        computed: {
+            contentChange(){
+                let data = '';
+                console.log("contentChange")
+                if(this.content){
+                    this.onChange();
+                }
+                return data;
+            }
         },
         data() {
             return {
                 AddressFrom: '',
                 optionFrom: '',
                 loading: true,
-                accountPassword: '',
-                amount: '',
+                amount: 0,
                 sendAllAmount: false,
-                range: '50',
+                range: 52061,
                 AddressFromError: false,
-                accountPasswordError: false,
                 amountError: false,
                 content: '',
+                contractData: '',
+                contentError: false,
+                contractdeploy: '',
+                contractdeployError: '',
+                contractdeploytab: false,
+                contractdeployoption: [],
             };
         },
         created() {
@@ -141,10 +167,10 @@
                     clearInterval(this.intervalid1);
                     this.loading= false;
                 }
-            }, 3000);
+            }, 100);
         },
         methods: {
-            editorInit: function () {
+            editorInit: () =>  {
                 require('brace/ext/language_tools') //language extension prerequsite...
                 require('brace/mode/html')
                 require('brace/mode/javascript')    //language
@@ -152,99 +178,84 @@
                 require('brace/theme/chrome')
                 require('brace/snippets/javascript') //snippet
             },
+            onChange(){
+                this.contentError = '';
+                this.contractdeployError = '';
+                ipcRenderer.send('ComplieContract', this.content);
+                ipcRenderer.on('CompliedContract', (event, res) => {
+                    console.log("onchnageContent", res)
+                    if(res.errors) {
+                        console.log("Invalid Source Code")
+                        this.contentError = 'Invalid Source Code';
+                        return false;
+                    }
+                    this.contractdeploytab = true;
+                    console.log("onchnageContent",Object.keys(res.contracts)[0]);
+                    if(Object.keys(res.contracts).length === 1) {
+                        this.contractdeployoption = [{value: res.contracts, text: Object.keys(res.contracts)[0].replace(/:/g, '') }];
+                        console.log(this.contractdeployoption);
+                    } else if(Object.keys(res.contracts).length > 1) {
+                        res.contracts.map((condata) =>{
+                            var data = {value: condata, text: Object.keys(condata) };
+                            this.contractdeployoption.push(data);
+                            console.log(this.contractdeployoption);
+                        })
+                    }
+                });
+            },
+            show () {
+                this.$modal.show('sendContract');
+            },
+            hide () {
+                this.$modal.hide('sendContract');
+            },
             hide1 () {
                 this.$modal.hide('deployContract');
             },
             handledeployContract(e) {
                 e.preventDefault();
-                var from ,bytecode,gasEstimate,Contract,gasPrice,source;
-                console.log("FRom001", this.AddressFrom.value,"Password",this.accountPassword,"Amount",this.amount);
-                if(this.AddressFrom.value && this.accountPassword && this.amount && this.range) {
-                    web3.eth.personal.unlockAccount(this.AddressFrom.value, this.accountPassword , 600)
-                        .then((response) => {
-                            console.log(response);
-                        }).catch((error) => {
-                        // console.log(error);
-                        this.accountPasswordError = "Invalid Password";
-                    });
-                    // try {
-                    //     console.log(web3);
-                    //     web3.eth.personal.unlockAccount(this.AddressFrom.value, this.accountPassword , 3000);
-                    //     console.log("SUccessfully Unlock")
-                    // } catch(e) {
-                    //     console.log("Error",e);
-                    //     this.accountPasswordError = "Invalid Password";
-                    //     return false;
-                    // }
-                    source = this.content;//'contract test { uint256 a; uint256 b; constructor(uint256 _a, uint256 _b) public  {  a = _a;  b = _b; }  function set (uint256 _a, uint256 _b) public {   a = _a;      b = _b; }  function add() public view returns(uint256) { return a + b; } }';
-                    console.log(source);
-                    ipcRenderer.send('ComplieContract', source);
-                    ipcRenderer.on('CompliedContract', (event, res) => {
-                        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                        // console.log("Compiled Contract", res);
-                        res.contracts.map((contractName) => {
-                            let abi = JSON.parse(res.contracts[contractName].interface);
-                            // console.log(contractName + ': ' + res.contracts[contractName].bytecode)
-                            // console.log(JSON.parse(res.contracts[contractName].interface));
-                            let compiledContract = res;
+                this.AddressFromError = false;
+                this.amountError = false;
+                this.contentError = '';
+                this.contractdeployError = '';
+                console.log("FRom001", this.AddressFrom.value, this.amount, this.range , this.content);
+                if(this.AddressFrom.value && this.amount && this.range && this.content && this.contractdeploy) {
+                    this.contractData = {
+                        AddressFrom: this.AddressFrom.value,
+                        amount: this.amount,
+                        range: this.range,
+                        content: this.content,
+                        contractdeploy: this.contractdeploy.value
+                    };
+                    this.show();
 
-                            bytecode = '0x'+res.contracts[contractName].bytecode;
-                            web3.eth.estimateGas({data: bytecode}).then(function(res){
-                                gasEstimate = res;
-                            } );
-                            Contract = new web3.eth.Contract(abi);//,"0xeef425109ae820daae1058b22abfbf04ecf2e66d"
-
-                            Contract.methods.add().call({from: from})
-                                .then(function(receipt){
-                                    console.log("Result", receipt);
-                                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                                });
-                            console.log("MY CONTRACT", Contract);
-
-                            web3.eth.getGasPrice().then((price)=>{
-                                gasPrice = price;
-                            });
-                            console.log(bytecode,from,gasEstimate);
-                            Contract.deploy({
-                                data: bytecode,
-                                arguments : [0 , 0]
-                            })
-                            .send({
-                                from: from,
-                                gas: gasEstimate,
-                                gasPrice: gasPrice
-                            }, function(error, transactionHash){ console.log("Error",error,"TransactionHash",transactionHash); })
-                            .on('error', function(error){ console.log(error)})
-                            .on('transactionHash', function(transactionHash){ console.log(transactionHash) })
-                            .on('receipt', function(receipt){ console.log(receipt)
-                                console.log(receipt.contractAddress) // contains the new contract address
-                            })
-                            .on('confirmation', function(confirmationNumber, receipt){ console.log(confirmation, receipt); })
-                            .then(function(newContractInstance){
-                                console.log(newContractInstance.options.address) // instance with the new contract address
-                            });
-                        });
-                    })
                 } else {
                     if(!this.AddressFrom.value) {
                         this.AddressFromError = true;
                     }
-                    if(!this.accountPassword) {
-                        this.accountPasswordError = "Password is required";
-                    }
                     if(!this.amount) {
                         this.amountError = true;
+                    }
+                    if(!this.content) {
+                        this.contentError = "Source Code is required";
+                    }
+                    if(!this.contractdeploy) {
+                        this.contractdeployError = true;
                     }
                 }
             },
             handleFocus() {
                 this.AddressFromError = false;
                 this.amountError = false;
-                this.accountPasswordError = '';
+                this.contentError = '';
+                this.contractdeployError = '';
             },
         }
     }
 </script>
+<style>
+    @import "../../../../../static/modalcomponent.css";
+</style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 
@@ -280,18 +291,18 @@
     }
 
     .deploy-modal .multiselect__option--selected .multiselect__option--highlight  {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;;
     }
 
     .deploy-modal .multiselect__option--highlight {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .deploy-modal .multiselect__element {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
         padding: 0px!important;
 
     }
@@ -353,5 +364,9 @@
     .fromdpdown {
         z-index: 999;
     }
+
+     .scmodal  .v--modal-overlay {
+         background: none!important;
+     }
 
 </style>

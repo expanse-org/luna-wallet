@@ -110,6 +110,11 @@
                                 if (err) throw err;
                                 console.log("It's saved!");
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
+                                setTimeout(()=>{
+                                    that.$router.push({
+                                        path: '/walletdashboard'
+                                    })
+                                }, 5000)
                                 that.launchApplication();
                             });
                         } catch (err) {
@@ -124,11 +129,13 @@
                 reader.readAsText(input.files[0]);
             },
             launchApplication(){
+                let that = this;
                 try{
                     if (typeof web3 !== 'undefined') {
-                        web3.eth.getAccounts( (error, accounts) => {
+                        web3.eth.getAccounts( function(error, accounts) {
+                            console.log("Accounts",accounts.length);
                             if(accounts.length > 0){
-                                this.$router.push({
+                                that.$router.push({
                                     path: '/walletdashboard'
                                 })
                             }
@@ -138,10 +145,10 @@
                         startConnectWeb();
                         this.intervalid1 = setInterval(() => {
                             if(typeof web3 !== 'undefined' ){
-                                web3.eth.getAccounts( (error, accounts) => {
+                                web3.eth.getAccounts( function(error, accounts) {
                                     console.log("Accounts",accounts.length);
                                     if(accounts.length > 0){
-                                        this.$router.push({
+                                        that.$router.push({
                                             path: '/walletdashboard'
                                         })
                                     }

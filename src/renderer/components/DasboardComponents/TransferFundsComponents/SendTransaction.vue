@@ -7,7 +7,7 @@
                         <h1>Send Transaction</h1>
                         <div class="addresses">
                             <div class="sender">
-                                <span class="tooltiptext2"></span>
+                                <span class="tooltiptext2">{{modalArray.fundsFrom}}</span>
                                 <div class="svg">
                                     <svg version="1.1" class="svg-red" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                         y="0px" width="43px" height="43px" viewBox="0 0 43 43" style="enable-background:new 0 0 43 43;"
@@ -36,6 +36,7 @@
                                 <p v-if="modalArray.is_contract" class="function_name">{{modalArray.contract_function}}</p>
                             </div>
                             <div class="sender">
+                                <span class="tooltiptext2">{{modalArray.fundsTo}}</span>
                                 <div class="svg">
                                     <svg version="1.1" class="svg-green" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                         y="0px" width="43px" height="43px" viewBox="0 0 43 43" style="enable-background:new 0 0 43 43;"
@@ -331,7 +332,14 @@
                             this.nonce = this.nonce > trans_nonce ? this.nonce : trans_nonce + 1;
                         }
 
-                        web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fundsFrom, this.password , 3000);
+                        web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fundsFrom, this.password , 3000)
+                            .then((response) => {
+                                console.log(response);
+                            }).catch((error) => {
+                            // console.log(error);
+                            this.passwordError = "Invalid Password";
+                            return false;
+                        });
                         if(!this.sendToken) {
                             try{
                                 console.log("transaction Hash", this.gasPrice,this.estimatedGas, web3.utils.toWei(this.modalArray.amount, "ether"), this.modalArray.fundsTo, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce);
@@ -345,8 +353,8 @@
                                 }, (error, txHash) => {
                                     console.log("Error", error);
                                     if(error){
-                                        $('.alert-sucess').show();
                                         console.log(error);
+                                        return false;
                                     }
                                     // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce, currentDate.getTime());
                                     db.get('transactions').push({
@@ -369,6 +377,7 @@
                                 });
                             }catch(e){
                                 this.passwordError = "Invalid Password";
+                                return false;
                                 Raven.captureException(e);
                             }
                         } else {

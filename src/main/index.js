@@ -60,16 +60,17 @@ function createWindow () {
     });
 
   mainWindow.on('closed', () => {
-    mainWindow = null
+    mainWindow = null;
+    gexpProc.kill();
+      app.quit();
   })
 }
 
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+    app.quit();
+    gexpProc.kill();
 });
 
 app.on('activate', () => {
@@ -201,10 +202,6 @@ const template = [
             {
                 label: 'Archived Accounts',
                 click () { archievedAccounts();}
-            },
-            {
-                label: 'Gexp Logs',
-                click () { gexpLogs();}
             }
         ]
     }
