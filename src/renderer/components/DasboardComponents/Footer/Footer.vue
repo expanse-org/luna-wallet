@@ -76,12 +76,19 @@
             }
         },
         created(){
+            window.setInterval(function() {
+                var elem = document.getElementById('gexpcontent');
+                // console.log('elemrr------01', elem);
+                if(elem){
+                    elem.scrollTop = elem.scrollHeight;
+                }
+            }, 5000);
         },
         methods: {
             handleterm() {
-                if(this.gexplog.length > 6) {
-                    var objDiv = document.getElementById("gexpcontent");
-                    objDiv.scrollTop = objDiv.scrollHeight;
+                var elem = document.getElementById('gexpcontent');
+                if(elem){
+                    elem.scrollTop = elem.scrollHeight;
                 }
                 if(this.terminalup) {
                     this.terminalup = false;

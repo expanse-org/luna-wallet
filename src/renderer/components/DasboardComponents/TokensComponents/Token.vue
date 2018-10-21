@@ -101,7 +101,6 @@
     import {db} from '../../../../../lowdbFunc';
     import AddToken from './AddToken';
     import {listTokens,updated_tokens_list_hash, tokens } from './listTokenfunc';
-    import { mapState } from 'Vuex';
     export default {
         name: 'tokenDetails',
         components: {
@@ -116,7 +115,6 @@
             };
         },
         computed: {
-            ...mapState(['tokenList']),
             AddTokenData() {
                 this.token = this.$store.state.tokenList;
                 return this.token;
