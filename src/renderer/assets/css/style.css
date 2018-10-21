@@ -2211,8 +2211,8 @@ FONTS
   border-radius: 10px !important;
   overflow: auto;
   width: 100%;
-  height: 80vh;
-  max-height: 600px;
+  /*height: 80vh;*/
+  max-height: 75vh;
   position: relative;
   text-align: center;
   color: #ffffff;
