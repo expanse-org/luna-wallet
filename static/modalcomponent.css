@@ -1,6 +1,6 @@
 
 .modal .v--modal {
-    top: 18% !important;
+    top: 5% !important;
     /*left: 25% !important;;*/
     max-width: 630px !important;
     min-width: 320px !important;
@@ -21,7 +21,7 @@
 
 
 .tmodal .v--modal {
-    top: 18% !important;
+    top: 5% !important;
     /*left: 25% !important;;*/
     max-width: 670px !important;
     min-width: 320px !important;
@@ -39,26 +39,15 @@
     width: 92% !important;
 }
 
-@media only screen and (max-width: 1100px) {
-
-    .modal .v--modal {
-        top: 12% !important;
-    }
-
-    .tmodal .v--modal {
-        top: 12% !important;
-    }
-
-}
 
 @media only screen and (max-width: 800px) {
 
     .modal .v--modal {
-        top: 5% !important;
+        top: 2% !important;
     }
 
     .tmodal .v--modal {
-        top: 5% !important;
+        top: 2% !important;
     }
 
 }

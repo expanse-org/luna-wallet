@@ -38,7 +38,7 @@ const syncPeers = () => {
 
                     if(sync) {
                         var peerCount = web3.eth.net.peerCount;
-                        // console.log(sync,"sync if true",sync);
+                        // console.log(peerCount,"sync if true",sync);
                         actionSync(sync, true, peerCount);
                         // console.log("sync if true",sync);
 

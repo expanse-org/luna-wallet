@@ -213,12 +213,15 @@
                         });
                     }
                 } );
-                web3.eth.net.getPeerCount().then((res) => {
-                    if(res){
-                        that.totalPeers = res;
-                        // console.log("web3 totalPeers", that.totalPeers)
-                    }
-                });
+                this.intervalid1 = setInterval(() => {
+                    web3.eth.net.getPeerCount().then((res) => {
+                        if(res){
+                            console.log("web3 totalPeers", that.totalPeers)
+                            that.totalPeers = res;
+                            clearInterval(this.intervalid1)
+                        }
+                    });
+                }, 100);
                 web3.eth.getBlock(that.totalblock).then((res) => {
                     if(res){
                         // console.log("web3 totalPeers", res, res.timestamp)

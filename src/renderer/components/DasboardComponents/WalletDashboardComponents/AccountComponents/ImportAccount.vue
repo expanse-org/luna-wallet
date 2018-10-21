@@ -212,7 +212,7 @@
     import Raven from 'raven';
     import Multiselect from 'vue-multiselect'
     import {web3} from '../../../../../main/libs/config';
-    import {getAllAcounts} from '../walletcommon';
+    import {getAllAcounts, getAllWatchOnlyAcounts} from '../walletcommon';
 
     // var web3 = startConnectWeb();
     export default {
@@ -309,8 +309,9 @@
                                       archive: false
                                   }).write();
                                   this.success = true;
-                                  getAllAcounts();
+                                  getAllWatchOnlyAcounts();
                                   setTimeout(() => {
+                                      getAllWatchOnlyAcounts();
                                       this.success = false;
                                       this.import_address = '';
                                       this.accountName = '';
@@ -503,18 +504,18 @@
     }
 
     .impoortAccounts_dropdown .multiselect__option--selected .multiselect__option--highlight {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .impoortAccounts_dropdown .multiselect__option--highlight{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .impoortAccounts_dropdown .multiselect__element{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .impoortAccounts_dropdown  .multiselect__single{

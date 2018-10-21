@@ -1317,6 +1317,12 @@
       "hash": "0xc55002ac8a4c940ea07e6c93f28454ed8fc666e9",
       "color": "#210C1E",
       "archive": false
+    },
+    {
+      "accountTitle": "Account Watchs",
+      "hash": "0xaee97910d9ac4d1ebbe35f765f52fba6e74c118c",
+      "color": "#706EB1",
+      "archive": false
     }
   ],
   "hdWallets": [

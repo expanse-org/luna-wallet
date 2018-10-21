@@ -98,7 +98,6 @@ const getAllAcounts = () => {
                         }
                     }
                     if(index === accounts.length -1) {
-                        getAllWatchOnlyAcounts();
                         getallExpBalance();
                         getalltokenBalance();
                     }
@@ -323,4 +322,4 @@ const getAllWatchOnlyAcounts = () => {
 };
 
 
-export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts ,getArchiveaccounts, checkupdate}
+export { getAllAcounts, sortbyEXPBalance, watchOnlyAccounts ,getArchiveaccounts, checkupdate, getAllWatchOnlyAcounts}
