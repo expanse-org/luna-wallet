@@ -10638,7 +10638,9 @@ FONTS
             border-radius: 50%; }
         .accountDetails .content .userInfo .left .info {
           position: relative;
-          padding-top: 6px; }
+          padding-top: 6px;
+          z-index: 0;
+        }
           .accountDetails .content .userInfo .left .info h1 {
             color: #ededed;
             text-transform: ca; }
