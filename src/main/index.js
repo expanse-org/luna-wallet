@@ -16,8 +16,8 @@ ipcMain.on('ComplieContract', (event , sourceCode) => {
         setTimeout(function(){
             event.sender.send('CompliedContract', compiledContract)
         },500)
-    
-    
+
+
 });
 
 
@@ -100,12 +100,12 @@ const runGexp = (path) => {
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 // mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
-                    
+
                     let textChunk = data.toString('utf8');
                     if(mainWindow){
                         mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
                     }
-                    
+
                     // process utf8 text chunk
                 });
             }catch(e){
@@ -119,10 +119,10 @@ const runGexp = (path) => {
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
                         }
-                       
+
                         // process utf8 text chunk
-                
-                
+
+
                 });
             }catch(e){
                 console.log("Error",e);
@@ -282,7 +282,11 @@ function archievedAccounts()
         resizable: true
     });
     // create a new Add Account
-    ArchievedAccountsWindow.loadURL(`http://localhost:9080/#/archiveAccounts`);
+    const winURL1 = process.env.NODE_ENV === 'development'
+        ? `http://localhost:9080/#/archiveAccounts`
+        : `file://${__dirname}/index.html#archiveAccounts`
+
+    ArchievedAccountsWindow.loadURL(winURL1);
     // if main window is ready to show, then destroy the splash window and show up the main window
     ArchievedAccountsWindow.once('ready-to-show', () => {
         ArchievedAccountsWindow.show();
@@ -325,11 +329,11 @@ function startMainNet(){
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 });
-    
+
                 gexpProc.stderr.on('data', (data) => {
                     console.log(`stderr: ${data}`);
                 });
-    
+
                 gexpProc.on('close', (code) => {
                     console.log(`child process exited with code ${code}`);
                 });
@@ -362,15 +366,15 @@ function startTestNet(){
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true
                 });
-                
+
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 });
-    
+
                 gexpProc.stderr.on('data', (data) => {
                     console.log(`stderr: ${data}`);
                 });
-    
+
                 gexpProc.on('close', (code) => {
                     console.log(`child process exited with code ${code}`);
                 });
