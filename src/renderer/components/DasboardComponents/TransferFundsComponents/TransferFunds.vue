@@ -275,7 +275,7 @@
             },
             handlesendall(){
                 if(this.currencyHash) {
-                    console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
+                    // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
                     this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
                 } else {
                     this.amount = this.totalBalanceData;
@@ -286,7 +286,7 @@
                 console.log("handlecurrchange");
                 setTimeout(() => {
                     if(this.currencyHash && this.sendAllCheck) {
-                        console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
+                        // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
                         this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
                         this.handleAmount();
                     }

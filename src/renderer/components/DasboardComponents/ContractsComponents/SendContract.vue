@@ -159,6 +159,7 @@
 
 <script>
     import {web3,tokenInterface} from '../../../../main/libs/config';
+    import {getRandomColor} from '../../AccountsData/commonFunc';
     import {db} from '../../../../../lowdbFunc';
     import shortid from 'shortid';
     import { clipboard,remote, ipcRenderer } from 'electron';
@@ -174,7 +175,7 @@
     export default {
         name: 'SendContract',
         props: [
-            'contractData'
+            'contractData', 'updatedata'
         ],
         data() {
             return{
@@ -195,7 +196,7 @@
         created(){
             console.log(this.contractData);
             if(this.contractData){
-                let bytecode = '0x'+this.contractData.contractdeploy[":test"].bytecode;
+                let bytecode = '0x'+this.contractData.contractdeploy.bytecode;
                 this.raw_dataToken = bytecode;
                 web3.eth.estimateGas({data: bytecode}).then((res) =>{
                     this.estimatedGas = res + 100000;
@@ -209,7 +210,7 @@
                     this.gasPrice = price;
                 });
 
-                let abi = JSON.parse(this.contractData.contractdeploy[":test"].interface);
+                let abi = JSON.parse(this.contractData.contractdeploy.interface);
                 var contract = new web3.eth.Contract(abi);
                 console.log(contract);
 
@@ -228,34 +229,61 @@
                 if(this.password){
                     web3.eth.personal.unlockAccount(this.contractData.AddressFrom, this.password , 600)
                         .then((response) => {
-                            console.log(response);
-                        }).catch((error) => {
-                        console.log(error);
+                            console.log(response, "response");
+                            let abi = JSON.parse(this.contractData.contractdeploy.interface);
+                            let bytecode = '0x'+this.contractData.contractdeploy.bytecode;
+
+                            let Contract = new web3.eth.Contract(abi);
+                            let that = this;
+                            Contract.deploy({
+                                data: bytecode,
+                                arguments : [0 , 0]
+                            })
+                                .send({
+                                        from: this.contractData.AddressFrom,
+                                        gas: web3.utils.toHex(this.estimatedGas),
+                                        gasPrice: web3.utils.toHex((this.gasPrice).toString()),
+                                    }, function(error, transactionHash)
+                                    {
+                                        if(transactionHash) {
+                                            $('form').trigger('reset');
+                                            clipboard.writeText(transactionHash, 'selected');
+                                            that.updatedata();
+                                            $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:"+transactionHash+" Copied to clipboard");
+                                            $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                        } else {
+                                            console.log("send", error);
+                                            this.passwordError = "Invalid Password";
+                                            $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                        }
+                                    }
+                                )
+                                .on('receipt', function(receipt)
+                                    {
+                                        if(receipt) {
+                                            db.get('contracts').push({
+                                                "id" : shortid.generate(),
+                                                "contract_address": receipt.contractAddress,
+                                                "receipt" : receipt,
+                                                "color": getRandomColor(),
+                                                "contract_json": abi,
+                                                "contract_name": that.contractData.contractName,
+                                            }).write();
+                                            that.updatedata();
+                                        }
+                                        console.log(receipt);
+                                        console.log(receipt.contractAddress) // contains the new contract address
+                                    }
+                                )
+                                .then(function(newContractInstance){
+                                    console.log(newContractInstance.options.address) // instance with the new contract address
+                                });
+                    }).catch((error) => {
+                        console.log(error, "error");
                         this.passwordError = "Invalid Password";
                         return false;
                     });
-                    let abi = JSON.parse(this.contractData.contractdeploy[":test"].interface);
-                    let bytecode = '0x'+this.contractData.contractdeploy[":test"].bytecode;
 
-                    let Contract = new web3.eth.Contract(abi);
-                    Contract.deploy({
-                        data: bytecode,
-                        arguments : [0 , 0]
-                    })
-                    .send({
-                        from: this.contractData.AddressFrom,
-                        gas: web3.utils.toHex(this.estimatedGas),
-                        gasPrice: web3.utils.toHex((this.gasPrice).toString()),
-                    }, function(error, transactionHash){ console.log("Error",error,"TransactionHash",transactionHash); })
-                    .on('error', function(error){ console.log(error)})
-                    .on('transactionHash', function(transactionHash){ console.log(transactionHash) })
-                    .on('receipt', function(receipt){ console.log(receipt)
-                        console.log(receipt.contractAddress) // contains the new contract address
-                    })
-                    .on('confirmation', function(confirmationNumber, receipt){ console.log(confirmation, receipt); })
-                    .then(function(newContractInstance){
-                        console.log(newContractInstance.options.address) // instance with the new contract address
-                    });
                 }else if(!this.password) {
                     this.passwordError = "Enter Password";
                     // this.passwordError = "Invalid Password";

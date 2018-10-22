@@ -1,5 +1,6 @@
 
 .modal .v--modal {
+    background: #294753;
     top: 5% !important;
     /*left: 25% !important;;*/
     max-width: 630px !important;
@@ -21,6 +22,7 @@
 
 
 .tmodal .v--modal {
+    background: #294753;
     top: 5% !important;
     /*left: 25% !important;;*/
     max-width: 670px !important;

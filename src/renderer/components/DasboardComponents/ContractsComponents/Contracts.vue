@@ -99,7 +99,7 @@
             <watch-Contract :contractid="contractid" :updatedata="updatedata"></watch-Contract>
         </modal>
         <modal name="deployContract" class="modal">
-            <deploy-Contract></deploy-Contract>
+            <deploy-Contract :updatedata="updatedata"></deploy-Contract>
         </modal>
     </div>
 </template>

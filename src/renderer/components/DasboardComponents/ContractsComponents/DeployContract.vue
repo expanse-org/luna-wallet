@@ -4,6 +4,22 @@
         <div class="deploy-modal">
             <div>
                 <h1>Deploy Contract</h1>
+                <div class="row">
+                    <p v-if="contractNameError" class="error-message contractName-error">Contract Name is required</p>
+                    <span :class="contractName? 'input input--nao input--filled': 'input input--nao'">
+                        <input type="text" class="field input__field input__field--nao" v-model="contractName" @focus="handleFocus" name="contractName" />
+                        <label class="input__label input__label--nao" >
+                            <span class="input__label-content input__label-content--nao">CONTRACT NAME
+                                <span class="mandatory">*</span>
+
+                            </span>
+                        </label>
+                        <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
+                        </svg>
+                    </span>
+                </div>
+                <br /><br />
                 <div class="row fromdpdown">
                     <div class="fmlabel">
                         <p v-if="AddressFromError" class="error-message from-error">FROM is reqiured</p>
@@ -11,7 +27,7 @@
                     </div>
                     <div>
                       <!--  <input type="text" class="field input__field input__field--nao"  v-model="AddressFrom" @focus="handleFocus"/> -->
-                         <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" label="text" :show-labels="false" placeholder="Select From Account"  v-model="AddressFrom" :options="optionFrom">
+                         <multiselect :searchable="false" name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" label="text"  @select="handlefromchange" :show-labels="false" placeholder="Select From Account"  v-model="AddressFrom" :options="optionFrom">
                             <template slot="singleLabel" slot-scope="props">
                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                             </template>
@@ -37,7 +53,7 @@
                 <div class="chexboxes row">
                     <div class="checkbox perform">
                         <label class="filter__value">
-                            <input class="filter__mark showPass" type="checkbox" v-model="sendAllAmount" id="input-3">
+                            <input class="filter__mark showPass" type="checkbox" v-model="sendAllAmount" @click="handlesendall" id="input-3">
                             <i class="filter__mark"></i>
                             <span class="filter__text">Send All
                                 <span> 0 Expasne</span>
@@ -75,13 +91,13 @@
                     </div>
                 </div>
                 {{contentChange}}
-                <div v-if="contractdeploytab" class="row fromdpdown">
+                <div v-if="contractdeploytab" class="row fromdpdown deploydp">
                     <div class="fmlabel">
                         <p v-if="contractdeployError" class="error-message from-error">Contract To Deploy is reqiured</p>
-                        <label>Contract To Deploy</label>
+                        <label>Contract to Deploy</label>
                     </div>
                     <div>
-                        <multiselect name="SendFunds" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select From Account"  v-model="contractdeploy" :options="contractdeployoption">
+                        <multiselect :searchable="false" name="SendFunds" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select From Account"  v-model="contractdeploy" :options="contractdeployoption">
                             <template slot="singleLabel" slot-scope="{option}">
                                 <span class="option__title">{{ option.text }}</span>
                             </template>
@@ -98,7 +114,7 @@
         </div>
         <div class="scmodal">
             <modal class="modal" name="sendContract">
-                <sendContract :contractData="contractData"></sendContract>
+                <sendContract :contractData="contractData" :updatedata="updatedata"></sendContract>
             </modal>
         </div>
     </div>
@@ -107,6 +123,7 @@
 <script>
     import './DeployContract'
     import ace from 'vue2-ace-editor';
+    import {db} from '../../../../../lowdbFunc';
     const fs = require("fs");
     import SendContract from './SendContract';
     import { ipcRenderer } from 'electron';
@@ -116,6 +133,7 @@
 
     export default {
         name: 'WatchContracts',
+        props:['updatedata'],
         components: {
             editor: ace, 
             'multiselect': Multiselect,       
@@ -133,6 +151,8 @@
         },
         data() {
             return {
+                contractName: '',
+                contractNameError: '',
                 AddressFrom: '',
                 optionFrom: '',
                 loading: true,
@@ -181,26 +201,33 @@
             onChange(){
                 this.contentError = '';
                 this.contractdeployError = '';
+                this.contractdeploy = '';
+                this.contractdeployoption = [];
                 ipcRenderer.send('ComplieContract', this.content);
                 ipcRenderer.on('CompliedContract', (event, res) => {
                     console.log("onchnageContent", res)
                     if(res.errors) {
-                        console.log("Invalid Source Code")
+                        // console.log("Invalid Source Code")
                         this.contentError = 'Invalid Source Code';
                         return false;
                     }
                     this.contractdeploytab = true;
-                    console.log("onchnageContent",Object.keys(res.contracts)[0]);
                     if(Object.keys(res.contracts).length === 1) {
-                        this.contractdeployoption = [{value: res.contracts, text: Object.keys(res.contracts)[0].replace(/:/g, '') }];
-                        console.log(this.contractdeployoption);
+                        this.contractdeployoption = [];
+                        this.contractdeploy = {value: res.contracts[Object.keys(res.contracts)[0]], text: Object.keys(res.contracts)[0].replace(/:/g, '') };
+                        this.contractdeployoption = [{value: res.contracts[Object.keys(res.contracts)[0]], text: Object.keys(res.contracts)[0].replace(/:/g, '') }];
+                        // console.log(this.contractdeployoption);
                     } else if(Object.keys(res.contracts).length > 1) {
-                        res.contracts.map((condata) =>{
-                            var data = {value: condata, text: Object.keys(condata) };
+                        this.contractdeployoption = [];
+                        for (let i=0;i<Object.keys(res.contracts).length; i++) {
+                            // console.log( res.contracts[Object.keys(res.contracts)[i]]);
+                            this.contractdeploy = {value: res.contracts[Object.keys(res.contracts)[0]], text: Object.keys(res.contracts)[0].replace(/:/g, '') };
+                            let data = {value: res.contracts[Object.keys(res.contracts)[i]], text: Object.keys(res.contracts)[i].replace(/:/g, '') };
                             this.contractdeployoption.push(data);
-                            console.log(this.contractdeployoption);
-                        })
+                        }
                     }
+
+                    console.log(this.contractdeployoption);
                 });
             },
             show () {
@@ -212,24 +239,49 @@
             hide1 () {
                 this.$modal.hide('deployContract');
             },
+            handlefromchange(){
+                setTimeout(() => {
+                    if(this.sendAllAmount) {
+                        this.handlesendall();
+                    }
+                }, 200)
+            },
+            handlesendall() {
+                if(this.AddressFrom && this.AddressFrom.value) {
+                    // console.log(this.AddressFrom.text , this.AddressFrom.text.split("(")[1].split(" ") , this.AddressFrom.text.split("(")[1].split(" ")[0]);
+                    this.amount = this.AddressFrom.text.split("(")[1].split(" ")[0];
+                }
+            },
             handledeployContract(e) {
                 e.preventDefault();
                 this.AddressFromError = false;
                 this.amountError = false;
                 this.contentError = '';
                 this.contractdeployError = '';
-                console.log("FRom001", this.AddressFrom.value, this.amount, this.range , this.content);
-                if(this.AddressFrom.value && this.amount && this.range && this.content && this.contractdeploy) {
-                    this.contractData = {
-                        AddressFrom: this.AddressFrom.value,
-                        amount: this.amount,
-                        range: this.range,
-                        content: this.content,
-                        contractdeploy: this.contractdeploy.value
-                    };
-                    this.show();
-
+                // console.log("FRom001", this.AddressFrom.value, this.amount, this.range , this.content);
+                if(this.contractName && this.AddressFrom.value && this.amount && this.range && this.content && this.contractdeploy) {
+                    // console.log(this.contractName, "contract.length");
+                    let contract = db.get('contracts').find({
+                        contract_name: this.contractName
+                    }).value();
+                    console.log(contract, "contract.length");
+                    if(contract) {
+                        this.contractNameError = 'Contract Name is already exists';
+                    } else {
+                        this.contractData = {
+                            contractName: this.contractName,
+                            AddressFrom: this.AddressFrom.value,
+                            amount: this.amount,
+                            range: this.range,
+                            content: this.content,
+                            contractdeploy: this.contractdeploy.value
+                        };
+                        this.show();
+                    }
                 } else {
+                    if(!this.contractName) {
+                        this.contractNameError = 'Contract Name is required';
+                    }
                     if(!this.AddressFrom.value) {
                         this.AddressFromError = true;
                     }
@@ -249,14 +301,16 @@
                 this.amountError = false;
                 this.contentError = '';
                 this.contractdeployError = '';
+                this.contractNameError = '';
             },
         }
     }
 </script>
 <style>
     @import "../../../../../static/modalcomponent.css";
+    @import "../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
 </style>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style>
 
     .editorCode {
@@ -346,6 +400,7 @@
         padding: 0px 0px 0px 15px!important;
     }
 
+
     .fmlabel {
         text-align: left;
         margin-bottom: 10px;
@@ -368,5 +423,20 @@
      .scmodal  .v--modal-overlay {
          background: none!important;
      }
+
+    .deploy-modal .deploydp .multiselect__option {
+        padding: 10px 22px!important;
+        text-transform: capitalize!important;
+    }
+
+    .deploy-modal  .deploydp .multiselect__single {
+        line-height: 35px;
+        height: 40px;
+    }
+
+    .deploy-modal  .deploydp .multiselect__single .option__title {
+        line-height: 35px!important;
+        text-transform: capitalize!important;
+    }
 
 </style>

@@ -2212,7 +2212,7 @@ FONTS
   overflow: auto;
   width: 100%;
   /*height: 80vh;*/
-  max-height: 75vh;
+  max-height: 74vh;
   position: relative;
   text-align: center;
   color: #ffffff;
@@ -6055,6 +6055,7 @@ perspective effects (not including the modals and the overlay).
       background: #ffffff;
       box-sizing: border-box;
       padding: 10px;
+      z-index: 0;
       position: relative; }
       .contract .content .heading {
         padding: 10px 0px 10px 15px; }
@@ -6892,6 +6893,7 @@ FONTS
       background: #ffffff;
       box-sizing: border-box;
       padding: 10px;
+      z-index: 0;
       position: relative; }
       .contract .content .heading {
         padding: 10px 0px 10px 15px; }
@@ -7084,6 +7086,7 @@ FONTS
   padding: 30px; }
   .contract .content {
     background: #ffffff;
+    z-index: 0;
     box-sizing: border-box;
     position: relative; }
     .contract .content .heading {
@@ -7803,6 +7806,7 @@ FONTS
       background: #ffffff;
       box-sizing: border-box;
       padding: 10px;
+      z-index: 0;
       position: relative; }
       .contract .content .heading {
         padding: 10px 0px 10px 15px; }
@@ -8549,6 +8553,7 @@ FONTS
     .contract .content {
       background: #ffffff;
       box-sizing: border-box;
+      z-index: 0;
       padding: 10px;
       position: relative; }
       .contract .content .heading {
@@ -9611,6 +9616,7 @@ FONTS
     .contract .content {
       background: #ffffff;
       box-sizing: border-box;
+      z-index: 0;
       padding: 10px;
       position: relative; }
       .contract .content .heading {

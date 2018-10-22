@@ -168,7 +168,7 @@
         <modal class="modal" name="wallet_info">
             <walletInfo :accountHash="accountHash"></walletInfo>
         </modal>
-        <modal class="modal" name="insufficentBal">
+        <modal class="modal" name="suffibalance">
             <insuficentBalance ></insuficentBalance>
         </modal>
         <modal class="modal" name="txndetals">
@@ -259,7 +259,6 @@
                             {
                                 this.account = account_hash;
                                 console.log(this.account, "account");
-                                clearInterval(this.intervalid3);
                             }
                         })
                         this.accountdetailTab = true;
@@ -294,9 +293,7 @@
                             addresses: [this.accountHash],
                         };
                         this.fetch(postData);
-                        clearInterval(this.intervalid2);
                     } else {
-                        clearInterval(this.intervalid2);
                         this.accountdetailTab = false;
                         this.istransactions = false;
                         this.loader = true;
@@ -313,7 +310,10 @@
                 this.$modal.hide('wallet_info');
             },
             show1 () {
-                this.$modal.show('insufficentBal');
+                this.$modal.show('suffibalance');
+            },
+            hide1 () {
+                this.$modal.hide('suffibalance');
             },
             handleFocus(){
 
@@ -391,6 +391,8 @@
             },
             fetch(postData){
                 this.notransactions = false;
+                clearInterval(this.intervalid2);
+                clearInterval(this.intervalid3);
                 console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)

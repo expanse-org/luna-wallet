@@ -121,6 +121,7 @@
         },
         methods: {
             hide () {
+                console.log("close wallet_info")
                 this.$modal.hide('wallet_info');
             },
             handleFocus(){

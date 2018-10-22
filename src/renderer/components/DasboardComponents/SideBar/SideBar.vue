@@ -123,7 +123,7 @@
         },
         created(){
             this.update();
-            console.log(this.$router.history.current.path)
+            // console.log(this.$router.history.current.path)
             switch (this.$router.history.current.path){
                 case '/walletdashboard':
                     this.$router.push({
@@ -163,7 +163,7 @@
                 this.$modal.show('insufficentBal');
             },
             update(){
-                console.log("update");
+                // console.log("update");
                 this.walletTab= 'tablinks';
                 this.transferfundTab= 'tablinks';
                 this.tokenTab= 'tablinks';
@@ -172,7 +172,7 @@
             },
             mainMenu(e, tab){
                 this.update();
-                console.log("dsasda",tab)
+                // console.log("dsasda",tab)
                 switch (tab){
                     case 'wallet':
                         this.$router.push({

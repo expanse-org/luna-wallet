@@ -121,7 +121,7 @@
                         <form id="execute_contract" target="#">
                             <div class="cont_select_center">
                                 <div class="select_mate contract_functions_c" data-mate-select="active">
-                                    <multiselect  name="contract_abi_functions" class="contract_abi_functions" v-model="contractabiFunc" track-by="name" :allow-empty="false" label="name" :show-labels="false" placeholder="Select Function" :options="contractFunctions" >
+                                    <multiselect :searchable="false" name="contract_abi_functions" class="contract_abi_functions" v-model="contractabiFunc" track-by="name" :allow-empty="false" label="name" :show-labels="false" placeholder="Select Function" :options="contractFunctions" >
                                         <template slot="singleLabel" slot-scope="{option}">
                                             <span class="option__title">{{ option.name.replace(/([a-z])([A-Z])/g, '$1 $2') }}</span>
                                         </template>
@@ -161,7 +161,7 @@
                             </select> -->
                             <div class="cont_select_center">
                                 <div class="select_mate contract_sndform" data-mate-select="active">
-                                    <multiselect  name="contract_sendFrom" class="contract_sendFrom" :loading="loading" v-model="contractsendFrom" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Address" :options="optionFroms" >
+                                    <multiselect  name="contract_sendFrom" class="contract_sendFrom" :searchable="false" :loading="loading" v-model="contractsendFrom" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Address" :options="optionFroms" >
                                         <template slot="singleLabel" slot-scope="{option}">
                                             <span class="option__title">{{ option.text }}</span>
                                         </template>
@@ -685,20 +685,25 @@
 
     .contract_functions_c .multiselect__element:nth-child(odd),
     .contract_sndform .multiselect__element:nth-child(odd) {
-         background: #265b6c;
+         background: #265b6c!important;
      }
 
     .contract_functions_c .multiselect__element:nth-child(even),
     .contract_sndform .multiselect__element:nth-child(even) {
-         background: #1e4855;
+         background: #1e4855!important;
+     }
+
+    .contract_functions_c .multiselect__option--selected,
+    .contract_sndform .multiselect__option--selected {
+         background: transparent!important;
      }
 
     .latestevents:nth-child(even) {
-        background: #1e4855;
+        background: #1e4855!important;
     }
 
     .latestevents:nth-child(odd) {
-        background: #265b6c;
+        background: #265b6c!important;
     }
 
     .contract_functions_c  .multiselect__single,

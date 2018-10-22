@@ -1,5 +1,5 @@
 <template>
-    <div class="popup popup1 tab-pop md-content ">
+    <div class="popup popup1 md-content ">
         <a href="#" @click="hide1" class="btn-close md-close"></a>
         <div class="account-page">
             <h1>Error</h1>
@@ -31,6 +31,7 @@
     }
 </script>
 
-<style>
 
+<style>
+    @import "../../../../static/modalcomponent.css";
 </style>

@@ -169,31 +169,38 @@
                             let contract = db.get('contracts').find({
                                 contract_address: this.contractAddress
                             }).value();
-                            try {
-                                this.jsonAbi = JSON.parse(this.jsonAbi);
-                                if(isNaN(this.jsonAbi)) {
-                                    db.get('contracts').push({
-                                        id: shortid.generate(),
-                                        contract_name: this.contractName,
-                                        contract_address: this.contractAddress,
-                                        contract_json: this.jsonAbi,
-                                        color: getRandomColor(),
-                                    }).write();
-                                    this.updatedata();
-                                    listContracts();
-                                    this.success = true;
-                                    this.contractName = '';
-                                    this.contractAddress = '';
-                                    this.jsonAbi = '';
-                                    console.log('saving contracts', this.jsonAbi);
-                                    $('.contract_alert-sucess').show(300).delay(5000).hide(330);
-                                    $('form').trigger('reset');
-                                } else {
+                            let contract1 = db.get('contracts').find({
+                                contract_name: this.contractName
+                            }).value();
+                            if(contract1.length > 0) {
+                                this.contractNameError = 'Contract Name is already exists';
+                            } else {
+                                try {
+                                    this.jsonAbi = JSON.parse(this.jsonAbi);
+                                    if (isNaN(this.jsonAbi)) {
+                                        db.get('contracts').push({
+                                            id: shortid.generate(),
+                                            contract_name: this.contractName,
+                                            contract_address: this.contractAddress,
+                                            contract_json: this.jsonAbi,
+                                            color: getRandomColor(),
+                                        }).write();
+                                        this.updatedata();
+                                        listContracts();
+                                        this.success = true;
+                                        this.contractName = '';
+                                        this.contractAddress = '';
+                                        this.jsonAbi = '';
+                                        console.log('saving contracts', this.jsonAbi);
+                                        $('.contract_alert-sucess').show(300).delay(5000).hide(330);
+                                        $('form').trigger('reset');
+                                    } else {
+                                        this.jsonAbiError = 'Invalid JSON';
+                                    }
+                                } catch (err) {
+                                    console.log(err);
                                     this.jsonAbiError = 'Invalid JSON';
                                 }
-                            } catch (err) {
-                                console.log(err);
-                                this.jsonAbiError = 'Invalid JSON';
                             }
                         } else {
                             this.contractAddressError = 'Invalid Address';

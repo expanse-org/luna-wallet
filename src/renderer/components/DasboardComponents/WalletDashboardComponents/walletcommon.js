@@ -49,7 +49,7 @@ const getAllAcounts = () => {
                     if(account){
                         if(account && !account.accountTitle) {
                             console.log(account);
-                            db.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
+                            db2.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
                                 .assign({accountTitle: "Account "+index }).write();
                         }
                         if(account.hash){
@@ -58,7 +58,7 @@ const getAllAcounts = () => {
                                     account = Object.assign({isHd: false}, account);
                                 }
                                 unarchiveAccounts.push(account);
-                            } else {
+                            } else if(account.archive !== true && (account && !account.archive)) {
                                 if(account&& !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
@@ -78,7 +78,7 @@ const getAllAcounts = () => {
                         }else {
                             if(accountTest && !accountTest.accountTitle) {
                                 console.log(account);
-                                db.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
+                                db2.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
                                     .assign({accountTitle: "Account "+index }).write();
                             }
                             if(accountTest.hash){
@@ -87,7 +87,7 @@ const getAllAcounts = () => {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
                                     unarchiveAccounts.push(accountTest);
-                                } else {
+                                } else if(accountTest.archive !== true && (accountTest && !accountTest.archive)) {
                                     if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }

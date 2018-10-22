@@ -4,6 +4,7 @@
     .content {
         background: $white;
         box-sizing: border-box;
+        z-index: 0;
         position: relative;
         .heading {
             background: #e1e1e1;

@@ -1,11 +1,12 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <footer-app v-if="!archive"/>
+    <footer-app v-if="!archive" />
   </div>
 </template>
 
 <script>
+    import {ipcRenderer} from 'electron';
     import Footer from './components/DasboardComponents/Footer/Footer';
 export default {
     name: 'lunawalletvuetest',

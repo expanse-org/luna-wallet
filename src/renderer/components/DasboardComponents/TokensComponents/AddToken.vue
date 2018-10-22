@@ -409,7 +409,7 @@
         border-radius: 0px!important;
     }
 
-    .select_mate .multiselect__input, .multiselect__single {
+    .select_mate .multiselect__input,.select_mate .multiselect__single {
         padding: 0px 0 0 20px!important;
         line-height: 39px!important;
     }
