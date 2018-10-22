@@ -126,18 +126,6 @@
                                             <span class="option__title">{{ option.name.replace(/([a-z])([A-Z])/g, '$1 $2') }}</span>
                                         </template>
                                     </multiselect>
-                                    <!--<select name="contract_abi_functions" class="contract_abi_functions">-->
-                                    <!--</select>-->
-                                    <!--<p class="selecionado_opcion" onclick="open_select(this)"></p>-->
-                                    <!--<span onclick="open_select(this)" class="icon_select_mate">-->
-                                                <!--<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">-->
-                                                    <!--<path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />-->
-                                                    <!--<path d="M0-.75h24v24H0z" fill="none" />-->
-                                                <!--</svg>-->
-                                            <!--</span>-->
-                                    <!--<div class="cont_list_select_mate">-->
-                                        <!--<ul class="cont_select_int"> </ul>-->
-                                    <!--</div>-->
                                 </div>
                             </div>
 
@@ -155,10 +143,6 @@
                                 </div>
                             </div>
                             <p>Execute From</p>
-
-                            <!-- <select class="contract_sendFrom" >
-
-                            </select> -->
                             <div class="cont_select_center">
                                 <div class="select_mate contract_sndform" data-mate-select="active">
                                     <multiselect  name="contract_sendFrom" class="contract_sendFrom" :searchable="false" :loading="loading" v-model="contractsendFrom" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Address" :options="optionFroms" >
@@ -166,18 +150,6 @@
                                             <span class="option__title">{{ option.text }}</span>
                                         </template>
                                     </multiselect>
-                                    <!--<select name="contract_sendFrom" class="contract_sendFrom">-->
-                                    <!--</select>-->
-                                    <!--<p class="selecionado_opcion" onclick="open_select(this)"></p>-->
-                                    <!--<span onclick="open_select(this)" class="icon_select_mate">-->
-                                                <!--<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">-->
-                                                    <!--<path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />-->
-                                                    <!--<path d="M0-.75h24v24H0z" fill="none" />-->
-                                                <!--</svg>-->
-                                            <!--</span>-->
-                                    <!--<div class="cont_list_select_mate">-->
-                                        <!--<ul class="cont_select_int"> </ul>-->
-                                    <!--</div>-->
                                 </div>
                             </div>
                             <div class="query">
@@ -331,13 +303,14 @@
         },
         created(){
             this.intervalid1 = setInterval(() => {
-                if (this.accounts.length > 0 && this.accounts != ' ') {
+                if (this.accounts.length > 0) {
                     this.accounts.map((val) => {
                         if(val.balance > 0){
                             var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
                             this.optionFroms.push(data);
                             this.loading= false;
                         }
+                        this.loading= false;
                     });
                     clearInterval(this.intervalid1)
                 }
@@ -669,7 +642,7 @@
 
     .contract_functions_c .multiselect__input, .contract_functions_c  .multiselect__single,
     .contract_sndform .multiselect__input, .contract_sndform  .multiselect__single {
-        padding: 0px 0 0 20px!important;
+        padding: 0px 0 0 10px!important;
         line-height: 39px!important;
     }
 

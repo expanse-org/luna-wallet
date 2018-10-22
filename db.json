@@ -130,7 +130,7 @@
       "accountTitle": "Account LUNA",
       "hash": "0x556e689afe677deb7f33324e41ce2662d12f6158",
       "color": "#7D2383",
-      "archive": true,
+      "archive": false,
       "isHd": false
     },
     {
@@ -151,7 +151,7 @@
       "accountTitle": "User Acc 1",
       "hash": "0x341284F8C9A6bf0e2c5202f4A1f765E6EfC53ebe",
       "color": "#7D8A62",
-      "archive": true,
+      "archive": false,
       "isHd": false
     },
     {
@@ -187,7 +187,7 @@
       "hash": "0x9a6cdb7658e66421ead4abd79cf03d63cf987e4f",
       "isHd": false,
       "color": "#943F34",
-      "archive": true
+      "archive": false
     },
     {
       "accountTitle": "qweqweq",
