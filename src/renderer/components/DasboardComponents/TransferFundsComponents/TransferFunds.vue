@@ -18,7 +18,7 @@
                                     </div>
                                     <div class="fundsFrom">
                                         <div class="drop-down accounts_dropdown">
-                                            <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
+                                            <multiselect :searchable="false" name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
                                                 <template slot="singleLabel" slot-scope="props">
                                                     <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                                 </template>
@@ -26,11 +26,6 @@
                                                     <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                                 </template>
                                             </multiselect>
-                                            <!--<select name="SendFunds" @focus="handleFocus" v-model="fundsFrom" class="sendFunds sl_allAccounts" v-on:change="handlechangeFunds">-->
-                                                <!--<option v-if="fromArray" v-for="(account, index) in fromArray" class="selectbg1" :value="account.hash">{{account.accountTitle}} - ({{account.balance}} EXP)</option>-->
-                                                <!--&lt;!&ndash; <option class="selectbg1" selected value="selectbg2" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 22441 USD (9.00 ETHER)</option>-->
-                                                <!--<option class="selectbg1" selected value="selectbg3" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 312 USD (9.00 ETHER)</option> &ndash;&gt;-->
-                                            <!--</select>-->
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +69,7 @@
                                         <p v-if="currencyHashError" class=" error-message send_amount_currency_error">Amount is Required</p>
                                     </div>
                                     <div class="drop-down currencies_dropdown">
-                                        <multiselect name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  @select="handlecurrchange" v-model="currencyHash" :options="optionCurrency">
+                                        <multiselect :searchable="false" name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  @select="handlecurrchange" v-model="currencyHash" :options="optionCurrency">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                             </template>
@@ -82,10 +77,6 @@
                                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                             </template>
                                         </multiselect>
-                                        <!--<select name="accountCurruencies" @focus="handleFocus" v-model="currencyHash" class="accountCurrencies">-->
-                                            <!--<option v-if="currentArray" v-for="(account) in currentArray" class="selectbg1" selected >{{account.accountTitle}} - ({{account.balance}} EXP)</option>-->
-                                            <!--<option v-if="currentArray && currentArray[0].tokens" v-for="(acc_token, index) in currentArray && currentArray[0].token_icons" class="selectbg1" :value="acc_token.tokenHash">{{acc_token.token_name}} - ({{acc_token.balance}})</option>-->
-                                        <!--</select>-->
                                     </div>
                                 </div>
                             </div>
@@ -392,7 +383,7 @@
     }
 
     .fundsFrom  .multiselect__select , .currencies_dropdown  .multiselect__select  {
-        height: 47px!important;
+        height: 41px!important;
     }
 
     .fundsFrom .multiselect__tags, .currencies_dropdown .multiselect__tags {
@@ -403,8 +394,10 @@
 
     .fundsFrom .multiselect__content-wrapper, .currencies_dropdown .multiselect__content-wrapper {
         background: none;
-        height: auto!important;
-        max-height: auto!important;
+    }
+
+    .fundsFrom .multiselect__content, .currencies_dropdown .multiselect__content {
+        margin: 15px 0px 0px 0px;
     }
 
     .multiselect__content-wrapper {

@@ -43,7 +43,7 @@
                 <div class="cont_select_center">
                     <label >Token Type<span class="mandatory">*</span></label>
                     <div class="select_mate" data-mate-select="active">
-                        <multiselect  name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
+                        <multiselect :searchable="false" name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
                             <template slot="singleLabel" slot-scope="{option}">
                                <span class="option__title">{{ option.text }}</span>
                             </template>
@@ -136,7 +136,7 @@
                 <p v-if="tokenTypeError" class="error-message tokenType-error">Type is required</p>
                 <div class="cont_select_center">
                     <div class="select_mate" data-mate-select="active">
-                        <multiselect  name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
+                        <multiselect :searchable="false" name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
                             <template slot="singleLabel" slot-scope="{option}">
                                 <span class="option__title">{{ option.text }}</span>
                             </template>
@@ -390,13 +390,16 @@
     }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+    @import "../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
+</style>
 
 <style>
 
     .select_mate .multiselect__tags {
         width: 100%!important;
         border: none!important;
+        border-radius : 0px!important;
     }
 
     .select_mate .multiselect__content-wrapper {
@@ -415,26 +418,30 @@
     }
 
     .select_mate .multiselect__option--selected .multiselect__option--highlight {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .select_mate .multiselect__option--highlight{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .select_mate .multiselect__element{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
+    }
+
+    .select_mate  .multiselect__select{
+        height: 30px;
     }
 
     .select_mate  .multiselect__single{
-        height: 33px;
+        height: 25px;
     }
     .select_mate  .multiselect__single .option__title{
         vertical-align: top!important;
-        line-height: 39px!important;
+        line-height: 29px!important;
     }
 
     .select_mate  .multiselect__option {
@@ -452,7 +459,7 @@
     }
 
     .select_mate .multiselect__element:hover {
-        background-color: #f3f3f3;
+        background-color: #f3f3f3!important;
     }
 
     .select_mate .multiselect__option .option__title {

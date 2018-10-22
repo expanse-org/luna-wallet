@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/index.js" afterPath="$PROJECT_DIR$/src/main/index.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,13 +21,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/index.js">
+      <file leaf-file-name="Token.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="286" column="42" lean-forward="false" selection-start-line="286" selection-start-column="42" selection-end-line="286" selection-end-column="42" />
+            <state relative-caret-position="-77">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddToken.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="310">
+              <caret line="118" column="99" lean-forward="true" selection-start-line="118" selection-start-column="99" selection-end-line="118" selection-end-column="99" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransferFunds.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2572">
+              <caret line="27" column="58" lean-forward="false" selection-start-line="27" selection-start-column="58" selection-end-line="27" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContractDetails.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="457">
+              <caret line="123" column="49" lean-forward="false" selection-start-line="123" selection-start-column="49" selection-end-line="123" selection-end-column="69" />
               <folding>
-                <element signature="e#0#79#0" expanded="true" />
+                <element signature="e#35722#35864#0" expanded="false" />
+                <element signature="e#35953#36059#0" expanded="false" />
+                <element signature="e#36170#36277#0" expanded="false" />
+                <element signature="e#36329#36374#0" expanded="false" />
+                <element signature="e#36464#36504#0" expanded="false" />
+                <element signature="e#36681#36766#0" expanded="false" />
+                <element signature="e#36943#36979#0" expanded="false" />
+                <element signature="e#37093#37139#0" expanded="false" />
+                <element signature="e#37909#37998#0" expanded="false" />
+                <element signature="e#38121#38204#0" expanded="false" />
+                <element signature="e#38299#38439#0" expanded="false" />
+                <element signature="e#38550#38621#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -43,9 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>0xc55002ac8a4c940ea07e6c93f28454ed8fc666e9</find>
-      <find>from</find>
-      <find>bitcoin</find>
       <find>HDNode</find>
       <find>displayBip32Info</find>
       <find>popup1</find>
@@ -73,6 +113,9 @@
       <find>.accountDetails .content .userInfo .left .info</find>
       <find>handlecurrchange</find>
       <find>icon</find>
+      <find>.multiselect__select</find>
+      <find>.fundsFrom .multiselect__select, .currencies_dropdown .multiselect__select {</find>
+      <find>.multiselect__content-wrapper</find>
     </findStrings>
     <replaceStrings>
       <replace>connectWeb3</replace>
@@ -136,8 +179,6 @@
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/WatchContract.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/SendContract.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/DeployContract.vue" />
         <option value="$PROJECT_DIR$/src/renderer/App.vue" />
@@ -148,6 +189,8 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/yarn-error.log" />
         <option value="$PROJECT_DIR$/src/main/index.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" />
       </list>
     </option>
   </component>
@@ -275,6 +318,48 @@
             <path>
               <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
               <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
+              <item name="ContractsComponents" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
+              <item name="TokensComponents" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="DasboardComponents" type="462c0819:PsiDirectoryNode" />
+              <item name="TransferFundsComponents" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LunaWalletVueTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LunaWalletVueTest" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -348,12 +433,12 @@
       <workItem from="1538328101791" duration="2278000" />
       <workItem from="1538400418599" duration="305840000" />
       <workItem from="1540092728125" duration="26010000" />
-      <workItem from="1540208845314" duration="3317000" />
+      <workItem from="1540208845314" duration="4769000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="552690000" />
+    <option name="totallyTimeSpent" value="554142000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -404,13 +489,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AddAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="34" lean-forward="false" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/assets/scss/contracts.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -429,6 +507,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1089">
           <caret line="442" column="17" lean-forward="false" selection-start-line="442" selection-start-column="17" selection-end-line="442" selection-end-column="17" />
+          <folding>
+            <element signature="e#10906#10971#0" expanded="false" />
+            <element signature="e#11137#11164#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -451,6 +533,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3813">
           <caret line="503" column="5" lean-forward="false" selection-start-line="503" selection-start-column="5" selection-end-line="503" selection-end-column="5" />
+          <folding>
+            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#15109#15158#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -458,6 +545,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -465,6 +553,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2981">
           <caret line="307" column="14" lean-forward="true" selection-start-line="307" selection-start-column="14" selection-end-line="307" selection-end-column="14" />
+          <folding>
+            <element signature="e#17493#17531#0" expanded="false" />
+            <element signature="e#23208#23224#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -472,35 +564,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
           <caret line="36" column="8" lean-forward="true" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2130">
-          <caret line="142" column="0" lean-forward="false" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
-          <folding>
-            <element signature="e#20066#20118#0" expanded="false" />
-            <element signature="e#35722#35864#0" expanded="false" />
-            <element signature="e#35953#36059#0" expanded="false" />
-            <element signature="e#36170#36277#0" expanded="false" />
-            <element signature="e#36329#36374#0" expanded="false" />
-            <element signature="e#36464#36504#0" expanded="false" />
-            <element signature="e#36681#36766#0" expanded="false" />
-            <element signature="e#36943#36979#0" expanded="false" />
-            <element signature="e#37093#37139#0" expanded="false" />
-            <element signature="e#37909#37998#0" expanded="false" />
-            <element signature="e#38121#38204#0" expanded="false" />
-            <element signature="e#38299#38439#0" expanded="false" />
-            <element signature="e#38550#38621#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="336" column="29" lean-forward="true" selection-start-line="336" selection-start-column="29" selection-end-line="336" selection-end-column="29" />
           <folding />
         </state>
       </provider>
@@ -565,6 +628,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="10651" column="32" lean-forward="true" selection-start-line="10651" selection-start-column="32" selection-end-line="10651" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -572,13 +636,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
           <caret line="131" column="55" lean-forward="false" selection-start-line="131" selection-start-column="55" selection-end-line="131" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="755">
-          <caret line="306" column="59" lean-forward="false" selection-start-line="306" selection-start-column="59" selection-end-line="306" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -797,6 +855,51 @@
           <folding>
             <element signature="e#0#79#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-77">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="118" column="99" lean-forward="true" selection-start-line="118" selection-start-column="99" selection-end-line="118" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="123" column="49" lean-forward="false" selection-start-line="123" selection-start-column="49" selection-end-line="123" selection-end-column="69" />
+          <folding>
+            <element signature="e#35722#35864#0" expanded="false" />
+            <element signature="e#35953#36059#0" expanded="false" />
+            <element signature="e#36170#36277#0" expanded="false" />
+            <element signature="e#36329#36374#0" expanded="false" />
+            <element signature="e#36464#36504#0" expanded="false" />
+            <element signature="e#36681#36766#0" expanded="false" />
+            <element signature="e#36943#36979#0" expanded="false" />
+            <element signature="e#37093#37139#0" expanded="false" />
+            <element signature="e#37909#37998#0" expanded="false" />
+            <element signature="e#38121#38204#0" expanded="false" />
+            <element signature="e#38299#38439#0" expanded="false" />
+            <element signature="e#38550#38621#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2572">
+          <caret line="27" column="58" lean-forward="false" selection-start-line="27" selection-start-column="58" selection-end-line="27" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>
