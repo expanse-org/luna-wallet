@@ -279,6 +279,13 @@
       "color": "#4FBE89",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Account Tese",
+      "hash": "0x2C729AD3850645672d997986fF5B6fd3B4d30cBC",
+      "color": "#ADFF87",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [
@@ -516,7 +523,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x0af4187d"
         },
         {
           "constant": true,
@@ -530,7 +538,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x18160ddd"
         },
         {
           "constant": true,
@@ -549,7 +558,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x1d0d35f5"
         },
         {
           "constant": true,
@@ -563,7 +573,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x253da8bd"
         },
         {
           "constant": false,
@@ -581,7 +592,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x35e09095"
         },
         {
           "constant": true,
@@ -600,7 +612,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x3cb5d100"
         },
         {
           "constant": false,
@@ -608,7 +621,8 @@
           "name": "kill",
           "outputs": [],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x41c0e1b5"
         },
         {
           "constant": false,
@@ -621,7 +635,8 @@
           "name": "empty",
           "outputs": [],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x486581ea"
         },
         {
           "constant": false,
@@ -643,7 +658,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x66e7ea0f"
         },
         {
           "constant": false,
@@ -669,7 +685,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0x91ef14b4"
         },
         {
           "constant": true,
@@ -688,7 +705,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xa8ee49fe"
         },
         {
           "constant": false,
@@ -710,7 +728,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xaba00859"
         },
         {
           "constant": false,
@@ -740,7 +759,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xb1662d58"
         },
         {
           "constant": true,
@@ -759,7 +779,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xb5de8d4c"
         },
         {
           "constant": false,
@@ -772,7 +793,8 @@
           "name": "transferRoot",
           "outputs": [],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xc296302a"
         },
         {
           "constant": true,
@@ -786,7 +808,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xc4e41b22"
         },
         {
           "constant": true,
@@ -800,7 +823,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xebf0c717"
         },
         {
           "constant": false,
@@ -818,7 +842,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xecfc5964"
         },
         {
           "constant": true,
@@ -837,7 +862,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xf8b2cb4f"
         },
         {
           "constant": false,
@@ -863,7 +889,8 @@
             }
           ],
           "payable": false,
-          "type": "function"
+          "type": "function",
+          "signature": "0xfcfdf7c5"
         },
         {
           "inputs": [],
@@ -895,7 +922,8 @@
             }
           ],
           "name": "BalanceAdj",
-          "type": "event"
+          "type": "event",
+          "signature": "0x99affe65171b929cf897471b0e82d82c6cc3406b53fdbc068ea3b174e7713176"
         },
         {
           "anonymous": false,
@@ -912,7 +940,8 @@
             }
           ],
           "name": "ModuleSet",
-          "type": "event"
+          "type": "event",
+          "signature": "0x96bf850214e832f3d463d74cdf933b2aa73175e078496bd11f5e8afaeb2bbb9c"
         }
       ]
     },

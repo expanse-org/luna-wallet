@@ -172,7 +172,11 @@
                             let contract1 = db.get('contracts').find({
                                 contract_name: this.contractName
                             }).value();
-                            if(contract1.length > 0) {
+                            if(contract && contract.length > 0) {
+                                this.contractAddressError = "Contract Address is already exists";
+                                return false;
+                            }
+                            if(contract1 && contract1.length > 0) {
                                 this.contractNameError = 'Contract Name is already exists';
                             } else {
                                 try {

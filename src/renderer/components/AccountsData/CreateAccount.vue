@@ -110,6 +110,7 @@
                                 if (err) throw err;
                                 console.log("It's saved!");
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
+
                                 setTimeout(()=>{
                                     that.$router.push({
                                         path: '/walletdashboard'

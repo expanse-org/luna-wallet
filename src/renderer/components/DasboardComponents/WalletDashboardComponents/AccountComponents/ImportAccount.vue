@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div v-if="success" class="alert-sucess alert-private-key">
-                        <p>Sweet! Account Created successfully.</p>
+                        <p>Sweet! Private Account is Imported successfully.</p>
                     </div>
                     <div class="buttons">
 
@@ -149,7 +149,7 @@
                         </span>
                     </div>
                     <div v-if="success" class="imp-address-alert-sucess" >
-                        <p>Sweet! Account successfully created.</p>
+                        <p>Sweet! Watch Only Account is Imported successfully.</p>
                     </div>
                 </form>
                 <div class="buttons">
@@ -330,7 +330,7 @@
                       this.accountNameError = 'Title is required';
                   }
                   if (!this.import_address) {
-                      this.import_addressError = 'Account Already Exits';
+                      this.import_addressError = 'Account is required';
                   }
               }
             },

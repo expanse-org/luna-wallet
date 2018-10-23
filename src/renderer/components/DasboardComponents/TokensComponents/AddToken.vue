@@ -321,7 +321,7 @@
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
                     this.decimalplaces = parseInt(this.decimalplaces);
                     console.log(this.decimalplaces , this.decimalplaces <= 36)
-                    if(this.decimalplaces <= 36) {
+                    if(this.decimalplaces >= 0 && this.decimalplaces <= 36) {
                         if(this.tokenAddress.length < 5){
                             this.tokenAddressError = 'Hash Address is required';
                         }else{
@@ -358,7 +358,7 @@
                             }
                         }
                     } else {
-                        this.decimalplacesError = 'Value must be less than 36';
+                        this.decimalplacesError = 'Value must be positive & less than 36';
                         console.log(this.decimalplacesError , this.decimalplaces <= 36)
                     }
                 }else {

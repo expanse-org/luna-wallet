@@ -242,7 +242,7 @@
                 e.preventDefault();
                 console.log("if HD wallet", this.hdaddressIndex);
                 if(this.hdaddressIndex && this.accountName && this.hdderivationpath && this.hdphrase && this.hdaddress && this.hdprivateKey&& this.hdpublicKey && this.hd_wallet_password && this.hd_wallet_repassword){
-                    if(this.hd_wallet_password >= 8 ){
+                    if(this.hd_wallet_password.length >= 8 ){
                         if(this.hd_wallet_password === this.hd_wallet_repassword) {
                             try {
                                 let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
@@ -269,11 +269,11 @@
                                     this.success = true;
                                     setTimeout(() => {
                                         this.success = false;
+                                        this.accountName = '';
+                                        this.hd_wallet_password = '';
+                                        this.hd_wallet_repassword = '';
                                     }, 2000)
                                     getAllAcounts();
-                                    this.accountName = '';
-                                    this.hd_wallet_password = '';
-                                    this.hd_wallet_repassword = '';
                                     $('form').trigger("reset");
                                 }, (err) => {
                                     console.log(err, "HD wallet");
