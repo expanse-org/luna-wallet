@@ -227,6 +227,7 @@
                 e.preventDefault();
                 console.log("From Nonce:",this.password,this.contractData.AddressFrom, this.estimatedGas, this.gasPrice* 1000000, this.contractData.amount);
                 if(this.password){
+                    let cid= shortid.generate();
                     web3.eth.personal.unlockAccount(this.contractData.AddressFrom, this.password , 600)
                         .then((response) => {
                             console.log(response, "response");
@@ -248,6 +249,13 @@
                                         if(transactionHash) {
                                             $('form').trigger('reset');
                                             clipboard.writeText(transactionHash, 'selected');
+                                            db.get('contracts').push({
+                                                "id" : cid,
+                                                "transactionHash" : transactionHash,
+                                                "color": getRandomColor(),
+                                                "contract_json": abi,
+                                                "contract_name": that.contractData.contractName,
+                                            }).write();
                                             that.updatedata();
                                             $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:"+transactionHash+" Copied to clipboard");
                                             $('.trx_alert-sucess').show(300).delay(5000).hide(330);
@@ -261,14 +269,9 @@
                                 .on('receipt', function(receipt)
                                     {
                                         if(receipt) {
-                                            db.get('contracts').push({
-                                                "id" : shortid.generate(),
-                                                "contract_address": receipt.contractAddress,
-                                                "receipt" : receipt,
-                                                "color": getRandomColor(),
-                                                "contract_json": abi,
-                                                "contract_name": that.contractData.contractName,
-                                            }).write();
+                                            db.get('contracts').chain().filter({id: cid}).first()
+                                                .assign({"contract_address": receipt.contractAddress,
+                                                    "receipt" : receipt }).write();
                                             that.updatedata();
                                         }
                                         console.log(receipt);

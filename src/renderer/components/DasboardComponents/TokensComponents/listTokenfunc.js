@@ -6,9 +6,7 @@ import store from "../../../../renderer/store";
 import object_hash from 'object-hash';
 
 const listTokens = () => {
-    store.dispatch('addTokenList', '');
     tokens = db.get('tokens').value();
-    store.dispatch('addTokenList', tokens);
     tokens_list_hash = object_hash(tokens);
     if (tokens_list_hash == updated_tokens_list_hash) {
         return false;

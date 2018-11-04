@@ -48,7 +48,7 @@
                                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"></rect>
                                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"></rect>
                                        </svg>
-                                        <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" selected="fundsTo"  class="sendTo" data-err=".send_to_error" />
+                                        <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" placeholder="Enter Recipient Address" selected="fundsTo"  class="sendTo" data-err=".send_to_error" />
                                     </div>
                                 </div>
                                 <div class="currencyAmount">
@@ -353,14 +353,18 @@
 
                         }
                     }
-                }else if(!this.fundsFrom.value) {
-                    this.fundsFromError = true;
-                }else if(!this.fundsTo) {
-                    this.fundsToError = 'To is required';
-                }else if(!this.amount) {
-                    this.amountError = 'Amount is required';
-                }else if(!this.currencyHash.value) {
-                    this.currencyHashError = true;
+                }else {
+                    if(!this.fundsFrom.value) {
+                        this.fundsFromError = true;
+                    }
+                    if(!this.fundsTo) {
+                        this.fundsToError = 'To is required';
+                    }
+                    if(!this.amount) {
+                        this.amountError = 'Amount is required';
+                    } if(!this.currencyHash.value) {
+                        this.currencyHashError = true;
+                    }
                 }
 
             },
