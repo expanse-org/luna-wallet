@@ -16,6 +16,9 @@
                 </div>
                 <div id="gexpcontent" class="gexplogscontent">
                     <div v-if="gexp" v-for="(gexp, key) in gexpLogData" class="a1">
+                        <div class="gexptxt-num">
+                            <p>01</p>
+                        </div>
                         <p class="gexptxt">{{gexp}}</p>
                     </div>
                     <div v-else class="a1">

@@ -356,6 +356,62 @@
       "color": "#ECC86A",
       "archive": false,
       "isHd": false
+    },
+    {
+      "accountTitle": "Account 0",
+      "hash": "0x9eef23bf0cfb2dd63fd8533869d6469eb66ba88b",
+      "color": "#2E1018",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 1",
+      "hash": "0xc3d0a1e06f977cb3636409f9f3bdcd1c95c69a12",
+      "color": "#32D5F0",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 2",
+      "hash": "0x145910a9d692c3d02e87fc93e4f740d536c8e4a5",
+      "color": "#826BD8",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 3",
+      "hash": "0xcc8d960b56b71a80ea2fcb33380f19703e50355d",
+      "color": "#F3B006",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 4",
+      "hash": "0xcd458d3bc818713abffb0788f45744c60a4deda2",
+      "color": "#66F931",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 5",
+      "hash": "0xc642fed46475ce0a2422c864c3166b37563b2936",
+      "color": "#15D76E",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 6",
+      "hash": "0x9cd28798671be203328642fdd99c9adf3c98596d",
+      "color": "#67A2CA",
+      "archive": false,
+      "isHd": false
+    },
+    {
+      "accountTitle": "Account 7",
+      "hash": "0xbdb62c83b824a00c2cfa08c0d46523dbd4ca97cc",
+      "color": "#485012",
+      "archive": false,
+      "isHd": false
     }
   ],
   "contracts": [
