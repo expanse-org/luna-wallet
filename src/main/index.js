@@ -7,6 +7,8 @@ import appPath from 'path';
 import Raven from 'raven';
 import solc from 'solc';
 import os from 'os';
+const { autoUpdater } = require("electron-updater");
+
 var gexpProc ;
 
 ipcMain.on('ComplieContract', (event , sourceCode) => {

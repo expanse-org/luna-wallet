@@ -17,7 +17,12 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": ""
+    "postinstall": "",
+    "publish": "build --mac --win -p always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expanse-org/luna-wallet.git"
   },
   "build": {
     "productName": "luna-wallet",
@@ -51,7 +56,14 @@
     },
     "linux": {
       "icon": "build/icons"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "iffy",
+        "repo": "luna-wallet"
+      }
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -62,6 +74,7 @@
     "child_process": "^1.0.2",
     "debug": "^4.0.1",
     "decompress": "^4.2.0",
+    "electron-updater": "^3.2.3",
     "ethereum-address": "^0.0.4",
     "ethereumjs-tx": "^1.3.7",
     "fs": "^0.0.1-security",
@@ -100,7 +113,7 @@
     "vue2-ace-editor": "^0.0.11",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.36",
-    "yarn": "^1.10.1"
+    "yarn": "^1.12.3"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
@@ -121,9 +134,10 @@
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^2.0.4",
-    "electron-builder": "^20.19.2",
+    "electron-builder": "^20.34.0",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-rebuild": "^1.8.2",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
     "inject-loader": "^4.0.1",

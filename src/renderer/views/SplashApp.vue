@@ -137,6 +137,12 @@
                                     startingGexp();
                                 }
                             });
+                            got('https://github.com/expanse-org/luna-wallet/releases/latest', {
+                                json: true
+                            }).then(response => {
+                                console.log(response, "response")
+                                console.log(response.body.tag_name, "response.body.tag_name")
+                            });
                         });
 
                     } // Else Ended  -- if (!fs.existsSync(gexpDir))
