@@ -1,8 +1,14 @@
 <template>
-        <router-view></router-view>
+   <div>
+     <router-view></router-view>
+     <modal class="modal" name="wallet_info">
+        <walletInfo ></walletInfo>
+     </modal>
+   </div>
 </template>
 
 <script>
+    import WalletInfo from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/WalletInfo';
     import clientBinaries from '../../../clientBinaries.json';
     import {production, ExpApi} from '../../main/libs/config';
     import {getClientInfo } from '../../common/clientInfo';
@@ -15,6 +21,7 @@
     import got from 'got';
     import _ from 'underscore';
     import Raven from 'raven';
+    import {version} from '../../../package.json';
     const clientBinariesGexp = clientBinaries.clients.Gexp;
     const localGethVersion = clientBinariesGexp.version;
     const platForms = clientBinariesGexp.platforms;
@@ -33,7 +40,16 @@
                 activeScreen,
             };
         },
+        components: {
+            'walletInfo': WalletInfo,
+        },
         methods: {
+            show () {
+                this.$modal.show('wallet_info');
+            },
+            hide () {
+                this.$modal.hide('wallet_info');
+            },
             action(screen){
                 // console.log("storee Action")
                 this.$store.dispatch('addScreen', screen)
@@ -142,6 +158,9 @@
                             }).then(response => {
                                 console.log(response, "response")
                                 console.log(response.body.tag_name, "response.body.tag_name")
+                                if(response.body.tag_name !== version){
+                                    // that.show();
+                                }
                             });
                         });
 
@@ -155,3 +174,7 @@
         }
     }
 </script>
+
+<style>
+        @import "../../../static/modalcomponent.css";
+</style>

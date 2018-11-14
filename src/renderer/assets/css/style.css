@@ -2911,7 +2911,7 @@ FONTS
           font-size: 14px;
           padding: 5px;
           top: 70px;
-          left: 62px;
+          left: -22px;
           transition: all 600ms;
           opacity: 0; }
           .sendtransaction .transaction .sendtransaction-inner .addresses .sender .tooltiptext2:after {
@@ -9048,7 +9048,7 @@ FONTS
               min-height: 43px;
               background: #ffffff;
               padding: 6px 20px;
-              display: grid;
+              display: flex;
               box-sizing: border-box;
               grid-template-columns: max-content auto;
               align-items: center; }

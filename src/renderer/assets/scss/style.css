@@ -2906,7 +2906,7 @@ FONTS
           font-size: 14px;
           padding: 5px;
           top: 70px;
-          left: 62px;
+          left: -22px;
           transition: all 600ms;
           opacity: 0; }
           .sendtransaction .transaction .sendtransaction-inner .addresses .sender .tooltiptext2:after {

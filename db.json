@@ -358,58 +358,16 @@
       "isHd": false
     },
     {
-      "accountTitle": "Account 0",
-      "hash": "0x9eef23bf0cfb2dd63fd8533869d6469eb66ba88b",
-      "color": "#2E1018",
+      "accountTitle": "Account 34",
+      "hash": "0x02aeef40fc6f2e0910850e05de79affa58bd209f",
+      "color": "#4E330B",
       "archive": false,
       "isHd": false
     },
     {
-      "accountTitle": "Account 1",
-      "hash": "0xc3d0a1e06f977cb3636409f9f3bdcd1c95c69a12",
-      "color": "#32D5F0",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 2",
-      "hash": "0x145910a9d692c3d02e87fc93e4f740d536c8e4a5",
-      "color": "#826BD8",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 3",
-      "hash": "0xcc8d960b56b71a80ea2fcb33380f19703e50355d",
-      "color": "#F3B006",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 4",
-      "hash": "0xcd458d3bc818713abffb0788f45744c60a4deda2",
-      "color": "#66F931",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 5",
-      "hash": "0xc642fed46475ce0a2422c864c3166b37563b2936",
-      "color": "#15D76E",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 6",
-      "hash": "0x9cd28798671be203328642fdd99c9adf3c98596d",
-      "color": "#67A2CA",
-      "archive": false,
-      "isHd": false
-    },
-    {
-      "accountTitle": "Account 7",
-      "hash": "0xbdb62c83b824a00c2cfa08c0d46523dbd4ca97cc",
-      "color": "#485012",
+      "accountTitle": "Account 35",
+      "hash": "0x26f5f10c3e27e5fbbd4fd858f6127f4e1b9f1591",
+      "color": "#9FD8A1",
       "archive": false,
       "isHd": false
     }
@@ -1714,6 +1672,22 @@
       "address": "0x2a6f4801e7eac23b3464e65c3d4f0ecff06d6b07",
       "derivationPath": "m/44'/40'/0'/0/4",
       "color": "#753314"
+    },
+    {
+      "public_key": "0x020dabf0bffa4013e69ca83a035ab2fbc7dac9dc558a493ea7db05aa3560d73310",
+      "index": "0",
+      "phrase_hash": "027271e0c7036dc07c05ac30f34b2896",
+      "address": "0x02aeef40fc6f2e0910850e05de79affa58bd209f",
+      "derivationPath": "m/44'/40'/0'/0/0",
+      "color": "#A6D573"
+    },
+    {
+      "public_key": "0x0323b207b6c95b50936292e7c348dd1fdd4847764926daa2723957116d43dbe621",
+      "index": "0",
+      "phrase_hash": "525060a78e1c10957d2d6039e9db2d68",
+      "address": "0x26f5f10c3e27e5fbbd4fd858f6127f4e1b9f1591",
+      "derivationPath": "m/44'/40'/0'/0/0",
+      "color": "#156C81"
     }
   ],
   "transactions": [

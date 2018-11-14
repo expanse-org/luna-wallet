@@ -48,7 +48,7 @@
                                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"></rect>
                                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"></rect>
                                        </svg>
-                                        <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" placeholder="Enter Recipient Address" selected="fundsTo"  class="sendTo" data-err=".send_to_error" />
+                                        <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" placeholder="Enter Recipient Address" class="sendTo" />
                                     </div>
                                 </div>
                                 <div class="currencyAmount">
@@ -406,6 +406,11 @@
 
     .multiselect__content-wrapper {
         margin-top: 3px;
+    }
+
+    .currencies_dropdown .multiselect__placeholder {
+        line-height: 37px!important;
+        text-indent: 8px!important;
     }
 
     .fundsFrom .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {

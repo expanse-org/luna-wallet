@@ -344,6 +344,12 @@
         margin-top: 3px;
     }
 
+
+    .deploy-modal .multiselect__placeholder {
+        line-height: 23px!important;
+        text-indent: 8px!important;
+    }
+
     .deploy-modal .multiselect__option--selected .multiselect__option--highlight  {
         background: #ffffff!important;
         color: #000!important;;

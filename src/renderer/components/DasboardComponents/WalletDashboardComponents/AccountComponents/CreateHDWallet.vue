@@ -240,7 +240,7 @@
             },
             CreateHDWallet(e){
                 e.preventDefault();
-                console.log("if HD wallet", this.hdaddressIndex);
+                console.log("if HD wallet", this.hdaddressIndex, this.hdprivateKey);
                 if(this.hdaddressIndex && this.accountName && this.hdderivationpath && this.hdphrase && this.hdaddress && this.hdprivateKey&& this.hdpublicKey && this.hd_wallet_password && this.hd_wallet_repassword){
                     if(this.hd_wallet_password.length >= 8 ){
                         if(this.hd_wallet_password === this.hd_wallet_repassword) {
