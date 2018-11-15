@@ -49,13 +49,13 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/logo-luna384x384.icns"
+      "icon": "build/icons/luna512x512.ico"
     },
     "win": {
       "icon": "build/icons/logo-luna.ico"
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "build/icons/logo-luna1024x1024.icns"
     },
     "publish": [
       {
