@@ -11,4 +11,5 @@ thumbs.db
 !.gitkeep
 binaries
 db.json
+./db.json
 src/renderer/assets/js/bip39-Node/node_modules
