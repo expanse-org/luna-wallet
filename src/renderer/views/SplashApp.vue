@@ -1,9 +1,19 @@
 <template>
    <div>
      <router-view></router-view>
-     <modal class="modal" name="wallet_info">
-        <walletInfo ></walletInfo>
-     </modal>
+       <modal class="modal" name="versionupdate">
+           <div class="update-content">
+               <div @click="hide" class="cancel">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="11.438" height="11.438" viewBox="0 0 11.438 11.438">
+                       <path class="close" d="M428.293,11.707l1.414-1.414,10,10-1.414,1.414Zm10-1.414,1.414,1.414-10,10-1.414-1.414Z" transform="translate(-428.281 -10.281)"/>
+                   </svg>
+               </div>
+               <img class="logo-luna" src="../assets/img/logo-luna.png" alt="Logo"/>
+               <h1>New Expanse Wallet version available</h1>
+               <h2><span>Version: </span>v{{versionUpdateApp}}</h2>
+               <button @click="handleUpdate('https://github.com/expanse-org/luna-wallet/releases')" class="button--moema">Download New Version</button>
+           </div>
+       </modal>
    </div>
 </template>
 
@@ -22,6 +32,8 @@
     import _ from 'underscore';
     import Raven from 'raven';
     import {version} from '../../../package.json';
+    import  * as child_process from 'child_process';
+
     const clientBinariesGexp = clientBinaries.clients.Gexp;
     const localGethVersion = clientBinariesGexp.version;
     const platForms = clientBinariesGexp.platforms;
@@ -38,6 +50,7 @@
         data() {
             return {
                 activeScreen,
+                versionUpdateApp: ''
             };
         },
         components: {
@@ -45,10 +58,10 @@
         },
         methods: {
             show () {
-                this.$modal.show('wallet_info');
+                this.$modal.show('versionupdate');
             },
             hide () {
-                this.$modal.hide('wallet_info');
+                this.$modal.hide('versionupdate');
             },
             action(screen){
                 // console.log("storee Action")
@@ -159,7 +172,8 @@
                                 console.log(response, "response")
                                 console.log(response.body.tag_name, "response.body.tag_name")
                                 if(response.body.tag_name !== version){
-                                    // that.show();
+                                    that.versionUpdateApp = response.body.tag_name;
+                                    that.show();
                                 }
                             });
                         });
@@ -170,7 +184,19 @@
                     console.log(e);
                 }
             },
-
+            handleUpdate(url){
+                console.log(url);
+                if(os.type() == 'Windows_NT') {
+                    child_process.execSync('start '+url)
+                }
+                if(os.type() == 'Linux') {
+                    child_process.execSync('xdg-open '+url)
+                }
+                if(os.type() == 'Darwin') {
+                    child_process.execSync('open '+url)
+                }
+                this.hide();
+            }
         }
     }
 </script>

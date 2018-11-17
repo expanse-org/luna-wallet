@@ -284,19 +284,6 @@
             <div v-if="this.$store.state.screenState == 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>
             </div>
-            <modal class="modal" name="versionupdate">
-                <div class="update-content">
-                    <div @click="close" class="cancel">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="11.438" height="11.438" viewBox="0 0 11.438 11.438">
-                            <path class="close" d="M428.293,11.707l1.414-1.414,10,10-1.414,1.414Zm10-1.414,1.414,1.414-10,10-1.414-1.414Z" transform="translate(-428.281 -10.281)"/>
-                        </svg>
-                    </div>
-                    <img class="logo-luna" src="../../assets/img/logo-luna.png" alt="Logo"/>
-                    <h1>New Expanse Wallet version available</h1>
-                    <h2><span>Version: </span>v0.10.0</h2>
-                    <button class="button--moema">Download New Version</button>
-                </div>
-            </modal>
         </div>
     </div>
 </template>
@@ -322,12 +309,6 @@
         // console.log(this.activeScreen,"activeScreenAPP")
     },
     methods: {
-        open(){
-            this.$modal.show('versionupdate')
-        },
-        close(){
-            this.$modal.hide('versionupdate')
-        },
         launchApplication(){
             let that = this;
             try{
