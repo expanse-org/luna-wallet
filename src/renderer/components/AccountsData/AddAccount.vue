@@ -212,6 +212,11 @@
                             db.get('accounts')
                                 .push({ accountTitle: acName, hash : hash, color:color, archive: false, isHd: false})
                                 .write();
+                            setTimeout(() =>{
+                                this.accountName = '';
+                                this.pass = '';
+                                this.rePass = '';
+                            }, 1000);
                             $('.alert-sucess').show(300).delay(5000).hide(330);
                             that.launchApplication();
                         }

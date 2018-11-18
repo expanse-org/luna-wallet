@@ -2911,7 +2911,7 @@ FONTS
           font-size: 14px;
           padding: 5px;
           top: 70px;
-          left: 62px;
+          left: -22px;
           transition: all 600ms;
           opacity: 0; }
           .sendtransaction .transaction .sendtransaction-inner .addresses .sender .tooltiptext2:after {
@@ -3873,6 +3873,11 @@ perspective effects (not including the modals and the overlay).
 .priv_password .row-3 .input--nao {
   padding-top: 0;
   margin-top: -8px; }
+
+.buttons .outer-wheel {
+  transform: translate(50%, 50%);
+  animation: spin 4s infinite linear;
+}
 
 .input__field--nao {
   padding: 0.5em 0em 0.25em;
@@ -5768,12 +5773,12 @@ perspective effects (not including the modals and the overlay).
     color: #ffffff !important; }
 
 .alert-unsucess {
-  display: none;
+  /*display: none;*/
   width: 100%;
   background-color: #cb4d43;
   box-sizing: border-box;
   margin: 25px 0px;
-  padding: 10px 20px; }
+  padding: 1px 20px; }
   .alert-unsucess p {
     color: #ffffff !important; }
 
@@ -5783,7 +5788,7 @@ perspective effects (not including the modals and the overlay).
   background-color: #cb4d43;
   box-sizing: border-box;
   margin: 25px 0px;
-  padding: 10px 20px; }
+  padding: 1px 20px; }
 
 .st24 {
   fill: #FFFFFF; }
@@ -9043,7 +9048,7 @@ FONTS
               min-height: 43px;
               background: #ffffff;
               padding: 6px 20px;
-              display: grid;
+              display: flex;
               box-sizing: border-box;
               grid-template-columns: max-content auto;
               align-items: center; }
@@ -10272,7 +10277,7 @@ FONTS
       font-weight: regular;
       color: white; }
   .tabchange .alert-unsucess {
-    display: none;
+    /*display: none;*/
     box-sizing: border-box;
     width: 100%;
     background-color: #cb4d43;

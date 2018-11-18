@@ -21,7 +21,6 @@ const action = (screen) => {
     store.dispatch('addScreen', screen)
 }
 
-
 const loadingProgress = (dlData) =>{
     console.log(dlData,"loadingProgress Func11");
     progress(request({

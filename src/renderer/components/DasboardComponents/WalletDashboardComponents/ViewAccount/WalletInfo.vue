@@ -2,29 +2,6 @@
     <div class="popup popup1 md-content ">
         <a href="#" @click="hide" class="btn-close md-close"></a>
         <h1>Wallet Information</h1>
-        <div v-if="hidedata" class="row hd">
-            <span class="row-3 ">
-                <span>Phrase</span>
-                <div class="value menemonicPharase"></div>
-                <input type="hidden" v-model="menemonicPharase" class="menemonicPharase-inp /">
-                <div class="tooltip3 copytext" @click="copy(menemonicPharase)" data-val=".menemonicPharase-inp">
-                    <img src="../../../../assets/img/copy.svg" />
-                    <span class="tooltiptext2">Copied</span>
-                </div>
-            </span>
-        </div>
-        <div v-if="hidedata" class="row hd">
-            <div class="row-3">
-                <span>Derivation Path </span>
-                <div class="value derivation_path"></div>
-                <input type="hidden" v-model="derivationPath" class="derivation_path-inp" />
-                <div class="tooltip3 copytext"  @click="copy(derivationPath)" data-val=".derivation_path-inp">
-                    <img src="../../../../assets/img/copy.svg" />
-                    <span class="tooltiptext2">Copied</span>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="row-3">
                 <span>Address</span>
@@ -35,7 +12,6 @@
                     <span v-if="copiedtip" class="tooltiptext2">Copied</span>
                 </div>
             </div>
-
         </div>
 
         <div class="row priv_password non-hd ">
@@ -44,16 +20,19 @@
                     <p v-if="privateKeyPassError" class="error-message priv-password-error">Invalid Password</p>
                     <span>Password</span>
                     <span class="input input--nao">
-                    <input type="password" v-model="privateKeyPass" @focus="handleFocus" name="privateKey-inp-pass" class="privateKey-inp-pass input__field input__field--nao" placeholder="Enter Password of Account to see Private Key" />
+                    <input type="password" v-model="privateKeyPass" @focus="handleFocus" name="privateKey-inp-pass" class="privateKey-inp-pass input__field input__field--nao"
+                           placeholder="Enter Password of Account to see Private Key" />
                     <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
                         <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
                     </svg>
                 </span>
-
-
                 </div>
-                <div @click="handleUnlock" class="buttons gen">
-                    <button class="ok get_private_key_pass">Unlock</button>
+                <div class="buttons gen">
+                    <button @click="handleUnlock" class=" ok button button--shikoba get_private_key_pass">
+                        <img v-if="loading" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
+                        <img v-if="!loading" class="button__icon" src="../../../../assets/img/submit.svg">
+                        <span>Unlock</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -110,6 +89,7 @@
                 privateKeyhide: false,
                 copiedtip: false,
                 copiedtipk: false,
+                loading: false,
             };
         },
         components:{
@@ -150,6 +130,7 @@
                 let osType = os.type();
                 let datadir = "";
                 if(this.publicAddress && this.privateKeyPass){
+                    this.loading = true;
                     this.privateKeyPassError = false;
                     switch(osType) {
                         case "Linux":
@@ -169,6 +150,7 @@
                         // console.log("privateKey",privateKey);
                         privateKey = privateKey.toString('hex');
                         this.privateKeyhide = true;
+                        this.loading = false;
                         this.privateKey = privateKey;
                     }catch(e){
                         this.privateKeyPassError = true;
@@ -188,5 +170,18 @@
 
     .error-message {
         top: -25px;
+    }
+
+    .privateKey-inp-pass::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #aaa;
+        opacity: 1; /* Firefox */
+    }
+
+    .privateKey-inp-pass:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #aaa;
+    }
+
+    .privateKey-inp-pass:-ms-input-placeholder { /* Microsoft Edge */
+        color: #aaa;
     }
 </style>

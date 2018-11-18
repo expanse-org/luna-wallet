@@ -16,11 +16,17 @@ const action = (screen) => {
     store.dispatch('addScreen', screen)
 };
 
-const actionSync = (gexpSync,isgexpSync, peerCount) => {
+const actionSynpeer = (peerCount) => {
     // console.log("storee Action")
     store.dispatch('addGexpSync', gexpSync);
     store.dispatch('addIsGexpSync', isgexpSync);
     store.dispatch('addPeerCount', peerCount);
+};
+
+const actionSync = (gexpSync,isgexpSync) => {
+    // console.log("storee Action")
+    store.dispatch('addGexpSync', gexpSync);
+    store.dispatch('addIsGexpSync', isgexpSync);
 };
 
 
@@ -34,14 +40,17 @@ const syncPeers = () => {
         try{
             web3.eth.isSyncing(function(error, sync){
                 if(!error) {
+                    web3.eth.net.getPeerCount().then((res) => {
+                        if(res){
+                            actionSync(res);
+                        }
+                    });
                     // stop all app activity
 
                     if(sync) {
-                        var peerCount = web3.eth.net.peerCount;
-                        // console.log(peerCount,"sync if true",sync);
-                        actionSync(sync, true, peerCount);
                         // console.log("sync if true",sync);
 
+                        actionSync(sync, true);
                         updateScreen("downloading");
                         action("downloading");
                         // show sync info

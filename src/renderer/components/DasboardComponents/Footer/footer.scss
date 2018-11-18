@@ -41,6 +41,28 @@ footer {
         margin-bottom: 10px;
         border: 1px solid #0a3640;
         padding: 7px 0px 0px 9px;
+        
+        &:nth-child(even){
+          .a1{
+            .gexptxt-num{
+              background: #0a3640;
+            }
+          }
+        }
+        &:nth-child(odd){
+          .a1{
+            .gexptxt-num{
+              background: #11292d;
+            }
+          }
+        }
+        .a1{
+          display: flex;
+          align-items: center;
+          .gexptxt-num{
+            padding: 0 8px;
+          }
+        }
       }
     }
   }

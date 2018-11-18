@@ -132,10 +132,13 @@
                                 that.success = true;
                                 that.createSimpleAccount(this.accountName ,this.password );
                                 setTimeout(() => {
-                                    this.success = false;
-                                }, 2000);
-                                this.accountName = '';
-                                this.password = '';
+                                    that.success = false;
+                                    that.accountName = '';
+                                    that.password = '';
+                                    that.retypePassword = '';
+                                    that.accountPassword = '';
+                                }, 1000);
+                                $('.alert-sucess').show(300).delay(5000).hide(330);
                             } catch (err) {
                                 console.log("Execption Error" + err.message);
                                 this.accountNameError = 'Title is already exists';
@@ -184,7 +187,6 @@
                                 .push({ accountTitle: acName, hash : hash, color:color, archive: false, isHd: false})
                                 .write();
                             getAllAcounts();
-                            $('.alert-sucess').show(300).delay(5000).hide(330);
                         }
                     });
                 } catch (err) {

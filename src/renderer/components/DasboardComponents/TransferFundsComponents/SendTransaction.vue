@@ -132,7 +132,8 @@
                                         <span>Close</span>
                                     </button>
                                     <button @click="sendTransaction" id="contract_transactions_btn" type="submit" class="ok button button--shikoba">
-                                        <img class="button__icon" src="../../../assets/img/send.svg">
+                                        <img v-if="loading" class="outer-wheel button__icon" src="../../../assets/img/innerCricle.svg"/>
+                                        <img v-if="!loading"  class="button__icon" src="../../../assets/img/send.svg">
                                         <span>Send Transaction</span>
                                     </button>
 
@@ -140,7 +141,6 @@
                             </form>
 
                         </div>
-
                         <div class="alert-sucess trx_alert-sucess hide">
                             <p>Transaction Completed successfully</p>
                         </div>
@@ -148,13 +148,10 @@
                             <p>Transaction Failed</p>
                         </div>
 
-
                         <div class="alert-unsucess" style="display: none;">
                             <p>ERROR</p>
                         </div>
-
                     </div>
-
                 </div>
             </div>
 

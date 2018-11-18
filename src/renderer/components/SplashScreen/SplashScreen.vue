@@ -224,6 +224,9 @@
                 </div>
             </div>
             <!----------error page ends------------>
+            <!----------network settings tab starts------------>
+            <setting />
+            <!----------network settings tab ends------------>
             <div v-if="this.$store.state.screenState == 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>
             </div>
@@ -236,13 +239,18 @@
   import {downloadGexp} from '../../../common/gexpfunc';
   import {ipcRenderer} from 'electron';
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
+  import Setting from '../SettingScreen/Setting';
 
   export default {
     name: 'Splash-screen',
     data() {
        return {
            activeScreen: this.$store.state.screenState,
+           networkSetting: true,
        };
+    },
+    components:{
+        'setting' : Setting,
     },
     created(){
         // this.$store.dispatch('addScreen', 'config')
@@ -291,37 +299,38 @@
 </script>
 
 <style>
-    .cls-1 {
-        fill: #b63f37;
-        width: 20px;
-        fill-rule: evenodd;
-    }
-    .rocket {
-        fill: #fff;
-        fill-rule: evenodd;
-    }
-    .thrust {
-        fill: #fff;
-        fill-rule: evenodd;
-    }
-    .nodeUpToDateTick {
-        fill: #fff;
-        fill-rule: evenodd;
-    }
-    .nodeUpToDateRound {
-        fill: #fff;
-        fill-rule: evenodd;
-    }
-    .bug {
-        fill: #fff;
-        fill-rule: evenodd;
-    }
-    .bugError_1 {
-        fill: #b63f37;
-    }
+.cls-1 {
+    fill: #b63f37;
+    width: 20px;
+    fill-rule: evenodd;
+}
+.rocket {
+    fill: #fff;
+    fill-rule: evenodd;
+}
+.thrust {
+    fill: #fff;
+    fill-rule: evenodd;
+}
+.nodeUpToDateTick {
+    fill: #fff;
+    fill-rule: evenodd;
+}
+.nodeUpToDateRound {
+    fill: #fff;
+    fill-rule: evenodd;
+}
+.bug {
+    fill: #fff;
+    fill-rule: evenodd;
+}
+.bugError_1 {
+    fill: #b63f37;
+}
 
-    .bugError_2 {
-        fill: #fff;
-        fill-rule: evenodd;
-    }
+.bugError_2 {
+    fill: #fff;
+    fill-rule: evenodd;
+}
+/* network settings tab starts */
 </style>

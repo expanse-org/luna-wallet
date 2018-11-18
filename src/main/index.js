@@ -1,12 +1,16 @@
 import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
+var path = require('path')
+const low = require('lowdb')
 
 import {production} from "./libs/config";
 import appPath from 'path';
 import Raven from 'raven';
 import solc from 'solc';
 import os from 'os';
+const { autoUpdater } = require("electron-updater");
+
 var gexpProc ;
 
 ipcMain.on('ComplieContract', (event , sourceCode) => {
@@ -41,8 +45,9 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 763,
     useContentSize: true,
-    width: 1400
+    width: 1400,
   })
+
 
   mainWindow.loadURL(winURL)
   try {
@@ -79,6 +84,54 @@ app.on('activate', () => {
   }
 });
 
+
+var adapter;
+let db;
+
+setTimeout(() => {
+    try{
+        if(production){
+            let appPath = app.getPath('userData');
+            console.log("appPath",appPath);
+            shelljs.cd(appPath);
+
+            adapter = new FileSync('db.json');
+        }else{
+            const dir =  path.resolve(__dirname);
+            adapter = new FileSync(dir+'/db.json')
+        }
+
+        db = low(adapter);
+        // const adapter = new FileSync('db.json')
+        db.defaults({ accounts: [], contracts: [], tokens: [
+                {
+                    "id": "DrZsGjQIZ",
+                    "token_address": "0xa887adb722cf15bc1efe3c6a5d879e0482e8d197",
+                    "token_name": "Tokan Lab",
+                    "token_symbol": "LAB",
+                    "tokenType": "erc20",
+                    "decimal_places": 18,
+                    "color": "#fa0fa0"
+                },
+                {
+                    "id": "6zxjBkREl",
+                    "token_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
+                    "token_name": "PEX TOKEN",
+                    "token_symbol": "PEX",
+                    "tokenType": "erc20",
+                    "decimal_places": 18,
+                    "color": "#0297da"
+                },
+            ] , accountsAdresses:[] , hdWallets:[] , transactions : [] })
+            .write();
+    }catch(e){
+        Raven.captureException(e);
+    }
+}, 3000);
+
+export default {
+    db, low, adapter
+}
 
 const runGexp = (path) => {
     // console.log("startGexp:path",path);

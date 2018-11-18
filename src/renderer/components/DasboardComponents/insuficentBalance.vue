@@ -25,6 +25,7 @@
         },
         methods: {
             hide1 () {
+                this.$modal.hide('suffibalance');
                 this.$modal.hide('insufficentBal');
             },
         }

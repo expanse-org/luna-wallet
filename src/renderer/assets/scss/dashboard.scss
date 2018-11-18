@@ -866,25 +866,25 @@
 }
 
 .alert-unsucess {
-    display: none;
+    //display: none;
     width: 100%;
     background-color: #cb4d43;
    
     box-sizing: border-box;
     margin: 25px 0px;
-    padding: 10px 20px;
+    padding: 1px 20px;
     p {
         color: $white !important;
     }
 }
 
 .account-page .tabchange .alert-unsucess {
-    display: none;
+    //display: none;
     width: 100%;
     background-color: #cb4d43;
     box-sizing: border-box;
     margin: 25px 0px;
-    padding: 10px 20px;
+    padding: 1px 20px;
 }
 
 .st24 {

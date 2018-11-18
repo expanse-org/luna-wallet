@@ -25,11 +25,14 @@
                                 </svg>
                                 <p>Choose file</p>
                             </label>
-                            <div class="alert-sucess hide">
-                                <p>Sweet! Account successfully Created.</p>
-                            </div>
-                            <p v-if="error" class="error-message2 not-valid-file error">Not a Valid Account File</p>
                         </div>
+                        <div v-if="FileName" v-bind:style="{color: '#ffffff'}">
+                            <p>{{FileName}}</p>
+                        </div>
+                        <div class="alert-sucess hide">
+                            <p>Sweet! Account successfully Created.</p>
+                        </div>
+                        <p v-if="error" class="error-message2 not-valid-file error">Not a Valid Account File</p>
                         <div class="buttons">
                             <button @click="skipbutton" class=" cancel button button--shikoba md-close skip_upload">
                                 <img class="button__icon" src="../../assets/img/skip.svg">
@@ -58,6 +61,7 @@
         data() {
             return {
                 error: false,
+                FileName: false,
             };
         },
         created(){
@@ -76,6 +80,7 @@
             openFile() {
                 console.log('openFile');
                 var input = event.target;
+                this.FileName= event.target.files[0].name;
                 var clientInfo = getClientInfo();
                 var reader = new FileReader();
                 // console.log('res reader',reader);
@@ -110,6 +115,7 @@
                                 if (err) throw err;
                                 console.log("It's saved!");
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
+
                                 setTimeout(()=>{
                                     that.$router.push({
                                         path: '/walletdashboard'

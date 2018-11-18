@@ -2906,7 +2906,7 @@ FONTS
           font-size: 14px;
           padding: 5px;
           top: 70px;
-          left: 62px;
+          left: -22px;
           transition: all 600ms;
           opacity: 0; }
           .sendtransaction .transaction .sendtransaction-inner .addresses .sender .tooltiptext2:after {
@@ -5435,22 +5435,20 @@ perspective effects (not including the modals and the overlay).
     color: #ffffff !important; }
 
 .alert-unsucess {
-  display: none;
   width: 100%;
   background-color: #cb4d43;
   box-sizing: border-box;
   margin: 25px 0px;
-  padding: 10px 20px; }
+  padding: 1px 20px; }
   .alert-unsucess p {
     color: #ffffff !important; }
 
 .account-page .tabchange .alert-unsucess {
-  display: none;
   width: 100%;
   background-color: #cb4d43;
   box-sizing: border-box;
   margin: 25px 0px;
-  padding: 10px 20px; }
+  padding: 1px 20px; }
 
 .st24 {
   fill: #FFFFFF; }

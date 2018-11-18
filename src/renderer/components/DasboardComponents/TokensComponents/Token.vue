@@ -92,7 +92,7 @@
             </div>
         </div>
         <modal class="modal" name="watchtoken">
-            <AddToken></AddToken>
+            <AddToken :token_id="tokenIDSEND" :updateData="updateData"></AddToken>
         </modal>
     </div>
 </template>
@@ -111,25 +111,28 @@
                 token: '',
                 tokenlist: false,
                 token_edit: false,
+                tokenIDSEND: false,
                 color: '',
             };
         },
         computed: {
             AddTokenData() {
-                this.token = this.$store.state.tokenList;
-                return this.token;
+                let tokensdata = db.get('tokens').value();
+                return tokensdata;
             },
         },
         created(){
-            listTokens();
-            if(tokens){
-                this.tokenlist = true;
-            }
+            this.intervalid1 = setInterval(() => {
+                if(this.AddTokenData && this.AddTokenData.length > 0 ){
+                    this.tokenlist = true;
+                    clearInterval(this.intervalid1)
+                }
+            }, 100);
         },
         methods: {
             editToken(token_id){
                 console.log(token_id);
-                this.$store.dispatch('addEditTokenHash', token_id);
+                this.tokenIDSEND = token_id;
                 this.show();
             },
             show () {
@@ -139,8 +142,11 @@
                 this.$modal.hide('watchtoken');
             },
             handleWatchToken(){
-                this.$store.dispatch('addEditTokenHash', '');
+                this.tokenIDSEND = '';
                 this.show();
+            },
+            updateData(){
+                this.$forceUpdate();
             },
             deleteToken(token_id){
                 console.log(token_id, "yokenID");
@@ -150,10 +156,7 @@
                     let con = confirm('You want To Delete: '+token.token_name+' Token');
                     if(con){
                         db.get('tokens').remove({ id: token_id}).write();
-                        this.$forceUpdate();
-                        setTimeout(()=>{
-                            listTokens();
-                        }, 1000);
+                        this.updateData();
                         console.log(this.AddTokenData, this.$store.state.tokenList, "AddTokenData");
                     }
                 }

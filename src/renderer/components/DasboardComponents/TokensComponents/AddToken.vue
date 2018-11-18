@@ -2,7 +2,7 @@
     <div class="popup popup1 md-content ">
         <a href="#" @click="hide" class="btn-close md-close"></a>
         <form v-if="!editForm" id="addToken" method="#">
-            <h1>Add Token</h1>
+            <h1>Watch Token</h1>
             <div class="row">
                 <input class="add_or_update_token" type="hidden" value="0"/>
                 <!-- 0 = add , 1 = update -->
@@ -102,7 +102,7 @@
                 <input class="add_or_update_token" type="hidden" value="0"/>
                 <!-- 0 = add , 1 = update -->
                 <span :class="tokenAddress? 'input input--nao input--filled': 'input input--nao'">
-                    <input type="text" name="token_contract_address" v-model="tokenAddress" @focus="handleFoucs" @change="handleContractAdd"
+                    <input type="text" name="token_contract_address" disabled v-model="tokenAddress" @focus="handleFoucs"
                            class="token_contract_address input__field input__field--nao "/>
                     <label class="input__label input__label--nao " >
                         <span class="input__label-content input__label-content--nao">Token Contract Address
@@ -206,6 +206,7 @@
 
     export default {
         name: 'Addtoken',
+        props:['updateData','token_id'],
         data() {
             return {
                 tokend: '',
@@ -230,36 +231,37 @@
         },
         computed: {
             AddTokenData() {
-                this.tokend = this.$store.state.tokenList;
-                return this.tokend;
-            },
-            tokenIDData: function () {
-                this.tokenID = this.$store.state.editTokenHash;
-                if(this.tokenID){
-                    this.editForm = true;
-                }
-                return this.tokenID;
-            },
+                let tokens = db.get('tokens').value();
+                return tokens;
+            }
         },
         created(){
-            let token_ID = this.tokenIDData;
-            console.log(this.editForm);
-            if(this.editForm){
+            let token_ID = this.token_id;
+            console.log(this.editForm, this.token_id);
+            if(token_ID) {
+                this.editForm = true;
                 let token = db.get('tokens').find({ id: token_ID }).value();
-                if(token){
+                console.log(token);
+                if(token) {
                     this.tokenAddress = token.token_address;
                     this.tokenName = token.token_name;
                     this.tokensymbol = token.token_symbol;
                     this.decimalplaces = token.decimal_places;
-                    this.tokenType = token.tokenType == 'erc20' ? {value: 'erc20',text:' ERC20'}:{value: 'standard',text:'Standard Interface'};
+                    this.tokenType = token.tokenType == 'erc20' ? {value: 'erc20',text:' ERC20'} : {value: 'standard',text:'Standard Interface'};
                     this.tokenID = token.id;
                 }
+            } else {
+                this.editForm = false;
+                this.tokenAddress = '';
+                this.tokenName = '';
+                this.tokensymbol = '';
+                this.decimalplaces = '';
+                this.tokenType = {value: 'erc20',text:' ERC20'};
             }
 
         },
         methods: {
             hide () {
-                listTokens();
                 this.$modal.hide('watchtoken');
             },
             handleContractAdd(){
@@ -317,11 +319,12 @@
             },
             handleAddToken(e){
                 e.preventDefault();
+                console.log(this.editForm);
                 if(this.tokenAddress && this.tokenName && this.tokenType.value && this.tokensymbol && this.decimalplaces){
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
                     this.decimalplaces = parseInt(this.decimalplaces);
                     console.log(this.decimalplaces , this.decimalplaces <= 36)
-                    if(this.decimalplaces <= 36) {
+                    if(this.decimalplaces >= 0 && this.decimalplaces <= 36) {
                         if(this.tokenAddress.length < 5){
                             this.tokenAddressError = 'Hash Address is required';
                         }else{
@@ -339,7 +342,7 @@
                                 if(!this.editForm){
                                     var color = getRandomColor();
                                     db.get('tokens').assign().push({  id : shortid.generate(), token_address: this.tokenAddress, token_name : this.tokenName, token_symbol: this.tokensymbol, tokenType:this.tokenType.value, decimal_places: this.decimalplaces, color:color}).write()
-                                    listTokens();
+                                    this.updateData();
                                     this.tokenAddress = '';
                                     this.tokenName = '';
                                     this.tokensymbol = '';
@@ -350,7 +353,6 @@
                                     var color = getRandomColor();
                                     db.get('tokens').find({ id: this.tokenID  }).assign({  token_name : this.tokenName, token_symbol: this.tokensymbol,tokenType:this.tokenType.value, decimal_places: this.decimalplaces }).write();
                                 }
-                                listTokens();
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
                             }catch(err) {
                                 console.log("Execption Error",err.message);
@@ -358,7 +360,7 @@
                             }
                         }
                     } else {
-                        this.decimalplacesError = 'Value must be less than 36';
+                        this.decimalplacesError = 'Value must be positive & less than 36';
                         console.log(this.decimalplacesError , this.decimalplaces <= 36)
                     }
                 }else {
