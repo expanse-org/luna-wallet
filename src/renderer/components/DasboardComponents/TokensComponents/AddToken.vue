@@ -352,6 +352,7 @@
                                     // console.log('update tokens');
                                     var color = getRandomColor();
                                     db.get('tokens').find({ id: this.tokenID  }).assign({  token_name : this.tokenName, token_symbol: this.tokensymbol,tokenType:this.tokenType.value, decimal_places: this.decimalplaces }).write();
+                                    this.updateData();
                                 }
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
                             }catch(err) {
