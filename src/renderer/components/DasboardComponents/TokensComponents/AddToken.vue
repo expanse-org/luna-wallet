@@ -329,7 +329,7 @@
                                 this.tokenAddressError = 'Invalid Hash Address';
                                 return false;
                             }
-                            if(this.editForm){
+                            if(!this.editForm){
                                 if(token){
                                     this.tokenAddressError = "Token Already Exists";
                                     return false;

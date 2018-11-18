@@ -83,10 +83,24 @@ const startingGexp = () => {
         ipcRenderer.send('startGexp', path);
         ipcRenderer.on('startGexpResponse', (event, res) => {
             if(res){
-                setTimeout(function(){
-                    connectWeb3();
-                    console.log("connectweb3 funcction start")
-                },2000)
+                if(os.type() == 'Windows_NT') {
+                    setTimeout(function(){
+                        connectWeb3();
+                        console.log("connectweb3 funcction start")
+                    },10000)
+                }
+                if(os.type() == 'Linux') {
+                    setTimeout(function(){
+                        connectWeb3();
+                        console.log("connectweb3 funcction start")
+                    },5000)
+                }
+                if(os.type() == 'Darwin') {
+                    setTimeout(function(){
+                        connectWeb3();
+                        console.log("connectweb3 funcction start")
+                    },2000)
+                }
             }
             else{
                 updateScreen("connectionError");
