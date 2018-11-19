@@ -371,19 +371,19 @@
                                         color: color, archive: false
                                     }).write();
                                     getAllAcounts();
-                                    that.success = true;
+                                    this.success = true;
                                     setTimeout(() => {
-                                        that.success = false;
-                                        that.accountName = '';
-                                        that.private_key_repassword = '';
-                                        that.private_key_password = '';
-                                        that.private_key = '';
+                                        this.success = false;
+                                        this.accountName = '';
+                                        this.private_key_repassword = '';
+                                        this.private_key_password = '';
+                                        this.private_key = '';
                                     }, 2000)
                                     $('.alert-private-key').show(300).delay(5000).hide(330);
                                     console.log(res," res)account");
                                 }, (error)  =>  {
-                                    that.success = false;
-                                    that.private_keyError = 'Private key is invalid';
+                                    this.success = false;
+                                    this.private_keyError = 'Private key is invalid';
                                     $('.imp-privatekey-error').show(300).delay(5000).hide(330);
                                     setTimeout(() => {
                                         this.private_keyError = false;
