@@ -53,12 +53,12 @@ const getAllAcounts = () => {
                                 .assign({accountTitle: "Account "+index }).write();
                         }
                         if(account.hash){
-                            if(account.archive === false) {
+                            if(account.archive == false) {
                                 if(account && !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
                                 unarchiveAccounts.push(account);
-                            } else if(account.archive !== true && (account && !account.archive)) {
+                            } else if(account.archive != true && (account && !account.archive)) {
                                 if(account&& !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
@@ -82,12 +82,12 @@ const getAllAcounts = () => {
                                     .assign({accountTitle: "Account "+index }).write();
                             }
                             if(accountTest.hash){
-                                if(accountTest.archive === false) {
+                                if(accountTest.archive == false) {
                                     if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
                                     unarchiveAccounts.push(accountTest);
-                                } else if(accountTest.archive !== true && (accountTest && !accountTest.archive)) {
+                                } else if(accountTest.archive != true && (accountTest && !accountTest.archive)) {
                                     if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
@@ -163,7 +163,7 @@ const getalltokenBalance = () => {
             console.log(error, "getalltokenBalance");
             Raven.captureException(error);
         });
-        if(index === unarchiveAccounts.length-1){
+        if(index == unarchiveAccounts.length-1){
             setTimeout(() =>{
                 store.dispatch('addTotalBalance',total_balance);
                 sortByEXPBalances();
@@ -260,7 +260,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                             }
                         }
                     });
-                    if (key === tokens.length - 1) {
+                    if (key == tokens.length - 1) {
                         setTimeout(function () {
                             resolve(accounts_addresses.length > 0 ? accounts_addresses :
                                 false);
@@ -304,7 +304,7 @@ const getAllWatchOnlyAcounts = () => {
                     }
                     account = Object.assign({balance: balance}, account);
                     watchOnlyAccounts.push(account);
-                    if(index === address_accounts.length-1){
+                    if(index == address_accounts.length-1){
                         setTimeout(() =>{
                             storeWatchAccounts();
                         }, 2000);

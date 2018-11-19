@@ -28,9 +28,8 @@
                 </span>
                 </div>
                 <div class="buttons gen">
-                    <button @click="handleUnlock" class=" ok button button--shikoba get_private_key_pass">
-                        <img v-if="loading" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
-                        <img v-if="!loading" class="button__icon" src="../../../../assets/img/submit.svg">
+                    <button @click="handleUnlock" class=" ok button  get_private_key_pass">
+                        <img class="button__icon" src="../../../../assets/img/submit.svg">
                         <span>Unlock</span>
                     </button>
                 </div>
