@@ -357,8 +357,9 @@
                             if(name_accounts.length > 0) {
                                 this.accountNameError = 'Title is already exists';
                             } else {
-                                let that = this;
+                                console.log(this.private_key)
                                 let account = web3.eth.personal.importRawKey(this.private_key.replace(/0x/g, ''), this.private_key_password);
+                                console.log(account)
                                 account.then((res) => {
                                     console.log(account,"account");
                                     console.log(res,"res account");
