@@ -14,16 +14,17 @@ const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
 const dir = appPath.resolve(__dirname)
-console.log(dir, "dir Lowdb")
+// console.log(dir, "dir Lowdb")
+// console.log(appPath.resolve('user'), "dir Lowdb")
+// console.log(shell.ls(''), "dir Lowdb fs" )
 
 if (production) {
     let appPath = app.getPath('userData');
-    console.log(appPath, "appPath")
-    console.log(production, "production")
-
+    console.log(appPath, "dir Lowdb")
     shell.cd(appPath);
+
     adapter = new FileSync('db.json');
-    console.log(adapter, "adapter")
+    console.log(adapter, "dir Lowdb if")
 } else {
     console.log(dir, "dir Lowdb if");
     // if(dir === "/Users/farina/Desktop/Projects/LunaWalletVueTest") {

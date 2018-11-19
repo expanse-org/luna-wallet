@@ -225,7 +225,7 @@
             </div>
             <!----------error page ends------------>
             <!----------network settings tab starts------------>
-            <setting />
+            <!--<setting />-->
             <!----------network settings tab ends------------>
             <div v-if="this.$store.state.screenState == 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>

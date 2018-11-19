@@ -6,7 +6,7 @@
                 <div class="contant-outer">
                     <header-app />
                     <router-view />
-                    <setting-app />
+                    <!--<setting-app />-->
                 </div>
             </div>
         </div>

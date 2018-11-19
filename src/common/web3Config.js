@@ -17,9 +17,7 @@ const action = (screen) => {
 };
 
 const actionSynpeer = (peerCount) => {
-    // console.log("storee Action")
-    store.dispatch('addGexpSync', gexpSync);
-    store.dispatch('addIsGexpSync', isgexpSync);
+    // console.log("storee Action peercount")
     store.dispatch('addPeerCount', peerCount);
 };
 
@@ -38,13 +36,15 @@ const syncPeers = () => {
     var that = this;
     setInterval(function(){
         try{
+            web3.eth.net.getPeerCount().then((res) => {
+                // console.log("sync if true",res);
+                if(res){
+                    actionSynpeer(res);
+                }
+            });
             web3.eth.isSyncing(function(error, sync){
                 if(!error) {
-                    web3.eth.net.getPeerCount().then((res) => {
-                        if(res){
-                            actionSync(res);
-                        }
-                    });
+
                     // stop all app activity
 
                     if(sync) {
@@ -122,6 +122,12 @@ const connectWeb3 = () => {
                         updateScreen("nodeConnected");
                         action("nodeConnected");
                         //3: Look For Peers
+                        web3.eth.net.getPeerCount().then((res) => {
+                            // console.log("sync if true",res);
+                            if(res){
+                                actionSynpeer(res);
+                            }
+                        });
 
                         clearInterval(web3Connect);
                         getAllAcounts();

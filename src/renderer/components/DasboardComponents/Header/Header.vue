@@ -158,6 +158,7 @@
                 return this.hb;
             },
             peerCountData: function(){
+                console.log(this.$store.state.peerCount, "this.$store.state.peerCount");
                 this.pc = this.$store.state.peerCount;
                 return this.pc;
             },
@@ -213,15 +214,6 @@
                         });
                     }
                 } );
-                this.intervalid1 = setInterval(() => {
-                    web3.eth.net.getPeerCount().then((res) => {
-                        if(res){
-                            console.log("web3 totalPeers", that.totalPeers)
-                            that.totalPeers = res;
-                            clearInterval(this.intervalid1)
-                        }
-                    });
-                }, 100);
                 web3.eth.getBlock(that.totalblock).then((res) => {
                     if(res){
                         // console.log("web3 totalPeers", res, res.timestamp)
