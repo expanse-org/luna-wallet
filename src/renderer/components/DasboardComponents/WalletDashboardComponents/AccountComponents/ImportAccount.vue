@@ -347,6 +347,7 @@
                 e.preventDefault();
 
                 console.log(this.accountName,"account");
+                console.log(this.private_key,"private_key");
                 if(this.accountName && this.private_key && this.private_key_password && this.private_key_repassword){
                     if(this.private_key_password.length >= 8){
                         if(this.private_key_password === this.private_key_repassword) {
