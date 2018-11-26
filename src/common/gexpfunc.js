@@ -82,6 +82,7 @@ const startingGexp = () => {
         // console.log(activeScreen,"activeScreen");
         ipcRenderer.send('startGexp', path);
         ipcRenderer.on('startGexpResponse', (event, res) => {
+            console.log(res,"res");
             if(res){
                 if(os.type() == 'Windows_NT') {
                     setTimeout(function(){
