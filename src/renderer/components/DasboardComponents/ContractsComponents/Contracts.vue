@@ -166,7 +166,7 @@
             handledelete(contractid) {
                 let contract = db.get('contracts').find({ id: contractid }).value();
                 if(contract){
-                    let con = confirm('You want To Delete: '+contract.contractName+' Contract');
+                    let con = confirm('You want To Delete: '+contract.contract_name+' Contract');
                     if(con){
                         db.get('contracts').remove({ id: contractid}).write();
                         this.$forceUpdate();

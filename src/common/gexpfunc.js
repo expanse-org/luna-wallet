@@ -83,6 +83,7 @@ const startingGexp = () => {
         ipcRenderer.send('startGexp', path);
         ipcRenderer.on('startGexpResponse', (event, res) => {
             if(res){
+                console.log("Gexp Rest",res)
                 if(os.type() == 'Windows_NT') {
                     setTimeout(function(){
                         connectWeb3();

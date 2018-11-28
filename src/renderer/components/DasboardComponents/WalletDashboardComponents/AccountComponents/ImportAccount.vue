@@ -345,8 +345,8 @@
             },
             handleimportPrivateKey(e){
                 e.preventDefault();
-
                 console.log(this.accountName,"account");
+                // console.log(this.private_key, "Private Account")
                 if(this.accountName && this.private_key && this.private_key_password && this.private_key_repassword){
                     if(this.private_key_password.length >= 8){
                         if(this.private_key_password === this.private_key_repassword) {
@@ -357,7 +357,6 @@
                             if(name_accounts.length > 0) {
                                 this.accountNameError = 'Title is already exists';
                             } else {
-                                console.log(this.private_key)
                                 let account = web3.eth.personal.importRawKey(this.private_key.replace(/0x/g, ''), this.private_key_password);
                                 console.log(account)
                                 account.then((res) => {
