@@ -84,6 +84,7 @@ const startingGexp = () => {
         ipcRenderer.on('startGexpResponse', (event, res) => {
             console.log(res,"res");
             if(res){
+                console.log("Gexp Rest",res)
                 if(os.type() == 'Windows_NT') {
                     setTimeout(function(){
                         connectWeb3();
