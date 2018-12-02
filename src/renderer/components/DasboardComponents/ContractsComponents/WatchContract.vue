@@ -173,11 +173,11 @@
                                 contract_name: this.contractName
                             }).value();
                             console.log(contract,contract1)
-                            if(contract && contract.length > 0) {
+                            if(contract) {
                                 this.contractAddressError = "Contract Address is already exists";
                                 return false;
                             }
-                            if(contract1 && contract1.length > 0) {
+                            if(contract1) {
                                 this.contractNameError = 'Contract Name is already exists';
                             } else {
                                 try {

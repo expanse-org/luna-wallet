@@ -47,8 +47,8 @@ db.defaults({ accounts: [], contracts: [], tokens: [
         {
             "id": "DrZsGjQIZ",
             "token_address": "0xa887adb722cf15bc1efe3c6a5d879e0482e8d197",
-            "token_name": "Tokan Lab",
-            "token_symbol": "LAB2",
+            "token_name": "Token Lab",
+            "token_symbol": "LAB",
             "tokenType": "erc20",
             "decimal_places": 18,
             "color": "#fa0fa0"
@@ -56,8 +56,8 @@ db.defaults({ accounts: [], contracts: [], tokens: [
         {
             "id": "6zxjBkREl",
             "token_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
-            "token_name": "PEX TOKEN",
-            "token_symbol": "PEX2",
+            "token_name": "Pex Token",
+            "token_symbol": "PEX",
             "tokenType": "erc20",
             "decimal_places": 18,
             "color": "#0297da"
