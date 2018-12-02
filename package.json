@@ -58,7 +58,8 @@
       "icon": "build/icons/logo-luna.ico"
     },
     "linux": {
-      "icon": "build/icons/logo-luna1024x1024.icns"
+      "icon": "build/icons/logoluna1024x1024.png",
+      "category":"Office"
     },
     "publish": [
       {
