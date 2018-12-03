@@ -56,15 +56,15 @@
     },
     "win": {
       "icon": "build/icons/logo-luna.ico",
-        "target": [
-          {
-            "target": "nsis",
-            "arch": [
-              "x64",
-              "ia32"
-            ]
-          }
-        ]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
     "linux": {
       "icon": "build/icons/logo-luna1024x1024.icns"

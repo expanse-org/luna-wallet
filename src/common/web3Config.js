@@ -27,6 +27,11 @@ const actionSync = (gexpSync,isgexpSync) => {
     store.dispatch('addIsGexpSync', isgexpSync);
 };
 
+const actionSyncblock = (block) => {
+    // console.log("storee Action")
+    store.dispatch('addCurentblock', block);
+};
+
 
 const syncPeers = () => {
     console.log("syncPeers Func1");
@@ -42,6 +47,13 @@ const syncPeers = () => {
                     actionSynpeer(res);
                 }
             });
+            web3.eth.getBlockNumber().then((res) => {
+                if(res){
+                    // console.log("latest block response",res);
+                    actionSyncblock(res);
+                }
+            } );
+
             web3.eth.isSyncing(function(error, sync){
                 if(!error) {
 
