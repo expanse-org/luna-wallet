@@ -57,23 +57,23 @@
                 }
                 ipcRenderer.on('gexpLogs', (event, res) => {
                     // console.log(res, 'expr------01', this.gexplog.length);
-                    if(this.gexplog[this.gexplog.length-1] === res.replace(/\\n/g, '').substring(4))
+                    if(this.gexplog[this.gexplog.length-1] === res.replace(/\\n/g, '').substring(5))
                     {
 
-                    } else if(this.gexplog[this.gexplog.length-1] !== res.replace(/\\n/g, '').substring(4)){
+                    } else if(this.gexplog[this.gexplog.length-1] !== res.replace(/\\n/g, '').substring(5)){
                         if(this.pausegexp){
-                            this.gexplog.push(res.replace(/\\n/g, '').substring(4));
+                            this.gexplog.push(res.replace(/\\n/g, '').substring(5));
                         }
                     }
                 });
                 ipcRenderer.on('gexpLogsstder', (event, res) => {
                     // console.log(res.replace(/\\n/g, '').substring(4), 'exprerrrrr------01');
-                    if(this.gexplog[this.gexplog.length-1] === res.replace(/\\n/g, '').substring(4))
+                    if(this.gexplog[this.gexplog.length-1] === res.replace(/\\n/g, '').substring(5))
                     {
 
-                    } else if(this.gexplog[this.gexplog.length-1] !== res.replace(/\\n/g, '').substring(4)){
+                    } else if(this.gexplog[this.gexplog.length-1] !== res.replace(/\\n/g, '').substring(5)){
                         if(this.pausegexp){
-                            this.gexplog.push(res.replace(/\\n/g, '').substring(4));
+                            this.gexplog.push(res.replace(/\\n/g, '').substring(5));
                         }
                     }
                 });

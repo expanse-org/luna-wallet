@@ -209,11 +209,11 @@
                 this.intervalid1 = setInterval(() => {
                     if (this.accounts.length > 0) {
                         this.accounts.map((val) => {
-                            if(val.hash === hash) {
+                            if(val.hash == hash) {
                                 this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
                                 this.handlechangeFunds();
                             }
-                            if(val.balance > 0){
+                            if(val.balance > 0 || val.tokens){
                                 console.log(val.balance);
                                 console.log(val);
                                 var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
@@ -231,7 +231,7 @@
                     if (this.accounts.length > 0) {
                         this.total_balance = this.totalBalanceData;
                         this.accounts.map((val) => {
-                            if(val.balance > 0){
+                            if(val.balance > 0 || val.tokens){
                                 console.log(val.balance);
                                 console.log(val);
                                 this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
@@ -289,7 +289,7 @@
                     console.log(this.fundsFrom,"handlechangeFunds");
                     this.optionCurrency = [];
                     this.currencyHash = '';
-                    if(this.fromArray.length === 1) {
+                    if(this.fromArray.length == 1) {
                         this.currentArray = this.fromArray;
                         let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ parseFloat(this.fromArray[0].balance).toFixed(4)+' EXP)'};
                         this.optionCurrency.push(defaultCurr);
@@ -300,7 +300,7 @@
                         })
                     } else if(this.fromArray.length > 1){
                         this.fromArray.map((account) => {
-                            if(account.hash === this.fundsFrom.value ) {
+                            if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
                                 let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ parseFloat(account.balance).toFixed(4) +' EXP)'};
                                 this.optionCurrency.push(defaultCurr);
@@ -332,9 +332,9 @@
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
                     } else{
-                        console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
+                        //console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
                         if(parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) >= parseFloat(this.amount)){
-                            if(this.fundsFrom.value === this.fundsTo){
+                            if(this.fundsFrom.value == this.fundsTo){
                                 this.fundsToError = 'Invalid Address';
                             }else {
                                 this.modalArray = {

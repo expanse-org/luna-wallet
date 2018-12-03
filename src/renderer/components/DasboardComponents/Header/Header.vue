@@ -194,30 +194,29 @@
         },
         created(){
             let timestamp;
-            let that = this;
             // console.log(this.$store.state.gexpSync)
             console.log(this.currenciesData, "currencies")
             if(this.$store.state.gexpSync){
                 console.log(this.$store.state.gexpSync, "this.$store.state.gexpSync.currentBlock")
                 web3.eth.getBlock(this.$store.state.gexpSync.currentBlock).then((res) => {
-                    that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                    this.timeStamp = moment(res.timestamp * 1000).fromNow();
                 });
             }else {
                 syncPeers();
                 web3.eth.getBlockNumber().then((res) => {
                     if(res){
-                        // console.log("ersr",res);
+                        console.log("latest block response",res);
                         var blockNumber = res;
-                        that.totalblock = blockNumber;
+                        this.totalblock = blockNumber;
                         web3.eth.getBlock(blockNumber).then((res) => {
-                            that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                            this.timeStamp = moment(res.timestamp * 1000).fromNow();
                         });
                     }
                 } );
-                web3.eth.getBlock(that.totalblock).then((res) => {
+                web3.eth.getBlock(this.totalblock).then((res) => {
                     if(res){
-                        // console.log("web3 totalPeers", res, res.timestamp)
-                        that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                        //console.log("web3 totalPeers and getblock response", res, res.timestamp)
+                        this.timeStamp = moment(res.timestamp * 1000).fromNow();
                     }
                 });
             }
