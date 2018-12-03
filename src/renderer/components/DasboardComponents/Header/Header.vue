@@ -205,7 +205,7 @@
                 syncPeers();
                 web3.eth.getBlockNumber().then((res) => {
                     if(res){
-                        // console.log("ersr",res);
+                        console.log("latest block response",res);
                         var blockNumber = res;
                         this.totalblock = blockNumber;
                         web3.eth.getBlock(blockNumber).then((res) => {
@@ -215,7 +215,7 @@
                 } );
                 web3.eth.getBlock(this.totalblock).then((res) => {
                     if(res){
-                        // console.log("web3 totalPeers", res, res.timestamp)
+                        //console.log("web3 totalPeers and getblock response", res, res.timestamp)
                         this.timeStamp = moment(res.timestamp * 1000).fromNow();
                     }
                 });
