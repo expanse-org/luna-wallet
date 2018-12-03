@@ -97,7 +97,7 @@ const getAllAcounts = () => {
                             }
                         }
                     }
-                    if(index === accounts.length -1) {
+                    if(index == accounts.length -1) {
                         getallExpBalance();
                         getalltokenBalance();
                     }

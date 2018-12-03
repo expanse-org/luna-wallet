@@ -1,12 +1,12 @@
 {
   "name": "luna-wallet",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Farina Ashfaq <fari.ash16@gmail.com>",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
-    "build": "node .electron-vue/build.js && electron-builder",
+    "build": "node .electron-vue/build.js && electron-builder, ",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
@@ -55,7 +55,16 @@
       "icon": "build/icons/luna512x512.ico"
     },
     "win": {
-      "icon": "build/icons/logo-luna.ico"
+      "icon": "build/icons/logo-luna.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
     "linux": {
       "icon": "build/icons/logoluna1024x1024.png",

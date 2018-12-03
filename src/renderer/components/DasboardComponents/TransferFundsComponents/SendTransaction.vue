@@ -192,6 +192,7 @@
                 raw_dataToken: 0,
                 amount: 0,
                 maximumfee: 21000,
+                loading: false,
             };
         },
         components:{
@@ -294,8 +295,11 @@
                     break;
 
                     case 'expgas':
-                        console.log( evt.target.innerText, text)
-                        this.maximumfee = evt.target.innerText;
+                        var data = evt.target.innerText.split('(');
+                        var dataText = data[1].split(')');
+                        data = dataText[0].split(" ");
+                        console.log(data,"Data");
+                        this.maximumfee = data[0];
                     break;
 
                     case 'gasp':
@@ -315,6 +319,7 @@
                 console.log("From Nonce:",this.estimatedGas, this.gasPrice, this.amount);
                 if(this.password){
                     try {
+                    this.loading = true;
                         var trans_nonce;
                         var latest_transaction = db.get('transactions').filter({from: this.modalArray && this.modalArray.fundsFrom}).value();
                         latest_transaction = lodash.orderBy(latest_transaction, ['nonce'], ['desc']);
@@ -334,6 +339,7 @@
                                 console.log(response);
                             }).catch((error) => {
                             // console.log(error);
+                            this.loading = false;
                             this.passwordError = "Invalid Password";
                             return false;
                         });
@@ -351,6 +357,7 @@
                                     console.log("Error", error);
                                     if(error){
                                         console.log(error);
+                                        this.loading = false;
                                         return false;
                                     }
                                     // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce, currentDate.getTime());
@@ -361,6 +368,7 @@
                                         nonce : this.nonce,
                                         timeStamp : currentDate.getTime()
                                     }).write();
+                                    this.loading = false;
                                     $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:"+txHash+" Copied to clipboard");
                                     $('#contract_transactions_btn').hide();
                                     $('form').trigger('reset');
@@ -373,12 +381,14 @@
                                     }, 5000);
                                 });
                             }catch(e){
+                            this.loading = false;
                                 this.passwordError = "Invalid Password";
                                 return false;
                                 Raven.captureException(e);
                             }
                         } else {
                             try{
+                            this.loading = true;
                                 console.log(tokenInterface);
                                 var abiArray = tokenInterface; // From Config file
                                 var contractAddress = this.modalArray.currencyHash;
@@ -439,6 +449,7 @@
                                 web3.eth.sendSignedTransaction(serializedTx).then((res) => {
                                     if(res){
                                         console.log("res",res);
+                                        this.loading = false;
                                         $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res.transactionHash));
                                         $('.trx_alert-sucess p').css({color:'#ffffff'});
                                         $('.trx_alert-sucess').show(300).delay(5000).hide(330);
@@ -457,21 +468,25 @@
                                     }
                                 }, (err) => {
                                     console.log(err);
+                                    this.loading = false;
                                     $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
                                 });
                             }catch(e){
                                 console.log(e);
+                                this.loading = false;
                                 this.passwordError = "Invalid Password";
                                 Raven.captureException(e);
                             }
                         }
                     } catch(e) {
                         console.log("Exception",e);
+                        this.loading = false;
                         this.passwordError = "Invalid Password";
                         return false;
                     }
 
                 }else if(!this.password) {
+                    this.loading = false;
                     this.passwordError = "Enter Password";
                     // this.passwordError = "Invalid Password";
                 }
@@ -479,4 +494,3 @@
         }
     }
 </script>
-

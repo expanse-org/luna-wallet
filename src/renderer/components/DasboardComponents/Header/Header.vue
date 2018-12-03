@@ -81,7 +81,7 @@
             <div v-if="currentblockData !== highestblockData" class="bar-wrap">
                 <span v-bind:style="{width: '(currentblockData / highestblockData) * 100'+'%'}" class="bar-fill"></span>
             </div>
-            <div v-if="currentblockData" class="download-values">
+            <div v-if="currentblockData !== highestblockData && currentblockData" class="download-values">
                 <p>DOWNLOADING.. </p>
                 <span class="downloading-off">{{currentblockData? currentblockData:0}}</span>
                 <span>/</span>
@@ -150,15 +150,26 @@
         },
         computed: {
             currentblockData: function(){
-                this.cb = this.$store.state.gexpSync.currentBlock;
+                // console.log(this.$store.state.gexpSync,"this.$/ store.state.peerCount");
+                if(this.$store.state.gexpSync.currentBlock){
+                    this.cb = this.$store.state.gexpSync.currentBlock;
+                    this.totalblock = this.$store.state.gexpSync.currentBlock;
+                } else {
+                    this.cb = this.$store.state.currentblock;
+                    this.totalblock = this.$store.state.currentblock;
+                }
                 return this.cb;
             },
             highestblockData: function(){
-                this.hb = this.$store.state.gexpSync.highestBlock;
+                if(this.$store.state.gexpSync.currentBlock){
+                    this.hb = this.$store.state.gexpSync.highestBlock;
+                } else {
+                    this.hb = this.$store.state.currentblock;
+                }
                 return this.hb;
             },
             peerCountData: function(){
-                console.log(this.$store.state.peerCount, "this.$store.state.peerCount");
+                // console.log(this.$store.state.peerCount, "this.$store.state.peerCount");
                 this.pc = this.$store.state.peerCount;
                 return this.pc;
             },
@@ -194,30 +205,29 @@
         },
         created(){
             let timestamp;
-            let that = this;
             // console.log(this.$store.state.gexpSync)
-            console.log(this.currenciesData, "currencies")
+            // console.log(this.currenciesData, "currencies")
             if(this.$store.state.gexpSync){
                 console.log(this.$store.state.gexpSync, "this.$store.state.gexpSync.currentBlock")
                 web3.eth.getBlock(this.$store.state.gexpSync.currentBlock).then((res) => {
-                    that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                    this.timeStamp = moment(res.timestamp * 1000).fromNow();
                 });
             }else {
                 syncPeers();
                 web3.eth.getBlockNumber().then((res) => {
                     if(res){
-                        // console.log("ersr",res);
+                        // console.log("latest block response",res);
                         var blockNumber = res;
-                        that.totalblock = blockNumber;
+                        this.totalblock = blockNumber;
                         web3.eth.getBlock(blockNumber).then((res) => {
-                            that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                            this.timeStamp = moment(res.timestamp * 1000).fromNow();
                         });
                     }
                 } );
-                web3.eth.getBlock(that.totalblock).then((res) => {
+                web3.eth.getBlock(this.totalblock).then((res) => {
                     if(res){
-                        // console.log("web3 totalPeers", res, res.timestamp)
-                        that.timeStamp = moment(res.timestamp * 1000).fromNow();
+                        //console.log("web3 totalPeers and getblock response", res, res.timestamp)
+                        this.timeStamp = moment(res.timestamp * 1000).fromNow();
                     }
                 });
             }
