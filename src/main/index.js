@@ -42,10 +42,12 @@ function createWindow () {
   /**
    * Initial window options
    */
+   console.log(path.join(__dirname))
   mainWindow = new BrowserWindow({
     height: 763,
     useContentSize: true,
     width: 1400,
+    icon: path.join(__dirname, 'app/icons/icon.png')
   })
 
 
