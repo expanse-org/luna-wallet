@@ -36,8 +36,7 @@ export default new Router({
             path: '/gexpLogs',
             name: 'GexpLogs',
             component: gexpLogs,
-        }
-        ,{
+        },{
             path: '/',
             name: 'SplashApp',
             component: SplashApp,

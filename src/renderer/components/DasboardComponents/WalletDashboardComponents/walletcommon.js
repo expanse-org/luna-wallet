@@ -1,5 +1,3 @@
-
-
 import {getRandomColor} from '../../AccountsData/commonFunc';
 import {db, adapter, low} from '../../../../../lowdbFunc';
 import {web3, currencies, ExpApi} from '../../../../main/libs/config';
@@ -194,7 +192,7 @@ const storeAction = () => {
 const sortByEXPBalances = () => {
     // console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
     sortbyEXPBalance = unarchiveAccounts.sort(
-         (a, b) => {
+        (a, b) => {
             return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );

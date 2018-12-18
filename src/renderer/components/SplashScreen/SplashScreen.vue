@@ -224,9 +224,7 @@
                 </div>
             </div>
             <!----------error page ends------------>
-            <!----------network settings tab starts------------>
-            <!--<setting />-->
-            <!----------network settings tab ends------------>
+
             <div v-if="this.$store.state.screenState == 'downloading' || this.$store.state.screenState === 'cloudSync'"  class="launch">
                 <button @click="launchApplication" id="launchApp" class="button--moema">LAUNCH LUNA</button>
             </div>
@@ -239,7 +237,6 @@
   import {downloadGexp} from '../../../common/gexpfunc';
   import {ipcRenderer} from 'electron';
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
-  import Setting from '../SettingScreen/Setting';
 
   export default {
     name: 'Splash-screen',
@@ -248,9 +245,6 @@
            activeScreen: this.$store.state.screenState,
            networkSetting: true,
        };
-    },
-    components:{
-        'setting' : Setting,
     },
     created(){
         // this.$store.dispatch('addScreen', 'config')

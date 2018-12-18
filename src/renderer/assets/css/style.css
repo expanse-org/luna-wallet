@@ -6374,7 +6374,8 @@ FONTS
 
 .main-container {
   display: flex;
-  height: 100vh; }
+  /*height: 100vh;*/
+}
   .main-container .container-outer {
     color: #fff;
     overflow-x: hidden;
@@ -10505,6 +10506,28 @@ FONTS
             border: 1px solid #24354b;
             color: #24354b;
             cursor: pointer; }
+
+.settingsbtns .cancel {
+  margin-top: 18px;
+  height: 44px;
+  padding: 0.7em 17px 0.7em 33px;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  margin-right: 5px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border: 2px solid #ffffff;
+  background: none;
+  transition: all 900ms; }
+
+.settingsbtns .cancel:hover {
+  background-color: #cb4d43;
+  border: 2px solid #cb4d43;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center; }
 
 .svg-1 .st012 {
   fill-opacity: 0.5; }

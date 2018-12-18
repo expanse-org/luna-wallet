@@ -456,7 +456,7 @@
                                         db.get('transactions').push({
                                             id : shortid.generate(),
                                             from: this.modalArray.fundsFrom,
-                                            transactionHash: res,
+                                            transactionHash: res.transactionHash,
                                             nonce : this.nonce,
                                             timeStamp : currentDate.getTime()
                                         }).write();
