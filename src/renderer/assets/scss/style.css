@@ -6029,8 +6029,7 @@ FONTS
   opacity: 0.9; }
 
 .main-container {
-  display: flex;
-  height: 100vh; }
+  display: flex; }
   .main-container .container-outer {
     color: #fff;
     overflow-x: hidden;

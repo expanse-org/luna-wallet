@@ -153,6 +153,18 @@ const runGexp = (path) => {
 
 
 
+ipcMain.on('killGexp', (event) => {
+    try{
+        let res = gexpProc.kill();
+        console.log(res);
+        setTimeout(function(){
+            event.sender.send('killGexpresponse', res);
+        },500)
+    }catch(e){
+        Raven.captureException(e);
+    }
+});
+
 const template = [
     {
         label: 'Edit',
@@ -326,7 +338,8 @@ function startMainNet(){
             if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
-                var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
+                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
+                // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
                 console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true
@@ -366,7 +379,8 @@ function startTestNet(){
             if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
-                var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils', '--testnet']
+                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils', '--testnet'];
+                // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils', '--testnet']
                 console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true

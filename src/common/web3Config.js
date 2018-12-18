@@ -40,6 +40,9 @@ const syncPeers = () => {
     $('.launch').show();
     var that = this;
     setInterval(function(){
+        if(web3 == undefined) {
+            startConnectWeb();
+        }
         try{
             web3.eth.net.getPeerCount().then((res) => {
                 // console.log("sync if true",res);
