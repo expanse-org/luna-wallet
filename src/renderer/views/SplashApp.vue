@@ -204,3 +204,113 @@
 <style>
         @import "../../../static/modalcomponent.css";
 </style>
+
+<style>
+    /* network settings tab starts */
+    .loadingMain{
+        position: relative;
+    }
+    .network-settings .error-message {
+        padding: 6px 10px !important;
+    }
+
+    .network-settings{
+        background: #204854;
+        width: 40%;
+        position: absolute;
+        bottom: 120px;
+        right: 0;
+        transition: all .3s ease;
+    }
+    .network-settings .content{
+        position: relative;
+        padding: 47px 33px;
+        color: #ffffff;
+        transition: all .3s ease;
+    }
+    .network-settings .content .open-btn{
+        padding: 10px;
+        background: #204854;
+        border-radius: 5px 0 0 5px;
+        position: absolute;
+        bottom: 0;
+        left: -45px;
+        cursor: pointer;
+    }
+    .network-settings .content .open-btn .set-wheel {
+        fill: #fff;
+        fill-rule: evenodd;
+    }
+    h2{
+        font-size: 18px;
+    }
+    .input{
+        margin-top: 0;
+    }
+    .close-network{
+        width: 0;
+    }
+    .close-network .content{
+        padding: 0;
+    }
+    .close-network .content h2{
+        display: none;
+    }
+    /* network settings tab ends */
+    .update-content{
+        padding: 47px 86px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+    .update-content .cancel{
+        width: 24px;
+        height: 24px;
+        background: #d7523f;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: absolute;
+        top: 3px;
+        right: 3px;
+    }
+    .close {
+        fill: #540000;
+        fill-rule: evenodd;
+    }
+    .update-content .logo-luna{
+        margin-bottom: 20px;
+    }
+    .update-content h1{
+        font-size: 18px;
+        color: #ffffff;
+        margin-bottom: 28px;
+    }
+    .update-content h2{
+        font-size: 14px;
+        color: #ffffff;
+        margin-bottom: 28px;
+    }
+    .update-content h2 span{
+        font-weight: bold;
+    }
+    .update-content button {
+        outline:none;
+        border:3px solid #d7523f;
+        border-radius: 25px;
+        font-size: 16px;
+        line-height:25px;
+        color: #ffffff;
+        background-color: inherit;
+        padding:10px 35px;
+        transition:0.3s;
+        cursor: pointer;
+    }
+    .update-content button:hover{
+        background-color: #d7523f;
+        transition:0.3s;
+    }
+</style>
