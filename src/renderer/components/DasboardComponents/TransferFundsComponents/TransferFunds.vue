@@ -210,13 +210,13 @@
                     if (this.accounts.length > 0) {
                         this.accounts.map((val) => {
                             if(val.hash == hash) {
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
                                 this.handlechangeFunds();
                             }
                             if(val.balance > 0 || val.tokens){
                                 console.log(val.balance);
                                 console.log(val);
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -234,9 +234,9 @@
                             if(val.balance > 0 || val.tokens){
                                 console.log(val.balance);
                                 console.log(val);
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
                                 this.handlechangeFunds();
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP)'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -291,10 +291,10 @@
                     this.currencyHash = '';
                     if(this.fromArray.length == 1) {
                         this.currentArray = this.fromArray;
-                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ parseFloat(this.fromArray[0].balance).toFixed(4)+' EXP)'};
+                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
                         this.optionCurrency.push(defaultCurr);
                         this.fromArray[0].token_icons.map((acc_token) => {
-                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +parseFloat(acc_token.balance).toFixed(4) + ' )'};
+                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
@@ -302,10 +302,10 @@
                         this.fromArray.map((account) => {
                             if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
-                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ parseFloat(account.balance).toFixed(4) +' EXP)'};
+                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP)'};
                                 this.optionCurrency.push(defaultCurr);
                                 account.token_icons.map((acc_token) => {
-                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +parseFloat(acc_token.balance).toFixed(4) + ' )'};
+                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;
                                 })
