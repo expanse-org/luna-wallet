@@ -267,9 +267,9 @@
             handlesendall(){
                 if(this.currencyHash) {
                     // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
-                    this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
+                    this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
                 } else {
-                    this.amount = this.totalBalanceData;
+                    this.amount = parseFloat(this.totalBalanceData) - parseFloat("0.00"+this.price);
                 }
                 this.handleAmount();
             },
@@ -278,7 +278,7 @@
                 setTimeout(() => {
                     if(this.currencyHash && this.sendAllCheck) {
                         // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
-                        this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
+                        this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
                         this.handleAmount();
                     }
                 }, 200)
