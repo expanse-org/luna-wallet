@@ -47,6 +47,7 @@ function createWindow () {
     height: 763,
     useContentSize: true,
     width: 1400,
+    icon: path.join(__dirname, 'app/icons/icon.png')
   })
 
 
