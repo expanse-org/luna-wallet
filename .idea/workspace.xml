@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue" />
-    </list>
+    <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -25,7 +21,7 @@
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/SendTransaction.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3074">
-              <caret line="282" column="53" lean-forward="true" selection-start-line="282" selection-start-column="53" selection-end-line="282" selection-end-column="53" />
+              <caret line="282" column="53" lean-forward="false" selection-start-line="282" selection-start-column="53" selection-end-line="282" selection-end-column="53" />
               <folding>
                 <marker date="1545194414403" expanded="true" signature="11665:12066" ph="{&quot;tokenData&quot;: ''...}" />
               </folding>
@@ -36,8 +32,8 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="9" column="73" lean-forward="true" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
+            <state relative-caret-position="135">
+              <caret line="9" column="73" lean-forward="false" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -46,8 +42,8 @@
       <file leaf-file-name="TransferFunds.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="507">
-              <caret line="279" column="133" lean-forward="false" selection-start-line="279" selection-start-column="133" selection-end-line="279" selection-end-column="133" />
+            <state relative-caret-position="-567">
+              <caret line="294" column="14" lean-forward="true" selection-start-line="294" selection-start-column="14" selection-end-line="294" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -137,8 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prod_app_directory</find>
-      <find>===</find>
       <find>that</find>
       <find>no</find>
       <find>Toke</find>
@@ -167,6 +161,8 @@
       <find>handleAmount</find>
       <find>con</find>
       <find>total_coins</find>
+      <find>setTimeout</find>
+      <find>console</find>
     </findStrings>
     <replaceStrings>
       <replace>connectWeb3</replace>
@@ -619,12 +615,12 @@
       <workItem from="1545278777134" duration="3115000" />
       <workItem from="1545464905452" duration="237000" />
       <workItem from="1545543549073" duration="869000" />
-      <workItem from="1546143144939" duration="5340000" />
+      <workItem from="1546143144939" duration="5834000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="739385000" />
+    <option name="totallyTimeSpent" value="739879000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -637,7 +633,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1584" height="1341" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18298145" sideWeight="0.9088729" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -647,7 +642,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985553" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28491172" sideWeight="0.49456173" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28491172" sideWeight="0.49456173" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19034483" sideWeight="0.0911271" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1003,28 +998,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="9" column="73" lean-forward="true" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/SendTransaction.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3074">
-          <caret line="282" column="53" lean-forward="true" selection-start-line="282" selection-start-column="53" selection-end-line="282" selection-end-column="53" />
+          <caret line="282" column="53" lean-forward="false" selection-start-line="282" selection-start-column="53" selection-end-line="282" selection-end-column="53" />
           <folding>
             <marker date="1545194414403" expanded="true" signature="11665:12066" ph="{&quot;tokenData&quot;: ''...}" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="73" lean-forward="false" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TransferFundsComponents/TransferFunds.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="279" column="133" lean-forward="false" selection-start-line="279" selection-start-column="133" selection-end-line="279" selection-end-column="133" />
+        <state relative-caret-position="-567">
+          <caret line="294" column="14" lean-forward="true" selection-start-line="294" selection-start-column="14" selection-end-line="294" selection-end-column="14" />
           <folding />
         </state>
       </provider>
