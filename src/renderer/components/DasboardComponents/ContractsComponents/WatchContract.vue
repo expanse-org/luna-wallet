@@ -37,10 +37,11 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'">
-                        <input class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></input>
+                        <textarea class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
-                                <span class="mandatory">*</span>
+                                <span class="details">Contract Abi</span>
+                                <!--<span class="mandatory">*</span>-->
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -97,10 +98,10 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'" >
-                        <input class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></input>
+                        <textarea class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
-                                <span class="mandatory">*</span>
+                                <span class="details">Enter Your Contract Abi Json.</span>
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -253,5 +254,9 @@
 </script>
 
 <style>
+
+    .json-abi{
+        width: 100%!important;
+    }
 
 </style>
