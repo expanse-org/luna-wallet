@@ -105,7 +105,7 @@
                                             </div>
                                             <p>
                                                 This is the most amount of money that might be used to process this transaction. Your transaction will be mined probably
-                                                within 30 seconds.
+                                                {{timeText}}
                                             </p>
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@
                 amount: 0,
                 currencyHash: '',
                 sendAllCheck: '',
-                price: '93',
+                price: '118',
                 sendFundsData: '',
                 total_coins: 0,
                 fundsFromError: false,
@@ -185,12 +185,30 @@
                 defaultoptionCurrency: '',
                 loading: true,
                 loading1: false,
+                timeText: 'usually within a minute.',
                 getRandomColor,
             };
         },
         components:{
             'sendTransaction': SendTransaction,
             'multiselect': Multiselect,
+        },
+        watch: {
+            price: function (val) {
+                if(this.price>=170) {
+                   this.timeText='within 30 seconds.';
+                }
+                if(this.price>=130 && this.price<170) {
+                   this.timeText='usually within a minute.';
+                }
+                if(this.price <130 && this.price>53) {
+                   this.timeText='likely within a few minutes.';
+                }
+                this.handlepriceChange();
+            },
+            amount: function (val) {
+                this.handleAmount();
+            },
         },
         computed: {
             accounts() {
@@ -204,7 +222,7 @@
         },
         created(){
             var hash = this.$router.history.current.query.hash;
-            console.log(hash);
+            // console.log(hash);
             if(hash) {
                 this.intervalid1 = setInterval(() => {
                     if (this.accounts.length > 0) {
@@ -214,8 +232,8 @@
                                 this.handlechangeFunds();
                             }
                             if(val.balance > 0 || val.tokens){
-                                console.log(val.balance);
-                                console.log(val);
+                                // console.log(val.balance);
+                                // console.log(val);
                                 var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
@@ -232,8 +250,8 @@
                         this.total_balance = this.totalBalanceData;
                         this.accounts.map((val) => {
                             if(val.balance > 0 || val.tokens){
-                                console.log(val.balance);
-                                console.log(val);
+                                // console.log(val.balance);
+                                // console.log(val);
                                 this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
                                 this.handlechangeFunds();
                                 var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP)'};
@@ -255,29 +273,36 @@
                 this.$modal.hide('sendtransactionmodal');
             },
             handleAmount(){
+                // console.log("dsadsadas")
                 setTimeout(() => {
                     var price = '0.00'+this.price;
-                    this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                    if(this.currencyHash && this.sendAllCheck) {
+                        this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
+                        this.total_coins = this.currencyHash.text.split("(")[1].split(" ")[0];
+                    } else {
+                        this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                    }
                 }, 200)
             },
             handlepriceChange(){
                 var price = '0.00'+this.price;
-                this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                if(this.currencyHash && this.sendAllCheck) {
+                    this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
+                    this.total_coins = this.currencyHash.text.split("(")[1].split(" ")[0];
+                } else {
+                    this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                }
             },
             handlesendall(){
-                if(this.currencyHash) {
-                    // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
+                if(this.currencyHash && this.currencyHash.text) {
                     this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
-                } else {
-                    this.amount = parseFloat(this.totalBalanceData) - parseFloat("0.00"+this.price);
                 }
                 this.handleAmount();
             },
             handlecurrchange(){
-                console.log("handlecurrchange");
+                // console.log("handlecurrchange");
                 setTimeout(() => {
-                    if(this.currencyHash && this.sendAllCheck) {
-                        // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
+                    if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
                         this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
                         this.handleAmount();
                     }
@@ -286,12 +311,13 @@
             handlechangeFunds(){
                 this.loading1= true;
                 setTimeout(() => {
-                    console.log(this.fundsFrom,"handlechangeFunds");
+                    // console.log(this.fundsFrom,"handlechangeFunds");
                     this.optionCurrency = [];
                     this.currencyHash = '';
                     if(this.fromArray.length == 1) {
                         this.currentArray = this.fromArray;
                         let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
+                        this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
                         this.optionCurrency.push(defaultCurr);
                         this.fromArray[0].token_icons.map((acc_token) => {
                             var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
@@ -299,10 +325,11 @@
                             this.loading1= false;
                         })
                     } else if(this.fromArray.length > 1){
-                        this.fromArray.map((account) => {
+                        this.fromArray.map((account, index) => {
                             if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
                                 let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP)'};
+                                this.currencyHash = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP)'};
                                 this.optionCurrency.push(defaultCurr);
                                 account.token_icons.map((acc_token) => {
                                     var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
@@ -311,6 +338,11 @@
                                 })
                             }
                         })
+                    }
+                    this.amount = 0;
+                    if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
+                        this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
+                        this.handleAmount();
                     }
                 }, 200)
             },
@@ -327,7 +359,7 @@
                 this.total_coinsError= false;
             },
             handleSendFund(){
-                console.log(this.fundsFrom.value, this.currencyHash.value , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
+                // console.log(this.fundsFrom.value, this.currencyHash.value , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
                 if(this.fundsFrom.value && this.fundsTo && this.amount && this.currencyHash.value ){
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
