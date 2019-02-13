@@ -64,8 +64,10 @@ function createWindow () {
         // console.log("res:gexpresgexpresgexpres",res);
         event.sender.send('startGexpResponse', res)
     });
+    mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
-  mainWindow.on('closed', () => {
+
+    mainWindow.on('closed', () => {
     mainWindow = null;
     gexpProc.kill();
       app.quit();
