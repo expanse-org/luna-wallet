@@ -1,6 +1,6 @@
 import {getRandomColor} from '../../AccountsData/commonFunc';
 import {db, adapter, low} from '../../../../../lowdbFunc';
-import {web3, currencies, ExpApi} from '../../../../main/libs/config';
+import {web3, currencies, ExpApi, prod_app_directory} from '../../../../main/libs/config';
 import Raven from 'raven';
 import * as $ from 'jquery';
 import _ from 'underscore';
@@ -9,6 +9,8 @@ import object_hash from 'object-hash';
 import numberToBN from 'number-to-bn';
 import axios from 'axios';
 import {tokens, tokens_list_hash, updated_tokens_list_hash} from "../TokensComponents/listTokenfunc";
+import shell from "shelljs";
+import os from "os";
 
 var watchOnlyAccounts = [];
 var archiveAccounts = [];
@@ -20,6 +22,14 @@ var sortbyTOKENBalance = [];
 let balance = 0;
 let total_balance = 0;
 
+const fixpath = () =>{
+    if((shell.ls('') && shell.ls('')[0]) === 'gexp'){
+        shell.cd('..');
+        shell.cd('..');
+    }
+};
+
+fixpath();
 
 const checkupdate = () => {
     web3.eth.getAccounts(function (error, accounts) {
@@ -30,6 +40,8 @@ const checkupdate = () => {
 }
 
 const getAllAcounts = () => {
+    fixpath();
+    console.log(shell.ls(''),"getAllAcounts.js =================");
     archiveAccounts = [];
     unarchiveAccounts = [];
     addresshashAccounts = [];
@@ -40,7 +52,6 @@ const getAllAcounts = () => {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
                     addresshashAccounts.push(account_hash.toLowerCase());
-                    // console.log(db.getState());
                     let account = db2.get('accounts').find({
                         hash: account_hash.toLowerCase()
                     }).value();
@@ -109,6 +120,7 @@ const getAllAcounts = () => {
 };
 
 const getArchiveaccounts = () => {
+    fixpath();
     store.dispatch('addUserAcc', []);
     archiveAccounts = [];
     let db2 = low(adapter);
@@ -134,6 +146,7 @@ const accAdddb = (account_hash , key) => {
 };
 
 const getallExpBalance = () => {
+    fixpath();
     unarchiveAccounts.map((account, index) => {
         web3.eth.getBalance(account.hash).then((bal) => {
             balance = web3.utils.fromWei(bal, "ether");
@@ -150,6 +163,7 @@ const getallExpBalance = () => {
 };
 
 const getalltokenBalance = () => {
+    fixpath();
     unarchiveAccounts.map((account, index) => {
         get_tokens_balance_by_address(account.hash).then((res) => {
             if(res){
@@ -175,6 +189,7 @@ const storeActionArchive = () => {
 }
 
 const storeAction = () => {
+    fixpath();
     let updated_account_list_hash, updated_watch_list_hash;
     let account_list_hash = object_hash(unarchiveAccounts);
     if (account_list_hash == updated_account_list_hash) {
@@ -190,6 +205,7 @@ const storeAction = () => {
 }
 
 const sortByEXPBalances = () => {
+    fixpath();
     // console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
     sortbyEXPBalance = unarchiveAccounts.sort(
         (a, b) => {
@@ -201,6 +217,7 @@ const sortByEXPBalances = () => {
 };
 
 const storeWatchAccounts = () => {
+    fixpath();
     let  updated_watch_list_hash;
     let watch_list_hash = object_hash(watchOnlyAccounts);
     if (watch_list_hash == updated_watch_list_hash) {
@@ -227,6 +244,7 @@ const sortByTokenBalances = () => {
 
 
 const get_tokens_balance_by_address = (accountHash = '') => {
+    fixpath();
     return new Promise(resolve => {
         let tokens = db.get('tokens').value();
         var accounts_addresses = [];
@@ -279,6 +297,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
 
 
 const getAllWatchOnlyAcounts = () => {
+    fixpath();
     watchOnlyAccounts = [];
     let color ;
     let db2 = low(adapter);

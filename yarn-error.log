@@ -17,7 +17,7 @@ npm manifest:
   {
     "name": "luna-wallet",
     "version": "0.0.1",
-    "author": "Farina Ashfaq <fari.ash16@gmail.com>",
+    "author": "Expanse.tech <christopher@expanse.tech>",
     "description": "An electron-vue project",
     "license": null,
     "main": "./dist/electron/main.js",
