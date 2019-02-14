@@ -415,7 +415,7 @@
 <style>
 
     .settextwid {
-        display: inline;
+        display: inline!important;
     }
 
     .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {
@@ -503,4 +503,12 @@
         padding: 0px 0px 0px 15px!important;
     }
 
+    #send{
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    #send .progressBar{
+        width: 100%;
+    }
 </style>
