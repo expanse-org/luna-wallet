@@ -258,7 +258,7 @@
             try{
                 // web3 = startConnectWeb();
                 // Sending Data to Main js For further Process
-                console.log(web3.eth.getAccounts());
+                // console.log(web3.eth.getAccounts());
                 web3.eth.getAccounts().then((accounts, error) => {
                     if(accounts && accounts.length > 0){
                         // ipcRender

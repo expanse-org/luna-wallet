@@ -41,7 +41,7 @@ const checkupdate = () => {
 
 const getAllAcounts = () => {
     fixpath();
-    console.log(shell.ls(''),"getAllAcounts.js =================");
+    // console.log(shell.ls(''),"getAllAcounts.js =================");
     archiveAccounts = [];
     unarchiveAccounts = [];
     addresshashAccounts = [];
@@ -57,7 +57,7 @@ const getAllAcounts = () => {
                     }).value();
                     if(account){
                         if(account && !account.accountTitle) {
-                            console.log(account);
+                            // console.log(account);
                             db2.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
                                 .assign({accountTitle: "Account "+index }).write();
                         }
@@ -81,12 +81,12 @@ const getAllAcounts = () => {
                             hash: account_hash
                         }).value();
                         if(!accountTest) {
-                            console.log(account_hash ,"else Account in Db account_hash", account, accountTest);
+                            // console.log(account_hash ,"else Account in Db account_hash", account, accountTest);
                             let accountdata = accAdddb(account_hash, index);
                             unarchiveAccounts.push(accountdata);
                         }else {
                             if(accountTest && !accountTest.accountTitle) {
-                                console.log(account);
+                                // console.log(account);
                                 db2.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
                                     .assign({accountTitle: "Account "+index }).write();
                             }
@@ -156,7 +156,7 @@ const getallExpBalance = () => {
             store.dispatch('addTotalBalance',total_balance);
             unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index]);
         }, (error) => {
-            console.log(error, "getallExpBalance");
+            // console.log(error, "getallExpBalance");
             Raven.captureException(error);
         });
     });
@@ -172,7 +172,7 @@ const getalltokenBalance = () => {
                 unarchiveAccounts[index] = Object.assign({tokens: false}, unarchiveAccounts[index]);
             }
         }, (error) => {
-            console.log(error, "getalltokenBalance");
+            // console.log(error, "getalltokenBalance");
             Raven.captureException(error);
         });
         if(index == unarchiveAccounts.length-1){
@@ -183,6 +183,7 @@ const getalltokenBalance = () => {
         }
     });
 };
+
 
 const storeActionArchive = () => {
     store.dispatch('addUserAcc', archiveAccounts);
@@ -260,7 +261,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                         data: contractData
                     }, function (err, result) {
                         if (result) {
-                            // console.log(result, "result");
+                            console.log(result, accountHash, "result");
                             var tokens = numberToBN(result); // Convert the result to a usable number string
                             // console.log(tokens, "tokens");
                             var balance = web3.utils.fromWei(tokens, 'ether');
@@ -295,6 +296,26 @@ const get_tokens_balance_by_address = (accountHash = '') => {
 };
 
 
+const getallwatchtokenBalance = () => {
+    fixpath();
+    watchOnlyAccounts.map((account, index) => {
+        get_tokens_balance_by_address(account.hash).then((res) => {
+            if(res){
+                watchOnlyAccounts[index] = Object.assign({token_icons: res, tokens: true}, watchOnlyAccounts[index]);
+            } else {
+                watchOnlyAccounts[index] = Object.assign({tokens: false}, watchOnlyAccounts[index]);
+            }
+        }, (error) => {
+            // console.log(error, "getalltokenBalance");
+            Raven.captureException(error);
+        });
+        if(index == watchOnlyAccounts.length-1){
+            setTimeout(() =>{
+                storeWatchAccounts();
+            }, 2000);
+        }
+    });
+};
 
 const getAllWatchOnlyAcounts = () => {
     fixpath();
@@ -320,16 +341,17 @@ const getAllWatchOnlyAcounts = () => {
                             .assign({ color: color }).write();
                     }
                     account = Object.assign({balance: balance}, account);
+                    console.log(account, "account watch only");
                     watchOnlyAccounts.push(account);
-                    if(index == address_accounts.length-1){
-                        setTimeout(() =>{
-                            storeWatchAccounts();
-                        }, 2000);
-                    }
                 }, (error) => {
                     console.log(error, "getExpBalance");
                     Raven.captureException(error);
                 });
+                if(index == address_accounts.length-1){
+                    setTimeout(() =>{
+                        getallwatchtokenBalance();
+                    }, 2000);
+                }
             });
         }
     } catch (e) {
