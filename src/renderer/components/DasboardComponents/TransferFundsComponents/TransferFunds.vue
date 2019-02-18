@@ -104,8 +104,10 @@
                                                 <span>FASTER</span>
                                             </div>
                                             <p>
-                                                This is the most amount of money that might be used to process this transaction. Your transaction will be mined probably
-                                                {{timeText}}
+                                                <label class="settextwid">
+                                                    This is the most amount of money that might be used to process this transaction. Your transaction will be mined probably
+                                                    {{timeText}}
+                                                </label>
                                             </p>
                                         </div>
                                     </div>
@@ -115,8 +117,9 @@
                                     <div class="data hide">
                                         <label>Data</label>
                                         <textarea rows="4" v-model="sendFundsData" @focus="handleFocus" class="sendFundsData"></textarea>
-                                        <p>You can add extra data to send along with your transaction. If you don't
+                                        <p> You can add extra data to send along with your transaction. If you don't
                                             know what this is then don't touch it or bad things may happen.
+
                                         </p>
                                     </div>
                                 </div>
@@ -410,6 +413,11 @@
 </style>
 
 <style>
+
+    .settextwid {
+        display: inline!important;
+    }
+
     .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {
         padding: 0px;
     }
@@ -495,4 +503,12 @@
         padding: 0px 0px 0px 15px!important;
     }
 
+    #send{
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    #send .progressBar{
+        width: 100%;
+    }
 </style>

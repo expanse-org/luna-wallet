@@ -47,7 +47,6 @@ function createWindow () {
     height: 763,
     useContentSize: true,
     width: 1400,
-    icon: path.join(__dirname, 'app/icons/icon.png')
   })
 
 
@@ -65,8 +64,10 @@ function createWindow () {
         // console.log("res:gexpresgexpresgexpres",res);
         event.sender.send('startGexpResponse', res)
     });
+    mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
-  mainWindow.on('closed', () => {
+
+    mainWindow.on('closed', () => {
     mainWindow = null;
     gexpProc.kill();
       app.quit();

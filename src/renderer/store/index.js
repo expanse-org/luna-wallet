@@ -81,7 +81,7 @@ const store = new Vuex.Store({
       state.editTokenHash = edittokenhash;
     },
     pushTokenList (state, tokenlist) {
-      state.tokenList = tokenlist;
+      state.tokenList = Object.assign({}, tokenlist);
     },
     pushAcdcurrency (state, acdcurrency) {
       state.ac_dcurrency = acdcurrency;

@@ -430,7 +430,7 @@
             importAccFile(){
                 console.log('openFile');
                 this.fileError = false;
-                var input = event.target;
+                var input = event.target || event.dataTransfer;
                 this.FileName= event.target.files[0].name;
                 var clientInfo = getClientInfo();
                 var reader = new FileReader();
