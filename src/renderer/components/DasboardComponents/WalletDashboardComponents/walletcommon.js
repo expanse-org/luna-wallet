@@ -11,6 +11,7 @@ import axios from 'axios';
 import {tokens, tokens_list_hash, updated_tokens_list_hash} from "../TokensComponents/listTokenfunc";
 import shell from "shelljs";
 import os from "os";
+import shortid from "shortid";
 
 var watchOnlyAccounts = [];
 var archiveAccounts = [];
@@ -21,6 +22,8 @@ var sortbyTOKENBalance = [];
 // var web3 = startConnectWeb();
 let balance = 0;
 let total_balance = 0;
+let Lab_balance = 0;
+let PEX_balance = 0;
 
 const fixpath = () =>{
     if((shell.ls('') && shell.ls('')[0]) === 'gexp'){
@@ -108,6 +111,8 @@ const getAllAcounts = () => {
                     }
                     if(index == accounts.length -1) {
                         getallExpBalance();
+                        Lab_balance = 0;
+                        PEX_balance = 0;
                         getalltokenBalance();
                     }
                 });
@@ -161,29 +166,6 @@ const getallExpBalance = () => {
         });
     });
 };
-
-const getalltokenBalance = () => {
-    fixpath();
-    unarchiveAccounts.map((account, index) => {
-        get_tokens_balance_by_address(account.hash).then((res) => {
-            if(res){
-                unarchiveAccounts[index] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[index]);
-            } else {
-                unarchiveAccounts[index] = Object.assign({tokens: false}, unarchiveAccounts[index]);
-            }
-        }, (error) => {
-            // console.log(error, "getalltokenBalance");
-            Raven.captureException(error);
-        });
-        if(index == unarchiveAccounts.length-1){
-            setTimeout(() =>{
-                store.dispatch('addTotalBalance',total_balance);
-                sortByEXPBalances();
-            }, 1000);
-        }
-    });
-};
-
 
 const storeActionArchive = () => {
     store.dispatch('addUserAcc', archiveAccounts);
@@ -243,6 +225,41 @@ const sortByTokenBalances = () => {
     // console.log(sortbyTOKENBalance ,"unarchiveAccounts sortbyTOKENBalance")
 };
 
+const getalltokenBalance = () => {
+    fixpath();
+    unarchiveAccounts.map((account, index) => {
+        get_tokens_balance_by_address(account.hash).then((res) => {
+            if(res){
+                unarchiveAccounts[index] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[index]);
+                var color = getRandomColor();
+                let token = db.get('tokens').find({ token_address: res[0].tokenHash }).value();
+                if(!token){
+                    db.get('tokens').assign().push({
+                        id : shortid.generate(),
+                        token_address: res[0].tokenHash,
+                        token_name : res[0].token_name,
+                        token_symbol: res[0].token_symbol,
+                        tokenType: res[0].balance,
+                        decimal_places: res[0].decimal_places,
+                        balance: res[0].balance,
+                        color: color
+                    }).write();
+                }
+            } else {
+                unarchiveAccounts[index] = Object.assign({tokens: false}, unarchiveAccounts[index]);
+            }
+        }, (error) => {
+            // console.log(error, "getalltokenBalance");
+            Raven.captureException(error);
+        });
+        if(index == unarchiveAccounts.length-1){
+            setTimeout(() =>{
+                store.dispatch('addTotalBalance',total_balance);
+                sortByEXPBalances();
+            }, 1000);
+        }
+    });
+};
 
 const get_tokens_balance_by_address = (accountHash = '') => {
     fixpath();
@@ -261,9 +278,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                         data: contractData
                     }, function (err, result) {
                         if (result) {
-                            console.log(result, accountHash, "result");
                             var tokens = numberToBN(result); // Convert the result to a usable number string
-                            // console.log(tokens, "tokens");
                             var balance = web3.utils.fromWei(tokens, 'ether');
                             if (balance > 0) {
                                 accounts_addresses.push({
@@ -271,16 +286,15 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                                     color: tokenHash.color,
                                     token_symbol: tokenHash.token_symbol,
                                     token_name: tokenHash.token_name,
+                                    decimal_places: tokenHash.decimal_places,
                                     balance: balance
                                 });
-                                // console.log('accounts_addresses', accounts_addresses);
                             }
                         }
                     });
                     if (key == tokens.length - 1) {
                         setTimeout(function () {
-                            resolve(accounts_addresses.length > 0 ? accounts_addresses :
-                                false);
+                            resolve(accounts_addresses.length > 0 ? accounts_addresses :false);
                         }, 1000)
 
                     }
@@ -302,6 +316,20 @@ const getallwatchtokenBalance = () => {
         get_tokens_balance_by_address(account.hash).then((res) => {
             if(res){
                 watchOnlyAccounts[index] = Object.assign({token_icons: res, tokens: true}, watchOnlyAccounts[index]);
+                var color = getRandomColor();
+                let token = db.get('tokens').find({ token_address: res[0].tokenHash }).value();
+                if(!token){
+                    db.get('tokens').assign().push({
+                        id : shortid.generate(),
+                        token_address: res[0].tokenHash,
+                        token_name : res[0].token_name,
+                        token_symbol: res[0].token_symbol,
+                        tokenType: res[0].balance,
+                        decimal_places: res[0].decimal_places,
+                        balance: res[0].balance,
+                        color: color
+                    }).write();
+                }
             } else {
                 watchOnlyAccounts[index] = Object.assign({tokens: false}, watchOnlyAccounts[index]);
             }
@@ -341,7 +369,7 @@ const getAllWatchOnlyAcounts = () => {
                             .assign({ color: color }).write();
                     }
                     account = Object.assign({balance: balance}, account);
-                    console.log(account, "account watch only");
+                    // console.log(account, "account watch only");
                     watchOnlyAccounts.push(account);
                 }, (error) => {
                     console.log(error, "getExpBalance");

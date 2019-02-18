@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="account && account.accountTitle" v-for="(account, key ) in WatchAccounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'notwatch')">
+            <div v-if="account && account.accountTitle" v-for="(account, key ) in WatchAccounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'watch')">
                 <div class="img">
                     <div v-if="account.tokens && (account.token_icons.length > 0 && account.token_icons.length < 3)" v-for="(ac_tokens, key ) in account.token_icons" class="icons">
                         <svg :class="'svg-1 svg'+ parseInt(key + 1)" v-bind:style="{fill: ac_tokens.color, enableBackground: 'new 0 0 43 43'}"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
