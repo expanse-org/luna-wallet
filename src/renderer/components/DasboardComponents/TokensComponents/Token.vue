@@ -72,7 +72,7 @@
                                    </div>
                                </div>
                            </div>
-                            <div class="token_value" >{{token.balance}}</div>
+                            <div class="token_value" >{{token.balance? token.balance: 0}}</div>
                         </div>
                     </div>
                     <div class="contractinfo">
