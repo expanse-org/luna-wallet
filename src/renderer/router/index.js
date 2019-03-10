@@ -19,6 +19,8 @@ import ViewAccount from '../components/DasboardComponents/WalletDashboardCompone
 import ContractDetails from '../components/DasboardComponents/ContractsComponents/ContractDetails'
 import Transactiondetail from '../components/DasboardComponents/WalletDashboardComponents/Transactiondetail'
 import EventDetails from '../components/DasboardComponents/ContractsComponents/EventDetails'
+import Tokenlab from '../components/DasboardComponents/TokenLabComponents/Tokenlab'
+import contractData from '../components/DasboardComponents/TokenLabComponents/Components/contractData'
 import SplashApp from '../views/SplashApp'
 import MainApp from '../views/MainApp'
 import AccountApp from '../views/AccountApp'
@@ -96,6 +98,11 @@ export default new Router({
                             component: Token
                         },
                         {
+                            path: '/tokenlab',
+                            name: 'TokenLAB',
+                            component: Tokenlab
+                        },
+                        {
                             path: '/contracts',
                             name: 'Contracts',
                             component: Contracts
@@ -129,6 +136,11 @@ export default new Router({
                             path: '/contractdetails',
                             name: 'contractdetails',
                             component: ContractDetails
+                        },
+                        {
+                            path: '/contractdata',
+                            name: 'Contract Data',
+                            component: contractData
                         },
                         {
                             path: '/transactiondetails',
