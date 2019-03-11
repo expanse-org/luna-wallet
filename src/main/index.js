@@ -4,11 +4,13 @@ import shelljs from 'shelljs';
 var path = require('path')
 const low = require('lowdb')
 
+import * as $ from 'jquery';
 import {production} from "./libs/config";
 import appPath from 'path';
 import Raven from 'raven';
 import solc from 'solc';
 import os from 'os';
+import {connectWeb3} from "../common/web3Config";
 const { autoUpdater } = require("electron-updater");
 
 var gexpProc ;
@@ -126,6 +128,9 @@ const runGexp = (path) => {
                     let textChunk = data.toString('utf8');
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
+                            if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "WebSocket" && data.toString('utf8').split(' ')[4] === "opened" ){
+                                mainWindow.webContents.send('connectwebgexp', true);
+                            }
                         }
 
                         // process utf8 text chunk

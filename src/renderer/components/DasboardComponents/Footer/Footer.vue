@@ -67,7 +67,7 @@
                     }
                 });
                 ipcRenderer.on('gexpLogsstder', (event, res) => {
-                    // console.log(res.replace(/\\n/g, '').substring(4), 'exprerrrrr------01');
+                    // console.log(res, 'expr------01', 'exprerrrrr------01');
                     if(this.gexplog[this.gexplog.length-1] === res.replace(/\\n/g, '').substring(5))
                     {
 

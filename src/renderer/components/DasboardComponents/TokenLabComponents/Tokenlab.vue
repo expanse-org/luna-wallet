@@ -110,8 +110,12 @@
             };
         },
         created(){
-            if(localStorage.getItem('lunamail')) {
+            var d = "INFO [03-11|12:45:54.557] WebSocket endpoint opened                url=ws://[::]:9657";
+            console.log(d.split(' ')[2] === "WebSocket" && d.split(' ')[4] === "opened" );
+            if(localStorage.getItem('lunamail') && localStorage.getItem('lunatoken')) {
                 this.validMail = true;
+            } else {
+                this.validMail = false;
             }
         },
         methods: {

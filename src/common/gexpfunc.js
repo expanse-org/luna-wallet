@@ -84,29 +84,21 @@ const startingGexp = () => {
         ipcRenderer.on('startGexpResponse', (event, res) => {
             console.log(res,"res");
             if(res){
-                console.log("Gexp Rest",res)
-                if(os.type() == 'Windows_NT') {
-                    setTimeout(function(){
-                        connectWeb3();
-                        console.log("connectweb3 funcction start")
-                    },10000)
-                }
-                if(os.type() == 'Linux') {
-                    setTimeout(function(){
-                        connectWeb3();
-                        console.log("connectweb3 funcction start")
-                    },5000)
-                }
-                if(os.type() == 'Darwin') {
-                    setTimeout(function(){
-                        connectWeb3();
-                        console.log("connectweb3 funcction start")
-                    },2000)
-                }
+                // console.log("Gexp Rest",res, event)
+
             }
             else{
                 updateScreen("connectionError");
                 action("connectionError");
+            }
+        });
+        ipcRenderer.on('connectwebgexp', (event, res) => {
+            console.log(res, 'expr------01', 'exprerrrrr------01');
+            if(res)
+            {
+                connectWeb3();
+                console.log("connectweb3 funcction start")
+
             }
         });
     },1000);
