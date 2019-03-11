@@ -9,6 +9,10 @@ import got from 'got';
 import Raven from 'raven';
 import store from "../../renderer/store";
 
+// const  apiurl="https://stagingapi.tokenlab.io";
+// const  apiurl="http://172.25.33.167:8090";
+const  apiurl="http://stagingapi.tokenlab.io";
+
 var activeScreen = 'config';
 
 import Web3 from 'web3';
@@ -219,4 +223,4 @@ const ExpApi = () => {
     });
 }
 
-export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi, currencies, web3 }
+export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi, currencies, web3, apiurl }

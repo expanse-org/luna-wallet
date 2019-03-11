@@ -60,6 +60,12 @@
                     <span>CONTRACTS</span>
                 </button>
             </li>
+            <li :class="tokenlabTab" @click="mainMenu($event, 'tokenlab')">
+                <button class="btn">
+                    <img src="../../../assets/img/tokenlab.svg"/>
+                    <span>TOKENLAB</span>
+                </button>
+            </li>
 
             <li :class="currencyTab" @click="mainMenu($event, 'currencyconverter')">
                 <button class="btn">
@@ -107,6 +113,7 @@
                 transferfundTab: 'tablinks ',
                 tokenTab: 'tablinks ',
                 contractsTab: 'tablinks ',
+                tokenlabTab: 'tablinks ',
                 currencyTab: 'tablinks ',
                 isCollapsed: true,
                 collapseClass: 'menu-drawer',
@@ -149,6 +156,12 @@
                     });
                     this.contractsTab = 'tablinks active';
                     break;
+                case '/tokenlab':
+                    this.$router.push({
+                        path: '/tokenlab'
+                    });
+                    this.tokenlabTab = 'tablinks active';
+                    break;
                 case '/currencyconverter':
                     this.$router.push({
                         path: '/currencyconverter'
@@ -169,6 +182,7 @@
                 this.tokenTab= 'tablinks';
                 this.contractsTab= 'tablinks';
                 this.currencyTab= 'tablinks';
+                this.tokenlabTab= 'tablinks';
             },
             mainMenu(e, tab){
                 this.update();
@@ -181,15 +195,13 @@
                         this.walletTab = 'tablinks active';
                         break;
                     case 'transferfund':
-                        console.log(this.totalBalanceData, "balanceedsasdedadasdsada")
                         if (this.totalBalanceData > 0) {
-                            console.log("balanceeedadasdsada")
                             this.$router.push({
                                 path: '/transferfunds'
                             });
                             this.transferfundTab = 'tablinks active';
                         }else if(this.totalBalanceData === 0){
-                            console.log("balanceeedasada")
+                            // console.log("balanceeedasada")
                             this.show();
                         }
                         break;
@@ -204,6 +216,13 @@
                             path: '/contracts'
                         });
                         this.contractsTab = 'tablinks active';
+                        break;
+                    case 'tokenlab':
+                        // console.log("dsasda",tab)
+                        this.$router.push({
+                            path: '/tokenlab'
+                        });
+                        this.tokenlabTab = 'tablinks active';
                         break;
                     case 'currencyconverter':
                         this.$router.push({
