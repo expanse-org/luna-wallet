@@ -87,8 +87,8 @@
                 const config = { headers: { "Content-Type": "application/json"} };
                 var bytes  = CryptoJS.AES.decrypt(localStorage.getItem('lunamail'), 'luna');
                 var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-                console.log(plaintext, "plainText");
-                var url = `http://172.25.33.167:8090/contracts/email/${plaintext}`;
+                // console.log(plaintext, "plainText");
+                var url = apiurl+`/contracts/email/${plaintext}`;
                 axios.get(url, config )
                     .then((response)  =>  {
                         // console.log(response.data.data);

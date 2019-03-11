@@ -45,7 +45,7 @@
                         <div class="row">
                             <p class="error-message retype-password-error error" v-if="rePassError">{{rePassError}}</p>
                             <span :class="rePass? 'input input--nao input--filled': 'input input--nao'">
-                                <input class="passwor input__field input__field--nao retype-password" v-model="rePass" @focus="handleFocus"
+                                <input class="passwor input__field input__field--nao retype-password" v-model="rePass" @focus="handleFocus"  @keyup.enter="handleCreateAcc"
                                        name="retype-password" :type="passType"/>
                                 <label class="input__label input__label--nao" for="input-1">
 

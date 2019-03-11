@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b476d7dd-6b57-4ea1-b740-f28296c3ed16" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/LatestTransaction.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/LatestTransaction.vue" />
+      <change beforePath="$PROJECT_DIR$/src/main/libs/config.js" afterPath="$PROJECT_DIR$/src/main/libs/config.js" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/contractData.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/contractData.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" afterPath="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,42 +26,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="contractData.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="contractData.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/contractData.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="248" column="31" lean-forward="false" selection-start-line="248" selection-start-column="31" selection-end-line="248" selection-end-column="31" />
+            <state relative-caret-position="-1018">
+              <caret line="436" column="53" lean-forward="true" selection-start-line="436" selection-start-column="53" selection-end-line="436" selection-end-column="53" />
               <folding>
-                <element signature="e#16566#16621#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SideBar.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-612">
-              <caret line="64" column="65" lean-forward="false" selection-start-line="64" selection-start-column="65" selection-end-line="64" selection-end-column="65" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tokenlab.svg" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/assets/img/tokenlab.svg">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/router/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1590">
-              <caret line="132" column="50" lean-forward="false" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#17110#17165#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,20 +41,42 @@
       <file leaf-file-name="Tokenlab.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="51" column="22" lean-forward="false" selection-start-line="51" selection-start-column="22" selection-end-line="51" selection-end-column="22" />
+            <state relative-caret-position="168">
+              <caret line="64" column="40" lean-forward="true" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
               <folding>
-                <element signature="e#3106#3147#0" expanded="true" />
+                <element signature="e#5532#5558#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Contracts.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue">
+      <file leaf-file-name="Tokens.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2220">
-              <caret line="153" column="14" lean-forward="false" selection-start-line="153" selection-start-column="14" selection-end-line="159" selection-end-column="14" />
+            <state relative-caret-position="498">
+              <caret line="90" column="55" lean-forward="true" selection-start-line="90" selection-start-column="55" selection-end-line="90" selection-end-column="55" />
+              <folding>
+                <element signature="e#4060#4115#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContractDetails.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="322" column="142" lean-forward="false" selection-start-line="322" selection-start-column="126" selection-end-line="322" selection-end-column="142" />
               <folding />
             </state>
           </provider>
@@ -97,10 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addTokenList</find>
-      <find>getalltokenBalance</find>
-      <find>storeWatchAccounts</find>
-      <find>shortid</find>
       <find>getalltokensBalance</find>
       <find>gettokenBalance</find>
       <find>getAllAcounts</find>
@@ -116,7 +109,6 @@
       <find>img</find>
       <find>contract_json</find>
       <find>input-1</find>
-      <find>abidisplay</find>
       <find>contract_add</find>
       <find>contracts.token.addr</find>
       <find>contractConstants</find>
@@ -126,7 +118,12 @@
       <find>instance</find>
       <find>tokenlabTab</find>
       <find>contract_address</find>
+      <find>0x</find>
+      <find>handleFocus</find>
+      <find>validMail</find>
+      <find>showPass</find>
       <find>getEvents</find>
+      <find>abidisplay</find>
     </findStrings>
     <replaceStrings>
       <replace>connectWeb3</replace>
@@ -154,14 +151,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/renderer/assets/scss/account.scss" />
         <option value="$PROJECT_DIR$/dist/electron/index.html" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/WalletDashboard.vue" />
         <option value="$PROJECT_DIR$/src/common/loadingProgress.js" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/AddToken.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/ViewAccount/WalletInfo.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Footer/Footer.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/Header/Header.vue" />
@@ -178,7 +172,6 @@
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/WatchContract.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue" />
         <option value="$PROJECT_DIR$/src/main/index.js" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/DeployContract.vue" />
         <option value="$PROJECT_DIR$/yarn-error.log" />
         <option value="$PROJECT_DIR$/src/common/gexpfunc.js" />
@@ -196,15 +189,19 @@
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/ContractTL.vue" />
-        <option value="$PROJECT_DIR$/src/main/libs/config.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/Contracts.vue" />
         <option value="$PROJECT_DIR$/src/renderer/router/index.js" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/Transactiondetail.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue" />
-        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue" />
         <option value="$PROJECT_DIR$/src/renderer/assets/img/tokenlab.svg" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/SideBar/SideBar.vue" />
+        <option value="$PROJECT_DIR$/src/main/libs/config.js" />
+        <option value="$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue" />
         <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/contractData.vue" />
+        <option value="$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue" />
       </list>
     </option>
   </component>
@@ -229,9 +226,9 @@
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="956" />
+    <option name="x" value="972" />
     <option name="y" value="23" />
-    <option name="width" value="1598" />
+    <option name="width" value="1588" />
     <option name="height" value="1341" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -575,12 +572,12 @@
       <workItem from="1551067310261" duration="1799000" />
       <workItem from="1551153826112" duration="602000" />
       <workItem from="1551947452882" duration="13675000" />
-      <workItem from="1552191729662" duration="6312000" />
+      <workItem from="1552191729662" duration="11750000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="825898000" />
+    <option name="totallyTimeSpent" value="831336000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -592,9 +589,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="956" y="23" width="1598" height="1341" extended-state="0" />
+    <frame x="972" y="23" width="1588" height="1341" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23779328" sideWeight="0.9088729" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19846842" sideWeight="0.9088729" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28491172" sideWeight="0.50543827" order="7" side_tool="true" content_ui="tabs" />
@@ -602,7 +600,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28491172" sideWeight="0.49456173" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28491172" sideWeight="0.49456173" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19034483" sideWeight="0.0911271" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -631,20 +629,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/SendContract.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3780">
-          <caret line="260" column="66" lean-forward="false" selection-start-line="260" selection-start-column="66" selection-end-line="260" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/DeployContract.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3750">
-          <caret line="254" column="37" lean-forward="false" selection-start-line="254" selection-start-column="37" selection-end-line="254" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/EventDetails.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -783,6 +767,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1155">
           <caret line="82" column="38" lean-forward="false" selection-start-line="82" selection-start-column="38" selection-end-line="83" selection-end-column="53" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -814,6 +799,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -824,32 +810,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" column="46" lean-forward="true" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="110" column="41" lean-forward="true" selection-start-line="110" selection-start-column="41" selection-end-line="111" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AddAccount.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-29">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="211" column="32" lean-forward="true" selection-start-line="211" selection-start-column="32" selection-end-line="212" selection-end-column="68" />
           <folding />
         </state>
       </provider>
@@ -878,14 +842,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="110" column="10" lean-forward="true" selection-start-line="110" selection-start-column="10" selection-end-line="110" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokensComponents/Token.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -910,41 +866,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="54" column="22" lean-forward="false" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#svg#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="e#4060#4115#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4380">
-          <caret line="303" column="18" lean-forward="false" selection-start-line="303" selection-start-column="18" selection-end-line="316" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/router/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1590">
           <caret line="132" column="50" lean-forward="false" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="22" lean-forward="false" selection-start-line="51" selection-start-column="22" selection-end-line="51" selection-end-column="22" />
-          <folding>
-            <element signature="e#3106#3147#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -990,12 +917,92 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/ContractsComponents/ContractDetails.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="322" column="142" lean-forward="false" selection-start-line="322" selection-start-column="126" selection-end-line="322" selection-end-column="142" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/libs/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/ImportAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="253" column="34" lean-forward="true" selection-start-line="253" selection-start-column="34" selection-end-line="253" selection-end-column="34" />
+          <folding>
+            <element signature="e#15353#15402#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateHDWallet.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="114" column="123" lean-forward="false" selection-start-line="114" selection-start-column="123" selection-end-line="114" selection-end-column="153" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/WalletDashboardComponents/AccountComponents/CreateAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="45" column="147" lean-forward="true" selection-start-line="45" selection-start-column="147" selection-end-line="45" selection-end-column="176" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/CreateAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-431">
+          <caret line="28" column="57" lean-forward="false" selection-start-line="28" selection-start-column="57" selection-end-line="28" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/AccountsData/AddAccount.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="47" column="171" lean-forward="false" selection-start-line="47" selection-start-column="171" selection-end-line="47" selection-end-column="171" />
+          <folding>
+            <element signature="e#6416#6442#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Tokenlab.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="64" column="40" lean-forward="true" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
+          <folding>
+            <element signature="e#5532#5558#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/contractData.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="248" column="31" lean-forward="false" selection-start-line="248" selection-start-column="31" selection-end-line="248" selection-end-column="31" />
+        <state relative-caret-position="-1018">
+          <caret line="436" column="53" lean-forward="true" selection-start-line="436" selection-start-column="53" selection-end-line="436" selection-end-column="53" />
           <folding>
-            <element signature="e#16566#16621#0" expanded="true" />
+            <element signature="e#17110#17165#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/DasboardComponents/TokenLabComponents/Components/Tokens.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="498">
+          <caret line="90" column="55" lean-forward="true" selection-start-line="90" selection-start-column="55" selection-end-line="90" selection-end-column="55" />
+          <folding>
+            <element signature="e#4060#4115#0" expanded="true" />
           </folding>
         </state>
       </provider>

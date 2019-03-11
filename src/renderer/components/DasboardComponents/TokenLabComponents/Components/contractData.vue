@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <div class="contract-details">
+            <div v-if="loaddetails" class="contract-details">
                 <div class="header">
                     <h1>Hide contract info</h1>
 
@@ -193,6 +193,19 @@
                     </div>
                 </div>
             </div>
+
+            <div v-else class="txns_details" >
+                <div class="md-content">
+                    <div class="loader transactionLoader">
+                        <div class="outerCircle">
+                            <img src="../../../../assets/img/outer.png">
+                        </div>
+                        <div class="innerCircle">
+                            <img src="../../../../assets/img/inner.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <modal class="modal" name="insufficentBal">
             <insuficentBalance ></insuficentBalance>
@@ -236,6 +249,7 @@
                 editor: '',
                 content: '',
                 comingSoonTip: false,
+                loaddetails: false,
                 copyTip: false,
                 contractConstants: [],
                 contractFunctions: [],
@@ -296,7 +310,7 @@
                 this.contracts =  contracts;
                 console.log(this.contracts && this.contracts.contract_json);
                 console.log(this.contracts, "==================")
-                instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts.token && this.contracts.token.addr);
+                instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts && this.contracts.contract_address);
                 this.abidisplay();
             } else {
                 this.contracts =  this.$router.history.current.query.contract;
@@ -409,6 +423,9 @@
                         }else{
                             this.contractFunctions.push(cdata);
                         }
+                    }
+                    if(key === this.contracts.contract_json.length -1 ){
+                        this.loaddetails = true;
                     }
                 });
 
@@ -573,6 +590,13 @@
 </style>
 
 <style>
+    .txns_details {
+        height: 30vh;
+    }
+
+    .txns_details .md-content{
+        height: 100%;
+    }
 
     .qrCodevue {
         padding: 10px!important;

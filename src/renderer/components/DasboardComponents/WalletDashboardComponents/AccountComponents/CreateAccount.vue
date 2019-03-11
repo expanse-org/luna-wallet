@@ -43,7 +43,7 @@
                 <div class="row">
                     <p v-if="retypePasswordError" class="error-message retype-password-error">{{retypePasswordError}}</p>
                     <span :class="retypePassword? 'input input--nao input--filled': 'input input--nao'">
-                        <input class="retype-passwor input__field input__field--nao accountPassword" v-model="retypePassword" @focus="handleFocus"
+                        <input class="retype-passwor input__field input__field--nao accountPassword" v-model="retypePassword" @focus="handleFocus"  @keyup.enter="createAccount"
                                name="retype-password" :type="passType" id="input-5"
                         />
                         <label class="input__label input__label--nao" for="input-1">

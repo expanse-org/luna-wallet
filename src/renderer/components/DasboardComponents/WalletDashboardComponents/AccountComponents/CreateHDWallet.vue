@@ -112,7 +112,7 @@
             <div class="row">
                 <p v-if="hd_wallet_repasswordError" class="error-message hd_wallet_repassword-error">{{hd_wallet_repasswordError}}</p>
                 <span :class="hd_wallet_repassword? 'input input--nao input--filled': 'input input--nao'">
-                    <input class="passwor input__field input__field--nao hd_wallet_repassword" name="hd_wallet_repassword" v-model="hd_wallet_repassword" @focus="handleFocus"
+                    <input class="passwor input__field input__field--nao hd_wallet_repassword" name="hd_wallet_repassword"  @keyup.enter="CreateHDWallet" v-model="hd_wallet_repassword" @focus="handleFocus"
                            :type="passType"  />
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Confirm Password
