@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="accountWatch" v-for="(account, key ) in WatchAccounts" class="account2 a2" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'watch')">
+            <div v-if="accountWatch" v-for="(account, key ) in WatchAccounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'watch')">
                 <div class="watchEye-icon"></div>
                 <div class="img">
                     <div v-if="account.tokens && (account.token_icons.length > 0 && account.token_icons.length < 3)" v-for="(ac_tokens, key ) in account.token_icons" class="icons">

@@ -325,6 +325,7 @@
                 axios.get(url, config )
                     .then((response)  =>  {
                         Object.assign(this.contracts, {contract_json: response.data.data.contract.abi});
+                        console.log( response.data.data.contract.abi, "getAddress 1")
                         instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts.token && this.contracts.token.addr);
                         this.abidisplay();
                         // console.log(this.contracts)
@@ -440,16 +441,18 @@
                 this.$modal.show('eventdetailsMD');
             },
             getAddress (value,output){
-                // console.log(value, output, "getAddress 1")
                 var dataoinput = '';
                 if(value.inputs.length == 0) {
                     // console.log(value);
                     instance.methods[value.name]().call().then((res) => {
+                        // console.log(res," res");
                         if(res){
-                            // console.log(res," res");
+                             //console.log(res," res");
                             dataoinput = res;
                             $("."+(value.name)+" .value").html(res);
                         }
+                    }, (err) => {
+                        // console.log(err,"errrr====")
                     });
                 } else {
                     return output.name;
