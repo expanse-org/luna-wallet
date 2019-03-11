@@ -440,15 +440,17 @@
                 this.$modal.show('eventdetailsMD');
             },
             getAddress (value,output){
-                // console.log(value, output, "getAddress 1")
                 var dataoinput = '';
-                if(value.inputs.length == 0) {
+                if(value.inputs.length == 0 ) {
                     instance.methods[value.name]().call().then((res) => {
+                        // console.log(res," res");
                         if(res){
-                            // console.log(res," res");
+                             //console.log(res," res");
                             dataoinput = res;
                             $("."+(value.name)+" .value").html(res);
                         }
+                    }, (err) => {
+                        // console.log(err,"errrr====")
                     });
                 } else {
                     return output.name;
