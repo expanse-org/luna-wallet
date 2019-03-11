@@ -325,6 +325,7 @@
                 axios.get(url, config )
                     .then((response)  =>  {
                         Object.assign(this.contracts, {contract_json: response.data.data.contract.abi});
+                        console.log( response.data.data.contract.abi, "getAddress 1")
                         instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts.token && this.contracts.token.addr);
                         this.abidisplay();
                         // console.log(this.contracts)
