@@ -12,4 +12,7 @@ thumbs.db
 binaries
 db.json
 ./db.json
+
+.idea
+.idea/*
 src/renderer/assets/js/bip39-Node/node_modules
