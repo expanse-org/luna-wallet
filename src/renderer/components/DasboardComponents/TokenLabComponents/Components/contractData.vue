@@ -443,6 +443,7 @@
                 // console.log(value, output, "getAddress 1")
                 var dataoinput = '';
                 if(value.inputs.length == 0) {
+                    // console.log(value);
                     instance.methods[value.name]().call().then((res) => {
                         if(res){
                             // console.log(res," res");
