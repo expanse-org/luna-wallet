@@ -84,11 +84,13 @@
                 });
             },
             fetch(){
-                const config = { headers: { "Content-Type": "application/json"} };
-                var bytes  = CryptoJS.AES.decrypt(localStorage.getItem('lunamail'), 'luna');
-                var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+                let bytes1  = CryptoJS.AES.decrypt(localStorage.getItem('lunatoken'), 'luna');
+                let plaintext1 = bytes1.toString(CryptoJS.enc.Utf8);
+                const config = { headers: { "Content-Type": "application/json", "Authorization": plaintext1} };
+                let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('lunamail'), 'luna');
+                let plaintext = bytes.toString(CryptoJS.enc.Utf8);
                 // console.log(plaintext, "plainText");
-                var url = apiurl+`/contracts/email/${plaintext}`;
+                let url = apiurl+`/contracts/email/${plaintext}`;
                 axios.get(url, config )
                     .then((response)  =>  {
                         // console.log(response.data.data);

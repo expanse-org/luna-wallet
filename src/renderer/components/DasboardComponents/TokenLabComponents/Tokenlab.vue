@@ -78,10 +78,10 @@
         <div v-if="validMail" class="dashboard tabcontent" id="dashboard" v-bind:style="{display: 'block',zIndex: '0'}">
             <div class="content tokentexts">
                 <div class="top-heading">
-                    <h1>TOKENLAB</h1>
+                    <h1><img class="tokenlab-img" src="../../../assets/img/tokenlab.svg"/>TOKENLAB</h1>
                 </div>
                 <div class="logout-btn" @click="handlelogout">
-                    <h1>Logout</h1>
+                    <h1><img class="logout-img" src="../../../assets/img/logout.svg"/>Logout</h1>
                 </div>
             </div>
             <tokens />
@@ -220,6 +220,18 @@
 
     .tokenlab .logout-btn:hover{
         color: #cb4d43;
+    }
+
+    .tokenlab .logout-img{
+        width: 20px;
+        margin-right: 8px;
+        vertical-align: bottom;
+    }
+
+    .tokenlab .tokenlab-img{
+        width: 30px;
+        margin-right: 3px;
+        vertical-align: bottom;
     }
 
 
