@@ -131,6 +131,7 @@
             handlelogout(){
                 localStorage.removeItem('lunamail');
                 localStorage.removeItem('lunatoken');
+                this.validMail = false;
             },
             handleCreateAcc(){
                 if(this.accountName && this.pass) {
