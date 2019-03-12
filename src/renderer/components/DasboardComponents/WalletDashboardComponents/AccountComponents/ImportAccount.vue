@@ -76,7 +76,7 @@
                     <div class="row">
                         <p v-if="private_key_repasswordError" class="error-message private-key-repassword-error">{{private_key_repasswordError}}</p>
                         <span :class="private_key_repassword? 'input input--nao input--filled': 'input input--nao'">
-                            <input class="passwor input__field input__field--nao private-key-repassword" v-model="private_key_repassword" @focus="handleFocus"  @keyup.enter="handleimportPrivateKey"
+                            <input class="passwor input__field input__field--nao private-key-repassword" v-model="private_key_repassword" @focus="handleFocus"
                                    name="private-key-repassword" :type="passType"
                             />
                             <label class="input__label input__label--nao">
@@ -136,7 +136,7 @@
                     <div class="row">
                         <span :class="import_address? 'input input--nao input--filled': 'input input--nao'">
                             <p v-if="import_addressError" class="error-message imp-import-watch-address-error">{{import_addressError}}</p>
-                            <input class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus"  @keyup.enter="watchOnlyAdd"></input>
+                            <input class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus" ></input>
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Import watch only address
                                     <span class="mandatory">*</span>

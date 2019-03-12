@@ -11,7 +11,7 @@
                         <h1>{{contracts.tokenname}}</h1>
                         <div class="balance"><img src="../../../../assets/img/key1.svg"><label class="contract_hash_js">{{contracts.token && contracts.token.addr}}</label></div>
                         <p class="tooltip accoundID wd300 ">
-                            <label class="detail-account-hash">{{contracts.tokenamount }} LAB</label>
+                            <label class="detail-account-hash">{{contracts.tokenamount }} {{contracts.tokensymbol}}</label>
                             <span class="tooltiptext parrentFont contract_hash_js">{{contracts.token && contracts.token.addr}}</span>
                         </p>
                     </div>
@@ -23,7 +23,7 @@
                         <path fill-rule="evenodd" fill="rgb(203, 77, 67)" d="M15.617,20.670 L12.281,24.426 C11.956,24.789 11.498,25.000 11.014,25.000 C10.530,25.000 10.072,24.789 9.747,24.426 L6.411,20.670 C5.786,19.969 5.844,18.872 6.545,18.239 C7.245,17.606 8.321,17.665 8.946,18.374 L9.305,18.779 L9.305,10.340 C9.305,9.386 10.063,8.618 11.022,8.618 C11.965,8.618 12.723,9.386 12.723,10.340 L12.723,18.779 L13.082,18.374 C13.707,17.665 14.783,17.606 15.483,18.239 C15.858,18.577 16.359,19.784 15.617,20.670 ZM9.521,6.761 C8.821,7.394 7.745,7.335 7.120,6.626 L6.761,6.221 L6.761,14.661 C6.761,15.615 6.003,16.383 5.060,16.383 C4.118,16.383 3.359,15.615 3.359,14.661 L3.359,6.221 L3.001,6.626 C2.376,7.335 1.300,7.394 0.599,6.761 C-0.109,6.128 -0.159,5.039 0.466,4.331 L3.801,0.575 C4.127,0.203 4.585,0.001 5.052,0.001 C5.536,0.001 5.994,0.212 6.320,0.575 L9.655,4.331 C10.347,5.149 9.897,6.424 9.521,6.761 Z"
                         />
                     </svg>
-                    <label>Transfer Expanse & Tokens</label>
+                    <label>Transfer Tokens</label>
                 </div>
 
                 <div class="deposit tooltip2 copytext " @click="handletooltip('comingSoon')">
@@ -55,11 +55,9 @@
             </div>
 
             <div v-if="loaddetails" class="contract-details">
-                <div class="header">
-                    <h1>Hide contract info</h1>
-
-
-                </div>
+                <!--<div class="header">-->
+                    <!--<h1>Hide contract info</h1>-->
+                <!--</div>-->
                 <div class="inner">
                     <div class="left contract_abi">
                         <div v-for="value in contractConstants" :class="value.name">
@@ -146,15 +144,8 @@
                 </div>
                 <div class="note">
                     <p class="regular">
-                        <span>NOTE.</span> Accounts can’t display incoming transactions, but can receive, hold and send
-                        Expanse. To see incoming transactions
-                        <!-- <a href="#">create a wallet contract </a> to store expanse. -->
-                        create a wallet contract to store expanse.
+                        <span>NOTE:</span> If your balance doesn’t seem updated, make sure that you are in sync with the network.
                     </p>
-                    <p class="bold">
-                        If your balance doesn’t seem updated, make sure that you are in sync with the network.
-                    </p>
-
                 </div>
 
                 <div v-if="noEvents" class="latestTransaction">
