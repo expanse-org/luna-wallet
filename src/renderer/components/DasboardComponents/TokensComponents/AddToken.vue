@@ -237,11 +237,11 @@
         },
         created(){
             let token_ID = this.token_id;
-            console.log(this.editForm, this.token_id);
+            // console.log(this.editForm, this.token_id);
             if(token_ID) {
                 this.editForm = true;
                 let token = db.get('tokens').find({ id: token_ID }).value();
-                console.log(token);
+                // console.log(token);
                 if(token) {
                     this.tokenAddress = token.token_address;
                     this.tokenName = token.token_name;
@@ -319,11 +319,11 @@
             },
             handleAddToken(e){
                 e.preventDefault();
-                console.log(this.editForm);
+                // console.log(this.editForm);
                 if(this.tokenAddress && this.tokenName && this.tokenType.value && this.tokensymbol && this.decimalplaces){
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
                     this.decimalplaces = parseInt(this.decimalplaces);
-                    console.log(this.decimalplaces , this.decimalplaces <= 36)
+                    // console.log(this.decimalplaces , this.decimalplaces <= 36)
                     if(this.decimalplaces >= 0 && this.decimalplaces <= 36) {
                         if(this.tokenAddress.length < 5){
                             this.tokenAddressError = 'Hash Address is required';

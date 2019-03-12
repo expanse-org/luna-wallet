@@ -36,7 +36,7 @@
                     <label>Fund with Bitcoin</label>
                 </div>
 
-                <div @click="openGanderUrl('https://gander.tech/address/'+contracts.token && contracts.token.addr)" class="view_on_external" data-href="">
+                <div @click="openGanderUrl(contracts.token && contracts.token.addr)" class="view_on_external" data-href="">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26px" height="16px">
                         <path fill-rule="evenodd" fill="rgb(199, 75, 66)" d="M24.840,8.489 C24.617,8.795 19.295,16.000 12.499,16.000 C5.703,16.000 0.381,8.795 0.158,8.488 C-0.053,8.197 -0.053,7.802 0.158,7.511 C0.381,7.205 5.703,-0.000 12.499,-0.000 C19.295,-0.000 24.617,7.205 24.840,7.512 C25.052,7.802 25.052,8.197 24.840,8.489 ZM12.499,1.655 C7.482,1.655 3.155,6.435 1.873,7.999 C3.157,9.563 7.493,14.345 12.499,14.345 C17.516,14.345 21.843,9.565 23.125,8.001 C21.841,6.436 17.505,1.655 12.499,1.655 ZM12.499,12.966 C9.772,12.966 7.554,10.738 7.554,8.000 C7.554,5.262 9.772,3.034 12.499,3.034 C15.226,3.034 17.444,5.262 17.444,8.000 C17.444,10.738 15.226,12.966 12.499,12.966 ZM12.499,4.690 C10.681,4.690 9.203,6.175 9.203,8.000 C9.203,9.825 10.681,11.310 12.499,11.310 C14.317,11.310 15.796,9.825 15.796,8.000 C15.796,6.175 14.317,4.690 12.499,4.690 Z"
                         />
@@ -325,15 +325,15 @@
                     });
             },
             openGanderUrl(url){
-                console.log(url);
+                console.log('https://gander.tech/address/'+url);
                 if(os.type() == 'Windows_NT') {
-                    child_process.execSync('start '+url)
+                    child_process.execSync('start '+'https://gander.tech/address/'+url)
                 }
                 if(os.type() == 'Linux') {
-                    child_process.execSync('xdg-open '+url)
+                    child_process.execSync('xdg-open '+'https://gander.tech/address/'+url)
                 }
                 if(os.type() == 'Darwin') {
-                    child_process.execSync('open '+url)
+                    child_process.execSync('open '+'https://gander.tech/address/'+url)
                 }
             },
             getEvents() {
@@ -403,7 +403,11 @@
                     this.show1();
                 }else {
                     this.$router.push({
-                        path: '/transferfunds'
+                        path: '/transferfunds',
+                        query: {
+                            contractid: this.$router.history.current.query.contractid,
+                            contract: this.$router.history.current.query.contract
+                        }
                     });
                 }
             },

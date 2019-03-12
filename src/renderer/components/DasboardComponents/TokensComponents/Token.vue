@@ -167,7 +167,7 @@
         },
         methods: {
             editToken(token_id){
-                console.log(token_id);
+                // console.log(token_id);
                 this.tokenIDSEND = token_id;
                 this.show();
             },

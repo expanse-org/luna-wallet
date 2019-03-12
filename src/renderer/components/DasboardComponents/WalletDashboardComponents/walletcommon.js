@@ -233,13 +233,13 @@ const getalltokenBalance = () => {
                 unarchiveAccounts[index] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[index]);
                 var color = getRandomColor();
                 let token = db.get('tokens').find({ token_address: res[0].tokenHash }).value();
-                if(!token){
+                if(!token) {
                     db.get('tokens').assign().push({
                         id : shortid.generate(),
                         token_address: res[0].tokenHash,
                         token_name : res[0].token_name,
                         token_symbol: res[0].token_symbol,
-                        tokenType: res[0].balance,
+                        tokenType: res[0].tokenType,
                         decimal_places: res[0].decimal_places,
                         balance: res[0].balance,
                         color: color
@@ -278,6 +278,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                         data: contractData
                     }, function (err, result) {
                         if (result) {
+                            // console.log(contractAddr,contractData,  result, tokenHash, "tokenHash=============")
                             var tokens = numberToBN(result); // Convert the result to a usable number string
                             var balance = web3.utils.fromWei(tokens, 'ether');
                             if (balance > 0) {
@@ -286,6 +287,7 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                                     color: tokenHash.color,
                                     token_symbol: tokenHash.token_symbol,
                                     token_name: tokenHash.token_name,
+                                    tokenType: tokenHash.tokenType,
                                     decimal_places: tokenHash.decimal_places,
                                     balance: balance
                                 });
@@ -324,7 +326,7 @@ const getallwatchtokenBalance = () => {
                         token_address: res[0].tokenHash,
                         token_name : res[0].token_name,
                         token_symbol: res[0].token_symbol,
-                        tokenType: res[0].balance,
+                        tokenType: res[0].tokenType,
                         decimal_places: res[0].decimal_places,
                         balance: res[0].balance,
                         color: color
