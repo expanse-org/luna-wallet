@@ -8,10 +8,10 @@
                         <qrcode-vue :value="contracts.token && contracts.token.addr"  level="L"></qrcode-vue>
                     </div>
                     <div class="info detail-contract">
-                        <h1>{{contracts.tokenname}}</h1>
+                        <h1>{{contracts.tokenname}} ({{contracts.tokensymbol}})</h1>
                         <div class="balance"><img src="../../../../assets/img/key1.svg"><label class="contract_hash_js">{{contracts.token && contracts.token.addr}}</label></div>
                         <p class="tooltip accoundID wd300 ">
-                            <label class="detail-account-hash">{{contracts.tokenamount }} {{contracts.tokensymbol}}</label>
+                            <label class="detail-account-hash">{{tokenSupply }} </label>
                             <span class="tooltiptext parrentFont contract_hash_js">{{contracts.token && contracts.token.addr}}</span>
                         </p>
                     </div>
@@ -53,7 +53,61 @@
                     <label>Copy Address</label>
                 </div>
             </div>
-
+            <div class="dashboard tokencostum-account">
+                <div class="content tokencostum-account">
+                    <div class="accounts">
+                        <div class="top-heading">
+                            <h2>Token Contracts</h2>
+                        </div>
+                        <div class="bottom contracts_list_js">
+                            <div v-for="(contract, key) in TokencontractData" class="a1 contractDetail" :data-val="contract.id" >
+                                <div class="edit-icon contract_delete" @click="handleedit(contract.id)" :data-val="contract.id" >
+                                </div>
+                                <div class="delete-icon contract_delete" @click="handledelete(contract.id)" :data-val="contract.id" >
+                                </div>
+                                <div class="link contract_edit-1" @click="mainMenu1(contract.id)" :data-index="parseInt(key + 1)" :data-val="contract.id">
+                                    <div class="img">
+                                        <svg  :class="'svg-1 svg'+parseInt(key + 1)" v-bind:style="{fill: contract.color ? contract.color :getRandomColor ,enableBackground:'new 0 0 43 43'}"
+                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
+                                       <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
+                                       <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                                       <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                                       <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
+                                       <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
+                                       <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
+                                       <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
+                                       <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
+                                       <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
+                                       <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
+                                   </svg>
+                                    </div>
+                                    <div class="details">
+                                        <div>
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="15.2px"
+                                                height="21.9px" viewBox="0 0 15.2 21.9" v-bind:style="{enableBackground: 'new 0 0 15.2 21.9'}" xml:space="preserve">
+                                               <path class="key1" d="M8.6,2.3c0.3,0.2,0.3,0.5,0.2,0.8C8.6,3.3,8.3,3.4,8,3.3L7,2.7L6.3,3.8C6,4.3,6.1,5,6.6,5.3
+                                                   c0,0,0,0,0,0L9,6.7l3-5.2L9.7,0.1C9.1-0.2,8.5,0,8.2,0.5c0,0,0,0,0,0L7.5,1.7L8.6,2.3z M7,12.4C7,12.4,7,12.4,7,12.4l-0.6-0.2
+                                                   c-2.1-1.2-4.7-0.4-5.9,1.7c-1.1,2-0.4,4.6,1.6,5.8l3,1.7c2.1,1.2,4.7,0.4,5.9-1.7c1.1-2,0.4-4.6-1.6-5.8l-0.6-0.3c0,0,0.1,0,0.1,0
+                                                   L15,3c0.3-0.5,0.2-1.2-0.3-1.5s-1.2-0.2-1.5,0.3c0,0-0.1,0.1-0.1,0.1L7,12.4z M9.1,18.7c-0.6,1-1.9,1.4-2.9,0.8l-3-1.7
+                                                   c-1-0.6-1.4-1.9-0.8-2.9s1.9-1.4,2.9-0.8l0,0l3,1.7C9.3,16.4,9.6,17.7,9.1,18.7z"/>
+                                           </svg>
+                                                <label>{{contract.contract_name}}</label>
+                                                <!--//<span> ( ' + contract.token_symbol + ' )</span>-->
+                                            </div>
+                                            <div>
+                                                <p class="tooltip accoundID wd180">{{contract.contract_address}}
+                                                    <span class="tooltiptext parrentFont">{{contract.contract_address}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div v-if="loaddetails" class="contract-details">
                 <!--<div class="header">-->
                     <!--<h1>Hide contract info</h1>-->
@@ -243,6 +297,7 @@
                 loaddetails: false,
                 copyTip: false,
                 contractConstants: [],
+                TokencontractData: [],
                 contractFunctions: [],
                 answerOutput: '',
                 inputName: '',
@@ -259,6 +314,7 @@
                 eventModalData: '',
                 isshowEvents: '',
                 eventsearch: '',
+                tokenSupply: '',
             };
         },
         computed: {
@@ -305,7 +361,25 @@
                 this.abidisplay();
             } else {
                 this.contracts =  this.$router.history.current.query.contract;
+                if(this.contracts === "[object Object]") {
+                    this.$router.push({
+                        path: '/tokenlab',
+                    });
+                    return false;
+                }
                 this.callAbi();
+                let contract1 = db.get('contracts').find({
+                    contract_address: this.contracts.balances.addr
+                }).value();
+                let contract2 = db.get('contracts').find({
+                    contract_address: this.contracts.admin.addr
+                }).value();
+                if(contract1){
+                    this.TokencontractData.push(contract1)
+                }
+                if(contract2){
+                    this.TokencontractData.push(contract2)
+                }
             }
         },
 
@@ -411,6 +485,12 @@
                     });
                 }
             },
+            mainMenu1(contractid){
+                this.$router.push({
+                    path: '/contractdetails',
+                    query: { contractid: contractid }
+                });
+            },
             abidisplay () {
                 this.contracts.contract_json.map((cdata, key) => {
                     if (cdata.type === 'function' ){
@@ -442,8 +522,12 @@
                     instance.methods[value.name]().call().then((res) => {
                         // console.log(res," res");
                         if(res){
-                             //console.log(res," res");
+                             // console.log(value.name," res");
+                             if(value.name == "totalSupply") {
+                                 this.tokenSupply = res;
+                             }
                             dataoinput = res;
+
                             $("."+(value.name)+" .value").html(res);
                         }
                     }, (err) => {
@@ -595,6 +679,11 @@
 
     .contract-loader .md-content{
         height: 100%;
+    }
+
+    .tokencostum-account{
+        margin: 0px;
+        padding: 0px;
     }
 
     .qrCodevue {
