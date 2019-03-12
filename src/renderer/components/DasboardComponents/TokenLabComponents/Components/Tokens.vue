@@ -61,8 +61,10 @@
 <script>
     import {apiurl} from '../../../../../main/libs/config';
     import {getRandomColor} from '../../../AccountsData/commonFunc';
+    import {db} from '../../../../../../lowdbFunc';
     import axios from 'axios';
     import CryptoJS from "crypto-js";
+    import shortid from "shortid";
     export default {
         name: 'Tokens',
         data() {
@@ -83,18 +85,84 @@
                     }
                 });
             },
-            fetch(){
+            fetch() {
                 let bytes1  = CryptoJS.AES.decrypt(localStorage.getItem('lunatoken'), 'luna');
                 let plaintext1 = bytes1.toString(CryptoJS.enc.Utf8);
                 const config = { headers: { "Content-Type": "application/json", "Authorization": plaintext1} };
                 let bytes  = CryptoJS.AES.decrypt(localStorage.getItem('lunamail'), 'luna');
                 let plaintext = bytes.toString(CryptoJS.enc.Utf8);
                 // console.log(plaintext, "plainText");
-                let url = apiurl+`/contracts/email/${plaintext}`;
+                let url = apiurl + `/contracts/email/${plaintext}`;
+                var color = getRandomColor();
                 axios.get(url, config )
                     .then((response)  =>  {
-                        // console.log(response.data.data);
+                        console.log(response.data.data);
                         this.contractdata = response.data.data;
+                        response.data.data.map((token) => {
+                            if(token.step >= 4 && token.paid) {
+                                // console.log(token);
+                                let token1 = db.get('tokens').find({ token_address: token.token && token.token.addr }).value();
+                                if(token1)
+                                {
+
+                                } else {
+                                    db.get('tokens').assign().push({
+                                        id : shortid.generate(),
+                                        token_address: token.token.addr,
+                                        token_name : token.tokenname,
+                                        token_symbol: token.tokensymbol,
+                                        tokenType: token.std,
+                                        decimal_places: token.tokendecimal,
+                                        color: color
+                                    }).write();
+                                }
+
+
+                                const config1 = { headers: { "Content-Type": "application/json"} };
+                                var url1 = apiurl + `/contract/standard/${token.std}`;
+                                axios.get(url1, config1 ).then((response)  =>  {
+                                    // console.log( response.data.data, "getAddress 1");
+                                    if(token.balances.addr) {
+                                        let contract1 = db.get('contracts').find({
+                                            contract_address: token.balances.addr
+                                        }).value();
+                                        if(contract1) {
+
+                                        }
+                                        else {
+                                            db.get('contracts').push({
+                                                id: shortid.generate(),
+                                                contract_name: token.tokensymbol+ ' balance Contract ',
+                                                contract_address: token.balances.addr,
+                                                contract_json: response.data.data.balances.abi,
+                                                color: getRandomColor(),
+                                            }).write();
+                                        }
+                                    }
+                                    if(token.admin.addr) {
+                                        let contract1 = db.get('contracts').find({
+                                            contract_address: token.admin.addr
+                                        }).value();
+                                        if(contract1) {
+
+                                        }
+                                        else {
+                                            db.get('contracts').push({
+                                                id: shortid.generate(),
+                                                contract_name: token.tokensymbol+ ' admin Contract ',
+                                                contract_address: token.admin.addr,
+                                                contract_json: response.data.data.admin.abi,
+                                                color: getRandomColor(),
+                                            }).write();
+                                        }
+                                    }
+                                }, (error)  =>  {
+                                    console.log(error)
+                                });
+
+
+                            }
+                        })
                     }, (error)  =>  {
                         console.log(error)
                     });
