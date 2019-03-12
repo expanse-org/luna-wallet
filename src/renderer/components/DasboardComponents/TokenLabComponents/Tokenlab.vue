@@ -5,7 +5,8 @@
                 <div class="account-field">
                     <div class="inner">
                         <img src="../../../assets/img/logo-luna.png" class="logo-luna " alt="Luna Expanse Wallet">
-                        <h1>In order to proceed with it, please provide us your login credentials to registered with Tokenlab.</h1>
+                        <h1 class="lunainttxt">Luna integration with Tokenlab.</h1>
+                        <h1>Please provide your Tokenlab login credentials here.</h1>
                         <form id="create-new-account">
                             <div class="row">
                                 <p class="error-message accountName-error error" v-if="accountNameError">{{ accountNameError }}</p>
@@ -27,7 +28,7 @@
                             <div class="row">
                                 <p class="error-message password-error error" v-if="passError">{{ passError }}</p>
                                 <span :class="pass? 'input input--nao input--filled': 'input input--nao'">
-                                    <input class="passwor input__field input__field--nao password" name="password" v-model="pass" @focus="handleFocus" @keyup.enter="handleCreateAcc"
+                                    <input class="passwor input__field input__field--nao password" name="password" v-model="pass" @focus="handleFocus"
                                            :type="passType" id="input-2"/>
                                     <label class="input__label input__label--nao" for="input-2">
                                         <span class="input__label-content input__label-content--nao">Enter Password
@@ -59,7 +60,7 @@
                         </form>
 
                         <div class="alert-sucess hide">
-                            <p>Sweet! Login successfully.</p>
+                            <p>Login successfull!</p>
                         </div>
                         <div class="alert-unsucess hide">
                             <p>ERROR</p>
@@ -68,7 +69,7 @@
                         <div class="buttons">
                             <button @click="handleCreateAcc" class=" ok createSimpleAccount button button--shikoba md-close">
                                 <img class="button__icon" src="../../../assets/img/create.svg">
-                                <span>Login</span>
+                                <span>Log In</span>
                             </button>
                         </div>
                     </div>
@@ -81,7 +82,7 @@
                     <h1><img class="tokenlab-img" src="../../../assets/img/tokenlab.svg"/>TOKENLAB</h1>
                 </div>
                 <div class="logout-btn" @click="handlelogout">
-                    <h1><img class="logout-img" src="../../../assets/img/logout.svg"/>Logout</h1>
+                    <h1><img class="logout-img" src="../../../assets/img/logout.svg"/>Log Out</h1>
                 </div>
             </div>
             <tokens />
@@ -200,6 +201,13 @@
     .tokenlab {
         height: 89vh;
     }
+
+    .tokenlab .lunainttxt{
+        font-size: 30px!important;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
     .tokenlab .main-container{
         height: 100%;
     }
@@ -235,6 +243,10 @@
         width: 30px;
         margin-right: 3px;
         vertical-align: bottom;
+    }
+
+    .alert-unsucess{
+        padding: 7px 20px;
     }
 
 

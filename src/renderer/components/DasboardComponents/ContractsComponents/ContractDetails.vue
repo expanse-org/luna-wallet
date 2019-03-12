@@ -171,17 +171,9 @@
                 </div>
                 <div class="note">
                     <p class="regular">
-                        <span>NOTE.</span> Accounts can’t display incoming transactions, but can receive, hold and send
-                        Expanse. To see incoming transactions
-                        <!-- <a href="#">create a wallet contract </a> to store expanse. -->
-                        create a wallet contract to store expanse.
+                        <span>NOTE:</span> If your balance doesn’t seem updated, make sure that you are in sync with the network.
                     </p>
-                    <p class="bold">
-                        If your balance doesn’t seem updated, make sure that you are in sync with the network.
-                    </p>
-
                 </div>
-
                 <div v-if="noEvents" class="latestTransaction">
                     <div class="header">
                         <h1>Latest Events</h1>
