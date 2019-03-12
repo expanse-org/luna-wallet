@@ -185,7 +185,7 @@
                 </div>
             </div>
 
-            <div v-else class="txns_details" >
+            <div v-else class="txns_details contract-loader" >
                 <div class="md-content">
                     <div class="loader transactionLoader">
                         <div class="outerCircle">
@@ -316,7 +316,7 @@
                 axios.get(url, config )
                     .then((response)  =>  {
                         Object.assign(this.contracts, {contract_json: response.data.data.contract.abi});
-                        console.log( response.data.data.contract.abi, "getAddress 1")
+                        // console.log( response.data.data.contract.abi, "getAddress 1")
                         instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts.token && this.contracts.token.addr);
                         this.abidisplay();
                         // console.log(this.contracts)
@@ -585,11 +585,11 @@
 </style>
 
 <style>
-    .txns_details {
+    .contract-loader {
         height: 30vh;
     }
 
-    .txns_details .md-content{
+    .contract-loader .md-content{
         height: 100%;
     }
 
