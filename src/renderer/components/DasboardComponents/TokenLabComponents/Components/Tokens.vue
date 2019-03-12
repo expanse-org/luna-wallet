@@ -31,7 +31,7 @@
                                     c-1-0.6-1.4-1.9-0.8-2.9s1.9-1.4,2.9-0.8l0,0l3,1.7C9.3,16.4,9.6,17.7,9.1,18.7z"/>
                                 </svg>
                                 <label>{{ token.tokenname }} ({{token.tokensymbol}}) </label>
-                                <span>({{ token.tokenamount}})</span>
+                                <!--<span>({{ token.tokenamount}})</span>-->
                             </div>
                             <div>
                                 <p class="tooltip accoundID wd180">{{ token.token.addr }}
@@ -96,7 +96,7 @@
                 var color = getRandomColor();
                 axios.get(url, config )
                     .then((response)  =>  {
-                        console.log(response.data.data);
+                        // console.log(response.data.data);
                         this.contractdata = response.data.data;
                         response.data.data.map((token) => {
                             if(token.step >= 4 && token.paid) {

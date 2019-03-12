@@ -311,7 +311,7 @@
             var contractId = this.$router.history.current.query.contractid;
             let contracts =  db.get('contracts').find({id: contractId}).value();
             this.contracts =  contracts;
-            console.log(this.contracts && this.contracts.contract_json);
+            // console.log(this.contracts && this.contracts.contract_json);
             instance = new web3.eth.Contract(this.contracts && this.contracts.contract_json, this.contracts && this.contracts.contract_address);
 
             this.abidisplay();
