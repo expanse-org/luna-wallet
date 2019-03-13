@@ -3877,6 +3877,7 @@ perspective effects (not including the modals and the overlay).
 .buttons .outer-wheel {
   transform: translate(50%, 50%);
   animation: spin 4s infinite linear;
+  margin-left: -3px;
 }
 
 .input__field--nao {
@@ -5433,7 +5434,7 @@ perspective effects (not including the modals and the overlay).
     -webkit-transform: rotate(-360deg); } }
         .dashboard .content .latestTransaction .transactionContent .row {
           display: grid;
-          grid-template-columns: 5% 15% auto 10%;
+          grid-template-columns: 6% 7% auto 12%;
           padding: 10px 20px;
           grid-gap: 10px; }
           .dashboard .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -6091,7 +6092,7 @@ perspective effects (not including the modals and the overlay).
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
-            grid-template-columns: 5% 15% auto 10%;
+            grid-template-columns: 6% 7% auto 12%;
             padding: 10px 20px;
             grid-gap: 10px; }
             .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -6128,9 +6129,9 @@ perspective effects (not including the modals and the overlay).
                 fill: #FFFFFF; }
             .accountDetails .content .latestTransaction .transactionContent .row .amount {
               font-size: 16px;
-              justify-content: center;
               display: flex;
               cursor: pointer;
+              justify-content: flex-end;
               align-items: center; }
               .accountDetails .content .latestTransaction .transactionContent .row .amount svg {
                 padding-left: 10px;
@@ -6270,6 +6271,7 @@ perspective effects (not including the modals and the overlay).
           grid-column: 12/12;
           font-size: 18px;
           display: flex;
+          justify-content: flex-end;
           align-items: center; }
           .accountDetails .content .latestTransaction .transactionContent .row .amount svg {
             padding-left: 10px; }
@@ -6930,7 +6932,7 @@ FONTS
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
-            grid-template-columns: 5% 15% auto 10%;
+            grid-template-columns: 6% 7% auto 12%;
             padding: 10px 20px;
             grid-gap: 10px; }
             .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -6967,8 +6969,8 @@ FONTS
                 fill: #FFFFFF; }
             .accountDetails .content .latestTransaction .transactionContent .row .amount {
               font-size: 16px;
-              justify-content: center;
               display: flex;
+              justify-content: flex-end;
               cursor: pointer;
               align-items: center; }
               .accountDetails .content .latestTransaction .transactionContent .row .amount svg {
@@ -7843,7 +7845,7 @@ FONTS
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
-            grid-template-columns: 5% 15% auto 10%;
+            grid-template-columns: 6% 7% auto 12%;
             padding: 10px 20px;
             grid-gap: 10px; }
             .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -7880,7 +7882,7 @@ FONTS
                 fill: #FFFFFF; }
             .accountDetails .content .latestTransaction .transactionContent .row .amount {
               font-size: 16px;
-              justify-content: center;
+              justify-content: flex-end;
               display: flex;
               cursor: pointer;
               align-items: center; }
@@ -8020,6 +8022,7 @@ FONTS
         .accountDetails .content .latestTransaction .transactionContent .row .amount {
           grid-row: 2/2;
           grid-column: 12/12;
+          justify-content: flex-end;
           font-size: 18px;
           display: flex;
           align-items: center; }
@@ -8591,7 +8594,7 @@ FONTS
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
-            grid-template-columns: 5% 15% auto 10%;
+            grid-template-columns: 6% 7% auto 12%;
             padding: 10px 20px;
             grid-gap: 10px; }
             .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -8628,7 +8631,7 @@ FONTS
                 fill: #FFFFFF; }
             .accountDetails .content .latestTransaction .transactionContent .row .amount {
               font-size: 16px;
-              justify-content: center;
+              justify-content: flex-end;
               display: flex;
               cursor: pointer;
               align-items: center; }
@@ -8770,6 +8773,7 @@ FONTS
           grid-column: 12/12;
           font-size: 18px;
           display: flex;
+          justify-content: flex-end;
           align-items: center; }
           .accountDetails .content .latestTransaction .transactionContent .row .amount svg {
             padding-left: 10px; }
@@ -9654,7 +9658,7 @@ FONTS
           overflow-y: scroll; }
           .accountDetails .content .latestTransaction .transactionContent .row {
             display: grid;
-            grid-template-columns: 5% 15% auto 10%;
+            grid-template-columns: 6% 7% auto 12%;
             padding: 10px 20px;
             grid-gap: 10px; }
             .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -9691,7 +9695,7 @@ FONTS
                 fill: #FFFFFF; }
             .accountDetails .content .latestTransaction .transactionContent .row .amount {
               font-size: 16px;
-              justify-content: center;
+              justify-content: flex-end;
               display: flex;
               cursor: pointer;
               align-items: center; }
@@ -9832,6 +9836,7 @@ FONTS
           grid-row: 2/2;
           grid-column: 12/12;
           font-size: 18px;
+          justify-content: flex-end;
           display: flex;
           align-items: center; }
           .accountDetails .content .latestTransaction .transactionContent .row .amount svg {
@@ -10988,7 +10993,7 @@ FONTS
     -webkit-transform: rotate(-360deg); } }
         .accountDetails .content .latestTransaction .transactionContent .row {
           display: grid;
-          grid-template-columns: 5% 15% auto 10%;
+          grid-template-columns: 6% 7% auto 12%;
           padding: 10px 20px;
           grid-gap: 10px; }
           .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -11024,6 +11029,7 @@ FONTS
           .accountDetails .content .latestTransaction .transactionContent .row .amount {
             font-size: 18px;
             display: flex;
+            justify-content: flex-end;
             align-items: center; }
             .accountDetails .content .latestTransaction .transactionContent .row .amount svg {
               padding-left: 10px; }

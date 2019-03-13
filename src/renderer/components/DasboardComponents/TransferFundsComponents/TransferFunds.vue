@@ -94,8 +94,8 @@
                                 <div class="row">
                                     <div class="amountdetails">
                                         <label class="sendAmount">You want to send
-                                            <span class="send_every_thing">{{ amount }}</span> Exp</label>
-                                        <h2>SELECT FEE</h2>
+                                            <span class="send_every_thing"> {{ amount }} </span> {{priceCurrency}}</label>
+                                        <h2> SELECT FEE </h2>
                                         <label id="result">0.00{{price}} EXP </label>
                                         <div class="progressBar">
                                             <input id="price" @change="handlepriceChange" v-model="price" @focus="handleFocus" type="range" min="53" max="212"/>
@@ -182,6 +182,7 @@
                 accountsArray: '',
                 fromArray: [],
                 currentArray: '',
+                priceCurrency: 'EXP',
                 modalArray: '',
                 optionFrom: [],
                 optionCurrency: [],
@@ -212,6 +213,9 @@
             amount: function (val) {
                 this.handleAmount();
             },
+            currencyHash: function () {
+                this.priceCurrency = this.currencyHash.text.split('(')[1].split(' ')[1];
+            },
         },
         computed: {
             accounts() {
@@ -231,13 +235,13 @@
                     if (this.accounts.length > 0) {
                         this.accounts.map((val) => {
                             if(val.hash == hash) {
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'}
                                 this.handlechangeFunds();
                             }
                             if(val.balance > 0 || val.tokens){
                                 // console.log(val.balance);
                                 // console.log(val);
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -255,9 +259,9 @@
                             if(val.balance > 0 || val.tokens){
                                 // console.log(val.balance);
                                 // console.log(val);
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP)'}
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'}
                                 this.handlechangeFunds();
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP )'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -306,6 +310,7 @@
                 // console.log("handlecurrchange");
                 setTimeout(() => {
                     if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
+                        this.priceCurrency = this.currencyHash.text.split('(')[1].split(' ')[1];
                         this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
                         this.handleAmount();
                     }
@@ -319,11 +324,11 @@
                     this.currencyHash = '';
                     if(this.fromArray.length == 1) {
                         this.currentArray = this.fromArray;
-                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
-                        this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP)'};
+                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP )'};
+                        this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP )'};
                         this.optionCurrency.push(defaultCurr);
                         this.fromArray[0].token_icons.map((acc_token) => {
-                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
+                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance +' '+acc_token.token_symbol+' )'};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
@@ -331,11 +336,11 @@
                         this.fromArray.map((account, index) => {
                             if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
-                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP)'};
-                                this.currencyHash = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP)'};
+                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP )'};
+                                this.currencyHash = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP )'};
                                 this.optionCurrency.push(defaultCurr);
                                 account.token_icons.map((acc_token) => {
-                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance + ' )'};
+                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance +' '+acc_token.token_symbol+' )'};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;
                                 })
@@ -380,6 +385,7 @@
                                     currencyHash: this.currencyHash.value,
                                     price: this.price,
                                     total_coins: this.total_coins,
+                                    priceCurrency: this.priceCurrency,
                                 };
                                 this.show();
                             }

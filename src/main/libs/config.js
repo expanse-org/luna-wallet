@@ -9,8 +9,8 @@ import got from 'got';
 import Raven from 'raven';
 import store from "../../renderer/store";
 
-// const  apiurl="https://stagingapi.tokenlab.io";
-const  apiurl="http://172.25.33.167:8090";
+const  apiurl="https://stagingapi.tokenlab.io";
+// const  apiurl="http://172.25.33.167:8090";
 // const  apiurl="http://stagingapi.tokenlab.io";
 
 var activeScreen = 'config';
