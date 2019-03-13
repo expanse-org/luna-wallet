@@ -27,9 +27,10 @@
                     </svg>
                 </span>
                 </div>
-                <div class="buttons gen">
-                    <button @click="handleUnlock" class=" ok button button--shikoba get_private_key_pass">
-                        <img class="button__icon" src="../../../../assets/img/submit.svg">
+                <div class="buttons">
+                    <button @click="handleUnlock" :disabled="btndisable" id="contract_transactions_btn" type="submit" class="ok button button--shikoba">
+                        <img v-if="loading" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
+                        <img v-if="!loading"  class="button__icon" src="../../../../assets/img/submit.svg">
                         <span>Unlock</span>
                     </button>
                 </div>
@@ -89,18 +90,19 @@
                 copiedtip: false,
                 copiedtipk: false,
                 loading: false,
+                btndisable: false,
             };
         },
         components:{
             'accounts': Accounts,
         },
         created(){
-            console.log(this.accountHash,"accountHash");
+            // console.log(this.accountHash,"accountHash");
             this.publicAddress = this.accountHash;
         },
         methods: {
             hide () {
-                console.log("close wallet_info")
+                // console.log("close wallet_info")
                 this.$modal.hide('wallet_info');
             },
             handleFocus(){
@@ -130,6 +132,7 @@
                 let datadir = "";
                 if(this.publicAddress && this.privateKeyPass){
                     this.loading = true;
+                    this.btndisable = true;
                     this.privateKeyPassError = false;
                     switch(osType) {
                         case "Linux":
@@ -142,20 +145,25 @@
                             datadir = `${app.getPath('appData')}\\Expanse`;
                             break;
                     }
-                    console.log("datadir",datadir);
-                    var keyObject = keythereum.importFromFile(this.publicAddress, datadir);
-                    try{
-                        var privateKey = keythereum.recover(this.privateKeyPass, keyObject);
-                        // console.log("privateKey",privateKey);
-                        privateKey = privateKey.toString('hex');
-                        this.privateKeyhide = true;
-                        this.loading = false;
-                        this.privateKey = privateKey;
-                    }catch(e){
-                        this.privateKeyPassError = true;
-                    }
+                    // console.log("datadir",datadir);
+                   setTimeout( () => {
+                       var keyObject = keythereum.importFromFile(this.publicAddress, datadir);
+                       try{
+                           var privateKey = keythereum.recover(this.privateKeyPass, keyObject);
+                           // console.log("privateKey",privateKey);
+                           privateKey = privateKey.toString('hex');
+                           this.privateKeyhide = true;
+                           this.loading = false;
+                           this.btndisable = false;
+                           this.privateKey = privateKey;
+                       }catch(e){
+                           this.privateKeyPassError = true;
+                       }
+                   },1000)
 
                 }else {
+                    this.loading = false;
+                    this.btndisable = false;
                     if (!this.privateKeyPass) {
                         this.privateKeyPassError = true;
                     }

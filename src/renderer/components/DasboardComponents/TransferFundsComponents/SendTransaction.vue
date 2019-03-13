@@ -28,7 +28,7 @@
                                 <p class="send_trx_from">{{modalArray.fundsFrom}}</p>
                             </div>
                             <div class="exp">
-                                <p>EXP</p>
+                                <p>{{modalArray.priceCurrency}}</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13px" height="9px">
                                     <path fill-rule="evenodd" d="M12.823,4.065 L8.954,0.169 C8.718,-0.069 8.336,-0.069 8.099,0.169 C7.863,0.407 7.863,0.792 8.099,1.030 L10.936,3.887 L0.604,3.887 C0.271,3.887 -0.000,4.159 -0.000,4.495 C-0.000,4.831 0.271,5.104 0.604,5.104 L10.936,5.104 L8.100,7.961 C7.863,8.199 7.863,8.584 8.100,8.822 C8.218,8.941 8.372,9.000 8.527,9.000 C8.682,9.000 8.836,8.941 8.954,8.822 L12.823,4.926 C13.059,4.688 13.059,4.303 12.823,4.065 Z"
                                     />
@@ -131,7 +131,7 @@
                                         <img class="button__icon" src="../../../assets/img/cancel.svg">
                                         <span>Close</span>
                                     </button>
-                                    <button @click="sendTransaction" id="contract_transactions_btn" type="submit" class="ok button button--shikoba">
+                                    <button :disabled="btndisable" @click="sendTransaction" id="contract_transactions_btn" type="submit" class="ok button button--shikoba">
                                         <img v-if="loading" class="outer-wheel button__icon" src="../../../assets/img/innerCricle.svg"/>
                                         <img v-if="!loading"  class="button__icon" src="../../../assets/img/send.svg">
                                         <span>Send Transaction</span>
@@ -193,18 +193,12 @@
                 amount: 0,
                 maximumfee: 21000,
                 loading: false,
+                btndisable: false,
             };
         },
         components:{
         },
         created(){
-            web3.eth.getGasPrice().then((price)=>{
-                this.gasPrice = price;
-            });
-            web3.eth.getTransactionCount(this.modalArray && this.modalArray.fundsFrom).then((count)=>{
-                this.nonce = count;
-            });
-
             web3.eth.estimateGas({from: this.modalArray && this.modalArray.fundsFrom, to: this.modalArray && this.modalArray.fundsTo, amount: web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")}, (res, err) => {
                 // console.log(res, err, "estimatedgass response")
             })
@@ -217,6 +211,12 @@
             } else {
                 this.amount = this.modalArray.total_coins;
             }
+            web3.eth.getTransactionCount(this.modalArray && this.modalArray.fundsFrom).then((count)=>{
+                this.nonce = count;
+            });
+            web3.eth.getGasPrice().then((price)=>{
+                this.gasPrice = price;
+            });
             var abiArray = tokenInterface; // From Config file
             var contractAddress = this.modalArray.currencyHash;
 
@@ -320,6 +320,7 @@
                 if(this.password){
                     try {
                     this.loading = true;
+                    this.btndisable = true;
                         var trans_nonce;
                         var latest_transaction = db.get('transactions').filter({from: this.modalArray && this.modalArray.fundsFrom}).value();
                         latest_transaction = lodash.orderBy(latest_transaction, ['nonce'], ['desc']);
@@ -351,6 +352,7 @@
                                             if(error){
                                                 console.log(error);
                                                 this.loading = false;
+                                                this.btndisable = false;
                                                 return false;
                                             }
                                             // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce, currentDate.getTime());
@@ -362,6 +364,7 @@
                                                 timeStamp : currentDate.getTime()
                                             }).write();
                                             this.loading = false;
+                                            this.btndisable = false;
                                             $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:"+txHash+" Copied to clipboard");
                                             $('#contract_transactions_btn').hide();
                                             $('form').trigger('reset');
@@ -375,6 +378,7 @@
                                         });
                                     }catch(e){
                                         this.loading = false;
+                                        this.btndisable = false;
                                         this.passwordError = "Invalid Password";
                                         return false;
                                         Raven.captureException(e);
@@ -382,6 +386,7 @@
                                 } else {
                                     try{
                                         this.loading = true;
+                                        this.btndisable = true;
                                         // console.log(tokenInterface);
                                         var abiArray = tokenInterface; // From Config file
                                         var contractAddress = this.modalArray.currencyHash;
@@ -443,6 +448,7 @@
                                             if(res){
                                                 console.log("res",res);
                                                 this.loading = false;
+                                                this.btndisable = false;
                                                 $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res.transactionHash));
                                                 $('.trx_alert-sucess p').css({color:'#ffffff'});
                                                 $('.trx_alert-sucess').show(300).delay(5000).hide(330);
@@ -462,11 +468,13 @@
                                         }, (err) => {
                                             console.log(err);
                                             this.loading = false;
+                                            this.btndisable = false;
                                             $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
                                         });
                                     }catch(e){
                                         console.log(e);
                                         this.loading = false;
+                                        this.btndisable = false;
                                         this.passwordError = "Invalid Password";
                                         Raven.captureException(e);
                                     }
@@ -474,18 +482,21 @@
                             }).catch((error) => {
                             // console.log(error);
                             this.loading = false;
+                            this.btndisable = false;
                             this.passwordError = "Invalid Password";
                             return false;
                         });
                     } catch(e) {
                         console.log("Exception",e);
                         this.loading = false;
+                        this.btndisable = false;
                         this.passwordError = "Invalid Password";
                         return false;
                     }
 
                 }else if(!this.password) {
                     this.loading = false;
+                    this.btndisable = false;
                     this.passwordError = "Enter Password";
                     // this.passwordError = "Invalid Password";
                 }

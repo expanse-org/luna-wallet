@@ -65,10 +65,10 @@
                         <div class="alert-unsucess hide">
                             <p>ERROR</p>
                         </div>
-
                         <div class="buttons">
-                            <button @click="handleCreateAcc" class=" ok createSimpleAccount button button--shikoba md-close">
-                                <img class="button__icon" src="../../../assets/img/create.svg">
+                            <button @click="handleCreateAcc" :disabled="btndisable" id="contract_transactions_btn" type="submit" class="ok button button--shikoba">
+                                <img v-if="loading" class="outer-wheel button__icon" src="../../../assets/img/innerCricle.svg"/>
+                                <img v-if="!loading"  class="button__icon" src="../../../assets/img/create.svg">
                                 <span>Log In</span>
                             </button>
                         </div>
@@ -106,6 +106,8 @@
                 pass: '',
                 passType: 'password',
                 validMail: false,
+                loading: false,
+                btndisable: false,
                 accountNameError: '',
                 passError: '',
             };
@@ -137,6 +139,8 @@
                 this.validMail = false;
             },
             handleCreateAcc(){
+                this.loading = true;
+                this.btndisable = true;
                 if(this.accountName && this.pass) {
                     var loginData = {
                         email: this.accountName,
@@ -149,6 +153,8 @@
                     axios.post(url, data, config )
                         .then((response)  =>  {
                             if(response.data.success){
+                                this.loading = false;
+                                this.btndisable = false;
                                 var ciphertext = CryptoJS.AES.encrypt(this.accountName, 'luna');
                                 var ciphertext1 = CryptoJS.AES.encrypt(response.data.token, 'luna');
                                 localStorage.setItem('lunamail', ciphertext);
@@ -159,12 +165,16 @@
                                 }, 2000)
                             }else
                             {
+                                this.loading = false;
+                                this.btndisable = false;
                                 $('.alert-unsucess').show(400).delay(5000).hide(330);
                                 setTimeout(() => {
                                     this.validMail = false;
                                 }, 2000)
                             }
                         }, (error)  =>  {
+                            this.loading = false;
+                            this.btndisable = false;
                             $('.alert-unsucess').show(400).delay(5000).hide(330);
                             setTimeout(() => {
                                 this.validMail = false;
@@ -172,6 +182,7 @@
                             console.log(error);
                         })
                 } else {
+                    this.loading = false;
                     if(!this.accountName){
                         this.accountNameError = "Email Address is required"
                     }
