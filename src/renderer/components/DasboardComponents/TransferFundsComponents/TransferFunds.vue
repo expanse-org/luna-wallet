@@ -214,7 +214,8 @@
                 this.handleAmount();
             },
             currencyHash: function () {
-                this.priceCurrency = this.currencyHash.text.split('(')[1].split(' ')[1];
+                console.log("handlecurrchange", this.currencyHash.text);
+                this.priceCurrency = this.currencyHash.text.split(' ')[1];
             },
         },
         computed: {
@@ -284,8 +285,8 @@
                 setTimeout(() => {
                     var price = '0.00'+this.price;
                     if(this.currencyHash && this.sendAllCheck) {
-                        this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
-                        this.total_coins = this.currencyHash.text.split("(")[1].split(" ")[0];
+                        this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                        this.total_coins = this.currencyHash.text.split(" ")[0];
                     } else {
                         this.total_coins = parseFloat(this.amount) + parseFloat(price);
                     }
@@ -294,15 +295,15 @@
             handlepriceChange(){
                 var price = '0.00'+this.price;
                 if(this.currencyHash && this.sendAllCheck) {
-                    this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
-                    this.total_coins = this.currencyHash.text.split("(")[1].split(" ")[0];
+                    this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                    this.total_coins = this.currencyHash.split(" ")[0];
                 } else {
                     this.total_coins = parseFloat(this.amount) + parseFloat(price);
                 }
             },
             handlesendall(){
                 if(this.currencyHash && this.currencyHash.text) {
-                    this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
+                    this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
                 }
                 this.handleAmount();
             },
@@ -310,8 +311,9 @@
                 // console.log("handlecurrchange");
                 setTimeout(() => {
                     if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
-                        this.priceCurrency = this.currencyHash.text.split('(')[1].split(' ')[1];
-                        this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
+                        console.log("handlecurrchange", this.currencyHash.text);
+                        this.priceCurrency = this.currencyHash.text.split(" ")[1];
+                        this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
                         this.handleAmount();
                     }
                 }, 200)
@@ -324,11 +326,11 @@
                     this.currencyHash = '';
                     if(this.fromArray.length == 1) {
                         this.currentArray = this.fromArray;
-                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP )'};
-                        this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ this.fromArray[0].balance+' EXP )'};
+                        let defaultCurr = {value: this.fromArray[0].hash ,text :  this.fromArray[0].balance+' EXP'};
+                        this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].balance+' EXP'};
                         this.optionCurrency.push(defaultCurr);
                         this.fromArray[0].token_icons.map((acc_token) => {
-                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance +' '+acc_token.token_symbol+' )'};
+                            var data = {value: acc_token.tokenHash , text: acc_token.balance +' '+acc_token.token_symbol};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
@@ -336,11 +338,11 @@
                         this.fromArray.map((account, index) => {
                             if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
-                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP )'};
-                                this.currencyHash = {value: account.hash ,text : account.accountTitle + '- ('+ account.balance +' EXP )'};
+                                let defaultCurr = {value: account.hash ,text : account.balance +' EXP'};
+                                this.currencyHash = {value: account.hash ,text :  account.balance +' EXP'};
                                 this.optionCurrency.push(defaultCurr);
                                 account.token_icons.map((acc_token) => {
-                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +acc_token.balance +' '+acc_token.token_symbol+' )'};
+                                    var data = {value: acc_token.tokenHash , text: acc_token.balance +' '+acc_token.token_symbol};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;
                                 })
@@ -349,7 +351,7 @@
                     }
                     this.amount = 0;
                     if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
-                        this.amount = parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) - parseFloat("0.00"+this.price);
+                        this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
                         this.handleAmount();
                     }
                 }, 200)
@@ -373,7 +375,7 @@
                         this.fundsToError = 'Invalid Address';
                     } else{
                         //console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
-                        if(parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) >= parseFloat(this.amount)){
+                        if(parseFloat(this.currencyHash.text.split(" ")[0]) >= parseFloat(this.amount)){
                             if(this.fundsFrom.value == this.fundsTo){
                                 this.fundsToError = 'Invalid Address';
                             }else {

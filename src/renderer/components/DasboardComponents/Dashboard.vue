@@ -30,6 +30,8 @@ export default {
         };
     },
     created(){
+        var d = "WARN [03-18|18:21:28.263] Head state missing, repairing chain      number=1740027 hash=7fa24b…3570ea";
+        console.log(d.split(' ')[2] === "Head");
         if (typeof web3 !== 'undefined') {
             // console.log("if (typeof web3 !== 'undefined')");
             getAllAcounts();

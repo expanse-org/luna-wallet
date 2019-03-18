@@ -43,6 +43,13 @@
                 </div>
             </div>
         </div>
+        <div v-else-if="contractdata === null" class="content">
+            <div class="accounts">
+                <div class="no-token">
+                    <h1>No Tokens Found</h1>
+                </div>
+            </div>
+        </div>
         <div v-else class="txns_details" >
             <div class="md-content">
                 <div class="loader transactionLoader">
@@ -80,7 +87,8 @@
             mainMenu(contractid, contract) {
                 this.$router.push({
                     path: '/contractdata',
-                    query: { contractid: contractid,
+                    query: {
+                        contractid: contractid,
                         contract: contract
                     }
                 });
@@ -116,8 +124,6 @@
                                         color: color
                                     }).write();
                                 }
-
-
                                 const config1 = { headers: { "Content-Type": "application/json"} };
                                 var url1 = apiurl + `/contract/standard/${token.std}`;
                                 axios.get(url1, config1 ).then((response)  =>  {
@@ -173,4 +179,12 @@
 
 
 <style>
+
+    .no-token{
+        background-color: #1a3640;
+        width: 100%;
+        padding: 60px 0px;
+        text-align: center;
+        font-size: 25px;
+    }
 </style>
