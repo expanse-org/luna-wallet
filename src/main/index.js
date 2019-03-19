@@ -129,14 +129,19 @@ const runGexp = (path) => {
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
                             if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "Head" && data.toString('utf8').split(' ')[3] === "state" && data.toString('utf8').split(' ')[4] === "missing,"  && data.toString('utf8').split(' ')[5] === "repairing" && data.toString('utf8').split(' ')[6] === "chain"){
+                            // if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "UDP" && data.toString('utf8').split(' ')[3] === "listener" && data.toString('utf8').split(' ')[4] === "up"){
                                 console.log("chainrRepairError ");
                                 chainError = true;
-                                //chainRepair();
                                 gexpProc.kill();
                                 mainWindow.webContents.send('chainrRepairError', true);
                             } else if (!chainError) {
                                 if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "WebSocket" && data.toString('utf8').split(' ')[4] === "opened" ){
                                     mainWindow.webContents.send('connectwebgexp', true);
+                                }
+                                if(textChunk === "Fatal: Error starting protocol stack: datadir already used by another process\n"){
+                                    console.log("gexpStartAlready");
+                                    mainWindow.webContents.send('gexpStartAlready', true);
+                                    runMineGexp();
                                 }
                             }
                         }
@@ -159,6 +164,20 @@ const runGexp = (path) => {
         } catch (e) {
             console.log("Error:", e);
         }
+        return true;
+    } catch (e) {
+
+        console.log(e);
+    }
+};
+
+
+const runMineGexp = () => {
+    // console.log("startGexp:path",path);
+    try {
+        console.log("startingGEXP");
+
+        mainWindow.webContents.send('connectwebgexp', true);
         return true;
     } catch (e) {
 

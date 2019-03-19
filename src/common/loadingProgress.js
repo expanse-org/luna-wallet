@@ -1,11 +1,11 @@
 
 
-import {production, updateScreen} from '../main/libs/config';
+import {prod_app_directory, production, updateScreen} from '../main/libs/config';
 import {getClientInfo } from '../common/clientInfo';
 import {connectWeb3 } from '../common/web3Config';
 import os from 'os';
 import shell from 'shelljs';
-import {downloadGexp} from './gexpfunc';
+import {startingGexp} from './gexpfunc';
 import fs from 'fs';
 import request from 'request';
 import progress from 'request-progress';
@@ -163,19 +163,46 @@ const loadingProgress = (dlData) =>{
 
 const chainErrorHandle = () => {
     shell.cd('');
-    shell.cd("AppData\\Roaming\\Expanse");
     console.log(shell.ls(''));
     try{
-        // shell.rm('-rf', '/gexp');
-        // console.log(shell.ls(''), "After delete");
-        exec('del /f /q gexp & rmdir /q /s gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
-            if (err) {
-                console.log(`error: ${err}`);
-                return;
-            }
-            console.log("Folder Delete");
-            downloadGexp();
-        });
+        let osType = os.type();
+        switch (osType) {
+            case "Linux":
+                shell.cd("/.expanse");
+                // exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                //     if (err) {
+                //         console.log(`error: ${err}`);
+                //         return;
+                //     }
+                //     console.log("Folder Delete");
+                //     // startingGexp();
+                // });
+                break;
+            case "Darwin":
+                shell.cd("Library/Expanse");
+                console.log(shell.ls(''));
+                exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`error: ${err}`);
+                        return;
+                    }
+                    console.log("Folder Delete");
+                    startingGexp();
+                });
+                break;
+            case "Windows_NT":
+                shell.cd("AppData\\Roaming\\Expanse");
+                exec('del /f /q gexp & rmdir /q /s gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`error: ${err}`);
+                        return;
+                    }
+                    console.log("Folder Delete");
+                    startingGexp();
+                });
+                break;
+            default:
+        }
     }catch(e){
         Raven.captureException(e);
         console.log(e);
