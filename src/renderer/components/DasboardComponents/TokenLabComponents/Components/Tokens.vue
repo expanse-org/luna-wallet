@@ -96,7 +96,7 @@
                 var color = getRandomColor();
                 axios.get(url, config )
                     .then((response)  =>  {
-                        // console.log(response.data.data);
+                        console.log(response.data.data);
                         this.contractdata = response.data.data;
                         response.data.data.map((token) => {
                             if(token.step >= 4 && token.paid) {

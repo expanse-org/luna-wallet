@@ -517,7 +517,8 @@
             },
             getAddress (value,output){
                 var dataoinput = '';
-                if(value.inputs.length == 0 ) {
+                if(value.inputs.length == 0) {
+                    // console.log(value);
                     instance.methods[value.name]().call().then((res) => {
                         // console.log(res," res");
                         if(res){
