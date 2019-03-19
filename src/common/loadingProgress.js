@@ -5,6 +5,7 @@ import {getClientInfo } from '../common/clientInfo';
 import {connectWeb3 } from '../common/web3Config';
 import os from 'os';
 import shell from 'shelljs';
+import {downloadGexp} from './gexpfunc';
 import fs from 'fs';
 import request from 'request';
 import progress from 'request-progress';
@@ -165,15 +166,16 @@ const chainErrorHandle = () => {
     shell.cd("AppData\\Roaming\\Expanse");
     console.log(shell.ls(''));
     try{
-        shell.rm('-rf','/gexp');
-        // exec('del gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
-        //     console.log("Folder Delete",err, stdout, stderr);
-        //     if (err) {
-        //         console.log(`error: ${err}`);
-        //         return;
-        //     }
-        //     console.log("Folder Delete");
-        // });
+        // shell.rm('-rf', '/gexp');
+        // console.log(shell.ls(''), "After delete");
+        exec('del /f /q gexp & rmdir /q /s gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+            if (err) {
+                console.log(`error: ${err}`);
+                return;
+            }
+            console.log("Folder Delete");
+            downloadGexp();
+        });
     }catch(e){
         Raven.captureException(e);
         console.log(e);
