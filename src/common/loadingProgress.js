@@ -159,4 +159,25 @@ const loadingProgress = (dlData) =>{
 }
 
 
-export { loadingProgress }
+
+const chainErrorHandle = () => {
+    shell.cd('');
+    shell.cd("AppData\\Roaming\\Expanse");
+    console.log(shell.ls(''));
+    try{
+        shell.rm('-rf','/gexp');
+        // exec('del gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+        //     console.log("Folder Delete",err, stdout, stderr);
+        //     if (err) {
+        //         console.log(`error: ${err}`);
+        //         return;
+        //     }
+        //     console.log("Folder Delete");
+        // });
+    }catch(e){
+        Raven.captureException(e);
+        console.log(e);
+    }
+}
+
+export { loadingProgress, chainErrorHandle }
