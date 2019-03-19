@@ -204,6 +204,36 @@
             </div>
             <!----------connectionError page ends------------>
 
+             <!----------ChainError page starts------------>
+             {{chainErrorData}}
+            <div v-if="this.$store.state.screenState=='ChainError'"  class="connectionError node-network-error">  <!-- done -->
+                <div class="content">
+                    <div class="logo">
+
+                        <div class="connectionErrorAnimation">
+                            <svg class="bug" xmlns="http://www.w3.org/2000/svg" width="68" height="100"
+                                 viewBox="0 0 68 100">
+                                <defs>
+                                </defs>
+                                <path id="Forma_1_copy" data-name="Forma 1 copy" class="bug"
+                                      d="M64.45,57h0.193a2.334,2.334,0,1,1,0,4.667h-7.07v14c0,0.348-.089.672-0.1,1.016l6.124,4.042a2.318,2.318,0,0,1,.654,3.236,2.372,2.372,0,0,1-3.268.647l-4.323-2.853A23.5,23.5,0,0,1,34.006,99c-0.018,0-.035,0-0.053,0s-0.035,0-.053,0a23.529,23.529,0,0,1-2.762-.181L31.1,98.814A23.454,23.454,0,0,1,11.314,81.755L7,84.608a2.36,2.36,0,0,1-3.259-.647A2.322,2.322,0,0,1,4.4,80.725L10.5,76.683c-0.015-.344-0.1-0.668-0.1-1.016v-14H3.35A2.333,2.333,0,1,1,3.35,57H10.4V41.916l-6-3.974a2.331,2.331,0,0,1,1.3-4.274,2.378,2.378,0,0,1,1.338.391l4.1,2.7a11.7,11.7,0,0,1,10.339-7.694L22.41,22.18A8.594,8.594,0,0,1,24.5,17.854V14.861a9.237,9.237,0,0,0-9.26-9.194,2.333,2.333,0,1,1,0-4.667l0.036,0,0.018,0a13.947,13.947,0,0,1,14,13.861v0.3A8.58,8.58,0,0,1,30.876,15h6.163a8.591,8.591,0,0,1,1.561.155V14.861A13.927,13.927,0,0,1,52.56,1c0.018,0,.035,0,0.054.005,0.036,0,.071-0.005.107-0.005a2.334,2.334,0,1,1,0,4.667,9.251,9.251,0,0,0-9.286,9.194v2.993a8.585,8.585,0,0,1,2.1,4.326l0.943,6.888A11.722,11.722,0,0,1,56.812,36.7L60.8,34.058a2.624,2.624,0,0,1,3.451.648,2.318,2.318,0,0,1-.654,3.236l-6.021,3.974V57H64.45ZM52.859,75.667v-8.22l-0.159.1V40.667a7.033,7.033,0,0,0-7.045-7H36.363V94.1a18.389,18.389,0,0,0,7.309-2.6c-0.05-.3-0.013-0.225.068,0.052A18.476,18.476,0,0,0,52.859,75.667ZM24.147,91.518c0.076-.254.108-0.314,0.06-0.024A19.3,19.3,0,0,0,27.7,93.182c0.06,0.021.119,0.046,0.18,0.066,0.321,0.114.651,0.2,0.978,0.292a18.951,18.951,0,0,0,2.693.558V33.667H22.218a7.043,7.043,0,0,0-7.065,7V67.55L15.1,67.516v8.151A18.485,18.485,0,0,0,24.147,91.518Zm6.826-71.851a3.843,3.843,0,0,0-3.818,3.142L26.307,29H41.578l-0.846-6.191a3.834,3.834,0,0,0-3.807-3.142H30.973Z"/>
+                            </svg>
+                            <svg class="bugError" xmlns="http://www.w3.org/2000/svg" width="54" height="54"
+                                 viewBox="0 0 29 29">
+                                <defs>
+                                </defs>
+                                <circle class="bugError_1" cx="14.5" cy="14.5" r="13.5"/>
+                                <path id="Forma_1" data-name="Forma 1" class="bugError_2"
+                                      d="M16.134,17.749L16.76,4.884H12.273L12.9,17.749h3.237Zm-1.617,1.419a2.454,2.454,0,0,0-2.557,2.584,2.456,2.456,0,0,0,2.5,2.586h0.057a2.445,2.445,0,0,0,2.525-2.586A2.444,2.444,0,0,0,14.516,19.168Z"/>
+                            </svg>
+                        </div>
+                        <label>Expanse node broken chain error</label>
+                        <label>Retrying to install again</label>
+                    </div>
+                </div>
+            </div>
+            <!----------ChainError page ends------------>
+
             <!----------error page starts------------>
             <div v-if="this.$store.state.screenState == 'error-downloading'"  class="error error-downloading-node"> <!-- done -->
                 <div class="content">
@@ -235,7 +265,11 @@
 <script>
   import {web3} from '../../../main/libs/config';
   import {downloadGexp} from '../../../common/gexpfunc';
-  import {ipcRenderer} from 'electron';
+  import {chainErrorHandle} from '../../../common/loadingProgress';
+  import {ipcRenderer, app} from 'electron';
+  import appPath from 'path';
+  var fs  = require('fs');
+  import shell from "shelljs";
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';
 
   export default {
@@ -251,6 +285,16 @@
         // console.log(this.$store)
         // this.activeScreen = this.$store.state.screenState;
         // console.log(this.activeScreen,"activeScreenAPP")
+    },
+    computed:
+    {    
+        chainErrorData() {
+            ipcRenderer.on('chainrRepairError', (event, res) => {
+                console.log(res, 'chainrRepairError------01');
+                this.$store.dispatch('addScreen', 'ChainError');
+                chainErrorHandle();
+            });
+        }
     },
     methods: {
         launchApplication(){

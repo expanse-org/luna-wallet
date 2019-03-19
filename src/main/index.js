@@ -90,6 +90,7 @@ app.on('activate', () => {
 });
 
 
+let chainError = false;
 const runGexp = (path) => {
     // console.log("startGexp:path",path);
     try {
@@ -124,15 +125,21 @@ const runGexp = (path) => {
             try{
                 gexpProc.stderr.on('data', (data) => {
                     console.log(`stderr: ${data}`);
-
                     let textChunk = data.toString('utf8');
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
-                            if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "WebSocket" && data.toString('utf8').split(' ')[4] === "opened" ){
-                                mainWindow.webContents.send('connectwebgexp', true);
+                            if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "Head" && data.toString('utf8').split(' ')[3] === "state" && data.toString('utf8').split(' ')[4] === "missing,"  && data.toString('utf8').split(' ')[5] === "repairing" && data.toString('utf8').split(' ')[6] === "chain"){
+                                console.log("chainrRepairError ");
+                                chainError = true;
+                                //chainRepair();
+                                gexpProc.kill();
+                                mainWindow.webContents.send('chainrRepairError', true);
+                            } else if (!chainError) {
+                                if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "WebSocket" && data.toString('utf8').split(' ')[4] === "opened" ){
+                                    mainWindow.webContents.send('connectwebgexp', true);
+                                }
                             }
                         }
-
                         // process utf8 text chunk
 
 
@@ -292,6 +299,32 @@ function backup(){
         }
         shell.showItemInFolder(userPath);
     }catch(e){
+        Raven.captureException(e);
+    }
+}
+
+
+function chainRepair(){
+    try{
+        let userPath = app.getPath('home');
+        let appDataPath = app.getPath('appData');
+        if (process.platform === 'darwin') {
+            userPath += '/Library/Expanse';
+        }
+        if (
+            process.platform === 'freebsd' ||
+            process.platform === 'linux' ||
+            process.platform === 'sunos'
+        ) {
+            userPath += '/.expanse';
+        }
+    
+        if (process.platform === 'win32') {
+            userPath = `${appDataPath}\\Expanse`;
+        }
+        //console.log("chainrRepairError ", shell.openItem(userPath));
+    }catch(e){
+        console.log("chainRepair  function call -----------------catch----------", e);
         Raven.captureException(e);
     }
 }
