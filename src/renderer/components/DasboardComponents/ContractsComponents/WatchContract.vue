@@ -37,7 +37,7 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'">
-                        <textarea class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
+                        <textarea rows="10"  class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
                                 <span class="details">Contract Abi</span>
@@ -98,7 +98,7 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'" >
-                        <textarea class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
+                        <textarea rows="10" class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
                                 <span class="details">Enter Your Contract Abi Json.</span>

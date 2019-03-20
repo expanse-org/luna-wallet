@@ -24,7 +24,7 @@ const updateScreen = (screen) => {
 
 const startConnectWeb = () => {
 
-    const RINKEBY_WSS = "ws://127.0.0.1:8546";
+    const RINKEBY_WSS = "ws://127.0.0.1:9657";
     var provider = new Web3.providers.WebsocketProvider(RINKEBY_WSS);
     web3 = new Web3(provider);
 
