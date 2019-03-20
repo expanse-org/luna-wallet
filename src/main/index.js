@@ -135,7 +135,7 @@ const runGexp = (path) => {
                                 gexpProc.kill();
                                 mainWindow.webContents.send('chainrRepairError', true);
                             } else if (!chainError) {
-                                if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "WebSocket" && data.toString('utf8').split(' ')[4] === "opened" ){
+                                if(textChunk.includes('WebSocket endpoint opened') || textChunk.includes('url=ws://[::]:9657')){
                                     mainWindow.webContents.send('connectwebgexp', true);
                                 }
                                 if(textChunk === "Fatal: Error starting protocol stack: datadir already used by another process\n"){
