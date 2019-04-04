@@ -456,6 +456,8 @@
                             dataoinput = res;
                             $("."+(value.name)+" .value").html(res);
                         }
+                    }, (err) => {
+                        // console.log(err,"errrr====")
                     });
                 } else {
                     return output.name;

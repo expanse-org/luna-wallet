@@ -185,8 +185,8 @@
                         <img src="../../../assets/img/inner.png">
                     </div>
                 </div>
-                <div @click="handletxdetail(transaction)" v-if="istransactions" v-for="(transaction, index) in filtertransaction? filtertransaction: transactions">
-                    <div v-if="transaction.Type != 'mined_transaction'"  class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
+                <div>
+                    <div @click="handletxdetail(transaction)" v-if="istransactions && transaction.Type != 'mined_transaction'" v-for="(transaction, index) in filtertransaction? filtertransaction: transactions" class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
                         <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
                         <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status statstf"><strong>{{transaction.transactionStatus}}</strong></label>
                         <label v-else-if="transaction.transactionStatus" class="status statstf">{{transaction.transactionStatus}}</label>

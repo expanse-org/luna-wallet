@@ -120,6 +120,7 @@
     import moment from 'moment';
     import * as $ from 'jquery';
     // var web3 = startConnectWeb();
+    const got = require('got');
     import _ from 'underscore';
 
     export default {
@@ -175,7 +176,13 @@
             },
             currenciesData: function(){
                 this.currency = this.$store.state.currencies;
-                console.log(this.currency, "currency");
+                got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
+                    json: true
+                }).then(response => {
+                    this.currency = response.body.DISPLAY.EXP;
+                },(error) => {
+                });
+                // console.log(this.currency, "currency");
                 return this.currency;
             },
             totalBalanceData: function(){

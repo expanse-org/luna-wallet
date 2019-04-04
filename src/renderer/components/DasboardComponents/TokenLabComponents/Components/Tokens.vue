@@ -3,7 +3,7 @@
         <div v-if="contractdata" class="content">
             <div class="accounts">
                 <div class="bottom accounts-list">
-                    <div @click="mainMenu(token.id, token)" v-if="token.step >= 4 && token.paid" v-for="(token, key ) in contractdata" class="account1 a1" :data-index="parseInt(key + 1)">
+                    <div @click="mainMenu(token.id, token)" v-if="token.step >= 4 && token.paid && !token.archived" v-for="(token, key ) in contractdata" class="account1 a1" :data-index="parseInt(key + 1)">
                         <div class="img">
                             <svg :class="'svg-1 svg' + parseInt(key + 1)" v-bind:style="{fill:getRandomColor(), enableBackground: 'new 0 0 43 43'}"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
@@ -107,7 +107,7 @@
                         console.log(response.data.data);
                         this.contractdata = response.data.data;
                         response.data.data.map((token) => {
-                            if(token.step >= 4 && token.paid) {
+                            if(token.step >= 4 && token.paid && !token.archived) {
                                 // console.log(token);
                                 let token1 = db.get('tokens').find({ token_address: token.token && token.token.addr }).value();
                                 if(token1)
