@@ -102,7 +102,7 @@ const startingGexp = () => {
             }
         });
         ipcRenderer.on('connectwebgexp', (event, res) => {
-            // console.log(res, 'expr------01', 'exprerrrrr------01');
+            console.log(res, 'expr------01', 'connectwebgexp------01');
             if(res)
             {
                 connectWeb3();
