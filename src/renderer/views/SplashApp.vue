@@ -40,11 +40,11 @@
     let newClinetBinaries = clientBinaries;
     var versionUpdate = false;
 
-
     export default {
         name: 'lunawalletvuetest',
         created(){
             this.chekAppInfo();
+
             ExpApi();
         },
         data() {
@@ -98,6 +98,8 @@
                         else
                             cmd = 'ping -c 1 www.google.com';
 
+                        var data=fs.readFileSync('./clientBinaries.json', 'utf8');
+                        var words=JSON.parse(data);
                         var child = exec(cmd, function(er, stdout, stderr){
                             if(er !== null){
                                 console.log("error founds");
@@ -113,7 +115,7 @@
                                 .then(response => {
                                     let latestGethVersion = response.body.tag_name;
                                     newClinetBinaries.clients.Gexp.version = latestGethVersion;
-                                    console.log(localGethVersion, latestGethVersion, "ulatestGethVersionrl1---------------------------");
+                                    // console.log( localGethVersion, "localGethVersion", latestGethVersion, "ulatestGethVersionrl1---------------------------");
                                     // console.log(response.body.tag_name, "urresponsel1---------------------------");
                                     if(response.body.tag_name != localGethVersion){
                                         versionUpdate = true;
@@ -149,8 +151,8 @@
                                     } // if ended -- if(response.body.tag_name !== localGethVersion)
 
                                 }).then(res => {
-                                console.log("versionUpdate", versionUpdate);
-                                if (versionUpdate === true) {
+                                // console.log("versionUpdate", versionUpdate, newClinetBinaries);
+                                if (versionUpdate == true) {
                                     // console.log(shell.ls(''),"shellls in writeFile clientBinaries");
                                     fs.writeFile(
                                         './clientBinaries.json',

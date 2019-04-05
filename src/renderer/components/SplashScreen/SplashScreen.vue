@@ -278,6 +278,9 @@
        return {
            activeScreen: this.$store.state.screenState,
            networkSetting: true,
+           cb: 0,
+           totalblock: 0,
+           hb: 0,
        };
     },
     created(){
@@ -287,7 +290,26 @@
         // console.log(this.activeScreen,"activeScreenAPP")
     },
     computed:
-    {    
+    {
+        currentblockData: function(){
+            // console.log(this.$store.state.gexpSync,"this.$/ store.state.peerCount");
+            if(this.$store.state.gexpSync.currentBlock){
+                this.cb = this.$store.state.gexpSync.currentBlock;
+                this.totalblock = this.$store.state.gexpSync.currentBlock;
+            } else {
+                this.cb = this.$store.state.currentblock;
+                this.totalblock = this.$store.state.currentblock;
+            }
+            return this.cb;
+        },
+        highestblockData: function(){
+            if(this.$store.state.gexpSync.currentBlock){
+                this.hb = this.$store.state.gexpSync.highestBlock;
+            } else {
+                this.hb = this.$store.state.currentblock;
+            }
+            return this.hb;
+        },
         chainErrorData() {
             ipcRenderer.on('chainrRepairError', (event, res) => {
                 console.log(res, 'chainrRepairError------01');

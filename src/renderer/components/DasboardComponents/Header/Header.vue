@@ -180,9 +180,9 @@
                     json: true
                 }).then(response => {
                     this.currency = response.body.DISPLAY.EXP;
+                    console.log(this.currency, "currency");
                 },(error) => {
                 });
-                // console.log(this.currency, "currency");
                 return this.currency;
             },
             totalBalanceData: function(){
