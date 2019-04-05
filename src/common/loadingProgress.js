@@ -169,14 +169,14 @@ const chainErrorHandle = () => {
         switch (osType) {
             case "Linux":
                 shell.cd("/.expanse");
-                // exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
-                //     if (err) {
-                //         console.log(`error: ${err}`);
-                //         return;
-                //     }
-                //     console.log("Folder Delete");
-                //     // startingGexp();
-                // });
+                exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`error: ${err}`);
+                        return;
+                    }
+                    console.log("Folder Delete");
+                    startingGexp();
+                });
                 break;
             case "Darwin":
                 shell.cd("Library/Expanse");
