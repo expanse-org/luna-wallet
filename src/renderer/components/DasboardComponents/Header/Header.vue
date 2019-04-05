@@ -176,11 +176,13 @@
             },
             currenciesData: function(){
                 this.currency = this.$store.state.currencies;
+                var curNew= this.currency;
                 got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
                     json: true
                 }).then(response => {
+                    curNew = response.body.DISPLAY.EXP;
                     this.currency = response.body.DISPLAY.EXP;
-                    console.log(this.currency, "currency");
+                    $(".currValue").text(curNew['USD'].PRICE);
                 },(error) => {
                 });
                 return this.currency;
@@ -215,7 +217,7 @@
             // console.log(this.$store.state.gexpSync)
             // console.log(this.currenciesData, "currencies")
             if(this.$store.state.gexpSync){
-                console.log(this.$store.state.gexpSync, "this.$store.state.gexpSync.currentBlock")
+                // console.log(this.$store.state.gexpSync, "this.$store.state.gexpSync.currentBlock")
                 web3.eth.getBlock(this.$store.state.gexpSync.currentBlock).then((res) => {
                     this.timeStamp = moment(res.timestamp * 1000).fromNow();
                 });
@@ -241,7 +243,7 @@
         },
         methods: {
             handleCurrency(curr){
-                console.log("web3 this.curr", curr);
+                // console.log("web3 this.curr", curr);
                 if(curr == 'USD'){
                     this.defaultCurrencySign = '$';
                 }else {
