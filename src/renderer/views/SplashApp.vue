@@ -151,7 +151,7 @@
                                     } // if ended -- if(response.body.tag_name !== localGethVersion)
 
                                 }).then(res => {
-                                console.log("versionUpdate", versionUpdate, newClinetBinaries);
+                                // console.log("versionUpdate", versionUpdate, newClinetBinaries);
                                 if (versionUpdate == true) {
                                     // console.log(shell.ls(''),"shellls in writeFile clientBinaries");
                                     fs.writeFile(

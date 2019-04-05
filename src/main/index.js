@@ -128,8 +128,8 @@ const runGexp = (path) => {
                     let textChunk = data.toString('utf8');
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
-                            if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "Head" && data.toString('utf8').split(' ')[3] === "state" && data.toString('utf8').split(' ')[4] === "missing,"  && data.toString('utf8').split(' ')[5] === "repairing" && data.toString('utf8').split(' ')[6] === "chain"){
-                            // if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "UDP" && data.toString('utf8').split(' ')[3] === "listener" && data.toString('utf8').split(' ')[4] === "up"){
+                            if(textChunk.includes('Rewinding blockchain')){
+                            // if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "Head" && data.toString('utf8').split(' ')[3] === "state" && data.toString('utf8').split(' ')[4] === "missing,"  && data.toString('utf8').split(' ')[5] === "repairing" && data.toString('utf8').split(' ')[6] === "chain"){
                                 console.log("chainrRepairError ");
                                 chainError = true;
                                 gexpProc.kill();
@@ -146,8 +146,6 @@ const runGexp = (path) => {
                             }
                         }
                         // process utf8 text chunk
-
-
                 });
             }catch(e){
                 console.log("Error",e);
