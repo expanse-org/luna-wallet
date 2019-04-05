@@ -227,7 +227,7 @@
                                       d="M16.134,17.749L16.76,4.884H12.273L12.9,17.749h3.237Zm-1.617,1.419a2.454,2.454,0,0,0-2.557,2.584,2.456,2.456,0,0,0,2.5,2.586h0.057a2.445,2.445,0,0,0,2.525-2.586A2.444,2.444,0,0,0,14.516,19.168Z"/>
                             </svg>
                         </div>
-                        <label>Expanse node broken chain error</label>
+                        <label>Chain rewinding error</label>
                         <label>Retrying to install again</label>
                     </div>
                 </div>
@@ -278,6 +278,9 @@
        return {
            activeScreen: this.$store.state.screenState,
            networkSetting: true,
+           cb: 0,
+           totalblock: 0,
+           hb: 0,
        };
     },
     created(){
@@ -287,7 +290,26 @@
         // console.log(this.activeScreen,"activeScreenAPP")
     },
     computed:
-    {    
+    {
+        currentblockData: function(){
+            // console.log(this.$store.state.gexpSync,"this.$/ store.state.peerCount");
+            if(this.$store.state.gexpSync.currentBlock){
+                this.cb = this.$store.state.gexpSync.currentBlock;
+                this.totalblock = this.$store.state.gexpSync.currentBlock;
+            } else {
+                this.cb = this.$store.state.currentblock;
+                this.totalblock = this.$store.state.currentblock;
+            }
+            return this.cb;
+        },
+        highestblockData: function(){
+            if(this.$store.state.gexpSync.currentBlock){
+                this.hb = this.$store.state.gexpSync.highestBlock;
+            } else {
+                this.hb = this.$store.state.currentblock;
+            }
+            return this.hb;
+        },
         chainErrorData() {
             ipcRenderer.on('chainrRepairError', (event, res) => {
                 console.log(res, 'chainrRepairError------01');

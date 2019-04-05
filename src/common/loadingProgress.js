@@ -168,8 +168,7 @@ const chainErrorHandle = () => {
         let osType = os.type();
         switch (osType) {
             case "Linux":
-                shell.cd(".expanse");
-                console.log(shell.ls(''));
+                shell.cd("/.expanse");
                 exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
                     if (err) {
                         console.log(`error: ${err}`);
@@ -181,7 +180,6 @@ const chainErrorHandle = () => {
                 break;
             case "Darwin":
                 shell.cd("Library/Expanse");
-                console.log(shell.ls(''));
                 exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
                     if (err) {
                         console.log(`error: ${err}`);
