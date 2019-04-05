@@ -35,7 +35,7 @@
     import  * as child_process from 'child_process';
 
     const clientBinariesGexp = clientBinaries.clients.Gexp;
-    const localGethVersion = clientBinariesGexp.version;
+    let localGethVersion = clientBinariesGexp.version;
     const platForms = clientBinariesGexp.platforms;
     let newClinetBinaries = clientBinaries;
     var versionUpdate = false;
@@ -75,6 +75,8 @@
                     if(production){
                         shell.cd(clientInfo.appPath);
                         gexpPath = clientInfo.dirPath;
+                        var data = fs.readFileSync('./clientBinaries.json', 'utf8');
+                        localGethVersion = JSON.parse(data).clients.Gexp.version;
                     }
                     else
                     {
@@ -111,9 +113,9 @@
                                 .then(response => {
                                     let latestGethVersion = response.body.tag_name;
                                     newClinetBinaries.clients.Gexp.version = latestGethVersion;
-                                    // console.log(latestGethVersion, "ulatestGethVersionrl1---------------------------");
+                                    console.log(localGethVersion, latestGethVersion, "ulatestGethVersionrl1---------------------------");
                                     // console.log(response.body.tag_name, "urresponsel1---------------------------");
-                                    if(response.body.tag_name !== localGethVersion){
+                                    if(response.body.tag_name != localGethVersion){
                                         versionUpdate = true;
                                         console.log('update binaries files');
                                         // For each platform/arch in clientBinaries.json

@@ -134,7 +134,8 @@ const runGexp = (path) => {
                                 chainError = true;
                                 gexpProc.kill();
                                 mainWindow.webContents.send('chainrRepairError', true);
-                            } else if (!chainError) {
+                            } else
+                             if (!chainError) {
                                 if(textChunk.includes('WebSocket endpoint opened') || textChunk.includes('url=ws://[::]:9657')){
                                     mainWindow.webContents.send('connectwebgexp', true);
                                 }
