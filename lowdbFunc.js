@@ -1,26 +1,31 @@
 import {prod_app_directory, production} from './src/main/libs/config';
 import os from 'os';
+import fs from 'fs';
 import shell from 'shelljs';
 var adapter;
 // const cryptoJSON = require('crypto-json');
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-let appPath = "~/Library/Application Support/"+prod_app_directory;
-if(os.type() == 'Windows_NT') {
-    appPath = "~/AppData/Roaming/"+prod_app_directory;
-    shell.cd(appPath);
-}
-if(os.type() == 'Linux') {
-    appPath = "~/.config/"+prod_app_directory;
-    shell.cd(appPath);
-}
-if(os.type() == 'Darwin') {
-    appPath = "~/Library/Application Support/"+prod_app_directory;
-    shell.cd(appPath);
-}
 
 if (production) {
+    let appPath = "~/Library/Application Support/"+prod_app_directory;
+    if(os.type() == 'Windows_NT') {
+        appPath = "~/AppData/Roaming/"+prod_app_directory;
+        shell.cd(appPath);
+        
+    }
+    if(os.type() == 'Linux') {
+        appPath = "~/.config/"+prod_app_directory;
+        shell.cd(appPath);
+        
+    }
+    if(os.type() == 'Darwin') {
+        appPath = "~/Library/Application Support/"+prod_app_directory;
+        shell.cd(appPath);
+    }
+
+    console.log("check path11111", shell.ls(''), shell.ls('') && shell.ls('').find((ele)=> console.log(ele)));
     adapter = new FileSync('db.json');
     console.log(adapter, "lowdbfunc");
 
