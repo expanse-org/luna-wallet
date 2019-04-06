@@ -75,8 +75,10 @@
                     if(production){
                         shell.cd(clientInfo.appPath);
                         gexpPath = clientInfo.dirPath;
-                        var data = fs.readFileSync('./clientBinaries.json', 'utf8');
-                        localGethVersion = JSON.parse(data).clients.Gexp.version;
+                        if (fs.existsSync('./clientBinaries.json')) {
+                            let data = fs.readFileSync('./clientBinaries.json', 'utf8');
+                            localGethVersion = JSON.parse(data).clients.Gexp.version;
+                        }
                     }
                     else
                     {
@@ -98,8 +100,6 @@
                         else
                             cmd = 'ping -c 1 www.google.com';
 
-                        var data=fs.readFileSync('./clientBinaries.json', 'utf8');
-                        var words=JSON.parse(data);
                         var child = exec(cmd, function(er, stdout, stderr){
                             if(er !== null){
                                 console.log("error founds");
@@ -125,9 +125,9 @@
                                             _.keys(platForms[platform]).forEach(arch => {
                                                 // Update URL
                                                 let url = platForms[platform][arch].download.url;
-                                                // console.log(url, url.substring(url.indexOf("/v")+1, url.indexOf("/ge")), "url1---------------------------");
+                                                console.log(url, url.substring(url.indexOf("/v")+1, url.indexOf("/ge")), "url1---------------------------");
                                                 url = url.replace(url.substring(url.indexOf("/v")+1, url.indexOf("/ge")),`${latestGethVersion}`);
-                                                // console.log(url, "url2----------------------");
+                                                console.log(url, "url2----------------------");
                                                 platForms[platform][arch].download.url = url;
 
                                                 // Update bin name (path in archive)

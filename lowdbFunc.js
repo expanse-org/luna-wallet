@@ -6,21 +6,28 @@ var adapter;
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-let appPath = "~/Library/Application Support/"+prod_app_directory;
-if(os.type() == 'Windows_NT') {
-    appPath = "~/AppData/Roaming/"+prod_app_directory;
-    shell.cd(appPath);
-}
-if(os.type() == 'Linux') {
-    appPath = "~/.config/"+prod_app_directory;
-    shell.cd(appPath);
-}
-if(os.type() == 'Darwin') {
-    appPath = "~/Library/Application Support/"+prod_app_directory;
-    shell.cd(appPath);
-}
 
 if (production) {
+    let appPath = "~/Library/Application Support/"+prod_app_directory;
+    if(os.type() == 'Windows_NT') {
+        appPath = "~/AppData/Roaming/"+prod_app_directory;
+        if(fs.existsSync(appPath)) {
+            shell.cd(appPath);
+        }
+    }
+    if(os.type() == 'Linux') {
+        appPath = "~/.config/"+prod_app_directory;
+        if(fs.existsSync(appPath)) {
+            shell.cd(appPath);
+        }
+    }
+    if(os.type() == 'Darwin') {
+        appPath = "~/Library/Application Support/"+prod_app_directory;
+        if(fs.existsSync(appPath)) {
+            shell.cd(appPath);
+        }
+    }
+
     adapter = new FileSync('db.json');
     console.log(adapter, "lowdbfunc");
 
