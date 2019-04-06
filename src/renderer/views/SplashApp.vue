@@ -166,6 +166,15 @@
                                     },1000)
                                 }else{
                                     // Start Gexp Application
+                                    if (!fs.existsSync('./clientBinaries.json')) {
+                                        fs.writeFile(
+                                            './clientBinaries.json',
+                                            JSON.stringify(newClinetBinaries, null, 4), (error) => {
+                                                if (error)
+                                                    console.log("Error updating Binaries:", error);
+                                            }
+                                        );
+                                    }
                                     startingGexp();
                                 }
                             });

@@ -25,7 +25,7 @@ if (production) {
         shell.cd(appPath);
     }
 
-    console.log("check path11111", shell.ls(''), shell.ls('') && shell.ls('').find((ele)=> console.log(ele)));
+    // console.log("check path11111", shell.ls(''), shell.ls('') && shell.ls('').find((ele)=> console.log(ele)));
     adapter = new FileSync('db.json');
     console.log(adapter, "lowdbfunc");
 

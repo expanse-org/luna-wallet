@@ -26,8 +26,8 @@ let Lab_balance = 0;
 let PEX_balance = 0;
 
 const fixpath = () =>{
-    console.log("check path", shell.ls(''), );
-    shell.ls('').find((ele)=> console.log("shel check",ele))
+    // console.log("check path", shell.ls(''), );
+    // shell.ls('').find((ele)=> console.log("shel check",ele))
     if(shell.ls('') && (shell.ls('').find((ele)=> ele === "gexp.exe") || shell.ls('').find((ele)=> ele === "gexp") || shell.ls('')[0] === "gexp.exe" || shell.ls('')[0] === "gexp")){
         // console.log("check path", shell.ls(''));
         shell.cd('..');
