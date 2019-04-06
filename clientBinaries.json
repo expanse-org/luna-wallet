@@ -1,37 +1,46 @@
-
 {
     "clients": {
         "Gexp": {
-            "version": "1.8.23-stable",
+            "version": "v1.8.23",
             "platforms": {
                 "linux": {
                     "x64": {
                         "download": {
-                            "url": "http://build.expanse.tech/release/latest/gexp-linux-amd64.tar.gz",
+                            "url": "v1.8.23/gexp-linux-amd64.tar.gz",
                             "type": "tar",
                             "md5": "9fb561403b16a608c88f624e0cf8697a",
-                            "bin": "gexp-linux-amd64/gexp"
+                            "bin": "v1.8.23/gexp"
                         },
                         "bin": "gexp",
                         "commands": {
                             "sanity": {
-                                "args": ["version"],
-                                "output": [ "Gexp", "1.8.23-stable" ]
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.23"
+                                ]
                             }
                         }
                     },
                     "ia32": {
                         "download": {
-                            "url": "http://build.expanse.tech/release/latest/gexp-linux-386.tar.gz",
+                            "url": "v1.8.23/gexp-linux-386.tar.gz",
                             "type": "tar",
                             "md5": "3e50616b05bf58fea8e24fab1e37bd99",
-                            "bin": "gexp-linux-386/gexp"
+                            "bin": "v1.8.23/gexp"
                         },
                         "bin": "gexp",
                         "commands": {
                             "sanity": {
-                                "args": ["version"],
-                                "output": [ "Gexp", "1.8.23-stable" ]
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.23"
+                                ]
                             }
                         }
                     }
@@ -39,16 +48,21 @@
                 "mac": {
                     "x64": {
                         "download": {
-                            "url": "http://build.expanse.tech/release/latest/gexp-darwin-amd64.tar.gz",
+                            "url": "v1.8.23/gexp-darwin-amd64.tar.gz",
                             "type": "tar",
                             "md5": "0b08f0840eb8ddb06db04ba980ae5700",
-                            "bin": "gexp-darwin-amd64/gexp"
+                            "bin": "v1.8.23/gexp"
                         },
                         "bin": "gexp",
                         "commands": {
                             "sanity": {
-                                "args": ["version"],
-                                "output": [ "Gexp", "1.8.23-stable" ]
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.23"
+                                ]
                             }
                         }
                     }
@@ -56,31 +70,41 @@
                 "win": {
                     "x64": {
                         "download": {
-                            "url": "http://build.expanse.tech/release/latest/gexp-windows-amd64.zip",
+                            "url": "v1.8.23/gexp-windows-amd64.zip",
                             "type": "zip",
                             "md5": "c250be3f965e2daedfe4f6d960978bcf",
-                            "bin": "gexp-windows-amd64\\gexp.exe"
+                            "bin": "v1.8.23gexp-windows-amd64\\gexp.exe"
                         },
                         "bin": "gexp.exe",
                         "commands": {
                             "sanity": {
-                                "args": ["version"],
-                                "output": [ "Gexp", "1.8.23-stable" ]
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.23"
+                                ]
                             }
                         }
                     },
                     "ia32": {
                         "download": {
-                            "url": "http://build.expanse.tech/release/latest/gexp-windows-386.zip",
+                            "url": "v1.8.23/gexp-windows-386.zip",
                             "type": "zip",
                             "md5": "de5e94f9798e66256e8be0e35412d4d0",
-                            "bin": "gexp-windows-386\\gexp.exe"
+                            "bin": "v1.8.23gexp-windows-386\\gexp.exe"
                         },
                         "bin": "gexp.exe",
                         "commands": {
                             "sanity": {
-                                "args": ["version"],
-                                "output": [ "Gexp", "1.8.23-stable" ]
+                                "args": [
+                                    "version"
+                                ],
+                                "output": [
+                                    "Gexp",
+                                    "v1.8.23"
+                                ]
                             }
                         }
                     }

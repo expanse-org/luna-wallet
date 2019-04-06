@@ -75,14 +75,15 @@
                     if(production){
                         shell.cd(clientInfo.appPath);
                         gexpPath = clientInfo.dirPath;
-                        var data = fs.readFileSync('./clientBinaries.json', 'utf8');
-                        localGethVersion = JSON.parse(data).clients.Gexp.version;
+                        if(fs.existsSync('./clientBinaries.json', 'utf8')) {
+                            var data = fs.readFileSync('./clientBinaries.json', 'utf8');
+                            localGethVersion = JSON.parse(data).clients.Gexp.version;
+                        }
                     }
                     else
                     {
                         gexpPath = clientInfo.dirPath;
                     }
-
                     var gexpPath_dir = gexpPath+'/'+clientInfo.gexpFile;
                     console.log(gexpPath_dir,"gexpPath_dir");
                     if (!fs.existsSync(gexpPath_dir)){
