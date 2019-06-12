@@ -170,7 +170,7 @@
             <div class="header">
                 <h1>Latest Transactions</h1>
                 <div class="search">
-                    <input type="text" name="fname" v-model="searchTxn" @change="handletxn" placeholder="Filter Transaction" id="filterMainTransaction">
+                    <input type="text" name="fname" v-model="searchTxn" @change="handletxn(0)" placeholder="Filter Transaction" id="filterMainTransaction">
                     <button class="search">
                         <img src="../../../assets/img/search.svg">
                     </button>
@@ -187,11 +187,10 @@
                 </div>
                 <div>
                     <div @click="handletxdetail(transaction)" v-if="istransactions && transaction.Type != 'mined_transaction'" v-for="(transaction, index) in filtertransaction? filtertransaction: transactions" class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
-                        <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
-                        <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status statstf"><strong>{{transaction.transactionStatus}}</strong></label>
-                        <label v-else-if="transaction.transactionStatus" class="status statstf">{{transaction.transactionStatus}}</label>
-                        <label v-if="!transaction.transactionStatus && transaction.blockNumber" class="status">Completed</label>
-                        <label v-else-if="!transaction.transactionStatus" class="status"><strong>Pending</strong></label>
+                        <label class="date">{{ parseInt(transaction.timeUnixEpoch) * 1000 | moment("MMM-DD")}}</label>
+                        <label v-if="transaction.status && transaction.status === '0x1'" class="status statstf"><strong>Completed</strong></label>
+                        <label v-else-if="transaction.status && transaction.status === '0x0'" class="status statstf">Failed</label>
+                        <label v-else-if="transaction.status && transaction.status === ''" class="status statstf">Pending</label>
                         <div class="account">
                             <div class="fromAccount">{{transaction.from?transaction.from:'From'}}</div>
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="19px" viewBox="0 0 11 19" style="enable-background:new 0 0 11 19;" xml:space="preserve">
@@ -200,7 +199,7 @@
                             <div class="toAccount">{{transaction.to}}</div>
                         </div>
                         <label class="amount">
-                            <span >{{transaction.valueDecimal?parseFloat(transaction.valueDecimal).toFixed(4):0}} Exp</span>
+                            <span >{{ web3.utils.fromWei(transaction.valueInWei.toString(), 'ether')?parseFloat(web3.utils.fromWei(transaction.valueInWei.toString(), 'ether')).toFixed(4):0}} Exp</span>
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
                             <path class="open" d="M0,17.5C0,7.8,7.8,0,17.5,0S35,7.8,35,17.5S27.2,35,17.5,35S0,27.2,0,17.5z M31.5,17.5c0-7.7-6.3-14-14-14s-14,6.3-14,14s6.3,14,14,14S31.5,25.2,31.5,17.5z M10.8,17.9l0.8-0.2L10.8,17.9l8.4-11.5l1.6,1.2l-7.5,10.3l7.7,10L19.3,29L10.8,17.9z"></path>
                         </svg>
@@ -211,6 +210,19 @@
                     <h3 class="notrnas">No Transactions Found</h3>
                 </div>
             </div>
+
+            <div v-if="transactions">
+                <paginate
+                        :pageCount=totalcount
+                        :clickHandler="clickCallback"
+                        :prevText="'<<'"
+                        :nextText="'>>'"
+                        :initial-page=initialPage
+                        :force-page=forcePage
+                        :active-class="'activeT'"
+                        :containerClass="'paginationT'">
+                </paginate>
+            </div>
         </div>
         <modal class="modal" name="txndetals">
             <transactiondetail :txndetaildata="txndetaildata"></transactiondetail>
@@ -219,6 +231,8 @@
 </template>
 
 <script>
+    import Paginate from 'vuejs-paginate'
+
     import { sortbyEXPBalance, watchOnlyAccounts} from './walletcommon';
     import axios from 'axios';
     import object_hash from 'object-hash';
@@ -245,10 +259,14 @@
                 txndetaildata: '',
                 defaultSign: '',
                 accbprice: '',
+                initialPage: 0,
+                forcePage: 0,
+                totalcount: 0,
             };
         },
         components : {
             'transactiondetail': Transactiondetail,
+            'paginate': Paginate,
         },
         computed: {
             accounts() {
@@ -265,12 +283,12 @@
             },
             defaultCurrencyData() {
                 this.defaultSign = this.$store.state.ac_dcurrency ;
-                console.log(this.defaultSign, "this.defaultSign -----------------------------")
+                // console.log(this.defaultSign, "this.defaultSign -----------------------------")
                 return this.defaultSign;
             },
             accPriceData() {
                 var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
-                console.log(curr, "cur-----")
+                // console.log(curr, "cur-----")
                 this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
 
                 return this.accbprice;
@@ -284,6 +302,14 @@
             }
         },
         created(){
+            let pageNo = this.$router.history.current.query.page_no;
+            if(pageNo) {
+                this.initialPage = parseInt(pageNo);
+                this.forcePage =  parseInt(pageNo);
+            } else {
+                this.initialPage = 0;
+                this.forcePage =  0;
+            }
             this.intervalid1 = setInterval(() => {
                 if(this.accounts.length > 0 ){
                     this.accountdetailTab = true;
@@ -306,6 +332,11 @@
             }, 100);
         },
         methods: {
+            clickCallback (pageNum) {
+                // console.log(pageNum)
+                this.handletxn(pageNum);
+                this.$router.push(this.$router.history.current.path+"?page_no="+pageNum);
+            },
             show () {
                 this.$modal.show('txndetals');
             },
@@ -318,7 +349,7 @@
                     query: { accountDetail:  account_hash, option: option}
                 });
             },
-            handletxn() {
+            handletxn(skip) {
                 if(this.searchTxn){
                     // let postData = {
                     //     skip: 0,
@@ -327,22 +358,27 @@
                     // };
                     // this.fetch(postData);
                 } else {
+                    this.loader = true;
+                    this.istransactions = false;
                     let postData = {
-                        skip: 0,
+                        skip: skip * 15,
                         limit: 15,
                         addresses: this.hashaccounts,
                     };
+                    this.initialPage = parseInt(skip);
+                    this.forcePage =  parseInt(skip);
                     this.fetch(postData);
                 }
             },
             fetch(postData){
-                console.log(postData, "postData------");
+                // console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
-                axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)
+                axios.post('https://api.gander.tech/getalltransactionsbyaddressarray', postData)
                 .then((response) => {
                     this.notransactions = false;
                     this.istransactions = true;
-                    this.transactions = response.data.message;
+                    this.transactions = response.data.data.transactions;
+                    this.totalcount = Math.floor( (response.data.data.count ) /  15);
                     if(this.transactions && this.transactions.length>0){
                         transaction_list_hash = object_hash(this.transactions);
                         this.loader = false;

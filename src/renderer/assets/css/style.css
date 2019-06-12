@@ -6176,10 +6176,10 @@ perspective effects (not including the modals and the overlay).
         .dashboard .content .latestTransaction .transactionContent .row .account {
           display: grid;
           justify-content: space-between;
-          grid-template-columns: 45% 5px 45%;
+          grid-template-columns: 56% 5px 56%;
           grid-gap: 20px;
           grid-row: 2/2;
-          grid-column: 4/12; }
+          grid-column: 3/12; }
           .dashboard .content .latestTransaction .transactionContent .row .account .fromAccount {
             background-color: #ffffff;
             box-sizing: border-box;
@@ -7929,10 +7929,10 @@ FONTS
         .dashboard .content .latestTransaction .transactionContent .row .account {
           display: grid;
           justify-content: space-between;
-          grid-template-columns: 45% 5px 45%;
+          grid-template-columns: 56% 5px 56%;
           grid-gap: 20px;
           grid-row: 2/2;
-          grid-column: 4/12; }
+          grid-column: 3/12; }
           .dashboard .content .latestTransaction .transactionContent .row .account .fromAccount {
             background-color: #ffffff;
             box-sizing: border-box;
@@ -8678,10 +8678,10 @@ FONTS
         .dashboard .content .latestTransaction .transactionContent .row .account {
           display: grid;
           justify-content: space-between;
-          grid-template-columns: 45% 5px 45%;
+          grid-template-columns: 56% 5px 56%;
           grid-gap: 20px;
           grid-row: 2/2;
-          grid-column: 4/12; }
+          grid-column: 3/12; }
           .dashboard .content .latestTransaction .transactionContent .row .account .fromAccount {
             background-color: #ffffff;
             box-sizing: border-box;
@@ -9742,10 +9742,10 @@ FONTS
         .dashboard .content .latestTransaction .transactionContent .row .account {
           display: grid;
           justify-content: space-between;
-          grid-template-columns: 45% 5px 45%;
+          grid-template-columns: 56% 5px 56%;
           grid-gap: 20px;
           grid-row: 2/2;
-          grid-column: 4/12; }
+          grid-column: 3/12;}
           .dashboard .content .latestTransaction .transactionContent .row .account .fromAccount {
             background-color: #ffffff;
             box-sizing: border-box;
@@ -9856,6 +9856,76 @@ FONTS
     padding-left: 20px;
     margin-bottom: 30px;
     grid-template-columns: 100%; } }
+
+
+@media only screen and (max-width: 980px) {
+  .dashboard .content .latestTransaction .transactionContent .row .account {
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: 53% 5px 53%;
+    grid-gap: 20px;
+    grid-row: 2/2;
+    grid-column: 4/12;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .dashboard .content .latestTransaction .transactionContent .row .account {
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: 47% 5px 47%;
+    grid-gap: 20px;
+    grid-row: 2/2;
+    grid-column: 4/12;
+  }
+}
+
+.dashboard .content .latestTransaction .paginationT {
+  display: flex;
+  margin: 10px;
+  justify-content: flex-end;
+}
+
+.dashboard .content .latestTransaction .paginationT li{
+  margin: 0px 3px;
+  background: #1e3c49;
+  border-radius: 10px;
+  padding: 12px 0px 14px;
+  width: inherit;
+  height: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.dashboard .content .latestTransaction .paginationT li a{
+  outline: none;
+  text-decoration: none;
+  padding: 12px 13px 14px;
+}
+
+.dashboard .content .latestTransaction .paginationT .activeT{
+  background: #cb4d43;
+}
+
+.dashboard .content .latestTransaction .paginationT li:hover{
+  outline: none;
+  background: #cb4d43;
+}
+
+.dashboard .content .latestTransaction .paginationT li:first-child{
+  background: #1a3640;
+  font-weight: 800;
+}
+
+.dashboard .content .latestTransaction .paginationT li:last-child{
+  background: #1a3640;
+  font-weight: 800;
+}
+/*.dashboard .content .latestTransaction .paginationT li:first-child:after{*/
+  /*content: '"\f04e"';*/
+/*}*/
+
 /****************************************************************************
 FONTS
 ****************************************************************************/
