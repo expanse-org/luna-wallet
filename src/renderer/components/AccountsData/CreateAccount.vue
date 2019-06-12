@@ -91,8 +91,9 @@
                     try {
                         json_res = JSON.parse(res)
                         console.log('json_res',json_res);
-                    } catch (e) {
+                    } catch (err) {
                         console.log('Not a valid json Account File');
+                        Raven.captureException(err);
                         this.error= true;
                         return false;
                     }
@@ -163,8 +164,8 @@
                             }
                         }, 100);
                     }
-                }catch(e){
-                    Raven.captureException(e);
+                }catch(err){
+                    Raven.captureException(err);
                     console.log(e, "Raven")
                 }
 
