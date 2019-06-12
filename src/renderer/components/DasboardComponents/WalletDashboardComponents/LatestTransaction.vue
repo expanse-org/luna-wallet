@@ -238,6 +238,7 @@
     import object_hash from 'object-hash';
     import {web3} from '../../../../main/libs/config';
     import Transactiondetail from './Transactiondetail';
+    import Raven from 'raven';
 
     // var web3 = startConnectWeb();
     export default {
@@ -371,7 +372,6 @@
                 }
             },
             fetch(postData){
-                // console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://api.gander.tech/getalltransactionsbyaddressarray', postData)
                 .then((response) => {
@@ -394,8 +394,8 @@
                     }
                 })
                 .catch((error) => {
+                    Raven.captureException(error);
                     console.log(error);
-                    // Raven.captureException(error);
                 });
             },
             handletxdetail(txn){

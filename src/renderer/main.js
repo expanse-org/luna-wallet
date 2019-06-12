@@ -10,6 +10,12 @@ import VueMoment from 'vue-moment'
 import VueNumerals from 'vue-numerals';
 import numeral from 'numeral'
 
+import Raven from 'raven';
+
+
+Raven
+    .config('https://204e85c8efd64965baa31c06301c0426@sentry.io/1480137')
+    .install();
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios

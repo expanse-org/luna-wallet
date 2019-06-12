@@ -282,6 +282,7 @@
                                     console.log(newContractInstance.options.address) // instance with the new contract address
                                 });
                     }).catch((error) => {
+                        Raven.captureException(error);
                         console.log(error, "error");
                         this.passwordError = "Invalid Password";
                         return false;

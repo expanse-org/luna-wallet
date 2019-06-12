@@ -7,7 +7,6 @@ var adapter;
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-
 if (production) {
     let appPath = "~/Library/Application Support/"+prod_app_directory;
     if(os.type() == 'Windows_NT') {

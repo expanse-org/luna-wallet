@@ -443,6 +443,7 @@
                     try {
                         json_res = JSON.parse(res);
                     } catch (e) {
+                        Raven.captureException(e);
                         console.log('Not a valid json Account File');
                         that.error= true;
                         return false;

@@ -189,6 +189,7 @@
     import object_hash from 'object-hash';
     import {getAllAcounts, getArchiveaccounts} from '../walletcommon';
     import os from 'os';
+    import Raven from 'raven';
     import  * as child_process from 'child_process';
     import Transactiondetail from '../Transactiondetail';
 
@@ -398,7 +399,7 @@
                 clearInterval(this.intervalid3);
                 console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
-                axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)
+                axios.post('https://api.gander.tech/getalltransactionsbyaddressarray', postData)
                     .then((response) => {
                         this.istransactions = true;
                         this.notransactions = false;
@@ -420,7 +421,7 @@
                     })
                     .catch((error) => {
                         console.log(error);
-                        // Raven.captureException(error);
+                        Raven.captureException(error);
                     });
             },
             handletxdetail(txn){

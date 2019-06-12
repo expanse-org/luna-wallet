@@ -131,6 +131,7 @@
 
 <script>
     import axios from 'axios';
+    import Raven from 'raven';
     const numberToBN = require('number-to-bn');
     const Gwei = 1000000000;
     import {web3} from '../../../../main/libs/config';
@@ -172,7 +173,7 @@
                     })
                     .catch((error) => {
                         console.log(error);
-                        // Raven.captureException(error);
+                        Raven.captureException(error);
                     });
             },
             openGanderUrl(url){

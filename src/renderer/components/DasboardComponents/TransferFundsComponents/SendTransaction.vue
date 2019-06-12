@@ -377,11 +377,11 @@
                                             }, 5000);
                                         });
                                     }catch(e){
+                                        Raven.captureException(e);
                                         this.loading = false;
                                         this.btndisable = false;
                                         this.passwordError = "Invalid Password";
                                         return false;
-                                        Raven.captureException(e);
                                     }
                                 } else {
                                     try{
@@ -480,6 +480,7 @@
                                     }
                                 }
                             }).catch((error) => {
+                            Raven.captureException(error);
                             // console.log(error);
                             this.loading = false;
                             this.btndisable = false;
@@ -487,6 +488,7 @@
                             return false;
                         });
                     } catch(e) {
+                        Raven.captureException(e);
                         console.log("Exception",e);
                         this.loading = false;
                         this.btndisable = false;

@@ -70,6 +70,7 @@
     import { clipboard, remote } from 'electron';
     import * as $ from 'jquery';
     import os from 'os';
+    import Raven from 'raven';
     import keythereum from 'keythereum';
     const app = remote.app;
 
@@ -157,6 +158,7 @@
                            this.btndisable = false;
                            this.privateKey = privateKey;
                        }catch(e){
+                           Raven.captureException(e);
                            this.privateKeyPassError = true;
                        }
                    },1000)

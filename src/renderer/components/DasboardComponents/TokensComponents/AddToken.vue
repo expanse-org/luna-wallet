@@ -196,7 +196,6 @@
     import { getRandomColor } from '../../AccountsData/commonFunc';
     import { db } from '../../../../../lowdbFunc';
     import Multiselect from 'vue-multiselect'
-
     // var web3 = startConnectWeb();
     import shortid from 'shortid';
     import * as $ from 'jquery';
@@ -287,6 +286,7 @@
                             console.log(res,"tokenName")
                         });
                     }catch(e){
+                        Raven.captureException(e);
                         that.tokenName = '';
                     }
                     try{
@@ -299,6 +299,7 @@
                             console.log(res,"tokensymbol")
                         });
                     }catch(e){
+                        Raven.captureException(e);
                         that.tokensymbol = '';
                         console.log(e,"catch tokensymbol")
                     }
@@ -312,6 +313,7 @@
                             console.log(res,"decimalplaces")
                         });
                     }catch(e){
+                        Raven.captureException(e);
                         that.decimalplaces = '';
                     }
                     console.log(this.decimalplaces, "decimalplaces")
