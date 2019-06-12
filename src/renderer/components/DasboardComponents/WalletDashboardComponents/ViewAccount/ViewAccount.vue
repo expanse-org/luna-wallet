@@ -142,11 +142,10 @@
                     </div>
                     <div>
                         <div @click="handletxdetail(transaction)" v-for="(transaction, index) in filtertransaction? filtertransaction:transactions" v-if="istransactions&& transaction.Type != 'mined_transaction'"  class="row transactionDetail md-trigger" data-modal="modal-4" :data-transactionid="transaction.hash">
-                            <label class="date">{{ transaction.timestampDecimal | moment("MMM-DD")}}</label>
-                            <label v-if="transaction.transactionStatus && transaction.transactionStatus === 'Pending'" class="status statstf"><strong>{{transaction.transactionStatus}}</strong></label>
-                            <label v-else-if="transaction.transactionStatus" class="status statstf">{{transaction.transactionStatus}}</label>
-                            <label v-if="!transaction.transactionStatus && transaction.blockNumber" class="status">Completed</label>
-                            <label v-else-if="!transaction.transactionStatus" class="status"><strong>Pending</strong></label>
+                            <label class="date">{{ parseInt(transaction.timeUnixEpoch) * 1000 | moment("MMM-DD")}}</label>
+                            <label v-if="transaction.status && transaction.status === '0x1'" class="status statstf"><strong>Completed</strong></label>
+                            <label v-else-if="transaction.status && transaction.status === '0x0'" class="status statstf">Failed</label>
+                            <label v-else-if="transaction.status && transaction.status === ''" class="status statstf">Pending</label>
                             <div class="account">
                                 <div class="fromAccount">{{transaction.from?transaction.from:'From'}}</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="19px" viewBox="0 0 11 19" style="enable-background:new 0 0 11 19;" xml:space="preserve">
@@ -155,7 +154,7 @@
                                 <div class="toAccount">{{transaction.to}}</div>
                             </div>
                             <label class="amount">
-                                <span >{{transaction.valueDecimal?parseFloat(transaction.valueDecimal).toFixed(4):0}} Exp</span>
+                                <span >{{ web3.utils.fromWei(transaction.valueInWei.toString(), 'ether')?parseFloat(web3.utils.fromWei(transaction.valueInWei.toString(), 'ether')).toFixed(4):0}} Exp</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35;" xml:space="preserve">
                             <path class="open" d="M0,17.5C0,7.8,7.8,0,17.5,0S35,7.8,35,17.5S27.2,35,17.5,35S0,27.2,0,17.5z M31.5,17.5c0-7.7-6.3-14-14-14s-14,6.3-14,14s6.3,14,14,14S31.5,25.2,31.5,17.5z M10.8,17.9l0.8-0.2L10.8,17.9l8.4-11.5l1.6,1.2l-7.5,10.3l7.7,10L19.3,29L10.8,17.9z"></path>
                         </svg>
@@ -403,7 +402,7 @@
                     .then((response) => {
                         this.istransactions = true;
                         this.notransactions = false;
-                        this.transactions = response.data.message;
+                        this.transactions = response.data.data.transactions;
                         console.log(this.transactions === null ,"this.transactions ");
                         if(this.transactions && this.transactions.length > 0 ){
                             console.log(this.transactions ,"this.transactions ");
