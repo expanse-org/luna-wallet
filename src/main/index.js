@@ -15,7 +15,6 @@ const { autoUpdater } = require("electron-updater");
 
 var gexpProc ;
 
-
 ipcMain.on('ComplieContract', (event , sourceCode) => {
         // var source = 'contract myFirstContract { function g() {} }'
         // Setting 1 as second paramateractivates the optimiser
@@ -79,13 +78,9 @@ function createWindow () {
 
 app.on('ready', createWindow)
 
-app.on('window-all-closed', (event) => {
-    event.preventDefault();
-
-    console.log("i called")
+app.on('window-all-closed', () => {
     gexpProc.kill();
-   // app.quit();
-   //
+    app.quit();
 });
 
 app.on('activate', () => {
@@ -93,7 +88,6 @@ app.on('activate', () => {
     createWindow()
   }
 });
-
 
 
 let chainError = false;
