@@ -253,7 +253,7 @@
                     });
                 }else
                 {
-                    this.modalArray.currentArray[0].tokens && this.modalArray.currentArray.token_icons.map((data) => {
+                    this.modalArray.currentArray.tokens && this.modalArray.currentArray.token_icons.map((data) => {
                         if(data.tokenHash === this.modalArray.currencyHash )
                         {
                             // console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
