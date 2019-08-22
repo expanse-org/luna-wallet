@@ -251,15 +251,16 @@
                         clearInterval(this.intervalid1)
                     }
                 }, 100);
-            } else {
+            }
+            else {
                 this.optionFrom = [];
                 this.intervalid1 = setInterval(() => {
                     if (this.accounts.length > 0) {
                         this.total_balance = this.totalBalanceData;
                         this.accounts.map((val) => {
                             if(val.balance > 0 || val.tokens){
-                                // console.log(val.balance);
-                                // console.log(val);
+            //                     // console.log(val.balance);
+            //                     // console.log(val);
                                 this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'}
                                 this.handlechangeFunds();
                                 var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP )'};
@@ -295,8 +296,8 @@
             handlepriceChange(){
                 var price = '0.00'+this.price;
                 if(this.currencyHash && this.sendAllCheck) {
-                    this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
-                    this.total_coins = this.currencyHash.split(" ")[0];
+                    this.amount = this.currencyHash && parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                    this.total_coins = this.currencyHash && this.currencyHash.split(" ")[0];
                 } else {
                     this.total_coins = parseFloat(this.amount) + parseFloat(price);
                 }
@@ -329,19 +330,20 @@
                         let defaultCurr = {value: this.fromArray[0].hash ,text :  this.fromArray[0].balance+' EXP'};
                         this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].balance+' EXP'};
                         this.optionCurrency.push(defaultCurr);
-                        this.fromArray[0].token_icons.map((acc_token) => {
+                        this.fromArray[0].tokens && this.fromArray[0].token_icons.map((acc_token) => {
                             var data = {value: acc_token.tokenHash , text: acc_token.balance +' '+acc_token.token_symbol};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
-                    } else if(this.fromArray.length > 1){
+                    }
+                    else if(this.fromArray.length > 1){
                         this.fromArray.map((account, index) => {
                             if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
                                 let defaultCurr = {value: account.hash ,text : account.balance +' EXP'};
                                 this.currencyHash = {value: account.hash ,text :  account.balance +' EXP'};
                                 this.optionCurrency.push(defaultCurr);
-                                account.token_icons.map((acc_token) => {
+                                account.tokens && account.token_icons.map((acc_token) => {
                                     var data = {value: acc_token.tokenHash , text: acc_token.balance +' '+acc_token.token_symbol};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;

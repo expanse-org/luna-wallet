@@ -22,8 +22,6 @@ ipcMain.on('ComplieContract', (event , sourceCode) => {
         setTimeout(function(){
             event.sender.send('CompliedContract', compiledContract)
         },500)
-
-
 });
 
 

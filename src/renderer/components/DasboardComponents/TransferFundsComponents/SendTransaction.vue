@@ -199,7 +199,7 @@
         components:{
         },
         created(){
-            web3.eth.estimateGas({from: this.modalArray && this.modalArray.fundsFrom, to: this.modalArray && this.modalArray.fundsTo, amount: web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")}, (res, err) => {
+            web3.eth.estimateGas({from: this.modalArray && this.modalArray.fundsFrom, to: this.modalArray && this.modalArray.fundsTo, amount: web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")}, (res, err) => {
                 // console.log(res, err, "estimatedgass response")
             })
             // console.log(this.modalArray , this.estimatedGas, "this.modalArray.currencyHash");
@@ -222,7 +222,7 @@
 
             var contract = new web3.eth.Contract(abiArray, contractAddress);
 
-            this.raw_dataToken =  contract.methods.transfer(this.modalArray && this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")).encodeABI();
+            this.raw_dataToken =  contract.methods.transfer(this.modalArray && this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")).encodeABI();
 
             var trans_nonce;
             var latest_transaction = db.get('transactions').filter({from: this.modalArray && this.modalArray.fundsFrom}).value();
@@ -242,7 +242,7 @@
             if(this.modalArray && this.modalArray.currencyHash && !this.modalArray.is_contract){
                 if(this.modalArray.currentArray.length === 1)
                 {
-                    this.modalArray.currentArray[0].token_icons.map((data) => {
+                    this.modalArray.currentArray[0].tokens && this.modalArray.currentArray[0].token_icons.map((data) => {
                         if(data.tokenHash === this.modalArray.currencyHash )
                         {
                             // console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
@@ -253,7 +253,7 @@
                     });
                 }else
                 {
-                    this.modalArray.currentArray.token_icons.map((data) => {
+                    this.modalArray.currentArray[0].tokens && this.modalArray.currentArray.token_icons.map((data) => {
                         if(data.tokenHash === this.modalArray.currencyHash )
                         {
                             // console.log(data.tokenHash , this.modalArray.currencyHash, " this.rawdata");
@@ -343,7 +343,7 @@
                                         web3.eth.sendTransaction({
                                             from: this.modalArray && this.modalArray.fundsFrom,
                                             to: this.modalArray.fundsTo,
-                                            value: web3.utils.toWei(this.modalArray.amount, "ether"),
+                                            value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
                                             gasPrice: this.gasPrice,
                                             gas: this.estimatedGas,
                                             nonce : this.nonce
@@ -393,7 +393,7 @@
 
                                         var contract = new web3.eth.Contract(abiArray, contractAddress);
 
-                                        this.raw_dataToken =  contract.methods.transfer(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount, "ether")).encodeABI();
+                                        this.raw_dataToken =  contract.methods.transfer(this.modalArray.fundsTo, web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")).encodeABI();
 
                                         if(this.modalArray && this.modalArray.is_contract) {
                                             this.gasPrice = this.modalArray.gasPrice;
