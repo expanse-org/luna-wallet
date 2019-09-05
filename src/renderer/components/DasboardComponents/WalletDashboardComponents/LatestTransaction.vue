@@ -2,6 +2,25 @@
     <div class="accounts">
         <div class="top">
             <label>ACCOUNTS</label>
+
+            <div>
+                <button class="button view-token-btn" @click="openTokens('tokens')" data-modal="modal-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="555" height="555" viewBox="0 0 555 555">
+                        <path id="Rounded_Rectangle_3" data-name="Rounded Rectangle 3"  d="M177.293,546.928l-47.762-47.762A54.33,54.33,0,0,0,57,426.639L8.072,377.707a27.571,27.571,0,0,1,0-38.991L338.716,8.072a27.571,27.571,0,0,1,38.991,0l48.2,48.2a54.33,54.33,0,0,0,74,74l47.028,47.027a27.571,27.571,0,0,1,0,38.991L216.284,546.928A27.571,27.571,0,0,1,177.293,546.928Zm279.566-317a11.029,11.029,0,0,0,0-15.6L340.665,98.142a11.028,11.028,0,0,0-15.6,0L96.192,327.019a11.028,11.028,0,0,0,0,15.6L212.385,458.808a11.028,11.028,0,0,0,15.6,0ZM217.064,441.652L113.348,337.936a5.515,5.515,0,0,1,0-7.8l216.01-216.01a5.513,5.513,0,0,1,7.8,0L440.872,217.844a5.513,5.513,0,0,1,0,7.8l-216.01,216.01A5.515,5.515,0,0,1,217.064,441.652Z"></path>
+                    </svg>
+                    <span>View Tokens</span>
+                </button>
+                <button class="button view-contract-btn" @click="openTokens('contracts')" data-modal="modal-3">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="34px"
+                        height="39px" viewBox="0 0 45 52" v-bind:style="{enableBackground:'new 0 0 45 52'}" xml:space="preserve">
+                        <path id="Rounded_Rectangle_1_copy_1_" class="icon" d="M44,52H12c-0.6,0-1-0.4-1-1V41H1c-0.6,0-1-0.4-1-1V1c0-0.6,0.4-1,1-1h32
+                        c0.6,0,1,0.4,1,1v10h10c0.6,0,1,0.4,1,1v39C45,51.6,44.6,52,44,52z M32,2H2v37h9v-3h2v3h19V13h-3v-2h3V2z M43,13h-9v27
+                        c0,0.6-0.4,1-1,1H13v9h30V13z M22,11h5v2h-5V11z M16,11h4v2h-4V11z M13,14h-2v-3h3v2h-1V14z M13,20h-2v-3h2V20z M13,27h-2v-4h2V27z
+                        M13,33h-2v-4h2V33z"></path>
+                    </svg>
+                    <span>View Contracts</span>
+                </button>
+            </div>
         </div>
         <div class="bottom accounts-list">
             <div v-if="accountdetailTab && (account && account.accountTitle)" v-for="(account, key ) in accounts" class="account1 a1" :data-index="parseInt(key + 1)"  @click="mainMenu($event,account.hash,'notwatch')">
@@ -349,6 +368,17 @@
                     path: '/accountdetails',
                     query: { accountDetail:  account_hash, option: option}
                 });
+            },
+            openTokens(type){
+                if(type== 'contracts') {
+                    this.$router.push({
+                        path: '/contracts',
+                    });
+                } else {
+                    this.$router.push({
+                        path: '/token',
+                    });
+                }
             },
             handletxn(skip) {
                 if(this.searchTxn){

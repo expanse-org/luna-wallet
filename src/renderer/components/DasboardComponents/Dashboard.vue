@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="main-container">
-            <sidebar-app />
+            <sidebar-app @changeColorHead="changeColorHead" />
             <div class="container-outer">
                 <div class="contant-outer">
-                    <header-app />
+                    <header-app :tabClass="tabClass"/>
                     <router-view />
                 </div>
             </div>
@@ -26,7 +26,8 @@ export default {
     },
     data(){
         return {
-            price: 0
+            price: 0,
+            tabClass: 'top-bar red'
         };
     },
     created(){
@@ -47,6 +48,21 @@ export default {
         }
     },
     methods: {
+        changeColorHead(tab) {
+            console.log(tab, "--------------");
+            switch (tab){
+                case '/walletdashboard':
+                    this.tabClass = 'red';
+                    console.log(this.tabClass, "--------------");
+                    break;
+                case '/market':
+                    this.tabClass = 'green';
+                    break;
+                case '/tokenlab':
+                    this.tabClass = 'blue';
+                    break;
+            }
+        }
 
     }
 }

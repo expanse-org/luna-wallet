@@ -1,5 +1,5 @@
 <template>
-    <div class="top-bar">
+    <div :class="'top-bar ' + tabClass">
         <div class="details">
             <div class="peers">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="29px"
@@ -92,7 +92,7 @@
         </div>
         <div class="balance">
             <label>BALANCE</label>
-            <div class="amount ">
+            <div :class="'amount ' + tabClass">
                 <label class="dashboard-balance">{{dashboardbalanceData ? dashboardbalanceData:0}}</label>
             </div>
 
@@ -125,6 +125,7 @@
 
     export default {
         name: 'Header-page',
+        props:['tabClass'],
         data() {
             return {
                 barWrap: false,
@@ -239,6 +240,17 @@
                         this.timeStamp = moment(res.timestamp * 1000).fromNow();
                     }
                 });
+            }
+            switch (this.$router.history.current.path){
+                case '/walletdashboard':
+                    this.tabClass = 'top-bar red';
+                    break;
+                case '/market':
+                    this.tabClass = 'top-bar green';
+                    break;
+                case '/tokenlab':
+                    this.tabClass = 'top-bar blue';
+                    break;
             }
         },
         methods: {

@@ -218,6 +218,6 @@
     }
     .token_delete {
         margin-top: 5px;
-        border-left: 2px solid #204854!important;
+        border-left: 2px solid #204854;
     }
 </style>

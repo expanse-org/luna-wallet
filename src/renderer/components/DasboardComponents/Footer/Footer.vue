@@ -82,43 +82,6 @@
         },
         created(){
             this.gexpLogData;
-            let that = this;
-            // interact('.resize-drag')
-            //     .draggable({
-            //         onmove: window.dragMoveListener,
-            //         restrict: {
-            //             restriction: 'parent',
-            //             elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-            //         },
-            //     })
-            //     .resizable({
-            //         // resize from all edges and corners
-            //         edges: { left: false, right: false, bottom: false, top: true },
-            //
-            //         // keep the edges inside the parent
-            //         restrictEdges: {
-            //             outer: 'parent',
-            //             endOnly: true,
-            //         },
-            //
-            //         // minimum size
-            //
-            //         inertia: true,
-            //     })
-            //     .on('resizemove', function (event) {
-            //         var target = event.target,
-            //             y = (parseFloat(target.getAttribute('data-y')) || 0);
-            //
-            //         // update the element's style
-            //         if (event.rect.height > 300) {
-            //             target.style.height =  event.rect.height + 'px';
-            //             that.setheight =  event.rect.height + 'px'
-            //         }
-            //         // translate when resizing from top or left edges
-            //         y += event.deltaRect.top;
-            //
-            //         target.setAttribute('data-y', y);
-            //     });
             window.setInterval(function() {
                 var elem = document.getElementById('gexpcontent');
                 // console.log('elemrr------01', elem);

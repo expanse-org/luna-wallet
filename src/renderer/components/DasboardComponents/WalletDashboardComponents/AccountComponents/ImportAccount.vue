@@ -14,11 +14,6 @@
                             <img class="setImgImport" src="../../../../assets/img/key.svg"/><span class="option__title">{{ props.option.text }}</span>
                         </template>
                     </multiselect>
-                    <!--<select name="tabs" class="accountCurrcies change_import_accounts_tabs">-->
-                        <!--<option value="private-key" data-target="fields-Privat-key" class="selectbg1" selected="selected" style="background-image: url('../../../../assets/img/key.svg'), url('../../../../assets/img/empty.png');">Import Private Key</option>-->
-                        <!--<option value="import-address" data-target="fields-address" class="selectbg1" style="background-image: url('../../../../assets/img/address.svg'), url('../../../../assets/img/empty.png');">Import Watch Only Address</option>-->
-                        <!--<option value="import-account-file" data-target="file-upload" class="selectbg1" style="background-image: url('../../../../assets/img/json.svg'), url('../../../../assets/img/empty.png');">Import Json File</option>-->
-                    <!--</select>-->
                 </div>
             </div>
             <div v-if="importPrivateKeyTab" id="fields-Privat-key" class="importtabchange" >

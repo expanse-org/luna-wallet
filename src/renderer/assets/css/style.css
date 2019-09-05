@@ -2891,7 +2891,7 @@ FONTS
       .sendtransaction .transaction .sendtransaction-inner .addresses .sender {
         position: relative;
         display: flex;
-        background: #223a45;
+        /*background: #223a45;*/
         /* border: 2px dashed rgba(255, 255, 255, 0.7); */
         padding: 15px;
         justify-items: center;
@@ -3933,7 +3933,7 @@ perspective effects (not including the modals and the overlay).
 
 /* Victoria Buttons */
 .loading {
-  background: url(../img/map.svg) center center no-repeat, linear-gradient(to bottom, #204854, #293450);
+  background: url(../img/map.svg) center center no-repeat, linear-gradient(to bottom, #2C2C2C, #414141);
   display: inline-table;
   width: 100%;
   height: -webkit-fill-available;
@@ -4439,8 +4439,8 @@ perspective effects (not including the modals and the overlay).
             -webkit-border-radius: 10px 10px 10px 10px;
             -ms-border-radius: 10px 10px 10px 10px;
             border-radius: 10px 10px 10px 10px;
-            background-color: #0a3640;
-            border: 3px solid #115666;
+            background-color: #414141;
+            border: 3px solid #414141;
             margin-bottom: 10px;
             border-radius: 25px; }
           .loading .loadingMain .downloading .content .logo .bar-fill {
@@ -5035,9 +5035,6 @@ perspective effects (not including the modals and the overlay).
       grid-template-columns: repeat(5, 1fr);
       grid-gap: 3px;
       margin-bottom: 18px; }
-      .dashboard .content .actions svg {
-        width: 43px;
-        height: 30px; }
       .dashboard .content .actions .showInterface .show {
         fill: #CB4D43; }
       .dashboard .content .actions .deposit .dep {
@@ -6008,11 +6005,13 @@ perspective effects (not including the modals and the overlay).
       height: 100px; }
     .main-container .open ul li {
       cursor: pointer;
-      min-height: auto;
-      max-height: 100px;
-      padding: 10px 5px; }
+      /*min-height: auto;*/
+      /*max-height: 100px;*/
+      /*padding: 10px 5px; */
+    }
       .main-container .open ul li.active {
-        background: #cb4d43 !important; }
+        /*background: #cb4d43;*/
+      }
       .main-container .open ul li .btn {
         cursor: pointer; }
         .main-container .open ul li .btn svg {
@@ -6384,7 +6383,7 @@ FONTS
     position: relative;
     flex: 1; }
     .main-container .container-outer .contant-outer {
-      background: linear-gradient(to bottom, #293450, #204854);
+      /*background: linear-gradient(to bottom, #293450, #204854);*/
       box-sizing: border-box;
       position: relative;
       height: 100vh;
@@ -6425,7 +6424,9 @@ FONTS
           grid-template-columns: repeat(4, auto);
           grid-column-gap: 16px;
           grid-row-gap: 10px;
-          align-items: center; }
+          align-items: center;
+          margin-left: 15px;
+        }
           .main-container .container-outer .contant-outer .top-bar .details .peers .peer {
             fill: #ffffff; }
           .main-container .container-outer .contant-outer .top-bar .details .total .block {
@@ -6503,7 +6504,7 @@ FONTS
             padding: 0px 40px;
             height: 50px;
             font-size: 26px;
-            box-shadow: inset 0 0 30px #ad4139;
+            /*box-shadow: inset 0 0 30px #ad4139;*/
             border-radius: 25px;
             display: flex;
             justify-content: center;
@@ -6595,11 +6596,6 @@ FONTS
         border-bottom: 1px solid #295a69;
         text-align: center;
         transition: all 600ms; }
-        .main-container .menu-drawer ul li:hover,
-        .main-container .menu-drawer ul li .active {
-          background: #cb4d43 !important; }
-        .main-container .menu-drawer ul li.active {
-          background: #cb4d43 !important; }
         .main-container .menu-drawer ul li .btn {
           cursor: pointer;
           outline: none;
@@ -6656,13 +6652,6 @@ FONTS
       overflow: hidden;
       clear: both;
       transition: all 600ms; }
-    .main-container .open ul li {
-      cursor: pointer;
-      min-height: 100px;
-      display: grid;
-      padding: 10px 10px; }
-      .main-container .open ul li.active {
-        background: #cb4d43 !important; }
       .main-container .open ul li .btn {
         cursor: pointer; }
         .main-container .open ul li .btn svg {
@@ -6846,13 +6835,6 @@ FONTS
     .main-container .open .logo {
       padding: 15px 22px 0 15px;
       height: 100px; }
-    .main-container .open ul li {
-      cursor: pointer;
-      min-height: auto;
-      max-height: 100px;
-      padding: 10px 5px; }
-      .main-container .open ul li.active {
-        background: #cb4d43 !important; }
       .main-container .open ul li .btn {
         cursor: pointer; }
         .main-container .open ul li .btn svg {
@@ -7018,11 +7000,6 @@ FONTS
       height: 100px; }
     .main-container .open ul {
       opacity: 10; }
-      .main-container .open ul li {
-        cursor: pointer;
-        min-height: auto;
-        max-height: 100px;
-        padding: 10px 5px; }
         .main-container .open ul li:last-child {
           background: #1b3e49;
           position: absolute;
@@ -7041,8 +7018,6 @@ FONTS
             width: 15px;
             height: 15px;
             margin: 0; }
-        .main-container .open ul li.active {
-          background: #cb4d43 !important; }
         .main-container .open ul li .btn {
           cursor: pointer; }
           .main-container .open ul li .btn svg {
@@ -7759,13 +7734,6 @@ FONTS
     .main-container .open .logo {
       padding: 15px 22px 0 15px;
       height: 100px; }
-    .main-container .open ul li {
-      cursor: pointer;
-      min-height: auto;
-      max-height: 100px;
-      padding: 10px 5px; }
-      .main-container .open ul li.active {
-        background: #cb4d43 !important; }
       .main-container .open ul li .btn {
         cursor: pointer; }
         .main-container .open ul li .btn svg {
@@ -8508,13 +8476,6 @@ FONTS
     .main-container .open .logo {
       padding: 15px 22px 0 15px;
       height: 100px; }
-    .main-container .open ul li {
-      cursor: pointer;
-      min-height: auto;
-      max-height: 100px;
-      padding: 10px 5px; }
-      .main-container .open ul li.active {
-        background: #cb4d43 !important; }
       .main-container .open ul li .btn {
         cursor: pointer; }
         .main-container .open ul li .btn svg {
@@ -8832,15 +8793,9 @@ FONTS
       height: 100px; }
     .main-container .open ul {
       opacity: 10; }
-      .main-container .open ul li {
-        cursor: pointer;
-        min-height: auto;
-        max-height: 100px;
-        padding: 10px 5px; }
         .main-container .open ul li:last-child {
           background: #1b3e49;
           position: absolute;
-          padding: 20px 0;
           box-sizing: border-box;
           bottom: 0; }
           .main-container .open ul li:last-child:hover,
@@ -8855,8 +8810,6 @@ FONTS
             width: 15px;
             height: 15px;
             margin: 0; }
-        .main-container .open ul li.active {
-          background: #cb4d43 !important; }
         .main-container .open ul li .btn {
           cursor: pointer; }
           .main-container .open ul li .btn svg {
@@ -9352,8 +9305,6 @@ FONTS
             width: 15px;
             height: 15px;
             margin: 0; }
-        .main-container .open ul li.active {
-          background: #cb4d43 !important; }
         .main-container .open ul li .btn {
           cursor: pointer; }
           .main-container .open ul li .btn svg {
@@ -9577,8 +9528,6 @@ FONTS
       min-height: auto;
       max-height: 100px;
       padding: 10px 5px; }
-      .main-container .open ul li.active {
-        background: #cb4d43 !important; }
       .main-container .open ul li .btn {
         cursor: pointer; }
         .main-container .open ul li .btn svg {

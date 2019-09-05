@@ -32,3 +32,6 @@ export default {
 <style>
   @import "assets/css/style.css";
 </style>
+<style lang="sass">
+  @import "assets/scss/NewStyle.scss";
+</style>

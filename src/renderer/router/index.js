@@ -1,30 +1,35 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from '../components/Home/Home'
-import SplashScreen from '../components/SplashScreen/SplashScreen'
-import ArchiveMain from '../components/ArchiveMainComponent/ArchiveMain'
-import AddAccount from '../components/AccountsData/AddAccount'
-import CreateAccount from '../components/AccountsData/CreateAccount'
-import Dashboard from '../components/DasboardComponents/Dashboard'
-import WalletDashboard from '../components/DasboardComponents/WalletDashboardComponents/WalletDashboard'
-import TransferFunds from '../components/DasboardComponents/TransferFundsComponents/TransferFunds'
-import Token from '../components/DasboardComponents/TokensComponents/Token'
-import Contracts from '../components/DasboardComponents/ContractsComponents/Contracts'
-import WatchContract from '../components/DasboardComponents/ContractsComponents/WatchContract'
-import DeployContract from '../components/DasboardComponents/ContractsComponents/DeployContract'
-import CurrencyConverter from '../components/DasboardComponents/CurrencyConveter/CurrencyConverter'
-import AddToken from '../components/DasboardComponents/TokensComponents/AddToken'
-import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd'
-import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount'
-import ContractDetails from '../components/DasboardComponents/ContractsComponents/ContractDetails'
-import Transactiondetail from '../components/DasboardComponents/WalletDashboardComponents/Transactiondetail'
-import EventDetails from '../components/DasboardComponents/ContractsComponents/EventDetails'
-import Tokenlab from '../components/DasboardComponents/TokenLabComponents/Tokenlab'
-import contractData from '../components/DasboardComponents/TokenLabComponents/Components/contractData'
-import SplashApp from '../views/SplashApp'
-import MainApp from '../views/MainApp'
-import AccountApp from '../views/AccountApp'
-import gexpLogs from '../components/gexpLogs/gexpLogs'
+import Vue from 'vue';
+import Router from 'vue-router';
+import SplashScreen from '../components/SplashScreen/SplashScreen';
+import ArchiveMain from '../components/ArchiveMainComponent/ArchiveMain';
+import AddAccount from '../components/AccountsData/AddAccount';
+import CreateAccount from '../components/AccountsData/CreateAccount';
+import Dashboard from '../components/DasboardComponents/Dashboard';
+import WalletDashboard from '../components/DasboardComponents/WalletDashboardComponents/WalletDashboard';
+import TransferFunds from '../components/DasboardComponents/TransferFundsComponents/TransferFunds';
+import Token from '../components/DasboardComponents/TokensComponents/Token';
+import Contracts from '../components/DasboardComponents/ContractsComponents/Contracts';
+import WatchContract from '../components/DasboardComponents/ContractsComponents/WatchContract';
+import DeployContract from '../components/DasboardComponents/ContractsComponents/DeployContract';
+import CurrencyConverter from '../components/DasboardComponents/CurrencyConveter/CurrencyConverter';
+import AddToken from '../components/DasboardComponents/TokensComponents/AddToken';
+import EXPWalletAdd from '../components/EXPWalletAddress/EXPWalletAdd';
+import ViewAccount from '../components/DasboardComponents/WalletDashboardComponents/ViewAccount/ViewAccount';
+import ContractDetails from '../components/DasboardComponents/ContractsComponents/ContractDetails';
+import Transactiondetail from '../components/DasboardComponents/WalletDashboardComponents/Transactiondetail';
+import EventDetails from '../components/DasboardComponents/ContractsComponents/EventDetails';
+import Tokenlab from '../components/DasboardComponents/TokenLabComponents/Tokenlab';
+import Expex from '../components/DasboardComponents/EXPEXcomponents/ExpexComponent';
+import MarketsTab from '../components/DasboardComponents/EXPEXcomponents/Tabcomponents/MarketsTab';
+import MyOrdersTab from '../components/DasboardComponents/EXPEXcomponents/Tabcomponents/MyOrdersTab';
+import TradeHistory from '../components/DasboardComponents/EXPEXcomponents/Tabcomponents/TradeHistory';
+import CurrencyConverterMarket from '../components/DasboardComponents/EXPEXcomponents/Tabcomponents/CurrencyConverter';
+import ExpexDetails from '../components/DasboardComponents/EXPEXcomponents/ExpDetailsComponents/ExpexDetails';
+import contractData from '../components/DasboardComponents/TokenLabComponents/Components/contractData';
+import SplashApp from '../views/SplashApp';
+import MainApp from '../views/MainApp';
+import AccountApp from '../views/AccountApp';
+import gexpLogs from '../components/gexpLogs/gexpLogs';
 
 Vue.use(Router);
 
@@ -101,6 +106,38 @@ export default new Router({
                             path: '/tokenlab',
                             name: 'TokenLAB',
                             component: Tokenlab
+                        },
+                        {
+                            path: '/expex',
+                            name: 'EXPEX',
+                            component: Expex,
+                            children: [
+                                {
+                                    path: '/market',
+                                    name: 'MarketsTab',
+                                    component: MarketsTab,
+                                },
+                                {
+                                    path: '/myorders',
+                                    name: 'MyOrders',
+                                    component: MyOrdersTab,
+                                },
+                                {
+                                    path: '/tradehistory',
+                                    name: 'TradeHistory',
+                                    component: TradeHistory,
+                                },
+                                {
+                                    path: '/marketconverter',
+                                    name: 'currencyconverter',
+                                    component: CurrencyConverterMarket,
+                                },
+                                {
+                                    path: '/expexdetails',
+                                    name: 'Expex Details',
+                                    component: ExpexDetails,
+                                },
+                            ]
                         },
                         {
                             path: '/contracts',
