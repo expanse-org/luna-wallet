@@ -18,7 +18,7 @@
                                     </div>
                                     <div class="fundsFrom">
                                         <div class="drop-down accounts_dropdown">
-                                            <multiselect name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
+                                            <multiselect :searchable="false" name="SendFunds" track-by="text" :loading="loading" :allow-empty="false" @select="handlechangeFunds" label="text" :show-labels="false" placeholder="Select From Account"  v-model="fundsFrom" :options="optionFrom">
                                                 <template slot="singleLabel" slot-scope="props">
                                                     <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                                 </template>
@@ -26,11 +26,6 @@
                                                     <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                                 </template>
                                             </multiselect>
-                                            <!--<select name="SendFunds" @focus="handleFocus" v-model="fundsFrom" class="sendFunds sl_allAccounts" v-on:change="handlechangeFunds">-->
-                                                <!--<option v-if="fromArray" v-for="(account, index) in fromArray" class="selectbg1" :value="account.hash">{{account.accountTitle}} - ({{account.balance}} EXP)</option>-->
-                                                <!--&lt;!&ndash; <option class="selectbg1" selected value="selectbg2" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 22441 USD (9.00 ETHER)</option>-->
-                                                <!--<option class="selectbg1" selected value="selectbg3" style="background-image: url('assets/img/selectbg2.png'), url('assets/img/selectkey.png');">Eve - 312 USD (9.00 ETHER)</option> &ndash;&gt;-->
-                                            <!--</select>-->
                                         </div>
                                     </div>
                                 </div>
@@ -53,7 +48,7 @@
                                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"></rect>
                                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"></rect>
                                        </svg>
-                                        <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" selected="fundsTo"  class="sendTo" data-err=".send_to_error" />
+                                        <input name="sendTo" @focus="handleFocus" type="text" v-model="fundsTo" placeholder="Enter Recipient Address" class="sendTo" />
                                     </div>
                                 </div>
                                 <div class="currencyAmount">
@@ -74,7 +69,7 @@
                                         <p v-if="currencyHashError" class=" error-message send_amount_currency_error">Amount is Required</p>
                                     </div>
                                     <div class="drop-down currencies_dropdown">
-                                        <multiselect name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  @select="handlecurrchange" v-model="currencyHash" :options="optionCurrency">
+                                        <multiselect :searchable="false" name="accountCurruencies" :loading="loading1" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  @select="handlecurrchange" v-model="currencyHash" :options="optionCurrency">
                                             <template slot="singleLabel" slot-scope="props">
                                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                             </template>
@@ -82,10 +77,6 @@
                                                 <img class="option__image" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                                             </template>
                                         </multiselect>
-                                        <!--<select name="accountCurruencies" @focus="handleFocus" v-model="currencyHash" class="accountCurrencies">-->
-                                            <!--<option v-if="currentArray" v-for="(account) in currentArray" class="selectbg1" selected >{{account.accountTitle}} - ({{account.balance}} EXP)</option>-->
-                                            <!--<option v-if="currentArray && currentArray[0].tokens" v-for="(acc_token, index) in currentArray && currentArray[0].token_icons" class="selectbg1" :value="acc_token.tokenHash">{{acc_token.token_name}} - ({{acc_token.balance}})</option>-->
-                                        <!--</select>-->
                                     </div>
                                 </div>
                             </div>
@@ -103,8 +94,8 @@
                                 <div class="row">
                                     <div class="amountdetails">
                                         <label class="sendAmount">You want to send
-                                            <span class="send_every_thing">{{ amount }}</span> Exp</label>
-                                        <h2>SELECT FEE</h2>
+                                            <span class="send_every_thing"> {{ amount }} </span> {{priceCurrency}}</label>
+                                        <h2> SELECT FEE </h2>
                                         <label id="result">0.00{{price}} EXP </label>
                                         <div class="progressBar">
                                             <input id="price" @change="handlepriceChange" v-model="price" @focus="handleFocus" type="range" min="53" max="212"/>
@@ -113,8 +104,10 @@
                                                 <span>FASTER</span>
                                             </div>
                                             <p>
-                                                This is the most amount of money that might be used to process this transaction. Your transaction will be mined probably
-                                                within 30 seconds.
+                                                <label class="settextwid">
+                                                    This is the most amount of money that might be used to process this transaction. Your transaction will be mined probably
+                                                    {{timeText}}
+                                                </label>
                                             </p>
                                         </div>
                                     </div>
@@ -124,8 +117,9 @@
                                     <div class="data hide">
                                         <label>Data</label>
                                         <textarea rows="4" v-model="sendFundsData" @focus="handleFocus" class="sendFundsData"></textarea>
-                                        <p>You can add extra data to send along with your transaction. If you don't
+                                        <p> You can add extra data to send along with your transaction. If you don't
                                             know what this is then don't touch it or bad things may happen.
+
                                         </p>
                                     </div>
                                 </div>
@@ -176,7 +170,7 @@
                 amount: 0,
                 currencyHash: '',
                 sendAllCheck: '',
-                price: '93',
+                price: '118',
                 sendFundsData: '',
                 total_coins: 0,
                 fundsFromError: false,
@@ -188,18 +182,41 @@
                 accountsArray: '',
                 fromArray: [],
                 currentArray: '',
+                priceCurrency: 'EXP',
                 modalArray: '',
                 optionFrom: [],
                 optionCurrency: [],
                 defaultoptionCurrency: '',
                 loading: true,
                 loading1: false,
+                timeText: 'usually within a minute.',
                 getRandomColor,
             };
         },
         components:{
             'sendTransaction': SendTransaction,
             'multiselect': Multiselect,
+        },
+        watch: {
+            price: function (val) {
+                if(this.price>=170) {
+                   this.timeText='within 30 seconds.';
+                }
+                if(this.price>=130 && this.price<170) {
+                   this.timeText='usually within a minute.';
+                }
+                if(this.price <130 && this.price>53) {
+                   this.timeText='likely within a few minutes.';
+                }
+                this.handlepriceChange();
+            },
+            amount: function (val) {
+                this.handleAmount();
+            },
+            currencyHash: function () {
+                console.log("handlecurrchange", this.currencyHash.text);
+                this.priceCurrency = this.currencyHash.text.split(' ')[1];
+            },
         },
         computed: {
             accounts() {
@@ -213,19 +230,19 @@
         },
         created(){
             var hash = this.$router.history.current.query.hash;
-            console.log(hash);
+            // console.log(hash);
             if(hash) {
                 this.intervalid1 = setInterval(() => {
                     if (this.accounts.length > 0) {
                         this.accounts.map((val) => {
-                            if(val.hash === hash) {
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
+                            if(val.hash == hash) {
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'}
                                 this.handlechangeFunds();
                             }
-                            if(val.balance > 0){
-                                console.log(val.balance);
-                                console.log(val);
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
+                            if(val.balance > 0 || val.tokens){
+                                // console.log(val.balance);
+                                // console.log(val);
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -234,18 +251,19 @@
                         clearInterval(this.intervalid1)
                     }
                 }, 100);
-            } else {
+            }
+            else {
                 this.optionFrom = [];
                 this.intervalid1 = setInterval(() => {
                     if (this.accounts.length > 0) {
                         this.total_balance = this.totalBalanceData;
                         this.accounts.map((val) => {
-                            if(val.balance > 0){
-                                console.log(val.balance);
-                                console.log(val);
-                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'}
+                            if(val.balance > 0 || val.tokens){
+            //                     // console.log(val.balance);
+            //                     // console.log(val);
+                                this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'}
                                 this.handlechangeFunds();
-                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(4)+' EXP)'};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP )'};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                                 this.fromArray.push(val);
@@ -264,30 +282,39 @@
                 this.$modal.hide('sendtransactionmodal');
             },
             handleAmount(){
+                // console.log("dsadsadas")
                 setTimeout(() => {
                     var price = '0.00'+this.price;
-                    this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                    if(this.currencyHash && this.sendAllCheck) {
+                        this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                        this.total_coins = this.currencyHash.text.split(" ")[0];
+                    } else {
+                        this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                    }
                 }, 200)
             },
             handlepriceChange(){
                 var price = '0.00'+this.price;
-                this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                if(this.currencyHash && this.sendAllCheck) {
+                    this.amount = this.currencyHash && parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                    this.total_coins = this.currencyHash && this.currencyHash.split(" ")[0];
+                } else {
+                    this.total_coins = parseFloat(this.amount) + parseFloat(price);
+                }
             },
             handlesendall(){
-                if(this.currencyHash) {
-                    // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
-                    this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
-                } else {
-                    this.amount = this.totalBalanceData;
+                if(this.currencyHash && this.currencyHash.text) {
+                    this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
                 }
                 this.handleAmount();
             },
             handlecurrchange(){
-                console.log("handlecurrchange");
+                // console.log("handlecurrchange");
                 setTimeout(() => {
-                    if(this.currencyHash && this.sendAllCheck) {
-                        // console.log(this.currencyHash.text , this.currencyHash.text.split("(")[1].split(" ") , this.currencyHash.text.split("(")[1].split(" ")[0]);
-                        this.amount = this.currencyHash.text.split("(")[1].split(" ")[0];
+                    if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
+                        console.log("handlecurrchange", this.currencyHash.text);
+                        this.priceCurrency = this.currencyHash.text.split(" ")[1];
+                        this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
                         this.handleAmount();
                     }
                 }, 200)
@@ -295,31 +322,39 @@
             handlechangeFunds(){
                 this.loading1= true;
                 setTimeout(() => {
-                    console.log(this.fundsFrom,"handlechangeFunds");
+                    // console.log(this.fundsFrom,"handlechangeFunds");
                     this.optionCurrency = [];
                     this.currencyHash = '';
-                    if(this.fromArray.length === 1) {
+                    if(this.fromArray.length == 1) {
                         this.currentArray = this.fromArray;
-                        let defaultCurr = {value: this.fromArray[0].hash ,text : this.fromArray[0].accountTitle + '- ('+ parseFloat(this.fromArray[0].balance).toFixed(4)+' EXP)'};
+                        let defaultCurr = {value: this.fromArray[0].hash ,text :  this.fromArray[0].balance+' EXP'};
+                        this.currencyHash = {value: this.fromArray[0].hash ,text : this.fromArray[0].balance+' EXP'};
                         this.optionCurrency.push(defaultCurr);
-                        this.fromArray[0].token_icons.map((acc_token) => {
-                            var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +parseFloat(acc_token.balance).toFixed(4) + ' )'};
+                        this.fromArray[0].tokens && this.fromArray[0].token_icons.map((acc_token) => {
+                            var data = {value: acc_token.tokenHash , text: acc_token.balance +' '+acc_token.token_symbol};
                             this.optionCurrency.push(data);
                             this.loading1= false;
                         })
-                    } else if(this.fromArray.length > 1){
-                        this.fromArray.map((account) => {
-                            if(account.hash === this.fundsFrom.value ) {
+                    }
+                    else if(this.fromArray.length > 1){
+                        this.fromArray.map((account, index) => {
+                            if(account.hash == this.fundsFrom.value ) {
                                 this.currentArray = account;
-                                let defaultCurr = {value: account.hash ,text : account.accountTitle + '- ('+ parseFloat(account.balance).toFixed(4) +' EXP)'};
+                                let defaultCurr = {value: account.hash ,text : account.balance +' EXP'};
+                                this.currencyHash = {value: account.hash ,text :  account.balance +' EXP'};
                                 this.optionCurrency.push(defaultCurr);
-                                account.token_icons.map((acc_token) => {
-                                    var data = {value: acc_token.tokenHash , text: acc_token.token_name + ' - (' +parseFloat(acc_token.balance).toFixed(4) + ' )'};
+                                account.tokens && account.token_icons.map((acc_token) => {
+                                    var data = {value: acc_token.tokenHash , text: acc_token.balance +' '+acc_token.token_symbol};
                                     this.optionCurrency.push(data);
                                     this.loading1= false;
                                 })
                             }
                         })
+                    }
+                    this.amount = 0;
+                    if(this.currencyHash && this.currencyHash.text && this.sendAllCheck) {
+                        this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                        this.handleAmount();
                     }
                 }, 200)
             },
@@ -336,14 +371,14 @@
                 this.total_coinsError= false;
             },
             handleSendFund(){
-                console.log(this.fundsFrom.value, this.currencyHash.value , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
+                // console.log(this.fundsFrom.value, this.currencyHash.value , this.fundsTo, " this.modalArray && this.modalArray.fundsFrom");
                 if(this.fundsFrom.value && this.fundsTo && this.amount && this.currencyHash.value ){
                     if (!ethereum_address.isAddress(this.fundsTo )) {
                         this.fundsToError = 'Invalid Address';
                     } else{
-                        console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
-                        if(parseFloat(this.currencyHash.text.split("(")[1].split(" ")[0]) >= parseFloat(this.amount)){
-                            if(this.fundsFrom.value === this.fundsTo){
+                        //console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
+                        if(parseFloat(this.currencyHash.text.split(" ")[0]) >= parseFloat(this.amount)){
+                            if(this.fundsFrom.value == this.fundsTo){
                                 this.fundsToError = 'Invalid Address';
                             }else {
                                 this.modalArray = {
@@ -354,6 +389,7 @@
                                     currencyHash: this.currencyHash.value,
                                     price: this.price,
                                     total_coins: this.total_coins,
+                                    priceCurrency: this.priceCurrency,
                                 };
                                 this.show();
                             }
@@ -362,14 +398,18 @@
 
                         }
                     }
-                }else if(!this.fundsFrom.value) {
-                    this.fundsFromError = true;
-                }else if(!this.fundsTo) {
-                    this.fundsToError = 'To is required';
-                }else if(!this.amount) {
-                    this.amountError = 'Amount is required';
-                }else if(!this.currencyHash.value) {
-                    this.currencyHashError = true;
+                }else {
+                    if(!this.fundsFrom.value) {
+                        this.fundsFromError = true;
+                    }
+                    if(!this.fundsTo) {
+                        this.fundsToError = 'To is required';
+                    }
+                    if(!this.amount) {
+                        this.amountError = 'Amount is required';
+                    } if(!this.currencyHash.value) {
+                        this.currencyHashError = true;
+                    }
                 }
 
             },
@@ -383,6 +423,11 @@
 </style>
 
 <style>
+
+    .settextwid {
+        display: inline!important;
+    }
+
     .send .content .funds .contentInner .sentDetails .fundTransfer .drop-down {
         padding: 0px;
     }
@@ -392,7 +437,7 @@
     }
 
     .fundsFrom  .multiselect__select , .currencies_dropdown  .multiselect__select  {
-        height: 47px!important;
+        height: 41px!important;
     }
 
     .fundsFrom .multiselect__tags, .currencies_dropdown .multiselect__tags {
@@ -403,12 +448,19 @@
 
     .fundsFrom .multiselect__content-wrapper, .currencies_dropdown .multiselect__content-wrapper {
         background: none;
-        height: auto!important;
-        max-height: auto!important;
+    }
+
+    .fundsFrom .multiselect__content, .currencies_dropdown .multiselect__content {
+        margin: 15px 0px 0px 0px;
     }
 
     .multiselect__content-wrapper {
         margin-top: 3px;
+    }
+
+    .currencies_dropdown .multiselect__placeholder {
+        line-height: 37px!important;
+        text-indent: 8px!important;
     }
 
     .fundsFrom .multiselect__option--selected .multiselect__option--highlight, .currencies_dropdown .multiselect__option--selected .multiselect__option--highlight {
@@ -461,4 +513,12 @@
         padding: 0px 0px 0px 15px!important;
     }
 
+    #send{
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    #send .progressBar{
+        width: 100%;
+    }
 </style>

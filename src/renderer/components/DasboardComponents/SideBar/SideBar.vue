@@ -45,7 +45,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="555" height="555" viewBox="0 0 555 555">
                         <path id="Rounded_Rectangle_3" data-name="Rounded Rectangle 3"  d="M177.293,546.928l-47.762-47.762A54.33,54.33,0,0,0,57,426.639L8.072,377.707a27.571,27.571,0,0,1,0-38.991L338.716,8.072a27.571,27.571,0,0,1,38.991,0l48.2,48.2a54.33,54.33,0,0,0,74,74l47.028,47.027a27.571,27.571,0,0,1,0,38.991L216.284,546.928A27.571,27.571,0,0,1,177.293,546.928Zm279.566-317a11.029,11.029,0,0,0,0-15.6L340.665,98.142a11.028,11.028,0,0,0-15.6,0L96.192,327.019a11.028,11.028,0,0,0,0,15.6L212.385,458.808a11.028,11.028,0,0,0,15.6,0ZM217.064,441.652L113.348,337.936a5.515,5.515,0,0,1,0-7.8l216.01-216.01a5.513,5.513,0,0,1,7.8,0L440.872,217.844a5.513,5.513,0,0,1,0,7.8l-216.01,216.01A5.515,5.515,0,0,1,217.064,441.652Z"></path>
                     </svg>
-                    <span>Tokens</span>
+                    <span>TOKENS</span>
                 </button>
             </li>
             <li :class="contractsTab" @click="mainMenu($event, 'contracts')">
@@ -58,6 +58,12 @@
                              M13,33h-2v-4h2V33z"></path>
                         </svg>
                     <span>CONTRACTS</span>
+                </button>
+            </li>
+            <li :class="tokenlabTab" @click="mainMenu($event, 'tokenlab')">
+                <button class="btn">
+                    <img src="../../../assets/img/tokenlab.svg"/>
+                    <span>TOKENLAB</span>
                 </button>
             </li>
 
@@ -107,6 +113,7 @@
                 transferfundTab: 'tablinks ',
                 tokenTab: 'tablinks ',
                 contractsTab: 'tablinks ',
+                tokenlabTab: 'tablinks ',
                 currencyTab: 'tablinks ',
                 isCollapsed: true,
                 collapseClass: 'menu-drawer',
@@ -149,6 +156,12 @@
                     });
                     this.contractsTab = 'tablinks active';
                     break;
+                case '/tokenlab':
+                    this.$router.push({
+                        path: '/tokenlab'
+                    });
+                    this.tokenlabTab = 'tablinks active';
+                    break;
                 case '/currencyconverter':
                     this.$router.push({
                         path: '/currencyconverter'
@@ -169,6 +182,7 @@
                 this.tokenTab= 'tablinks';
                 this.contractsTab= 'tablinks';
                 this.currencyTab= 'tablinks';
+                this.tokenlabTab= 'tablinks';
             },
             mainMenu(e, tab){
                 this.update();
@@ -181,15 +195,13 @@
                         this.walletTab = 'tablinks active';
                         break;
                     case 'transferfund':
-                        console.log(this.totalBalanceData, "balanceedsasdedadasdsada")
                         if (this.totalBalanceData > 0) {
-                            console.log("balanceeedadasdsada")
                             this.$router.push({
                                 path: '/transferfunds'
                             });
                             this.transferfundTab = 'tablinks active';
                         }else if(this.totalBalanceData === 0){
-                            console.log("balanceeedasada")
+                            // console.log("balanceeedasada")
                             this.show();
                         }
                         break;
@@ -204,6 +216,13 @@
                             path: '/contracts'
                         });
                         this.contractsTab = 'tablinks active';
+                        break;
+                    case 'tokenlab':
+                        // console.log("dsasda",tab)
+                        this.$router.push({
+                            path: '/tokenlab'
+                        });
+                        this.tokenlabTab = 'tablinks active';
                         break;
                     case 'currencyconverter':
                         this.$router.push({

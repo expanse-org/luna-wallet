@@ -37,10 +37,11 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'">
-                        <input class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></input>
+                        <textarea rows="10"  class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
-                                <span class="mandatory">*</span>
+                                <span class="details">Contract Abi</span>
+                                <!--<span class="mandatory">*</span>-->
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -97,10 +98,10 @@
                 <div class="row">
                     <p v-if="jsonAbiError" class="error-message jsonabi-error">{{jsonAbiError}}</p>
                     <span :class="jsonAbi? 'input input--nao input--filled': 'input input--nao'" >
-                        <input class="private-key input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></input>
+                        <textarea rows="10" class="json-abi input__field input__field--nao input" v-model="jsonAbi" @focus="handleFocus" name="jsonAbi"></textarea>
                         <label class="input__label input__label--nao" >
                             <span class="input__label-content input__label-content--nao">JSON INTERFACE
-                                <span class="mandatory">*</span>
+                                <span class="details">Enter Your Contract Abi Json.</span>
                             </span>
                         </label>
                         <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
@@ -127,6 +128,7 @@
     import { getRandomColor } from '../../AccountsData/commonFunc';
     import {db} from '../../../../../lowdbFunc';
     import  ethereum_address from 'ethereum-address';
+    import  Raven from 'raven';
     import  shortid from 'shortid';
     import  * as $ from 'jquery';
     import {listContracts} from './DeployFunc';
@@ -172,7 +174,11 @@
                             let contract1 = db.get('contracts').find({
                                 contract_name: this.contractName
                             }).value();
-                            if(contract1.length > 0) {
+                            if(contract) {
+                                this.contractAddressError = "Contract Address is already exists";
+                                return false;
+                            }
+                            if(contract1) {
                                 this.contractNameError = 'Contract Name is already exists';
                             } else {
                                 try {
@@ -198,6 +204,7 @@
                                         this.jsonAbiError = 'Invalid JSON';
                                     }
                                 } catch (err) {
+                                    Raven.captureException(err);
                                     console.log(err);
                                     this.jsonAbiError = 'Invalid JSON';
                                 }
@@ -223,6 +230,7 @@
                                 this.jsonAbiError = 'Invalid JSON';
                             }
                         } catch (err) {
+                            Raven.captureException(err);
                             console.log(err);
                             this.jsonAbiError = 'Invalid JSON';
                         }
@@ -249,5 +257,9 @@
 </script>
 
 <style>
+
+    .json-abi{
+        width: 100%!important;
+    }
 
 </style>

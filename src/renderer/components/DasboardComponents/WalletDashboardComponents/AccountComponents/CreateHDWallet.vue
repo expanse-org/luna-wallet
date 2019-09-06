@@ -112,7 +112,7 @@
             <div class="row">
                 <p v-if="hd_wallet_repasswordError" class="error-message hd_wallet_repassword-error">{{hd_wallet_repasswordError}}</p>
                 <span :class="hd_wallet_repassword? 'input input--nao input--filled': 'input input--nao'">
-                    <input class="passwor input__field input__field--nao hd_wallet_repassword" name="hd_wallet_repassword" v-model="hd_wallet_repassword" @focus="handleFocus"
+                    <input class="passwor input__field input__field--nao hd_wallet_repassword" name="hd_wallet_repassword"  v-model="hd_wallet_repassword" @focus="handleFocus"
                            :type="passType"  />
                     <label class="input__label input__label--nao" >
                         <span class="input__label-content input__label-content--nao">Confirm Password
@@ -240,9 +240,9 @@
             },
             CreateHDWallet(e){
                 e.preventDefault();
-                console.log("if HD wallet", this.hdaddressIndex);
+                console.log("if HD wallet", this.hdaddressIndex, this.hdprivateKey);
                 if(this.hdaddressIndex && this.accountName && this.hdderivationpath && this.hdphrase && this.hdaddress && this.hdprivateKey&& this.hdpublicKey && this.hd_wallet_password && this.hd_wallet_repassword){
-                    if(this.hd_wallet_password >= 8 ){
+                    if(this.hd_wallet_password.length >= 8 ){
                         if(this.hd_wallet_password === this.hd_wallet_repassword) {
                             try {
                                 let account_address = web3.eth.personal.importRawKey(this.hdprivateKey.replace(/0x/g, ''), this.hd_wallet_password);
@@ -269,11 +269,11 @@
                                     this.success = true;
                                     setTimeout(() => {
                                         this.success = false;
+                                        this.accountName = '';
+                                        this.hd_wallet_password = '';
+                                        this.hd_wallet_repassword = '';
                                     }, 2000)
                                     getAllAcounts();
-                                    this.accountName = '';
-                                    this.hd_wallet_password = '';
-                                    this.hd_wallet_repassword = '';
                                     $('form').trigger("reset");
                                 }, (err) => {
                                     console.log(err, "HD wallet");

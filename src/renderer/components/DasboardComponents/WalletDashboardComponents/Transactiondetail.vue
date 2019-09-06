@@ -2,20 +2,20 @@
     <div id="transaction-modal" class="txns_details">
         <div class="popup  md-content ">
             <a href="#" @click="hide" class="btn-close md-close"></a>
-            <div v-if="transaction.transaction_info" class="transaction transaction_details">
+            <div v-if="transaction" class="transaction transaction_details">
                 <h2>Transaction</h2>
                 <p class="trx_hash">
-                    {{transaction.transaction_info && transaction.transaction_info.hash}}</p>
+                    {{transaction.hash}}</p>
                 <p class="trx_time">
-                    {{transaction.transaction_info &&  transaction.transaction_info.timestampDecimal | moment("LLLL")}}<br />
-                    <span>({{transaction.transaction_info &&  transaction.transaction_info.timestampDecimal | moment("from", "now")}})</span>
+                    {{parseInt(transaction.timeUnixEpoch) * 1000 | moment("LLLL")}}<br />
+                    <span>({{transaction &&  transaction.timeUnixEpoch | moment("from", "now")}})</span>
                 </p>
                 <div class="table">
                     <div class="rows">
                         <label>Amount</label>
                         <div class="content">
                             <label class="trx_amount">
-                                {{transaction.transaction_info && transaction.transaction_info.valueDecimal}}
+                                {{ web3.utils.fromWei(transaction.valueInWei.toString(), 'ether')?parseFloat(web3.utils.fromWei(transaction.valueInWei.toString(), 'ether')).toFixed(4):0}}
                                 <span>EXP</span>
                             </label>
                         </div>
@@ -38,7 +38,7 @@
                                     <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6" />
                                 </svg>
                             <label class="trx_from">
-                                {{transaction.transaction_info && transaction.transaction_info.from}}
+                                {{transaction && transaction.from}}
                             </label>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                     <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6" />
                                 </svg>
                             <label class="trx_to">
-                                {{transaction.transaction_info && transaction.transaction_info.to}}
+                                {{transaction && transaction.to}}
                             </label>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <label>Fee paid</label>
                         <div class="content">
                             <label class="trx_fee_paind">
-                                {{web3.utils.toDecimal(transaction.transaction_recipt_info && transaction.transaction_recipt_info.gasUsed)}}
+                                {{transaction && transaction.transactionFee}} EXP
                             </label>
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                         <label>Gas Limit</label>
                         <div class="content">
                             <label class="tex_gass_limit">
-                                {{transaction.transaction_info &&  web3.utils.fromWei(web3.utils.toDecimal(transaction.transaction_info.gas).toString(), 'ether') * Gwei }}
-                                (GWei)
+                                {{transaction &&  transaction.gasDecimal }}
+                                <!--(GWei)-->
                             </label>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         <label>Gas used</label>
                         <div class="content">
                             <label class="tex_gass_used">
-                                {{web3.utils.toDecimal(transaction.transaction_recipt_info && transaction.transaction_recipt_info.gasUsed)}}
+                                {{web3.utils.toDecimal(transaction && transaction.gasUsed)}} ({{(parseInt(transaction.gasUsed)/parseInt(transaction.gasDecimal)) * 100}} %)
                             </label>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <label>Gas price</label>
                         <div class="content">
                             <label class="trx_gass_price">
-                                {{transaction.transaction_recipt_info && parseFloat(web3.utils.fromWei(web3.utils.toDecimal(transaction.transaction_recipt_info.gasUsed).toString(), 'ether') * Gwei).toFixed(6)}}
+                                {{web3.utils.fromWei(transaction.gasPrice.toString(), 'ether')}} EXP ({{transaction.gasPriceInWei}} Gwei)
                             </label>
                         </div>
                     </div>
@@ -110,8 +110,8 @@
                     <div class="rows">
                         <label>Block</label>
                         <div class="content">
-                            <a @click="openGanderUrl('https://gander.tech/block/'+transaction.transaction_info.blockNumberDecimal)" href="" class='trx_block' target="_blank">
-                                {{transaction.transaction_info && transaction.transaction_info.blockNumberDecimal}}
+                            <a @click="openGanderUrl('https://gander.tech/block/'+transaction.blockNumberDecimal)" href="" class='trx_block' target="_blank">
+                                {{transaction && transaction.blockNumberDecimal}}
                             </a>
                         </div>
                     </div>
@@ -131,6 +131,7 @@
 
 <script>
     import axios from 'axios';
+    import Raven from 'raven';
     const numberToBN = require('number-to-bn');
     const Gwei = 1000000000;
     import {web3} from '../../../../main/libs/config';
@@ -163,16 +164,16 @@
             fetch(postData){
                 console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
-                axios.post('https://beta-api.gander.tech/gettransactionbyhash', postData)
+                axios.get('https://api.gander.tech/transactionByHash/'+this.txndetaildata)
                     .then((response) => {
                         console.log(response.data.message, "response------");
-                        if(response.data.message){
-                            this.transaction = response.data.message;
+                        if(response.data.data){
+                            this.transaction = response.data.data[0];
                         }
                     })
                     .catch((error) => {
                         console.log(error);
-                        // Raven.captureException(error);
+                        Raven.captureException(error);
                     });
             },
             openGanderUrl(url){

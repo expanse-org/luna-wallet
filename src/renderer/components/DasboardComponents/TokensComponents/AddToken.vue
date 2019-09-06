@@ -2,7 +2,7 @@
     <div class="popup popup1 md-content ">
         <a href="#" @click="hide" class="btn-close md-close"></a>
         <form v-if="!editForm" id="addToken" method="#">
-            <h1>Add Token</h1>
+            <h1>Watch Token</h1>
             <div class="row">
                 <input class="add_or_update_token" type="hidden" value="0"/>
                 <!-- 0 = add , 1 = update -->
@@ -43,7 +43,7 @@
                 <div class="cont_select_center">
                     <label >Token Type<span class="mandatory">*</span></label>
                     <div class="select_mate" data-mate-select="active">
-                        <multiselect  name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
+                        <multiselect :searchable="false" name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
                             <template slot="singleLabel" slot-scope="{option}">
                                <span class="option__title">{{ option.text }}</span>
                             </template>
@@ -102,7 +102,7 @@
                 <input class="add_or_update_token" type="hidden" value="0"/>
                 <!-- 0 = add , 1 = update -->
                 <span :class="tokenAddress? 'input input--nao input--filled': 'input input--nao'">
-                    <input type="text" name="token_contract_address" v-model="tokenAddress" @focus="handleFoucs" @change="handleContractAdd"
+                    <input type="text" name="token_contract_address" disabled v-model="tokenAddress" @focus="handleFoucs"
                            class="token_contract_address input__field input__field--nao "/>
                     <label class="input__label input__label--nao " >
                         <span class="input__label-content input__label-content--nao">Token Contract Address
@@ -136,7 +136,7 @@
                 <p v-if="tokenTypeError" class="error-message tokenType-error">Type is required</p>
                 <div class="cont_select_center">
                     <div class="select_mate" data-mate-select="active">
-                        <multiselect  name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
+                        <multiselect :searchable="false" name="tokenType" v-model="tokenType" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Type" :options="optionTab" >
                             <template slot="singleLabel" slot-scope="{option}">
                                 <span class="option__title">{{ option.text }}</span>
                             </template>
@@ -196,7 +196,6 @@
     import { getRandomColor } from '../../AccountsData/commonFunc';
     import { db } from '../../../../../lowdbFunc';
     import Multiselect from 'vue-multiselect'
-
     // var web3 = startConnectWeb();
     import shortid from 'shortid';
     import * as $ from 'jquery';
@@ -206,6 +205,7 @@
 
     export default {
         name: 'Addtoken',
+        props:['updateData','token_id'],
         data() {
             return {
                 tokend: '',
@@ -230,36 +230,37 @@
         },
         computed: {
             AddTokenData() {
-                this.tokend = this.$store.state.tokenList;
-                return this.tokend;
-            },
-            tokenIDData: function () {
-                this.tokenID = this.$store.state.editTokenHash;
-                if(this.tokenID){
-                    this.editForm = true;
-                }
-                return this.tokenID;
-            },
+                let tokens = db.get('tokens').value();
+                return tokens;
+            }
         },
         created(){
-            let token_ID = this.tokenIDData;
-            console.log(this.editForm);
-            if(this.editForm){
+            let token_ID = this.token_id;
+            // console.log(this.editForm, this.token_id);
+            if(token_ID) {
+                this.editForm = true;
                 let token = db.get('tokens').find({ id: token_ID }).value();
-                if(token){
+                // console.log(token);
+                if(token) {
                     this.tokenAddress = token.token_address;
                     this.tokenName = token.token_name;
                     this.tokensymbol = token.token_symbol;
                     this.decimalplaces = token.decimal_places;
-                    this.tokenType = token.tokenType == 'erc20' ? {value: 'erc20',text:' ERC20'}:{value: 'standard',text:'Standard Interface'};
+                    this.tokenType = token.tokenType == 'erc20' ? {value: 'erc20',text:' ERC20'} : {value: 'standard',text:'Standard Interface'};
                     this.tokenID = token.id;
                 }
+            } else {
+                this.editForm = false;
+                this.tokenAddress = '';
+                this.tokenName = '';
+                this.tokensymbol = '';
+                this.decimalplaces = '';
+                this.tokenType = {value: 'erc20',text:' ERC20'};
             }
 
         },
         methods: {
             hide () {
-                listTokens();
                 this.$modal.hide('watchtoken');
             },
             handleContractAdd(){
@@ -285,6 +286,7 @@
                             console.log(res,"tokenName")
                         });
                     }catch(e){
+                        Raven.captureException(e);
                         that.tokenName = '';
                     }
                     try{
@@ -297,6 +299,7 @@
                             console.log(res,"tokensymbol")
                         });
                     }catch(e){
+                        Raven.captureException(e);
                         that.tokensymbol = '';
                         console.log(e,"catch tokensymbol")
                     }
@@ -310,6 +313,7 @@
                             console.log(res,"decimalplaces")
                         });
                     }catch(e){
+                        Raven.captureException(e);
                         that.decimalplaces = '';
                     }
                     console.log(this.decimalplaces, "decimalplaces")
@@ -317,11 +321,12 @@
             },
             handleAddToken(e){
                 e.preventDefault();
+                // console.log(this.editForm);
                 if(this.tokenAddress && this.tokenName && this.tokenType.value && this.tokensymbol && this.decimalplaces){
                     let token = db.get('tokens').find({ token_address: this.tokenAddress }).value();
                     this.decimalplaces = parseInt(this.decimalplaces);
-                    console.log(this.decimalplaces , this.decimalplaces <= 36)
-                    if(this.decimalplaces <= 36) {
+                    // console.log(this.decimalplaces , this.decimalplaces <= 36)
+                    if(this.decimalplaces >= 0 && this.decimalplaces <= 36) {
                         if(this.tokenAddress.length < 5){
                             this.tokenAddressError = 'Hash Address is required';
                         }else{
@@ -329,7 +334,7 @@
                                 this.tokenAddressError = 'Invalid Hash Address';
                                 return false;
                             }
-                            if(this.editForm){
+                            if(!this.editForm){
                                 if(token){
                                     this.tokenAddressError = "Token Already Exists";
                                     return false;
@@ -339,7 +344,7 @@
                                 if(!this.editForm){
                                     var color = getRandomColor();
                                     db.get('tokens').assign().push({  id : shortid.generate(), token_address: this.tokenAddress, token_name : this.tokenName, token_symbol: this.tokensymbol, tokenType:this.tokenType.value, decimal_places: this.decimalplaces, color:color}).write()
-                                    listTokens();
+                                    this.updateData();
                                     this.tokenAddress = '';
                                     this.tokenName = '';
                                     this.tokensymbol = '';
@@ -349,8 +354,8 @@
                                     // console.log('update tokens');
                                     var color = getRandomColor();
                                     db.get('tokens').find({ id: this.tokenID  }).assign({  token_name : this.tokenName, token_symbol: this.tokensymbol,tokenType:this.tokenType.value, decimal_places: this.decimalplaces }).write();
+                                    this.updateData();
                                 }
-                                listTokens();
                                 $('.alert-sucess').show(300).delay(5000).hide(330);
                             }catch(err) {
                                 console.log("Execption Error",err.message);
@@ -358,7 +363,7 @@
                             }
                         }
                     } else {
-                        this.decimalplacesError = 'Value must be less than 36';
+                        this.decimalplacesError = 'Value must be positive & less than 36';
                         console.log(this.decimalplacesError , this.decimalplaces <= 36)
                     }
                 }else {
@@ -390,13 +395,16 @@
     }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+    @import "../../../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
+</style>
 
 <style>
 
     .select_mate .multiselect__tags {
         width: 100%!important;
         border: none!important;
+        border-radius : 0px!important;
     }
 
     .select_mate .multiselect__content-wrapper {
@@ -415,26 +423,30 @@
     }
 
     .select_mate .multiselect__option--selected .multiselect__option--highlight {
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .select_mate .multiselect__option--highlight{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
     }
 
     .select_mate .multiselect__element{
-        background: #ffffff;
-        color: #000;
+        background: #ffffff!important;
+        color: #000!important;
+    }
+
+    .select_mate  .multiselect__select{
+        height: 30px;
     }
 
     .select_mate  .multiselect__single{
-        height: 33px;
+        height: 25px;
     }
     .select_mate  .multiselect__single .option__title{
         vertical-align: top!important;
-        line-height: 39px!important;
+        line-height: 29px!important;
     }
 
     .select_mate  .multiselect__option {
@@ -452,7 +464,7 @@
     }
 
     .select_mate .multiselect__element:hover {
-        background-color: #f3f3f3;
+        background-color: #f3f3f3!important;
     }
 
     .select_mate .multiselect__option .option__title {

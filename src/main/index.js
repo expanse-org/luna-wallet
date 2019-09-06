@@ -1,12 +1,18 @@
 import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
+var path = require('path')
+const low = require('lowdb')
 
+import * as $ from 'jquery';
 import {production} from "./libs/config";
 import appPath from 'path';
 import Raven from 'raven';
 import solc from 'solc';
 import os from 'os';
+import {connectWeb3} from "../common/web3Config";
+const { autoUpdater } = require("electron-updater");
+
 var gexpProc ;
 
 ipcMain.on('ComplieContract', (event , sourceCode) => {
@@ -16,8 +22,6 @@ ipcMain.on('ComplieContract', (event , sourceCode) => {
         setTimeout(function(){
             event.sender.send('CompliedContract', compiledContract)
         },500)
-    
-    
 });
 
 
@@ -38,11 +42,13 @@ function createWindow () {
   /**
    * Initial window options
    */
+   console.log(path.join(__dirname))
   mainWindow = new BrowserWindow({
     height: 763,
     useContentSize: true,
-    width: 1400
+    width: 1400,
   })
+
 
   mainWindow.loadURL(winURL)
   try {
@@ -58,8 +64,10 @@ function createWindow () {
         // console.log("res:gexpresgexpresgexpres",res);
         event.sender.send('startGexpResponse', res)
     });
+    mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
-  mainWindow.on('closed', () => {
+
+    mainWindow.on('closed', () => {
     mainWindow = null;
     gexpProc.kill();
       app.quit();
@@ -69,8 +77,8 @@ function createWindow () {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-    app.quit();
     gexpProc.kill();
+    app.quit();
 });
 
 app.on('activate', () => {
@@ -80,6 +88,7 @@ app.on('activate', () => {
 });
 
 
+let chainError = false;
 const runGexp = (path) => {
     // console.log("startGexp:path",path);
     try {
@@ -100,12 +109,12 @@ const runGexp = (path) => {
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 // mainWindow.webContents.send('gexpLogs', JSON.stringify(data));
-                    
+
                     let textChunk = data.toString('utf8');
                     if(mainWindow){
                         mainWindow.webContents.send('gexpLogs', JSON.stringify(textChunk));
                     }
-                    
+
                     // process utf8 text chunk
                 });
             }catch(e){
@@ -114,15 +123,27 @@ const runGexp = (path) => {
             try{
                 gexpProc.stderr.on('data', (data) => {
                     console.log(`stderr: ${data}`);
-
                     let textChunk = data.toString('utf8');
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
+                            if(textChunk.includes('Rewinding blockchain')){
+                            // if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "Head" && data.toString('utf8').split(' ')[3] === "state" && data.toString('utf8').split(' ')[4] === "missing,"  && data.toString('utf8').split(' ')[5] === "repairing" && data.toString('utf8').split(' ')[6] === "chain"){
+                                console.log("chainrRepairError ");
+                                chainError = true;
+                                gexpProc.kill();
+                                mainWindow.webContents.send('chainrRepairError', true);
+                            } else if (!chainError) {
+                                if(textChunk.includes('WebSocket endpoint opened') || textChunk.includes('url=ws://[::]:9657')){
+                                    mainWindow.webContents.send('connectwebgexp', true);
+                                }
+                                if(textChunk === "Fatal: Error starting protocol stack: datadir already used by another process\n"){
+                                    console.log("gexpStartAlready");
+                                    mainWindow.webContents.send('gexpStartAlready', true);
+                                    runMineGexp();
+                                }
+                            }
                         }
-                       
                         // process utf8 text chunk
-                
-                
                 });
             }catch(e){
                 console.log("Error",e);
@@ -146,7 +167,32 @@ const runGexp = (path) => {
     }
 };
 
+const runMineGexp = () => {
+    // console.log("startGexp:path",path);
+    try {
+        console.log("startingGEXP");
 
+        mainWindow.webContents.send('connectwebgexp', true);
+        return true;
+    } catch (e) {
+
+        console.log(e);
+    }
+};
+
+
+
+ipcMain.on('killGexp', (event) => {
+    try{
+        let res = gexpProc.kill();
+        console.log(res);
+        setTimeout(function(){
+            event.sender.send('killGexpresponse', res);
+        },500)
+    }catch(e){
+        Raven.captureException(e);
+    }
+});
 
 const template = [
     {
@@ -270,6 +316,32 @@ function backup(){
         Raven.captureException(e);
     }
 }
+
+
+function chainRepair(){
+    try{
+        let userPath = app.getPath('home');
+        let appDataPath = app.getPath('appData');
+        if (process.platform === 'darwin') {
+            userPath += '/Library/Expanse';
+        }
+        if (
+            process.platform === 'freebsd' ||
+            process.platform === 'linux' ||
+            process.platform === 'sunos'
+        ) {
+            userPath += '/.expanse';
+        }
+    
+        if (process.platform === 'win32') {
+            userPath = `${appDataPath}\\Expanse`;
+        }
+        //console.log("chainrRepairError ", shell.openItem(userPath));
+    }catch(e){
+        console.log("chainRepair  function call -----------------catch----------", e);
+        Raven.captureException(e);
+    }
+}
 var ArchievedAccountsWindow;
 function archievedAccounts()
 {
@@ -282,7 +354,11 @@ function archievedAccounts()
         resizable: true
     });
     // create a new Add Account
-    ArchievedAccountsWindow.loadURL(`http://localhost:9080/#/archiveAccounts`);
+    const winURL1 = process.env.NODE_ENV === 'development'
+        ? `http://localhost:9080/#/archiveAccounts`
+        : `file://${__dirname}/index.html#archiveAccounts`
+
+    ArchievedAccountsWindow.loadURL(winURL1);
     // if main window is ready to show, then destroy the splash window and show up the main window
     ArchievedAccountsWindow.once('ready-to-show', () => {
         ArchievedAccountsWindow.show();
@@ -317,7 +393,8 @@ function startMainNet(){
             if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
-                var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
+                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
+                // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
                 console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true
@@ -325,11 +402,11 @@ function startMainNet(){
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 });
-    
+
                 gexpProc.stderr.on('data', (data) => {
                     console.log(`stderr: ${data}`);
                 });
-    
+
                 gexpProc.on('close', (code) => {
                     console.log(`child process exited with code ${code}`);
                 });
@@ -357,20 +434,21 @@ function startTestNet(){
             if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
-                var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils', '--testnet']
+                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils', '--testnet'];
+                // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils', '--testnet']
                 console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
                     shell: true
                 });
-                
+
                 gexpProc.stdout.on('data', (data) => {
                     console.log(`stdout: ${data}`);
                 });
-    
+
                 gexpProc.stderr.on('data', (data) => {
                     console.log(`stderr: ${data}`);
                 });
-    
+
                 gexpProc.on('close', (code) => {
                     console.log(`child process exited with code ${code}`);
                 });

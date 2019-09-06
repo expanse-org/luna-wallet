@@ -35,5 +35,14 @@ footer {
         margin-bottom: 10px;
         border: 1px solid #0a3640;
         padding: 7px 0px 0px 9px; }
+        footer .footer-DataUp .footer-container .gexplogscontent:nth-child(even) .a1 .gexptxt-num {
+          background: #0a3640; }
+        footer .footer-DataUp .footer-container .gexplogscontent:nth-child(odd) .a1 .gexptxt-num {
+          background: #11292d; }
+        footer .footer-DataUp .footer-container .gexplogscontent .a1 {
+          display: flex;
+          align-items: center; }
+          footer .footer-DataUp .footer-container .gexplogscontent .a1 .gexptxt-num {
+            padding: 0 8px; }
 
 /*# sourceMappingURL=footer.css.map */

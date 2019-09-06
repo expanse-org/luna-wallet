@@ -1,8 +1,6 @@
-
-
 import {getRandomColor} from '../../AccountsData/commonFunc';
 import {db, adapter, low} from '../../../../../lowdbFunc';
-import {web3, currencies, ExpApi} from '../../../../main/libs/config';
+import {web3, currencies, ExpApi, prod_app_directory} from '../../../../main/libs/config';
 import Raven from 'raven';
 import * as $ from 'jquery';
 import _ from 'underscore';
@@ -11,6 +9,9 @@ import object_hash from 'object-hash';
 import numberToBN from 'number-to-bn';
 import axios from 'axios';
 import {tokens, tokens_list_hash, updated_tokens_list_hash} from "../TokensComponents/listTokenfunc";
+import shell from "shelljs";
+import os from "os";
+import shortid from "shortid";
 
 var watchOnlyAccounts = [];
 var archiveAccounts = [];
@@ -21,7 +22,20 @@ var sortbyTOKENBalance = [];
 // var web3 = startConnectWeb();
 let balance = 0;
 let total_balance = 0;
+let Lab_balance = 0;
+let PEX_balance = 0;
 
+const fixpath = () =>{
+    // console.log("check path", shell.ls(''), );
+    // shell.ls('').find((ele)=> console.log("shel check",ele))
+    if(shell.ls('') && (shell.ls('').find((ele)=> ele === "gexp.exe") || shell.ls('').find((ele)=> ele === "gexp") || shell.ls('')[0] === "gexp.exe" || shell.ls('')[0] === "gexp")){
+        // console.log("check path", shell.ls(''));
+        shell.cd('..');
+        shell.cd('..');
+    }
+};
+
+fixpath();
 
 const checkupdate = () => {
     web3.eth.getAccounts(function (error, accounts) {
@@ -32,6 +46,8 @@ const checkupdate = () => {
 }
 
 const getAllAcounts = () => {
+    fixpath();
+    // console.log(shell.ls(''),"getAllAcounts.js =================");
     archiveAccounts = [];
     unarchiveAccounts = [];
     addresshashAccounts = [];
@@ -42,23 +58,22 @@ const getAllAcounts = () => {
                 total_balance = 0;
                 accounts.map((account_hash , index) => {
                     addresshashAccounts.push(account_hash.toLowerCase());
-                    // console.log(db.getState());
                     let account = db2.get('accounts').find({
                         hash: account_hash.toLowerCase()
                     }).value();
                     if(account){
                         if(account && !account.accountTitle) {
-                            console.log(account);
+                            // console.log(account);
                             db2.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
                                 .assign({accountTitle: "Account "+index }).write();
                         }
                         if(account.hash){
-                            if(account.archive === false) {
+                            if(account.archive == false) {
                                 if(account && !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
                                 unarchiveAccounts.push(account);
-                            } else if(account.archive !== true && (account && !account.archive)) {
+                            } else if(account.archive != true && (account && !account.archive)) {
                                 if(account&& !account.isHd) {
                                     account = Object.assign({isHd: false}, account);
                                 }
@@ -72,22 +87,22 @@ const getAllAcounts = () => {
                             hash: account_hash
                         }).value();
                         if(!accountTest) {
-                            console.log(account_hash ,"else Account in Db account_hash", account, accountTest);
+                            // console.log(account_hash ,"else Account in Db account_hash", account, accountTest);
                             let accountdata = accAdddb(account_hash, index);
                             unarchiveAccounts.push(accountdata);
                         }else {
                             if(accountTest && !accountTest.accountTitle) {
-                                console.log(account);
+                                // console.log(account);
                                 db2.get('accounts').chain().filter({hash: account_hash.toLowerCase()}).first()
                                     .assign({accountTitle: "Account "+index }).write();
                             }
                             if(accountTest.hash){
-                                if(accountTest.archive === false) {
+                                if(accountTest.archive == false) {
                                     if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
                                     unarchiveAccounts.push(accountTest);
-                                } else if(accountTest.archive !== true && (accountTest && !accountTest.archive)) {
+                                } else if(accountTest.archive != true && (accountTest && !accountTest.archive)) {
                                     if(accountTest && !accountTest.isHd) {
                                         accountTest = Object.assign({isHd: false}, accountTest);
                                     }
@@ -97,8 +112,10 @@ const getAllAcounts = () => {
                             }
                         }
                     }
-                    if(index === accounts.length -1) {
+                    if(index == accounts.length -1) {
                         getallExpBalance();
+                        Lab_balance = 0;
+                        PEX_balance = 0;
                         getalltokenBalance();
                     }
                 });
@@ -111,6 +128,7 @@ const getAllAcounts = () => {
 };
 
 const getArchiveaccounts = () => {
+    fixpath();
     store.dispatch('addUserAcc', []);
     archiveAccounts = [];
     let db2 = low(adapter);
@@ -136,6 +154,7 @@ const accAdddb = (account_hash , key) => {
 };
 
 const getallExpBalance = () => {
+    fixpath();
     unarchiveAccounts.map((account, index) => {
         web3.eth.getBalance(account.hash).then((bal) => {
             balance = web3.utils.fromWei(bal, "ether");
@@ -145,30 +164,9 @@ const getallExpBalance = () => {
             store.dispatch('addTotalBalance',total_balance);
             unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index]);
         }, (error) => {
-            console.log(error, "getallExpBalance");
+            // console.log(error, "getallExpBalance");
             Raven.captureException(error);
         });
-    });
-};
-
-const getalltokenBalance = () => {
-    unarchiveAccounts.map((account, index) => {
-        get_tokens_balance_by_address(account.hash).then((res) => {
-            if(res){
-                unarchiveAccounts[index] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[index]);
-            } else {
-                unarchiveAccounts[index] = Object.assign({tokens: false}, unarchiveAccounts[index]);
-            }
-        }, (error) => {
-            console.log(error, "getalltokenBalance");
-            Raven.captureException(error);
-        });
-        if(index === unarchiveAccounts.length-1){
-            setTimeout(() =>{
-                store.dispatch('addTotalBalance',total_balance);
-                sortByEXPBalances();
-            }, 1000);
-        }
     });
 };
 
@@ -177,6 +175,7 @@ const storeActionArchive = () => {
 }
 
 const storeAction = () => {
+    fixpath();
     let updated_account_list_hash, updated_watch_list_hash;
     let account_list_hash = object_hash(unarchiveAccounts);
     if (account_list_hash == updated_account_list_hash) {
@@ -192,9 +191,10 @@ const storeAction = () => {
 }
 
 const sortByEXPBalances = () => {
+    fixpath();
     // console.log(unarchiveAccounts[0],  "unarchiveAccount getalltokenBalances");
     sortbyEXPBalance = unarchiveAccounts.sort(
-         (a, b) => {
+        (a, b) => {
             return parseFloat(b.balance && b.balance) - parseFloat(a.balance && a.balance);
         }
     );
@@ -203,6 +203,7 @@ const sortByEXPBalances = () => {
 };
 
 const storeWatchAccounts = () => {
+    fixpath();
     let  updated_watch_list_hash;
     let watch_list_hash = object_hash(watchOnlyAccounts);
     if (watch_list_hash == updated_watch_list_hash) {
@@ -227,8 +228,44 @@ const sortByTokenBalances = () => {
     // console.log(sortbyTOKENBalance ,"unarchiveAccounts sortbyTOKENBalance")
 };
 
+const getalltokenBalance = () => {
+    fixpath();
+    unarchiveAccounts.map((account, index) => {
+        get_tokens_balance_by_address(account.hash).then((res) => {
+            if(res){
+                unarchiveAccounts[index] = Object.assign({token_icons: res, tokens: true}, unarchiveAccounts[index]);
+                var color = getRandomColor();
+                let token = db.get('tokens').find({ token_address: res[0].tokenHash }).value();
+                if(!token) {
+                    db.get('tokens').assign().push({
+                        id : shortid.generate(),
+                        token_address: res[0].tokenHash,
+                        token_name : res[0].token_name,
+                        token_symbol: res[0].token_symbol,
+                        tokenType: res[0].tokenType,
+                        decimal_places: res[0].decimal_places,
+                        balance: res[0].balance,
+                        color: color
+                    }).write();
+                }
+            } else {
+                unarchiveAccounts[index] = Object.assign({tokens: false}, unarchiveAccounts[index]);
+            }
+        }, (error) => {
+            // console.log(error, "getalltokenBalance");
+            Raven.captureException(error);
+        });
+        if(index == unarchiveAccounts.length-1){
+            setTimeout(() =>{
+                store.dispatch('addTotalBalance',total_balance);
+                sortByEXPBalances();
+            }, 1000);
+        }
+    });
+};
 
 const get_tokens_balance_by_address = (accountHash = '') => {
+    fixpath();
     return new Promise(resolve => {
         let tokens = db.get('tokens').value();
         var accounts_addresses = [];
@@ -244,9 +281,8 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                         data: contractData
                     }, function (err, result) {
                         if (result) {
-                            // console.log(result, "result");
+                            // console.log(contractAddr,contractData,  result, tokenHash, "tokenHash=============")
                             var tokens = numberToBN(result); // Convert the result to a usable number string
-                            // console.log(tokens, "tokens");
                             var balance = web3.utils.fromWei(tokens, 'ether');
                             if (balance > 0) {
                                 accounts_addresses.push({
@@ -254,16 +290,16 @@ const get_tokens_balance_by_address = (accountHash = '') => {
                                     color: tokenHash.color,
                                     token_symbol: tokenHash.token_symbol,
                                     token_name: tokenHash.token_name,
+                                    tokenType: tokenHash.tokenType,
+                                    decimal_places: tokenHash.decimal_places,
                                     balance: balance
                                 });
-                                // console.log('accounts_addresses', accounts_addresses);
                             }
                         }
                     });
-                    if (key === tokens.length - 1) {
+                    if (key == tokens.length - 1) {
                         setTimeout(function () {
-                            resolve(accounts_addresses.length > 0 ? accounts_addresses :
-                                false);
+                            resolve(accounts_addresses.length > 0 ? accounts_addresses :false);
                         }, 1000)
 
                     }
@@ -279,8 +315,43 @@ const get_tokens_balance_by_address = (accountHash = '') => {
 };
 
 
+const getallwatchtokenBalance = () => {
+    fixpath();
+    watchOnlyAccounts.map((account, index) => {
+        get_tokens_balance_by_address(account.hash).then((res) => {
+            if(res){
+                watchOnlyAccounts[index] = Object.assign({token_icons: res, tokens: true}, watchOnlyAccounts[index]);
+                var color = getRandomColor();
+                let token = db.get('tokens').find({ token_address: res[0].tokenHash }).value();
+                if(!token){
+                    db.get('tokens').assign().push({
+                        id : shortid.generate(),
+                        token_address: res[0].tokenHash,
+                        token_name : res[0].token_name,
+                        token_symbol: res[0].token_symbol,
+                        tokenType: res[0].tokenType,
+                        decimal_places: res[0].decimal_places,
+                        balance: res[0].balance,
+                        color: color
+                    }).write();
+                }
+            } else {
+                watchOnlyAccounts[index] = Object.assign({tokens: false}, watchOnlyAccounts[index]);
+            }
+        }, (error) => {
+            // console.log(error, "getalltokenBalance");
+            Raven.captureException(error);
+        });
+        if(index == watchOnlyAccounts.length-1){
+            setTimeout(() =>{
+                storeWatchAccounts();
+            }, 2000);
+        }
+    });
+};
 
 const getAllWatchOnlyAcounts = () => {
+    fixpath();
     watchOnlyAccounts = [];
     let color ;
     let db2 = low(adapter);
@@ -303,16 +374,17 @@ const getAllWatchOnlyAcounts = () => {
                             .assign({ color: color }).write();
                     }
                     account = Object.assign({balance: balance}, account);
+                    // console.log(account, "account watch only");
                     watchOnlyAccounts.push(account);
-                    if(index === address_accounts.length-1){
-                        setTimeout(() =>{
-                            storeWatchAccounts();
-                        }, 2000);
-                    }
                 }, (error) => {
                     console.log(error, "getExpBalance");
                     Raven.captureException(error);
                 });
+                if(index == address_accounts.length-1){
+                    setTimeout(() =>{
+                        getallwatchtokenBalance();
+                    }, 2000);
+                }
             });
         }
     } catch (e) {

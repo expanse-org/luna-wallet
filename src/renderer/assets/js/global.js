@@ -337,7 +337,7 @@ $(function() {
             filter =  $("#filterDetailsTransaction").val();
           }
     
-          axios.post('https://beta-api.gander.tech/getalltransactionsbyaddressarray', postData)
+          axios.post('https://api.gander.tech/getalltransactionsbyaddressarray', postData)
           .then(function (response) {
               console.log("response-transactions",response)
               let transactions = response.data.message;

@@ -15,7 +15,6 @@
 <script>
 import Header from './Header/Header';
 import SideBar from './SideBar/SideBar';
-import AddToken from './TokensComponents/AddToken';
 import {getAllAcounts, checkupdate, getAllWatchOnlyAcounts} from './WalletDashboardComponents/walletcommon';
 import {web3, startConnectWeb} from '../../../main/libs/config';
 
@@ -24,7 +23,6 @@ export default {
     components:{
         'header-app': Header,
         'sidebar-app': SideBar,
-        'addtoken-app': AddToken,
     },
     data(){
         return {
@@ -33,7 +31,7 @@ export default {
     },
     created(){
         if (typeof web3 !== 'undefined') {
-            console.log("if (typeof web3 !== 'undefined')");
+            // console.log("if (typeof web3 !== 'undefined')");
             getAllAcounts();
             getAllWatchOnlyAcounts();
         } else {

@@ -14,6 +14,7 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     screenState: 'config',
+    currentblock: 0,
     gexpRes: false,
     gexpSync: '',
     isgexpSync: '',
@@ -39,6 +40,9 @@ const store = new Vuex.Store({
     },
     pushCount (state, newval) {
       state.count = newval;
+    },
+    pushCurentblock (state, newval) {
+      state.currentblock = newval;
     },
     pushScreen (state, screen) {
       state.screenState = screen;
@@ -77,7 +81,7 @@ const store = new Vuex.Store({
       state.editTokenHash = edittokenhash;
     },
     pushTokenList (state, tokenlist) {
-      state.tokenList = tokenlist;
+      state.tokenList = Object.assign({}, tokenlist);
     },
     pushAcdcurrency (state, acdcurrency) {
       state.ac_dcurrency = acdcurrency;
@@ -101,6 +105,9 @@ const store = new Vuex.Store({
   actions: {
       addCount ({ commit }, count) {
           store.commit('pushCount',count)
+      },
+      addCurentblock ({ commit }, currentblock) {
+          store.commit('pushCurentblock',currentblock)
       },
       addScreen ({ commit }, screen) {
           store.commit('pushScreen',screen)

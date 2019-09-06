@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div v-if="success" class="alert-sucess alert-private-key">
-                        <p>Sweet! Account Created successfully.</p>
+                        <p>Sweet! Private Account is Imported successfully.</p>
                     </div>
                     <div class="buttons">
 
@@ -136,7 +136,7 @@
                     <div class="row">
                         <span :class="import_address? 'input input--nao input--filled': 'input input--nao'">
                             <p v-if="import_addressError" class="error-message imp-import-watch-address-error">{{import_addressError}}</p>
-                            <input class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus"></input>
+                            <input class="import-address input__field input__field--nao input" v-model="import_address" @focus="handleFocus" ></input>
                             <label class="input__label input__label--nao">
                                 <span class="input__label-content input__label-content--nao">Import watch only address
                                     <span class="mandatory">*</span>
@@ -149,7 +149,7 @@
                         </span>
                     </div>
                     <div v-if="success" class="imp-address-alert-sucess" >
-                        <p>Sweet! Account successfully created.</p>
+                        <p>Sweet! Watch Only Account is Imported successfully.</p>
                     </div>
                 </form>
                 <div class="buttons">
@@ -182,15 +182,18 @@
                         <p>Choose file</p>
                     </label>
                 </div>
+                <div  v-if="FileName">
+                    <p>{{FileName}}</p>
+                </div>
                 <div v-if="success" class="imp-file-alert-sucess">
                     <p>Sweet! Account is Imported successfully.</p>
                 </div>
                 <p v-if="error" class="error-message2 not-valid-file">Not a Valid Account File</p>
-                <div class="alert-unsucess">
-                    <p>ERROR</p>
+                <div v-if="fileError" class="alert-unsucess">
+                    <p>{{fileError}}</p>
                 </div>
                 <div class="buttons">
-                    <button class=" ok h-hide button button--shikoba md-close">
+                    <button @click="handleImportAccfile" class=" ok button button--shikoba md-close">
                         <img class="button__icon" src="../../../../assets/img/submit.svg">
                         <span>SUBMIT</span>
                     </button>
@@ -236,7 +239,9 @@
                 success: false,
                 passType: 'password',
                 tabName: {text:'Import Private Key'},
-                optionTab: [{text:'Import Private Key'},{text:'Import Watch Only Address'},{text:'Import Json File' } ]
+                optionTab: [{text:'Import Private Key'},{text:'Import Watch Only Address'},{text:'Import Json File' } ],
+                FileName: false,
+                fileError: false,
             };
         },
         components:{
@@ -245,11 +250,15 @@
         created(){
             this.success = false;
             this.error = false;
-            console.log(web3, "web3")
+            console.log(web3, "web3");
             console.log(db, "db");
         },
         methods: {
+            hide () {
+                this.$modal.hide('openAddAccountModal');
+            },
             handletab(){
+                this.fileError = false;
                 setTimeout(() => {
                     console.log(this.tabName,"tabName");
                     if(this.tabName.text === "Import Private Key") {
@@ -330,14 +339,14 @@
                       this.accountNameError = 'Title is required';
                   }
                   if (!this.import_address) {
-                      this.import_addressError = 'Account Already Exits';
+                      this.import_addressError = 'Account is required';
                   }
               }
             },
             handleimportPrivateKey(e){
                 e.preventDefault();
-
                 console.log(this.accountName,"account");
+                // console.log(this.private_key, "Private Account")
                 if(this.accountName && this.private_key && this.private_key_password && this.private_key_repassword){
                     if(this.private_key_password.length >= 8){
                         if(this.private_key_password === this.private_key_repassword) {
@@ -348,8 +357,8 @@
                             if(name_accounts.length > 0) {
                                 this.accountNameError = 'Title is already exists';
                             } else {
-                                let that = this;
                                 let account = web3.eth.personal.importRawKey(this.private_key.replace(/0x/g, ''), this.private_key_password);
+                                console.log(account)
                                 account.then((res) => {
                                     console.log(account,"account");
                                     console.log(res,"res account");
@@ -361,19 +370,19 @@
                                         color: color, archive: false
                                     }).write();
                                     getAllAcounts();
-                                    that.success = true;
+                                    this.success = true;
                                     setTimeout(() => {
-                                        that.success = false;
-                                        that.accountName = '';
-                                        that.private_key_repassword = '';
-                                        that.private_key_password = '';
-                                        that.private_key = '';
+                                        this.success = false;
+                                        this.accountName = '';
+                                        this.private_key_repassword = '';
+                                        this.private_key_password = '';
+                                        this.private_key = '';
                                     }, 2000)
                                     $('.alert-private-key').show(300).delay(5000).hide(330);
                                     console.log(res," res)account");
                                 }, (error)  =>  {
-                                    that.success = false;
-                                    that.private_keyError = 'Private key is invalid';
+                                    this.success = false;
+                                    this.private_keyError = 'Private key is invalid';
                                     $('.imp-privatekey-error').show(300).delay(5000).hide(330);
                                     setTimeout(() => {
                                         this.private_keyError = false;
@@ -411,9 +420,18 @@
                 this.success = false;
                 this.error = false;
             },
+            handleImportAccfile(){
+                if(this.FileName) {
+                    this.hide();
+                } else {
+                    this.fileError = "Any wallet file is required";
+                }
+            },
             importAccFile(){
                 console.log('openFile');
-                var input = event.target;
+                this.fileError = false;
+                var input = event.target || event.dataTransfer;
+                this.FileName= event.target.files[0].name;
                 var clientInfo = getClientInfo();
                 var reader = new FileReader();
                 let that = this;
@@ -423,9 +441,9 @@
                     console.log('res reader.result',res);
                     let json_res;
                     try {
-                        json_res = JSON.parse(res)
-                        console.log('json_res',json_res);
+                        json_res = JSON.parse(res);
                     } catch (e) {
+                        Raven.captureException(e);
                         console.log('Not a valid json Account File');
                         that.error= true;
                         return false;

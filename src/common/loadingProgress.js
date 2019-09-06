@@ -1,10 +1,11 @@
 
 
-import {production, updateScreen} from '../main/libs/config';
+import {prod_app_directory, production, updateScreen} from '../main/libs/config';
 import {getClientInfo } from '../common/clientInfo';
 import {connectWeb3 } from '../common/web3Config';
 import os from 'os';
 import shell from 'shelljs';
+import {startingGexp} from './gexpfunc';
 import fs from 'fs';
 import request from 'request';
 import progress from 'request-progress';
@@ -20,7 +21,6 @@ const action = (screen) => {
     // console.log("storee Action")
     store.dispatch('addScreen', screen)
 }
-
 
 const loadingProgress = (dlData) =>{
     console.log(dlData,"loadingProgress Func11");
@@ -160,4 +160,52 @@ const loadingProgress = (dlData) =>{
 }
 
 
-export { loadingProgress }
+
+const chainErrorHandle = () => {
+    shell.cd('');
+    console.log(shell.ls(''));
+    try{
+        let osType = os.type();
+        switch (osType) {
+            case "Linux":
+                shell.cd("/.expanse");
+                exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`error: ${err}`);
+                        return;
+                    }
+                    console.log("Folder Delete");
+                    startingGexp();
+                });
+                break;
+            case "Darwin":
+                shell.cd("Library/Expanse");
+                exec('rm -rf gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`error: ${err}`);
+                        return;
+                    }
+                    console.log("Folder Delete");
+                    startingGexp();
+                });
+                break;
+            case "Windows_NT":
+                shell.cd("AppData\\Roaming\\Expanse");
+                exec('del /f /q gexp & rmdir /q /s gexp', {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
+                    if (err) {
+                        console.log(`error: ${err}`);
+                        return;
+                    }
+                    console.log("Folder Delete");
+                    startingGexp();
+                });
+                break;
+            default:
+        }
+    }catch(e){
+        Raven.captureException(e);
+        console.log(e);
+    }
+}
+
+export { loadingProgress, chainErrorHandle }

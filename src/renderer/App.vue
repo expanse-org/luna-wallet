@@ -19,7 +19,6 @@ export default {
         if(this.$router.history.current.path === '/archiveAccounts'){
             this.archive = true;
         }
-
     },
     data() {
         return {

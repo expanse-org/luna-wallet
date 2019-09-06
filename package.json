@@ -1,7 +1,7 @@
 {
   "name": "luna-wallet",
-  "version": "0.0.1",
-  "author": "Farina Ashfaq <fari.ash16@gmail.com>",
+  "version": "2.0.2",
+  "author": "Expanse.tech <christopher@expanse.tech>",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -17,7 +17,15 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": ""
+    "postinstall": "",
+    "publish": "build --mac --win -p always",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"CryptoApp\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=build/icons/logoluna256x256.png --prune=true --out=release-builds"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expanse-org/luna-wallet.git"
   },
   "build": {
     "productName": "luna-wallet",
@@ -44,14 +52,31 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/logo-luna_384x384.icns"
+      "icon": "build/icons/luna512x512.ico"
     },
     "win": {
-      "icon": "build/icons/logo-luna.ico"
+      "icon": "build/icons/logo-luna.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
     "linux": {
-      "icon": "build/icons"
-    }
+      "icon": "build/icons/",
+      "category": "Office"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "iffy",
+        "repo": "luna-wallet"
+      }
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -60,10 +85,15 @@
     "bitcoinjs-lib": "1.5.7",
     "bitcore-mnemonic": "^1.5.0",
     "child_process": "^1.0.2",
+    "crypto-js": "^3.1.9-1",
+    "crypto-json": "^2.0.2",
     "debug": "^4.0.1",
     "decompress": "^4.2.0",
+    "electron-updater": "4.0.0",
     "ethereum-address": "^0.0.4",
     "ethereumjs-tx": "^1.3.7",
+    "filepond": "^3.7.6",
+    "filepond-plugin-file-validate-type": "^1.2.1",
     "fs": "^0.0.1-security",
     "get-random-values": "^1.2.0",
     "got": "^9.2.2",
@@ -76,12 +106,14 @@
     "lowdb": "^1.0.0",
     "md5": "^2.2.1",
     "moment": "^2.22.2",
+    "node-gyp": "^3.6.0",
     "number-to-bn": "^1.7.0",
     "numeral": "^2.0.6",
     "object-hash": "^1.3.0",
     "os": "^0.1.1",
     "qrcode.vue": "^1.6.1",
     "raven": "^2.6.4",
+    "raven-js": "^3.27.2",
     "request": "^2.88.0",
     "request-progress": "^3.0.0",
     "shelljs": "^0.8.2",
@@ -91,6 +123,7 @@
     "underscore": "^1.9.1",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
+    "vue-filepond": "^4.0.3",
     "vue-js-modal": "^1.3.26",
     "vue-moment": "^4.0.0",
     "vue-multiselect": "^2.1.0",
@@ -98,15 +131,16 @@
     "vue-router": "^3.0.1",
     "vue-select": "^2.5.1",
     "vue2-ace-editor": "^0.0.11",
+    "vuejs-paginate": "^2.1.0",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.36",
-    "yarn": "^1.10.1"
+    "yarn": "^1.12.3"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
-    "babel-plugin-istanbul": "^4.1.6",
+    "babel-plugin-istanbul": "^5.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1",
@@ -121,13 +155,14 @@
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^2.0.4",
-    "electron-builder": "^20.19.2",
+    "electron-builder": "^20.38.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-rebuild": "^1.8.2",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
     "inject-loader": "^4.0.1",
-    "karma": "^2.0.2",
+    "karma": "^4.0.1",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^1.1.2",
     "karma-electron": "^6.0.0",
@@ -151,7 +186,7 @@
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4",
+    "webpack-dev-server": "^3.2.1",
     "webpack-hot-middleware": "^2.22.2",
     "webpack-merge": "^4.1.3"
   }

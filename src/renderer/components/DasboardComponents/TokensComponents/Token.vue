@@ -30,7 +30,7 @@
                     </div>
                     <div class="bottom tokens_list_js">
                         <div v-if="tokenlist && token" v-for="(token, key) in AddTokenData" class="a1">
-                            <div class="delete-icon token_delete" @click="deleteToken(token.id)" data-val="token.token_address">
+                           <div class="delete-icon token_delete" @click="deleteToken(token.id)" data-val="token.token_address">
                            </div>
                            <div class="link token_edit" @click="editToken(token.id)" :data-index="parseInt(key + 1)" :data-val="token.token_address">
                                <div class="img">
@@ -72,6 +72,7 @@
                                    </div>
                                </div>
                            </div>
+                            <div class="token_value" >{{token.balance? token.balance: 0}}</div>
                         </div>
                     </div>
                     <div class="contractinfo">
@@ -92,15 +93,16 @@
             </div>
         </div>
         <modal class="modal" name="watchtoken">
-            <AddToken></AddToken>
+            <AddToken :token_id="tokenIDSEND" :updateData="updateData"></AddToken>
         </modal>
     </div>
 </template>
 
 <script>
     import {db} from '../../../../../lowdbFunc';
+    import {getalltokensBalance} from '../WalletDashboardComponents/walletcommon';
     import AddToken from './AddToken';
-    import {listTokens,updated_tokens_list_hash, tokens } from './listTokenfunc';
+    import object_hash from 'object-hash';
     export default {
         name: 'tokenDetails',
         components: {
@@ -111,25 +113,62 @@
                 token: '',
                 tokenlist: false,
                 token_edit: false,
+                tokenIDSEND: false,
                 color: '',
             };
         },
         computed: {
+            accounts() {
+                this.expaccounts = this.$store.state.allAccounts;
+                return this.expaccounts;
+            },
+            WatchAccounts() {
+                this.watchaccounts = this.$store.state.watchAccounts ;
+                return this.watchaccounts;
+            },
+            labbalance() {
+                this.AddTokenData && this.AddTokenData.map(token => {
+                    var Lab_balance = 0;
+                    this.accounts && this.accounts.map((account, index) => {
+                        account.token_icons && account.token_icons.map(acctoken => {
+                            if (token.token_symbol === acctoken.token_symbol){
+                                Lab_balance += parseFloat(acctoken.balance);
+                                db.get('tokens').find({token_symbol: acctoken.token_symbol}).assign({
+                                    balance: Lab_balance
+                                }).write();
+                            }
+                        })
+                    });
+                    this.WatchAccounts && this.WatchAccounts.map((account, index) => {
+                        account.token_icons && account.token_icons.map(acctoken => {
+                            if (token.token_symbol === acctoken.token_symbol){
+                                Lab_balance += parseFloat(acctoken.balance);
+                                db.get('tokens').find({token_symbol: acctoken.token_symbol}).assign({
+                                    balance: Lab_balance
+                                }).write();
+                            }
+                        })
+                    })
+                })
+            },
             AddTokenData() {
-                this.token = this.$store.state.tokenList;
-                return this.token;
+                let tokensdata = db.get('tokens').value();
+                return tokensdata;
             },
         },
         created(){
-            listTokens();
-            if(tokens){
-                this.tokenlist = true;
-            }
+            this.labbalance;
+            this.intervalid1 = setInterval(() => {
+                if(this.AddTokenData && this.AddTokenData.length > 0 ){
+                    this.tokenlist = true;
+                    clearInterval(this.intervalid1)
+                }
+            }, 100);
         },
         methods: {
             editToken(token_id){
-                console.log(token_id);
-                this.$store.dispatch('addEditTokenHash', token_id);
+                // console.log(token_id);
+                this.tokenIDSEND = token_id;
                 this.show();
             },
             show () {
@@ -139,8 +178,11 @@
                 this.$modal.hide('watchtoken');
             },
             handleWatchToken(){
-                this.$store.dispatch('addEditTokenHash', '');
+                this.tokenIDSEND = '';
                 this.show();
+            },
+            updateData(){
+                this.$forceUpdate();
             },
             deleteToken(token_id){
                 console.log(token_id, "yokenID");
@@ -150,10 +192,7 @@
                     let con = confirm('You want To Delete: '+token.token_name+' Token');
                     if(con){
                         db.get('tokens').remove({ id: token_id}).write();
-                        this.$forceUpdate();
-                        setTimeout(()=>{
-                            listTokens();
-                        }, 1000);
+                        this.updateData();
                         console.log(this.AddTokenData, this.$store.state.tokenList, "AddTokenData");
                     }
                 }
@@ -165,4 +204,20 @@
 
 <style>
     @import "../../../../../static/modalcomponent.css";
+</style>
+
+
+<style>
+    .token_value {
+        margin-right: 45px;
+        margin-top: 12px;
+        padding-top: 5px;
+        border-left: 2px solid #204854;
+        padding-left: 14px;
+        height: 18px;
+    }
+    .token_delete {
+        margin-top: 5px;
+        border-left: 2px solid #204854!important;
+    }
 </style>

@@ -16,11 +16,20 @@ const action = (screen) => {
     store.dispatch('addScreen', screen)
 };
 
-const actionSync = (gexpSync,isgexpSync, peerCount) => {
+const actionSynpeer = (peerCount) => {
+    // console.log("storee Action peercount")
+    store.dispatch('addPeerCount', peerCount);
+};
+
+const actionSync = (gexpSync,isgexpSync) => {
     // console.log("storee Action")
     store.dispatch('addGexpSync', gexpSync);
     store.dispatch('addIsGexpSync', isgexpSync);
-    store.dispatch('addPeerCount', peerCount);
+};
+
+const actionSyncblock = (block) => {
+    // console.log("storee Action")
+    store.dispatch('addCurentblock', block);
 };
 
 
@@ -31,17 +40,32 @@ const syncPeers = () => {
     $('.launch').show();
     var that = this;
     setInterval(function(){
+        if(web3 == undefined) {
+            startConnectWeb();
+        }
         try{
+            web3.eth.net.getPeerCount().then((res) => {
+                // console.log("sync if true",res);
+                if(res){
+                    actionSynpeer(res);
+                }
+            });
+            web3.eth.getBlockNumber().then((res) => {
+                if(res){
+                    // console.log("latest block response",res);
+                    actionSyncblock(res);
+                }
+            } );
+
             web3.eth.isSyncing(function(error, sync){
                 if(!error) {
+
                     // stop all app activity
 
                     if(sync) {
-                        var peerCount = web3.eth.net.peerCount;
-                        // console.log(peerCount,"sync if true",sync);
-                        actionSync(sync, true, peerCount);
                         // console.log("sync if true",sync);
 
+                        actionSync(sync, true);
                         updateScreen("downloading");
                         action("downloading");
                         // show sync info
@@ -113,6 +137,12 @@ const connectWeb3 = () => {
                         updateScreen("nodeConnected");
                         action("nodeConnected");
                         //3: Look For Peers
+                        web3.eth.net.getPeerCount().then((res) => {
+                            // console.log("sync if true",res);
+                            if(res){
+                                actionSynpeer(res);
+                            }
+                        });
 
                         clearInterval(web3Connect);
                         getAllAcounts();

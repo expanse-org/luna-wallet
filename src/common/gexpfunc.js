@@ -81,16 +81,33 @@ const startingGexp = () => {
         action("nodeStart");
         // console.log(activeScreen,"activeScreen");
         ipcRenderer.send('startGexp', path);
-        ipcRenderer.on('startGexpResponse', (event, res) => {
+        ipcRenderer.on('gexpStartAlready', (event, res) => {
             if(res){
-                setTimeout(function(){
-                    connectWeb3();
-                    console.log("connectweb3 funcction start")
-                },2000)
+                // console.log("Gexp Rest",res, event)
+
             }
             else{
                 updateScreen("connectionError");
                 action("connectionError");
+            }
+        });
+        ipcRenderer.on('startGexpResponse', (event, res) => {
+            console.log(res,"res");
+            if(res){
+                // console.log("Gexp Rest",res, event)
+            }
+            else{
+                updateScreen("connectionError");
+                action("connectionError");
+            }
+        });
+        ipcRenderer.on('connectwebgexp', (event, res) => {
+            console.log(res, 'expr------01', 'connectwebgexp------01');
+            if(res)
+            {
+                connectWeb3();
+                console.log("connectweb3 funcction start")
+
             }
         });
     },1000);
