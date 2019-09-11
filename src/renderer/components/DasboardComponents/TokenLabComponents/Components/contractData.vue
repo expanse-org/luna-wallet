@@ -61,8 +61,8 @@
                         </div>
                         <div class="bottom contracts_list_js">
                             <div v-for="(contract, key) in TokencontractData" class="a1 contractDetail" :data-val="contract.id" >
-                                <div class="edit-icon contract_delete" @click="handleedit(contract.id)" :data-val="contract.id" >
-                                </div>
+                                <!--<div class="edit-icon contract_delete" @click="handleedit(contract.id)" :data-val="contract.id" >-->
+                                <!--</div>-->
                                 <div class="delete-icon contract_delete" @click="handledelete(contract.id)" :data-val="contract.id" >
                                 </div>
                                 <div class="link contract_edit-1" @click="mainMenu1(contract.id)" :data-index="parseInt(key + 1)" :data-val="contract.id">
@@ -277,6 +277,7 @@
     import {web3} from '../../../../../main/libs/config';
     import os from 'os';
     import  * as child_process from 'child_process';
+    import {apiurl} from '../../../../../main/libs/config';
     var instance;
 
     export default {
@@ -386,7 +387,7 @@
         methods: {
             callAbi(){
                 const config = { headers: { "Content-Type": "application/json"} };
-                var url = `http://172.25.33.167:8090/contract/standard/${this.contracts.std}`;
+                var url = apiurl +`/contract/standard/${this.contracts.std}`;
                 axios.get(url, config )
                     .then((response)  =>  {
                         Object.assign(this.contracts, {contract_json: response.data.data.contract.abi});
@@ -733,17 +734,17 @@
 
     .contract_functions_c .multiselect__option--highlight,
     .contract_sndform .multiselect__option--highlight{
-        background: #265b6c!important;
+        background: #414141!important;
     }
 
     .contract_functions_c .multiselect__element:nth-child(odd),
     .contract_sndform .multiselect__element:nth-child(odd) {
-        background: #265b6c!important;
+        background: #414141!important;
     }
 
     .contract_functions_c .multiselect__element:nth-child(even),
     .contract_sndform .multiselect__element:nth-child(even) {
-        background: #1e4855!important;
+        background: #2C2C2C!important;
     }
 
     .contract_functions_c .multiselect__option--selected,
@@ -752,11 +753,11 @@
     }
 
     .latestevents:nth-child(even) {
-        background: #1e4855!important;
+        background: #2C2C2C!important;
     }
 
     .latestevents:nth-child(odd) {
-        background: #265b6c!important;
+        background: #414141!important;
     }
 
     .contract_functions_c  .multiselect__single,
@@ -780,7 +781,7 @@
 
     .contract_functions_c .multiselect__content-wrapper,
     .contract_sndform .multiselect__content-wrapper {
-        background: #265b6c!important;
+        background: #414141!important;
         margin-top: 3px;
     }
 

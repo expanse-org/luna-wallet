@@ -137,7 +137,7 @@
             },
             defaultCurrencyData() {
                 this.defaultSign = this.$store.state.ac_dcurrency ;
-                console.log(this.defaultSign, "this.defaultSign -----------------------------")
+                // console.log(this.defaultSign, "this.defaultSign -----------------------------")
                 return this.defaultSign;
             },
             accPriceData() {

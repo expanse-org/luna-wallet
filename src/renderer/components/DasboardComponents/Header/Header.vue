@@ -209,7 +209,11 @@
                 var price = this.$store.state.currencies && this.$store.state.currencies[this.selectCurrency].PRICE.replace(/[^0-9\.]/g, '');
                 this.$store.dispatch('addpushAcdcurrency', this.defaultCurrencySign);
                 this.$store.dispatch('addAcprice', price);
-                this.dashboardbalance =  this.defaultCurrencySign +' '+ (parseFloat(price) * this.totalBalanceData).toFixed(6);
+                if(this.defaultCurrencySign === '$') {
+                    this.dashboardbalance =  this.defaultCurrencySign +' '+ (parseFloat(price) * this.totalBalanceData).toFixed(6);
+                } else {
+                    this.dashboardbalance =  (parseFloat(price) * this.totalBalanceData).toFixed(6) +' '+ this.defaultCurrencySign ;
+                }
                 return this.dashboardbalance;
             },
         },

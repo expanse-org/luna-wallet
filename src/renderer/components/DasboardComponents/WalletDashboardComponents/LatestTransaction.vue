@@ -225,7 +225,7 @@
                         </label>
                     </div>
                 </div>
-                <div v-if="notransactions" class="row">
+                <div v-if="notransactions" >
                     <h3 class="notrnas">No Transactions Found</h3>
                 </div>
             </div>
@@ -445,6 +445,7 @@
     .notrnas {
         margin: 0px auto;
         width: 178px;
+        text-align: center;
     }
     .statstf {
         text-transform: capitalize;

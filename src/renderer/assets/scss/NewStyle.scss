@@ -1,6 +1,5 @@
 
 .main-container {
-
   //SideBar
   .menu-drawer {
     background-color: #2C2C2C;
@@ -23,7 +22,7 @@
           margin: 0px auto;
         }
         .btn {
-          line-height: 10px;
+          line-height: 9px;
           img {
             height: 30px;
           }
@@ -96,6 +95,11 @@
         .blue {
           box-shadow: inset 0 0 30px #319DE8;
         }
+        .details {
+          .bar-wrap {
+            background-color: #707070;
+          }
+        }
       }
       .red {
         background-color: #cb4d43;
@@ -164,6 +168,20 @@
               }
               .activeT {
                 background: #cb4d43;
+              }
+            }
+          }
+          .contract-details {
+            box-shadow: 0 2px 51px -10px #2C2C2C;
+            background-color: #2C2C2C;
+            .inner {
+              .left {
+                .one-line {
+                  background-color: #2C2C2C;
+                }
+                .output {
+                  background-color: #414141;
+                }
               }
             }
           }

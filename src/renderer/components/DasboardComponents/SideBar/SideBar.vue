@@ -190,6 +190,7 @@
                 this.tokenlabTab= 'tablinks';
             },
             mainMenu(e, tab){
+                this.expexTab = 'tablinks';
                 this.update();
                 // console.log("dsasda",tab)
                 if(this.$router.history.current.path === '/expexdetails' || this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/tradehistory' || this.$router.history.current.path === '/marketconverter') {
@@ -205,6 +206,7 @@
                             path: '/walletdashboard'
                         });
                         this.$emit('changeColorHead', '/walletdashboard');
+                        this.expexTab = 'tablinks';
                         this.walletTab = 'tablinks active red';
                         break;
                     case 'transferfund':
@@ -222,12 +224,14 @@
                         this.$router.push({
                             path: '/token'
                         });
+                        this.expexTab = 'tablinks';
                         this.tokenTab = 'tablinks active';
                         break;
                     case 'contracts':
                         this.$router.push({
                             path: '/contracts'
                         });
+                        this.expexTab = 'tablinks';
                         this.contractsTab = 'tablinks active';
                         break;
                     case 'tokenlab':
@@ -235,6 +239,7 @@
                         this.$router.push({
                             path: '/tokenlab'
                         });
+                        this.expexTab = 'tablinks';
                         this.tokenlabTab = 'tablinks active blue';
                         this.$emit('changeColorHead', '/tokenlab');
                         break;
@@ -243,13 +248,16 @@
                         this.$router.push({
                             path: '/market'
                         });
+                        this.expexTab = 'tablinks';
                         this.expexTab = 'tablinks active green';
                         this.$emit('changeColorHead', '/market');
                         break;
                     case 'smartContracts':
+                        this.expexTab = 'tablinks';
                         this.smartTab = 'tablinks active';
                         break;
                     case 'currencyconverter':
+                        this.expexTab = 'tablinks';
                         this.$router.push({
                             path: '/currencyconverter'
                         });

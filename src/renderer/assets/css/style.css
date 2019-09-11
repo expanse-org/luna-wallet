@@ -9885,7 +9885,7 @@ FONTS
   width: 150px; }
 
 .create-acccount {
-  background: url(../img/map.svg) center center no-repeat, linear-gradient(to bottom, #204854, #293450);
+  background: url(../img/map.svg) center center no-repeat, linear-gradient(to bottom, #2C2C2C, #414141);
   display: inline-table;
   width: 100%;
   height: -webkit-fill-available;
