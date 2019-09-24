@@ -2,16 +2,9 @@ import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 var path = require('path')
-const low = require('lowdb')
-
-import * as $ from 'jquery';
-import {production} from "./libs/config";
-import appPath from 'path';
 import Raven from 'raven';
 import solc from 'solc';
 import os from 'os';
-import {connectWeb3} from "../common/web3Config";
-const { autoUpdater } = require("electron-updater");
 
 var gexpProc ;
 
@@ -42,15 +35,14 @@ function createWindow () {
   /**
    * Initial window options
    */
-   console.log(path.join(__dirname))
   mainWindow = new BrowserWindow({
     height: 763,
     useContentSize: true,
     width: 1400,
-  })
+  });
 
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL);
   try {
       const menu = Menu.buildFromTemplate(template)
       Menu.setApplicationMenu(menu)
@@ -59,9 +51,7 @@ function createWindow () {
   }
 
     ipcMain.on('startGexp', (event, path) => {
-        // console.log("startGexp:path ipcMain",path);
         let res = runGexp(path);
-        // console.log("res:gexpresgexpresgexpres",res);
         event.sender.send('startGexpResponse', res)
     });
     mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
@@ -69,15 +59,19 @@ function createWindow () {
 
     mainWindow.on('closed', () => {
     mainWindow = null;
-    gexpProc.kill();
+    if(gexpProc) {
+        gexpProc.kill();
+    }
       app.quit();
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-    gexpProc.kill();
+    if(gexpProc) {
+        gexpProc.kill();
+    }
     app.quit();
 });
 

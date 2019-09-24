@@ -277,7 +277,7 @@
     name: 'Splash-screen',
     data() {
        return {
-           activeScreen: this.$store.state.screenState,
+           activeScreen: this.$store.state.screenState? this.$store.state.screenState: 'config',
            networkSetting: true,
            cb: 0,
            totalblock: 0,

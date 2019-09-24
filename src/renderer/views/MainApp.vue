@@ -4,7 +4,7 @@
 
 <script>
     import { ExpApi} from '../../main/libs/config';
-    import {getAllAcounts, checkupdate} from '../components/DasboardComponents/WalletDashboardComponents/walletcommon';
+    import {getAllAcounts} from '../components/DasboardComponents/WalletDashboardComponents/walletcommon';
     import {web3, startConnectWeb} from '../../main/libs/config';
 
     export default {

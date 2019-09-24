@@ -26,6 +26,7 @@
     import { updateScreen, activeScreen  } from '../../main/libs/config';
     import os from 'os';
     import shell from 'shelljs';
+    import {ipcRenderer} from 'electron';
     import fs from 'fs';
     import {exec} from 'child_process';
     import got from 'got';
@@ -43,9 +44,10 @@
     export default {
         name: 'lunawalletvuetest',
         created(){
-            this.chekAppInfo();
-
             ExpApi();
+            if(activeScreen) {
+                this.chekAppInfo();
+            }
         },
         data() {
             return {

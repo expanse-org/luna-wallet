@@ -5370,7 +5370,7 @@ perspective effects (not including the modals and the overlay).
     -webkit-transform: rotate(-360deg); } }
         .dashboard .content .latestTransaction .transactionContent .row {
           display: grid;
-          grid-template-columns: 5% 15% auto 10%;
+          grid-template-columns: 6% 7% auto 12%;
           padding: 10px 20px;
           grid-gap: 10px; }
           .dashboard .content .latestTransaction .transactionContent .row:nth-child(odd) {
@@ -10573,7 +10573,7 @@ FONTS
     -webkit-transform: rotate(-360deg); } }
         .accountDetails .content .latestTransaction .transactionContent .row {
           display: grid;
-          grid-template-columns: 5% 15% auto 10%;
+          grid-template-columns: 6% 7% auto 12%;
           padding: 10px 20px;
           grid-gap: 10px; }
           .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {

@@ -1,0 +1,757 @@
+.main-container .menu-drawer {
+  background-color: #2C2C2C; }
+  .main-container .menu-drawer .open-btn svg .st0 {
+    fill: #2C2C2C; }
+  .main-container .menu-drawer ul li {
+    border-bottom: 0px;
+    margin-top: 3px; }
+    .main-container .menu-drawer ul li .sidebar-line {
+      background-color: #707070;
+      height: 1px;
+      width: 100%;
+      margin: 0px auto; }
+    .main-container .menu-drawer ul li .btn {
+      line-height: 10px; }
+      .main-container .menu-drawer ul li .btn img {
+        height: 30px; }
+  .main-container .menu-drawer ul .red {
+    background-color: #cb4d43; }
+    .main-container .menu-drawer ul .red .sidebar-line {
+      background-color: #cb4d43; }
+  .main-container .menu-drawer ul .green {
+    background-color: #85A200; }
+    .main-container .menu-drawer ul .green .sidebar-line {
+      background-color: #85A200; }
+  .main-container .menu-drawer ul .blue {
+    background-color: #35A7F7; }
+    .main-container .menu-drawer ul .blue .sidebar-line {
+      background-color: #35A7F7; }
+.main-container .open ul li {
+  margin-top: 5px;
+  padding: 0px;
+  max-height: initial !important; }
+  .main-container .open ul li .sidebar-line {
+    margin: 25px auto 0px;
+    width: 85%; }
+  .main-container .open ul li .btn {
+    padding-top: 25px; }
+.main-container .container-outer .contant-outer {
+  background-color: #414141; }
+  .main-container .container-outer .contant-outer .top-bar .balance .down select {
+    background: transparent;
+    font-size: 16px; }
+  .main-container .container-outer .contant-outer .top-bar .red {
+    box-shadow: inset 0 0 30px #AE4239; }
+  .main-container .container-outer .contant-outer .top-bar .green {
+    box-shadow: inset 0 0 30px #758F00; }
+  .main-container .container-outer .contant-outer .top-bar .blue {
+    box-shadow: inset 0 0 30px #319DE8; }
+  .main-container .container-outer .contant-outer .red {
+    background-color: #cb4d43; }
+  .main-container .container-outer .contant-outer .green {
+    background-color: #85A200; }
+  .main-container .container-outer .contant-outer .blue {
+    background-color: #35A7F7; }
+  .main-container .container-outer .contant-outer .contract .content .custom-tokens .buttons .primery {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .accountDetails .content .userInfo {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .accountDetails .content .accounts .bottom .currency-account a > div {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .header {
+    background-color: #414141;
+    border: 0px; }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .transactionContent .row:nth-child(odd) {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .transactionContent .row:nth-child(even) {
+    background-color: #414141; }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .transactionContent .row .account .toAccount {
+    background-color: rgba(255, 255, 255, 0.1); }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .transactionContent .loader {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .paginationT li {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .accountDetails .content .latestTransaction .paginationT .activeT {
+    background: #cb4d43; }
+  .main-container .container-outer .contant-outer .dashboard .content .userInfo {
+    background-color: #2C2C2C; }
+    .main-container .container-outer .contant-outer .dashboard .content .userInfo .left {
+      grid-template-columns: max-content 450px auto; }
+      .main-container .container-outer .contant-outer .dashboard .content .userInfo .left .send-btn-align {
+        justify-self: end;
+        margin-right: 10px; }
+        .main-container .container-outer .contant-outer .dashboard .content .userInfo .left .send-btn-align .send-main-btn {
+          background-color: #cb4d43;
+          margin-top: 30px;
+          padding: 13px 55px; }
+          .main-container .container-outer .contant-outer .dashboard .content .userInfo .left .send-btn-align .send-main-btn span {
+            line-height: 27px;
+            margin-right: 15px;
+            font-size: 18px;
+            vertical-align: top; }
+          .main-container .container-outer .contant-outer .dashboard .content .userInfo .left .send-btn-align .send-main-btn svg {
+            fill: #fff;
+            align-items: center;
+            font-size: 50px;
+            width: 28px;
+            height: 28px; }
+  .main-container .container-outer .contant-outer .dashboard .content .main-actions {
+    width: 100%;
+    margin-top: 20px; }
+    .main-container .container-outer .contant-outer .dashboard .content .main-actions .actions {
+      grid-template-columns: repeat(4, 1fr); }
+      .main-container .container-outer .contant-outer .dashboard .content .main-actions .actions div {
+        padding: 10px; }
+      .main-container .container-outer .contant-outer .dashboard .content .main-actions .actions .deposit svg {
+        height: 28px;
+        width: 25px; }
+  .main-container .container-outer .contant-outer .dashboard .content .accounts .top .view-token-btn {
+    width: 200px;
+    padding: 10px 0px;
+    height: 49px; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .top .view-token-btn span {
+      line-height: 27px;
+      margin-left: 10px;
+      font-size: 15px;
+      vertical-align: top; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .top .view-token-btn svg {
+      fill: #263a51;
+      align-items: center;
+      font-size: 50px;
+      width: 28px;
+      height: 28px; }
+  .main-container .container-outer .contant-outer .dashboard .content .accounts .top .view-contract-btn {
+    width: 200px;
+    padding: 10px 0px;
+    height: 49px;
+    margin-left: 10px; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .top .view-contract-btn span {
+      line-height: 22px;
+      margin-left: 10px;
+      font-size: 15px;
+      vertical-align: top; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .top .view-contract-btn svg {
+      fill: #263a51;
+      align-items: center;
+      font-size: 50px;
+      width: 26px;
+      height: 22px; }
+  .main-container .container-outer .contant-outer .dashboard .content .accounts .bottom > div {
+    background-color: #2C2C2C; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .bottom > div .link {
+      background-color: #2C2C2C; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .bottom > div .token_value {
+      border-left: 2px solid #414141; }
+    .main-container .container-outer .contant-outer .dashboard .content .accounts .bottom > div .token_delete {
+      border-left: 2px solid #414141; }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .header {
+    background-color: #414141;
+    border: 0px; }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .transactionContent .row:nth-child(odd) {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .transactionContent .row:nth-child(even) {
+    background-color: #414141; }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .transactionContent .row .account .toAccount {
+    background-color: rgba(255, 255, 255, 0.1); }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .transactionContent .loader {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .paginationT li {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .dashboard .content .latestTransaction .paginationT .activeT {
+    background: #cb4d43; }
+  .main-container .container-outer .contant-outer .send .content .funds {
+    background-color: #2C2C2C; }
+  .main-container .container-outer .contant-outer .expex {
+    padding: 30px 60px 30px 30px;
+    box-sizing: border-box;
+    position: relative; }
+    .main-container .container-outer .contant-outer .expex .top-tab-bar {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 20px; }
+      .main-container .container-outer .contant-outer .expex .top-tab-bar .tab-head {
+        background-color: #414141;
+        padding: 5px 5px 1px;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer; }
+        .main-container .container-outer .contant-outer .expex .top-tab-bar .tab-head .tab-label {
+          font-size: 22px;
+          color: #969696;
+          padding: 10px; }
+        .main-container .container-outer .contant-outer .expex .top-tab-bar .tab-head .tab-down {
+          height: 14px;
+          margin: 14px; }
+        .main-container .container-outer .contant-outer .expex .top-tab-bar .tab-head .tab-left {
+          height: 21px;
+          margin: 10px; }
+      .main-container .container-outer .contant-outer .expex .top-tab-bar .active {
+        color: #ffffff;
+        background-color: #85A200; }
+        .main-container .container-outer .contant-outer .expex .top-tab-bar .active .tab-label {
+          color: #ffffff; }
+    .main-container .container-outer .contant-outer .expex .tab-bottom-bar {
+      background-color: #85A200;
+      height: 2px; }
+    .main-container .container-outer .contant-outer .expex .content .market-Info {
+      position: relative;
+      display: grid;
+      grid-template-columns: 100%;
+      background-color: #2C2C2C;
+      padding: 38px 0px;
+      height: 70px;
+      margin-top: 10px;
+      box-shadow: 0 2px 51px -10px #223247; }
+      .main-container .container-outer .contant-outer .expex .content .market-Info .curve {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 40px solid #85A200;
+        border-right: 40px solid transparent; }
+      .main-container .container-outer .contant-outer .expex .content .market-Info .market-content {
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-gap: 22px;
+        padding: 0px 28px; }
+        .main-container .container-outer .contant-outer .expex .content .market-Info .market-content .market-headings h1 {
+          font-size: 31px;
+          margin-bottom: 15px; }
+        .main-container .container-outer .contant-outer .expex .content .market-Info .market-content .market-headings h3 {
+          font-size: 22px; }
+        .main-container .container-outer .contant-outer .expex .content .market-Info .market-content .market-input {
+          justify-self: end;
+          align-self: center; }
+          .main-container .container-outer .contant-outer .expex .content .market-Info .market-content .market-input input {
+            border: 1px solid #707070;
+            padding: 10px 12px;
+            width: 170px;
+            font-size: 17px;
+            background-color: transparent; }
+    .main-container .container-outer .contant-outer .expex .content .market-table {
+      margin-top: 15px; }
+      .main-container .container-outer .contant-outer .expex .content .market-table .table-head {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        color: #9B9B9B;
+        font-size: 19px; }
+      .main-container .container-outer .contant-outer .expex .content .market-table .table-partition {
+        margin-top: 10px;
+        height: 1px;
+        border-bottom: 1px dashed #9B9B9B; }
+      .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row {
+        position: relative;
+        display: grid;
+        padding: 15px 0px 11px 5px;
+        grid-template-columns: repeat(7, 1fr);
+        color: #ffffff;
+        font-size: 16px; }
+        .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row .row-mid {
+          margin-left: 20%; }
+          .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row .row-mid img {
+            vertical-align: middle; }
+        .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row .Red {
+          color: #FF0031; }
+        .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row .Green {
+          color: #85A200; }
+        .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row .row-10 {
+          margin-left: 10%; }
+      .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row:nth-child(odd) {
+        background-color: #414141; }
+      .main-container .container-outer .contant-outer .expex .content .market-table .table-body .table-row:nth-child(even) {
+        background-color: #2C2C2C; }
+    .main-container .container-outer .contant-outer .expex .content .myorder-Info {
+      position: relative;
+      display: grid;
+      grid-template-columns: 100%;
+      background-color: #2C2C2C;
+      padding: 22px 0px;
+      height: 40px;
+      margin-top: 10px;
+      box-shadow: 0 2px 51px -10px #223247; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-Info .curve {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 40px solid #85A200;
+        border-right: 40px solid transparent; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 0px 28px; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-headings h1 {
+          font-size: 31px;
+          margin-top: 5px; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-headings h3 {
+          font-size: 22px; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-select {
+          align-self: center; }
+          .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-select input {
+            color: white;
+            outline: none;
+            border: 1px solid #707070;
+            padding: 7px 8px;
+            width: 100px;
+            font-size: 17px;
+            background-color: transparent; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-input1 {
+          align-self: center; }
+          .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-input1 input {
+            width: 65%;
+            color: white;
+            outline: none;
+            border: 1px solid #707070;
+            padding: 7px 8px;
+            margin-left: 5px;
+            font-size: 17px;
+            background-color: transparent; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-input {
+          justify-self: end;
+          align-self: center; }
+          .main-container .container-outer .contant-outer .expex .content .myorder-Info .myorder-content .myorder-input input {
+            color: white;
+            outline: none;
+            border: 1px solid #707070;
+            padding: 7px 12px;
+            width: 170px;
+            font-size: 17px;
+            background-color: transparent; }
+    .main-container .container-outer .contant-outer .expex .content .myorder-table {
+      margin-top: 15px; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-table .table-head {
+        position: relative;
+        display: grid;
+        grid-template-columns: 8% 12% 5% 10% 10% 10% 10% 18% 10%;
+        color: #9B9B9B;
+        font-size: 19px;
+        grid-gap: 15px; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-table .table-partition {
+        margin-top: 10px;
+        height: 1px;
+        border-bottom: 1px dashed #9B9B9B; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row {
+        position: relative;
+        display: grid;
+        padding: 15px 0px 11px 5px;
+        grid-template-columns: 8% 12% 5% 10% 10% 10% 8% 20% 10%;
+        color: #ffffff;
+        font-size: 16px;
+        grid-gap: 15px; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row .row-mid {
+          margin-left: 20%; }
+          .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row .row-mid img {
+            vertical-align: middle; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row .row-10 {
+          margin-left: 10%; }
+        .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row .fix-text {
+          max-width: 95%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 190px; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row:nth-child(odd) {
+        background-color: #414141; }
+      .main-container .container-outer .contant-outer .expex .content .myorder-table .table-body .table-row:nth-child(even) {
+        background-color: #2C2C2C; }
+    .main-container .container-outer .contant-outer .expex .content .myorder-table1 .table-head {
+      grid-template-columns: 8% 12% 5% 10% 10% 10% 10% 18%; }
+    .main-container .container-outer .contant-outer .expex .content .myorder-table1 .table-body .table-row {
+      grid-template-columns: 8% 12% 5% 10% 10% 10% 8% 20%; }
+    .main-container .container-outer .contant-outer .expex .content .paginationT {
+      display: flex;
+      margin: 10px;
+      justify-content: flex-end; }
+      .main-container .container-outer .contant-outer .expex .content .paginationT li {
+        margin: 0px 3px;
+        background: #2C2C2C;
+        border-radius: 10px;
+        padding: 12px 0px 14px;
+        width: inherit;
+        height: 10px;
+        vertical-align: middle;
+        cursor: pointer;
+        display: inline-block; }
+        .main-container .container-outer .contant-outer .expex .content .paginationT li a {
+          outline: none;
+          text-decoration: none;
+          padding: 12px 13px 14px; }
+      .main-container .container-outer .contant-outer .expex .content .paginationT .activeT {
+        background: #85A200; }
+      .main-container .container-outer .contant-outer .expex .content .paginationT li:hover {
+        outline: none;
+        background: #85A200; }
+      .main-container .container-outer .contant-outer .expex .content .paginationT li:first-child {
+        background: #2C2C2C;
+        font-weight: 800; }
+      .main-container .container-outer .contant-outer .expex .content .paginationT li:last-child {
+        background: #2C2C2C;
+        font-weight: 800; }
+    .main-container .container-outer .contant-outer .expex .content .curconverter-Info {
+      position: relative;
+      display: grid;
+      grid-template-columns: 100%;
+      background-color: #2C2C2C;
+      padding: 22px 0px;
+      height: 40px;
+      margin-top: 10px;
+      box-shadow: 0 2px 51px -10px #223247; }
+      .main-container .container-outer .contant-outer .expex .content .curconverter-Info .curve {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 40px solid #85A200;
+        border-right: 40px solid transparent; }
+      .main-container .container-outer .contant-outer .expex .content .curconverter-Info .curconverter-content {
+        display: grid;
+        padding: 0px 28px; }
+        .main-container .container-outer .contant-outer .expex .content .curconverter-Info .curconverter-content .curconverter-headings h1 {
+          font-size: 31px;
+          margin-top: 5px; }
+    .main-container .container-outer .contant-outer .expex .content .curconverter-para {
+      margin-top: 20px;
+      line-height: 22px;
+      font-size: 16px;
+      text-align: justify;
+      color: #ffffff; }
+    .main-container .container-outer .contant-outer .expex .content .curconverter-body {
+      margin-top: 30px; }
+      .main-container .container-outer .contant-outer .expex .content .curconverter-body .content {
+        position: relative;
+        display: grid;
+        grid-template-columns: max-content 2% max-content;
+        grid-gap: 10px; }
+        .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div {
+          margin-right: 10px; }
+          .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .send-div {
+            position: relative;
+            display: grid;
+            grid-template-columns: 120px max-content max-content;
+            margin-top: 15px; }
+            .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .send-div h2 {
+              text-align: end;
+              margin-top: 13px;
+              margin-right: 15px;
+              font-size: 20px; }
+            .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .send-div input {
+              color: white;
+              outline: none;
+              border: 1px solid #707070;
+              padding: 10px;
+              width: 250px;
+              font-size: 20px;
+              background-color: transparent;
+              margin-right: 10px; }
+            .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .send-div .send-select {
+              cursor: pointer;
+              z-index: 0;
+              padding: 7px 10px;
+              border: 1px solid #707070;
+              background-color: #6A6A6A; }
+              .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .send-div .send-select select {
+                cursor: pointer;
+                background-color: transparent;
+                outline: none;
+                height: 100%;
+                font-size: 20px;
+                border: 0px;
+                width: 75px;
+                color: white;
+                -webkit-appearance: none;
+                display: block;
+                -moz-appearance: none; }
+              .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .send-div .send-select img {
+                width: 15px;
+                cursor: pointer;
+                position: absolute;
+                right: 14px;
+                bottom: 15px;
+                z-index: -1; }
+          .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .exchange-btn {
+            display: grid; }
+            .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .exchange-btn button {
+              background-color: #85A200;
+              color: #ffffff;
+              font-size: 17px;
+              border: 0px;
+              width: 280px;
+              padding: 16px 15px;
+              justify-self: end;
+              margin-top: 20px;
+              line-height: 19px;
+              text-align: center; }
+              .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .calculate-div .exchange-btn button img {
+                vertical-align: bottom;
+                float: right; }
+        .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .partition-bar {
+          background-color: #707070;
+          width: 1px;
+          height: 100%; }
+        .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .detail-div .txt-div {
+          padding-bottom: 15px; }
+          .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .detail-div .txt-div h1 {
+            font-size: 31px;
+            padding-bottom: 7px; }
+          .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .detail-div .txt-div p {
+            font-size: 20px;
+            color: #D1D1D1; }
+        .main-container .container-outer .contant-outer .expex .content .curconverter-body .content .detail-div :last-child {
+          padding-bottom: 0px; }
+    .main-container .container-outer .contant-outer .expex .content .expexDetails-Info {
+      position: relative;
+      display: grid;
+      grid-template-columns: 100%;
+      background-color: #2C2C2C;
+      padding: 25px 0px;
+      height: 60px;
+      margin-top: 10px;
+      box-shadow: 0 2px 51px -10px #223247; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-Info .curve {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-top: 40px solid #85A200;
+        border-right: 40px solid transparent; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-Info .expexDetails-content {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-gap: 22px;
+        padding: 0px 28px; }
+        .main-container .container-outer .contant-outer .expex .content .expexDetails-Info .expexDetails-content .expexDetails-headings h1 {
+          font-size: 31px;
+          margin-bottom: 10px; }
+        .main-container .container-outer .contant-outer .expex .content .expexDetails-Info .expexDetails-content .expexDetails-headings p {
+          font-size: 16px; }
+        .main-container .container-outer .contant-outer .expex .content .expexDetails-Info .expexDetails-content .expHeadData p {
+          margin-bottom: 10px; }
+    .main-container .container-outer .contant-outer .expex .content .expexDetails-table {
+      margin-top: 15px; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-head {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        color: #9B9B9B;
+        font-size: 19px;
+        grid-gap: 10px; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-partition {
+        margin-top: 10px;
+        height: 1px;
+        border-bottom: 1px dashed #9B9B9B; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row {
+        position: relative;
+        display: grid;
+        padding: 15px 0px 11px 5px;
+        grid-template-columns: repeat(6, 1fr);
+        color: #ffffff;
+        font-size: 16px;
+        grid-gap: 15px; }
+        .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row .row-mid {
+          margin-left: 20%; }
+          .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row .row-mid img {
+            vertical-align: middle; }
+        .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row .row-10 {
+          margin-left: 10%; }
+        .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row .fix-text {
+          max-width: 95%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 190px; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row:nth-child(odd) {
+        background-color: #414141; }
+      .main-container .container-outer .contant-outer .expex .content .expexDetails-table .table-body .table-row:nth-child(even) {
+        background-color: #2C2C2C; }
+    .main-container .container-outer .contant-outer .expex .content .buySell-Section .content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); }
+      .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table {
+        margin-top: 15px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-head {
+          position: relative;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          color: #9B9B9B;
+          font-size: 14px;
+          grid-gap: 5px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-partition {
+          margin-top: 10px;
+          height: 1px;
+          border-bottom: 1px dashed #9B9B9B; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row {
+          position: relative;
+          display: grid;
+          padding: 15px 0px 11px 5px;
+          grid-template-columns: repeat(5, 1fr);
+          color: #ffffff;
+          font-size: 12px; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row .row-mid {
+            margin-left: 20%; }
+            .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row .row-mid img {
+              vertical-align: middle; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row .row-10 {
+            margin-left: 10%; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row .fix-text {
+            max-width: 95%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 190px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row:nth-child(odd) {
+          background-color: #414141; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .left-side-table .table-body .table-row:nth-child(even) {
+          background-color: #2C2C2C; }
+      .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .paginationT li {
+        font-size: 14px;
+        padding: 7px 0px 9px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .left-side .paginationT li a {
+          padding: 8px; }
+      .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content {
+        width: 300px;
+        margin: 0px auto; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .btns-div {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          margin-top: 10px; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .btns-div button {
+            color: #ffffff;
+            font-size: 16px;
+            border: 0px;
+            width: 140px;
+            padding: 8px 15px;
+            justify-self: end;
+            margin-top: 20px;
+            line-height: 19px;
+            text-align: center; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .btns-div .buy-btn {
+            background-color: #85A200; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .btns-div .sell-btn {
+            background-color: #CB4D43; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .details-div .uppertxt {
+          font-size: 12px;
+          color: #B9B9B9;
+          margin-bottom: 10px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .details-div .lowertxt {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          color: #B9B9B9;
+          font-size: 16px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .buy-btn {
+          display: flex;
+          justify-content: center; }
+          .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .buy-btn button {
+            color: #ffffff;
+            background-color: #85A200;
+            font-size: 16px;
+            border: 0px;
+            width: 200px;
+            padding: 8px 15px;
+            line-height: 19px;
+            text-align: center;
+            margin: 4px 0px 20px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .bal-text p {
+          font-size: 12px;
+          color: #B9B9B9;
+          margin-bottom: 8px;
+          text-align: center; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .buybluetxt {
+          font-size: 12px;
+          color: #009DFF;
+          margin-bottom: 5px;
+          text-align: center; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .balance-partition {
+          border-bottom: 1px dashed #707070;
+          margin: 15px 0px; }
+        .main-container .container-outer .contant-outer .expex .content .buySell-Section .content .middle-side .mid-content .balance-partition1 {
+          border-bottom: 1px dashed #707070;
+          margin: 10px 0px; }
+    .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content {
+      margin: 30px 0px 10px; }
+      .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); }
+        .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .text-data {
+          position: relative;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr); }
+          .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .text-data .keyvalue div {
+            font-size: 14px;
+            color: #B9B9B9;
+            display: flex;
+            margin-bottom: 8px; }
+            .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .text-data .keyvalue div p {
+              font-size: 13px;
+              width: 45px;
+              color: #ffffff; }
+        .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .btns {
+          justify-content: center;
+          display: flex; }
+          .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .btns button {
+            height: 32px;
+            color: #ffffff;
+            font-size: 12px;
+            border: 0px;
+            width: 140px;
+            padding: 6px 10px 8px;
+            justify-self: end;
+            margin-left: 15px;
+            line-height: 19px;
+            text-align: center; }
+          .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .btns .deposit-btn {
+            background-color: #85A200; }
+            .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .btns .deposit-btn img {
+              width: 12px;
+              vertical-align: middle;
+              margin-right: 8px; }
+          .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .btns .withdraw-btn {
+            background-color: #CB4D43; }
+            .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .head-text .btns .withdraw-btn img {
+              width: 12px;
+              vertical-align: middle;
+              margin-right: 8px; }
+      .main-container .container-outer .contant-outer .expex .content .expexchart-section .chart-content .partition-chart {
+        border-bottom: 1px dashed #707070;
+        margin: 15px 0px; }
+    .main-container .container-outer .contant-outer .expex .content .marketLabel {
+      margin-top: 30px; }
+.main-container .Red {
+  color: #FF0031; }
+.main-container .Green {
+  color: #85A200; }
+.main-container .popup {
+  background-color: #2C2C2C; }
+.main-container .sendtransaction .transaction .sendtransaction-inner .addresses .sender {
+  background-color: #414141; }
+.main-container .sendtransaction .transaction .sendtransaction-inner .content .props .name .row p {
+  background-color: #414141; }
+.main-container .txns_details .md-content .loader {
+  background-color: #2C2C2C; }
+
+footer .footer-Data {
+  background-color: #2C2C2C; }
+footer .footer-DataUp {
+  background-color: #2C2C2C; }
+  footer .footer-DataUp .footer-container .gexplogscontent {
+    border: 1px solid #414141; }
+  footer .footer-DataUp .footer-container .gexplogscontent:nth-child(even) .a1 .gexptxt-num {
+    background: #414141; }
+
+/*# sourceMappingURL=NewStyle.css.map */

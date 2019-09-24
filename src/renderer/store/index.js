@@ -10,7 +10,6 @@ import {activeScreen} from '../../main/libs/config'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    strict: false,
   state: {
     count: 0,
     screenState: 'config',
