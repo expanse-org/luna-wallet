@@ -9,9 +9,8 @@
             </div>
         </div>
         <div class="curconverter-para">
-            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-                voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-                takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.
+            <p> In order to trade your expanse against tokens you need to have equivalent expanse (WEXP). They have same
+                value as the expanse only wrapped in token form to make them tradeable. Convert below to trade with ease!
             </p>
         </div>
         <div class="curconverter-body">
@@ -19,45 +18,43 @@
                 <div class="calculate-div">
                     <div class="send-div">
                         <h2> You Send: </h2>
-                        <input type="number" />
-                        <div class="send-select">
-                            <select >
-                                <option>EXP</option>
-                                <option>ETH</option>
-                                <option>WETH</option>
-                            </select>
-                            <img src="../../../../assets/img/Polygonwhite2.png"/>
+                        <input type="number" v-model="sendValue" />
+                        <div @click="handleCurrChange" class="send-select slecth">
+                           <div >{{sendCurr}}</div>
                         </div>
                     </div>
                     <div class="send-div">
                         <h2> You Receive: </h2>
-                        <input type="number" />
-                        <div class="send-select">
-                            <select >
-                                <option>EXP</option>
-                                <option>ETH</option>
-                                <option>WETH</option>
-                            </select>
-                            <img src="../../../../assets/img/Polygonwhite2.png"/>
+                        <input type="number" v-model="recieveValue" />
+                        <div @click="handleCurrChange" class="send-select slecth">
+                           <div>{{receiveCurr}}</div>
                         </div>
                     </div>
                     <div class="exchange-btn">
-                        <button>Exchange Now <img src="../../../../assets/img/Polygonwhitearrow.png"/></button>
+                        <button @click="handleExchange">Exchange Now <img src="../../../../assets/img/Polygonwhitearrow.png"/></button>
                     </div>
                 </div>
                 <div class="partition-bar"></div>
                 <div class="detail-div">
                     <div class="txt-div">
                         <h1>Exchange Rate</h1>
-                        <p>1 EXP = 0.098 ETH1</p>
+                        <p>1 EXP = 1 WEXP</p>
                     </div>
-                    <div class="txt-div">
-                        <h1>Exchange Fee</h1>
-                        <p>0.098 ETH1</p>
-                    </div>
-                    <div class="txt-div">
+                    <!--<div class="txt-div">-->
+                        <!--<h1>Exchange Fee</h1>-->
+                        <!--<p>0.098 ETH1</p>-->
+                    <!--</div>-->
+                    <div class="txt-div network-rate">
                         <h1>Network Rate</h1>
-                        <p>0.098 ETH1</p>
+                        <!--<p>0.098 ETH1</p>-->
+                        <div class="progressBar">
+                            <input id="price" v-model="price" @focus="handleFocus" type="range" min="53" max="212"/>
+                            <div class="ranges">
+                                <span>53</span>
+                                <span>212</span>
+                            </div>
+                            <p>{{price}} EXP</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,7 +69,12 @@
             return {
                 initialPage: 1,
                 forcePage: 1,
+                sendValue: 0,
+                recieveValue: 0,
                 totalcount: 100,
+                price: 64,
+                sendCurr: 'EXP',
+                receiveCurr: 'WEXP',
             };
         },
         created(){
@@ -81,6 +83,18 @@
             clickCallback (pageNum) {
                 console.log(pageNum)
             },
+            handleFocus() {
+
+            },
+            handleCurrChange (){
+                var temp = this.sendCurr;
+                this.sendCurr = this.receiveCurr;
+                this.receiveCurr = temp;
+
+            },
+            handleExchange() {
+
+            }
         }
     }
 </script>

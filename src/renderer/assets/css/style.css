@@ -9150,6 +9150,8 @@ FONTS
               color: #ffffff;
               font-size: 16px;
               line-height: 24px; }
+            .network-rate .progressBar input[type=range] {
+              background: url(../img/bar.svg) no-repeat;}
       .send .content .funds .contentInner .totalAmount .amountheading {
         color: #ededed;
         font-size: 18px;
@@ -11531,7 +11533,7 @@ button.execute_contract {
     font-size: 15px; } }
 body {
   font-family: 'MyriadProRegular';
-  background: linear-gradient(to bottom, #293450, #204854);
+  background: linear-gradient(to bottom,  #2C2C2C, #414141);
   font-variant-ligatures: none;
   -webkit-font-variant-ligatures: none;
   /* Smoothing */

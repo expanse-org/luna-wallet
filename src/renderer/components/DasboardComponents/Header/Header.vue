@@ -245,17 +245,6 @@
                     }
                 });
             }
-            switch (this.$router.history.current.path){
-                case '/walletdashboard':
-                    this.tabClass = 'top-bar red';
-                    break;
-                case '/market':
-                    this.tabClass = 'top-bar green';
-                    break;
-                case '/tokenlab':
-                    this.tabClass = 'top-bar blue';
-                    break;
-            }
         },
         methods: {
             handleCurrency(curr){

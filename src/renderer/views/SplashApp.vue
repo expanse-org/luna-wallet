@@ -43,9 +43,10 @@
     export default {
         name: 'lunawalletvuetest',
         created(){
-            this.chekAppInfo();
-
             ExpApi();
+            if(activeScreen) {
+                this.chekAppInfo();
+            }
         },
         data() {
             return {

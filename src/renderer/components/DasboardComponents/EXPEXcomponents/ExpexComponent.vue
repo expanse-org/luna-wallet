@@ -1,5 +1,17 @@
 <template>
     <div class="expex">
+        <div class="top-add-dp">
+            <div class="dp-section">
+                <multiselect :searchable="false" name="accountCurruencies" :loading="loading" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Currency"  v-model="fromAddress" :options="optionFrom">
+                    <template slot="singleLabel" slot-scope="props">
+                        <img class="option__image setImg1" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                    </template>
+                    <template slot="option" slot-scope="props">
+                        <img class="option__image setImg1" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                    </template>
+                </multiselect>
+            </div>
+        </div>
         <div>
             <div class="top-tab-bar">
                 <div @click="handleTab('market')" :class="marketTab">
@@ -30,6 +42,7 @@
 </template>
 
 <script>
+    import Multiselect from 'vue-multiselect'
     export default {
         name: 'Expex-component',
         data() {
@@ -38,7 +51,20 @@
                 myOrderTab: 'tab-head',
                 tradeHistoryTab: 'tab-head',
                 currencyTab: 'tab-head',
+                loading: false,
+                fromAddress: '',
+                optionFrom: [],
+                accountsArray: [],
             };
+        },
+        components:{
+            'multiselect': Multiselect,
+        },
+        computed: {
+            accounts() {
+                this.accountsArray = this.$store.state.allAccounts;
+                return this.accountsArray;
+            },
         },
         created(){
             switch (this.$router.history.current.path){
@@ -67,6 +93,17 @@
                     this.currencyTab = 'tab-head active';
                     break;
             }
+
+            this.accounts && this.accounts.map((val) => {
+                console.log(val);
+                if(val.balance > 0){
+                    console.log(val.balance);
+                    console.log(val);
+                    var data = { value:val.hash ,text: val.hash + '- ('+ val.balance+' EXP )'};
+                    this.optionFrom.push(data);
+                    this.loading= false;
+                }
+            });
         },
         methods: {
             handleTab(tab) {

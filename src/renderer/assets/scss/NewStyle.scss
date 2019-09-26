@@ -1,5 +1,11 @@
 
 .main-container {
+  button {
+    outline: none;
+  }
+  input {
+    outline: none;
+  }
   //SideBar
   .menu-drawer {
     background-color: #2C2C2C;
@@ -334,6 +340,31 @@
         .content {
           .funds {
             background-color: #2C2C2C;
+            .contentInner {
+              .sentDetails {
+                .fundsInner {
+                  .row {
+                    .amountdetails {
+                      .progressBar {
+                        input[type=range] {
+                          display: block;
+                          -webkit-appearance: none;
+                          //background: url(../../assets/img/bar-1.png) no-repeat;
+                          background-size: 100%;
+                          width: 100%;
+                          height: 18px;
+                          outline: none;
+                          -webkit-transition: .2s;
+                          transition: opacity .2s;
+                          cursor: pointer;
+                          margin-bottom: 20px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -343,6 +374,107 @@
         padding: 30px 60px 30px 30px;
         box-sizing: border-box;
         position: relative;
+        .top-add-dp {
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 10px;
+          .dp-section {
+            width: 560px;
+
+            .multiselect--active {
+              .multiselect__select {
+                height: 41px!important;
+              }
+            }
+
+            .multiselect__tags {
+              width: 100%!important;
+              border: none!important;
+              padding: 8px 30px 0px 4px !important;
+              min-height: 47px;
+              height: 47px;
+            }
+            .multiselect__content-wrapper {
+              margin-top: -15px;
+              background: none;
+              //display: block!important;
+            }
+
+            .multiselect__content {
+              margin: 15px 0px 0px 0px;
+
+            }
+
+            .multiselect__option--selected.multiselect__option--highlight {
+              background: #f3f3f3!important;
+              color: #000000!important;
+            }
+
+            .multiselect__option--highlight {
+              background: #ffffff!important;
+              color: #000!important;
+            }
+
+            .multiselect__placeholder {
+              line-height: 30px!important;
+              text-indent: 8px!important;
+            }
+
+
+            .multiselect__element {
+              background: #ffffff!important;
+              color: #000!important;
+            }
+
+            .multiselect__element:hover {
+              background: #ffffff!important;
+              color: #000!important;
+            }
+
+            .multiselect__single {
+              padding-left: 5px!important;
+              margin-bottom: 0px!important;
+              line-height: 43px;
+              height: 10px;
+              .setImg1 {
+                height: 30px!important;
+              }
+              .setImg {
+                height: 15px;
+                margin: 8px 5px!important;
+              }
+              .option__title {
+                vertical-align: top!important;
+                line-height: 35px!important;
+              }
+            }
+
+            .multiselect__option {
+              padding: 7px 5px 4px;
+              .setImg1 {
+                height: 30px!important;
+              }
+              .setImg {
+                height: 15px;
+                margin: 8px 5px!important;
+              }
+              .option__title {
+                vertical-align: top!important;
+                line-height: 35px!important;
+              }
+            }
+
+            .multiselect__spinner:after, .multiselect__spinner:before {
+              border-color: #000000 transparent transparent!important;
+              margin-top: -1px;
+            }
+
+            .multiselect__input {
+              padding: 0px 0px 0px 15px!important;
+
+            }
+          }
+        }
         .top-tab-bar {
           position: relative;
           display: grid;
@@ -434,7 +566,7 @@
             .table-head {
               position: relative;
               display: grid;
-              grid-template-columns: repeat(7, 1fr);
+              grid-template-columns: repeat(8, 1fr);
               color: #9B9B9B;
               font-size: 19px;
 
@@ -449,7 +581,7 @@
                 position: relative;
                 display: grid;
                 padding: 15px 0px 11px 5px;
-                grid-template-columns: repeat(7, 1fr);
+                grid-template-columns: repeat(8, 1fr);
                 color: #ffffff;
                 font-size: 16px;
                 .row-mid {
@@ -693,7 +825,7 @@
             .content {
               position: relative;
               display: grid;
-              grid-template-columns: max-content 2% max-content;
+              grid-template-columns: max-content 2% 31%;
               grid-gap: 10px;
               .calculate-div {
                 .send-div{
@@ -716,10 +848,17 @@
                     font-size: 20px;
                     background-color: transparent;
                     margin-right: 10px;
+                    text-align: end;
                   }
                   .send-select {
                     cursor: pointer;
                     z-index: 0;
+                    width: 50px;
+                    text-align: center;
+                    font-size: 19px;
+                    padding: 14px 10px 0px;
+                    border: 1px solid #707070;
+                    background-color: #6A6A6A;
                     select {
                       cursor: pointer;
                       background-color: transparent;
@@ -733,9 +872,6 @@
                       display: block;
                       -moz-appearance: none;
                     }
-                    padding: 7px 10px;
-                    border: 1px solid #707070;
-                    background-color: #6A6A6A;
                     img {
                       width: 15px;
                       cursor: pointer;
@@ -744,6 +880,9 @@
                       bottom: 15px;
                       z-index: -1;
                     }
+                  }
+                  .slecth:hover {
+                    background-color: #85A200 ;
                   }
                 }
                 .exchange-btn {
@@ -788,6 +927,48 @@
                 }
                 :last-child {
                   padding-bottom: 0px;
+                }
+
+                .network-rate {
+                  .progressBar {
+                    input[type=range] {
+                      display: block;
+                      -webkit-appearance: none;
+                      background-size: 100%;
+                      width: 100%;
+                      height: 18px;
+                      outline: none;
+                      -webkit-transition: .2s;
+                      transition: opacity .2s;
+                      cursor: pointer;
+                      margin-bottom: -2px;
+                    }
+                    input[type="range"]::-webkit-slider-thumb {
+                      -webkit-appearance: none;
+                      background-color: #85A200;
+                      width: 12px;
+                      height: 20px;
+                      border-radius: 20px;
+                      cursor: pointer;
+                      margin-top: -10px;
+                    }
+                    .ranges {
+                      display: grid;
+                      grid-template-columns: auto auto;
+                      justify-content: space-between;
+                      margin-bottom: 3px;
+                    }
+                    span {
+                      color: #ededed;
+                      font-size: 16px;
+                    }
+                    p {
+                       color: #ffffff;
+                       font-size: 18px;
+                       font-weight: bold;
+                       line-height: 24px;
+                    }
+                  }
                 }
               }
             }
@@ -896,7 +1077,7 @@
                   .table-head {
                     position: relative;
                     display: grid;
-                    grid-template-columns:repeat(5, 1fr) ;
+                    grid-template-columns:repeat(3, 1fr) ;
                     color: #9B9B9B;
                     font-size: 14px;
                     grid-gap: 5px;
@@ -911,10 +1092,11 @@
                     .table-row {
                       position: relative;
                       display: grid;
+                      cursor: pointer;
                       padding: 15px 0px 11px 5px;
-                      grid-template-columns: repeat(5, 1fr);
+                      grid-template-columns: repeat(3, 1fr);
                       color: #ffffff;
-                      font-size: 12px;
+                      font-size: 14px;
                       .row-mid {
                         margin-left: 20%;
                         img {
@@ -931,6 +1113,9 @@
                         white-space: nowrap;
                         min-width: 190px;
                       }
+                    }
+                    .table-row:hover {
+                       background-color: #4c4c4c!important;
                     }
                     .table-row:nth-child(odd) {
                       background-color: #414141;
@@ -974,6 +1159,22 @@
                     .buy-btn {
                       background-color: #85A200 ;
                     }
+                    .unactive-buy {
+                      background-color: #B9B9B9;
+                      color: #000000;
+                    }
+                    .unactive-buy:hover {
+                      background-color: #85A200;
+                      color: #ffffff;
+                    }
+                    .unactive-sell {
+                      background-color: #B9B9B9;
+                      color: #000000;
+                    }
+                    .unactive-sell:hover {
+                      background-color: #CB4D43;
+                      color: #ffffff;
+                    }
                     .sell-btn {
                       background-color: #CB4D43 ;
                     }
@@ -990,6 +1191,13 @@
                       margin-bottom: 10px;
                       color: #B9B9B9;
                       font-size: 16px;
+                      input {
+                        background: transparent;
+                        border: 1px solid #636363;
+                        padding: 5px 10px;
+                        color: #ffffff;
+                        outline: none;
+                      }
                     }
                   }
                   .buy-btn {
@@ -1020,6 +1228,7 @@
                     color: #009DFF;
                     margin-bottom: 5px;
                     text-align: center;
+                    cursor: pointer;
                   }
                   .balance-partition {
                     border-bottom: 1px dashed #707070;

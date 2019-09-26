@@ -45,6 +45,7 @@ function createWindow () {
    console.log(path.join(__dirname))
   mainWindow = new BrowserWindow({
     height: 763,
+    backgroundColor: '#414141',
     useContentSize: true,
     width: 1400,
   })
@@ -69,7 +70,9 @@ function createWindow () {
 
     mainWindow.on('closed', () => {
     mainWindow = null;
-    gexpProc.kill();
+    if(gexpProc) {
+        gexpProc.kill();
+    }
       app.quit();
   })
 }
@@ -77,7 +80,9 @@ function createWindow () {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-    gexpProc.kill();
+    if(gexpProc) {
+        gexpProc.kill();
+    }
     app.quit();
 });
 
