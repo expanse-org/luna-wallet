@@ -9152,6 +9152,8 @@ FONTS
               line-height: 24px; }
             .network-rate .progressBar input[type=range] {
               background: url(../img/bar.svg) no-repeat;}
+            .all-form .progressBar input[type=range] {
+              background: url(../img/bar.svg) no-repeat;}
       .send .content .funds .contentInner .totalAmount .amountheading {
         color: #ededed;
         font-size: 18px;

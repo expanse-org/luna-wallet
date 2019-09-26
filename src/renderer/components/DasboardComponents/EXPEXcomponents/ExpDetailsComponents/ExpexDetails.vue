@@ -58,8 +58,8 @@
                         </div>
                     </div>
                     <div class="btns">
-                        <button class="deposit-btn"><img src="../../../../assets/img/Polygonwhite2.png"/> DEPOSIT</button>
-                        <button class="withdraw-btn"><img src="../../../../assets/img/PolygonWhite3.png"/> WITHDRAW</button>
+                        <!--<button class="deposit-btn"><img src="../../../../assets/img/Polygonwhite2.png"/> DEPOSIT</button>-->
+                        <!--<button class="withdraw-btn"><img src="../../../../assets/img/PolygonWhite3.png"/> WITHDRAW</button>-->
                     </div>
                 </div>
                 <div class="partition-chart"></div>
@@ -73,9 +73,9 @@
                 <div class="left-side">
                     <div class="left-side-table">
                         <div class="table-head">
-                            <label>PRICE</label>
-                            <label>AMOUNT</label>
-                            <label>TOTAL</label>
+                            <label>PRICE (EXP)</label>
+                            <label>AMOUNT (WEXP)</label>
+                            <label>TOTAL (EXP)</label>
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
@@ -147,8 +147,8 @@
                 <div class="middle-side">
                     <div class="mid-content">
                         <div class="btns-div">
-                            <button @class="btnActive? 'buy-btn': 'unactive-buy'" >BUY</button>
-                            <button @class="btnActive? 'sell-btn': 'unactive-sellsa'" class="sell-btn">SELL</button>
+                            <button @click="handleBuySell('buy')" :class="btnActive==='buy' ? 'buy-btn':'unactive-buy'">BUY</button>
+                            <button @click="handleBuySell('sell')" :class="btnActive==='sell' ? 'sell-btn':'unactive-sell'">SELL</button>
                         </div>
                         <div class="details-div">
                             <p class="uppertxt">QUANTITY</p>
@@ -173,6 +173,14 @@
                                 <p>WEXP</p>
                             </div>
                         </div>
+                        <div v-if="btnActive==='sell'" class="balance-partition"></div>
+                        <div v-if="btnActive==='sell'" class="details-div">
+                            <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <span class="roundadd">+</span></p>
+                            <div class="lowertxt">
+                                <p>{{allowanceAmount}}</p>
+                                <p>WEXP</p>
+                            </div>
+                        </div>
                         <div class="balance-partition"></div>
                         <div class="buy-btn">
                             <button>BUY EXP</button>
@@ -189,9 +197,9 @@
                 <div class="left-side">
                     <div class="left-side-table">
                         <div class="table-head">
-                            <label>TOTAL</label>
-                            <label>AMOUNT</label>
-                            <label>PRICE</label>
+                            <label>TOTAL (EXP)</label>
+                            <label>AMOUNT (WEXP)</label>
+                            <label>PRICE (EXP)</label>
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
@@ -269,17 +277,17 @@
                 <div class="table-head">
                     <label>DATE</label>
                     <label>TIME</label>
-                    <label>SIDE</label>
-                    <label>BID/ASK</label>
-                    <label>TOTAL (ETH1)</label>
-                    <label>TOTAL COST (EXP)</label>
+                    <label>ORDER TYPE</label>
+                    <label>PRICE</label>
+                    <label>AMOUNT</label>
+                    <label>TOTAL</label>
                 </div>
                 <div class="table-partition"></div>
                 <div class="table-body">
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Green">BUY</p>
+                        <p class="Green row-10">BUY</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -287,7 +295,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Red">SELL</p>
+                        <p class="Red row-10">SELL</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -295,7 +303,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Red">SELL</p>
+                        <p class="Red row-10">SELL</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -303,7 +311,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Green">BUY</p>
+                        <p class="Green row-10">BUY</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -311,7 +319,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Green">BUY</p>
+                        <p class="Green row-10">BUY</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -319,7 +327,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Green">BUY</p>
+                        <p class="Green row-10">BUY</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -327,7 +335,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Red">SELL</p>
+                        <p class="Red row-10">SELL</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -335,7 +343,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Red">SELL</p>
+                        <p class="Red row-10">SELL</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -343,7 +351,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Green">BUY</p>
+                        <p class="Green row-10">BUY</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -351,7 +359,7 @@
                     <div class="table-row">
                         <p>12/08/19</p>
                         <p>12:34:00</p>
-                        <p class="Green">BUY</p>
+                        <p class="Green row-10">BUY</p>
                         <p>0.00089</p>
                         <p>0.0000467</p>
                         <p>0.000467</p>
@@ -371,15 +379,21 @@
                 </div>
             </div>
         </div>
+
+        <modal class="tmodal" name="allowancePopup">
+            <allowance-popup></allowance-popup>
+        </modal>
     </div>
 </template>
 
 <script>
     import Paginate from 'vuejs-paginate'
+    import AllowancePopup from './AllowancePopup/AllowancePopup'
     export default {
         name: 'ExpexDetails',
         components : {
             'paginate': Paginate,
+            'allowance-popup': AllowancePopup,
         },
         watch: {
             // whenever question changes, this function will run
@@ -399,12 +413,19 @@
                 bidPrice: 0.00000,
                 totalAmount: 0.00000,
                 btnActive: 'buy',
+                allowanceAmount: 0,
             };
         },
 
         created(){
         },
         methods: {
+            show () {
+                this.$modal.show('allowancePopup');
+            },
+            hide () {
+                this.$modal.hide('allowancePopup');
+            },
             clickCallback (pageNum) {
                 console.log(pageNum)
             },
@@ -415,6 +436,16 @@
             },
             handleMaxBuy() {
 
+            },
+            handleBuySell(type){
+                switch(type) {
+                    case 'buy':
+                        this.btnActive = 'buy';
+                        break;
+                    case 'sell':
+                        this.btnActive = 'sell';
+                        break;
+                }
             }
         }
     }
