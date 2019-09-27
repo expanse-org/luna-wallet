@@ -43,7 +43,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -54,7 +57,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -65,7 +71,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -76,7 +85,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -87,7 +99,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -98,7 +113,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -109,7 +127,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -120,7 +141,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -131,7 +155,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -142,7 +169,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
             </div>
@@ -215,7 +245,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-RSP</p>
@@ -225,7 +258,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-NOC</p>
@@ -235,7 +271,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-ETH</p>
@@ -245,7 +284,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-ETH</p>
@@ -255,7 +297,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-NOC</p>
@@ -265,7 +310,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-RSP</p>
@@ -275,7 +323,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-NOC</p>
@@ -285,7 +336,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
                 <div class="table-row">
                     <p>EXP-ETH</p>
@@ -295,7 +349,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                 </div>
             </div>
             <div>

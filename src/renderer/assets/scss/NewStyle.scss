@@ -756,19 +756,35 @@
                 }
                 .fix-text:hover {
                   color: #85A200;
+                  .tooltiptext {
+                    display: block;
+                  }
                 }
                 .tooltip {
                   .tooltiptext {
+                    background-color: #333333;
                     display: none;
                     position: absolute;
                     padding: 4px;
-                    border: 1px solid #ffffff;
-                    color: #c4eefd;
+                    border: 1px solid #757575;
+                    color: #85A200;
+                  }
+                  .tooltiptext::after {
+                    content: "";
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    top: -10px;
+                    border-bottom: 10px solid #757575;
+                    right: 210px;
+                    bottom: 0;
                   }
                   .parrentFont {
                     z-index: 222;
-                    top: 55px;
-                    left: -30%;
+                    top: 40px;
+                    right: 0%;
                     font-size: inherit;
                   }
                 }

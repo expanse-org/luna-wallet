@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="row">
                                         <p>Provide maximum fee</p>
-                                        <p contenteditable="true" @blur="changecontent($event,'expgas')"  class="p-right">exp ({{maximumfee}} gas)</p>
+                                        <p contenteditable="true" @blur="changecontent($event,'expgas')"  class="p-right">{{maximumfee}} gas</p>
                                     </div>
                                     <div class="row">
                                         <p>Gas price</p>
@@ -199,9 +199,6 @@
         components:{
         },
         created(){
-            web3.eth.estimateGas({from: this.modalArray && this.modalArray.fundsFrom, to: this.modalArray && this.modalArray.fundsTo, amount: web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")}, (res, err) => {
-                // console.log(res, err, "estimatedgass response")
-            })
             // console.log(this.modalArray , this.estimatedGas, "this.modalArray.currencyHash");
 
             if(this.modalArray && this.modalArray.is_contract) {
@@ -276,6 +273,11 @@
             }else {
                 this.amount = this.modalArray.total_coins;
             }
+
+            web3.eth.estimateGas({from: this.modalArray && this.modalArray.fundsFrom, to: this.modalArray && this.modalArray.fundsTo, amount: web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")}, (err, res) => {
+                console.log(res, err,  "estimatedgass response")
+                this.estimatedGas = res
+            })
         },
         methods: {
             hide () {
@@ -298,6 +300,7 @@
                         var data = evt.target.innerText.split('(');
                         var dataText = data[1].split(')');
                         data = dataText[0].split(" ");
+
                         // console.log(data,"Data");
                         this.maximumfee = data[0];
                     break;

@@ -401,7 +401,7 @@
                 this.totalAmount = newQuantity*this.bidPrice;
             },
             bidPrice: function (newValue) {
-                this.totalAmount = newValue*this.bidPrice;
+                this.totalAmount = this.quantity*newValue;
             }
         },
         data() {

@@ -7,7 +7,8 @@
                     <h1>Trade History</h1>
                 </div>
                 <div class="myorder-select">
-                    <input placeholder="Find..." type="text" class="find-market"/>
+                    <v-select v-model="selected" :options="['Buy','Sell']" class="filter-select">
+                    </v-select>
                 </div>
                 <div class="myorder-input1">
                     From: <input type="date" class="find-market"/>
@@ -42,7 +43,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -53,7 +57,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -64,7 +71,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -75,7 +85,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -86,7 +99,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -97,7 +113,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -108,7 +127,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -119,7 +141,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -130,7 +155,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
                 <div class="table-row">
@@ -141,7 +169,10 @@
                     <p>0.09%</p>
                     <p>2,390</p>
                     <p>2,390</p>
-                    <p class="fix-text">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
+                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
+                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                    </p>
                     <p>Cancel</p>
                 </div>
             </div>
@@ -163,10 +194,14 @@
 
 <script>
     import Paginate from 'vuejs-paginate'
+    import os from 'os';
+    import  * as child_process from 'child_process';
+    import vSelect from 'vue-select'
     export default {
         name: 'TradeHistory',
         components : {
             'paginate': Paginate,
+            'v-select': vSelect
         },
         data() {
             return {
@@ -180,6 +215,17 @@
         methods: {
             clickCallback (pageNum) {
                 console.log(pageNum)
+            },
+            openGanderUrl(url){
+                if(os.type() == 'Windows_NT') {
+                    child_process.execSync('start '+url)
+                }
+                if(os.type() == 'Linux') {
+                    child_process.execSync('xdg-open '+url)
+                }
+                if(os.type() == 'Darwin') {
+                    child_process.execSync('open '+url)
+                }
             },
         }
     }
