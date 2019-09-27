@@ -364,7 +364,7 @@
           justify-content: flex-end;
           margin-bottom: 10px;
           .dp-section {
-            width: 560px;
+            width: 660px;
 
             .multiselect--active {
               .multiselect__select {
@@ -1448,9 +1448,9 @@
         margin: 10px;
         padding-top: 5px;
         .all-input{
+          border-bottom: 1px solid #707070;
           input {
             border: 0px;
-            border-bottom: 1px solid #707070;
             padding: 10px 12px;
             width: 80%;
             color: #ffffff;
@@ -1459,7 +1459,6 @@
           }
           span {
             margin-left: -4px;
-            border-bottom: 1px solid #707070;
             padding: 9px;
 
           }
