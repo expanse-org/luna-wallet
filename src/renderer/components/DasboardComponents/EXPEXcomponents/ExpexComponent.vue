@@ -2,12 +2,36 @@
     <div class="expex">
         <div class="top-add-dp">
             <div class="dp-section">
-                <multiselect :searchable="false" name="accountCurruencies" :loading="loading" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Address"  v-model="fromAddress" :options="optionFrom">
+                <multiselect :searchable="false" name="accountCurruencies" :loading="loading" track-by="text" :allow-empty="false" label="text" :show-labels="false" placeholder="Select Wallet Address"  v-model="fromAddress" :options="optionFrom">
                     <template slot="singleLabel" slot-scope="props">
-                        <img class="option__image setImg1" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                        <svg class="svg-1 setImg1" v-bind:style="{fill:props.option.color}"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
+                            <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
+                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
+                            <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
+                            <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
+                            <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
+                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
+                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
+                        </svg><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                     </template>
                     <template slot="option" slot-scope="props">
-                        <img class="option__image setImg1" src="../../../assets/img/selectbg2.png" /><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
+                        <svg class="svg-1 setImg1" v-bind:style="{fill:props.option.color}"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="43px" height="43px" viewBox="0 0 43 43" xml:space="preserve">
+                            <circle class="st012" cx="21.5" cy="21.5" r="21.5"/>
+                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="35.4" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="28.9" y="9.2" class="st125" width="4.9" height="4.8"/>
+                            <rect x="14.3" y="15.6" class="st125" width="14.6" height="8"/>
+                            <rect x="9.4" y="9.2" class="st125" width="4.9" height="4.8"/>
+                            <rect x="1.2" y="18.7" class="st125" width="6.5" height="6.4"/>
+                            <rect x="6.1" y="26.7" class="st125" width="9.7" height="9.6"/>
+                            <rect x="17.5" y="25.1" class="st125" width="8.1" height="15.9"/>
+                            <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
+                        </svg><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                     </template>
                 </multiselect>
             </div>
@@ -42,6 +66,7 @@
 </template>
 
 <script>
+    import {getRandomColor} from '../../AccountsData/commonFunc';
     import Multiselect from 'vue-multiselect'
     export default {
         name: 'Expex-component',
@@ -55,6 +80,7 @@
                 fromAddress: '',
                 optionFrom: [],
                 accountsArray: [],
+                getRandomColor,
             };
         },
         components:{
@@ -97,7 +123,7 @@
             this.accounts && this.accounts.map((val) => {
                 // console.log(val);
                 if(val.balance > 0){
-                    var data = { value:val.hash ,text: val.hash + '- ('+ val.balance+' EXP )'};
+                    var data = { value:val.hash ,text: val.hash + '- ('+ val.balance+' EXP )', color: getRandomColor()};
                     this.optionFrom.push(data);
                     this.loading= false;
                 }

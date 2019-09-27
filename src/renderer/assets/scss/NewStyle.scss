@@ -378,26 +378,29 @@
               padding: 8px 30px 0px 4px !important;
               min-height: 47px;
               height: 47px;
+              background-color: #333333;
             }
             .multiselect__content-wrapper {
-              margin-top: -15px;
-              background: none;
+              margin-top: -2px;
+              color: #ffffff;
+              background: #333333!important;
+              border: 0px;
               //display: block!important;
             }
 
             .multiselect__content {
-              margin: 15px 0px 0px 0px;
+              margin: 0px;
 
             }
 
-            .multiselect__option--selected.multiselect__option--highlight {
-              background: #f3f3f3!important;
-              color: #000000!important;
+            .multiselect__option--selected , .multiselect__option--selected.multiselect__option--highlight {
+              background: #2C2C2C!important;
+              color: #ffffff!important;
             }
 
             .multiselect__option--highlight {
-              background: #ffffff!important;
-              color: #000!important;
+              background: #2C2C2C!important;
+              color: #ffffff!important;
             }
 
             .multiselect__placeholder {
@@ -406,14 +409,9 @@
             }
 
 
-            .multiselect__element {
-              background: #ffffff!important;
-              color: #000!important;
-            }
-
             .multiselect__element:hover {
-              background: #ffffff!important;
-              color: #000!important;
+              background: #2C2C2C!important;
+              color: #ffffff!important;
             }
 
             .multiselect__single {
@@ -421,6 +419,8 @@
               margin-bottom: 0px!important;
               line-height: 35px;
               height: 10px;
+              color: #ffffff;
+              background-color: #333333;
               .setImg1 {
                 height: 30px!important;
               }
