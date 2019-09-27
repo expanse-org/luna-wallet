@@ -208,6 +208,7 @@
                 initialPage: 1,
                 forcePage: 1,
                 totalcount: 100,
+                selected: 'Buy',
             };
         },
         created(){
