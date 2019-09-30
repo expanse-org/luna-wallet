@@ -17,7 +17,7 @@
                 <label>PAIR</label>
                 <label>PRICE</label>
                 <label>VOLUME</label>
-                <label>%EXCHANGE</label>
+                <label>%CHANGE</label>
                 <label>24HR CHANGE</label>
                 <label>24HR HIGH</label>
                 <label>24HR LOW</label>

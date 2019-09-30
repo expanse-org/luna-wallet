@@ -71,7 +71,7 @@
                                         <p contenteditable="true" @blur="changecontent($event,'egas')" class="error-p p-right "> {{estimatedGas}}</p>
                                     </div>
                                     <div class="row">
-                                        <p>Provide maximum fee</p>
+                                        <p>Gas Limit</p>
                                         <p contenteditable="true" @blur="changecontent($event,'expgas')"  class="p-right">{{maximumfee}} gas</p>
                                     </div>
                                     <div class="row">
