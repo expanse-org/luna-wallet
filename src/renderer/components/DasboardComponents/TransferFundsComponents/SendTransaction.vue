@@ -283,6 +283,7 @@
             hide () {
                 this.$modal.hide('sendtransactionmodal');
                 this.$modal.hide('sendTransactions');
+                this.$modal.hide('exchangeNow');
             },
             handleFocus(){
                 this.passwordError = '';

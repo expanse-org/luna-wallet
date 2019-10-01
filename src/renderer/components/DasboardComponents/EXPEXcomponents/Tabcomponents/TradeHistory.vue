@@ -7,8 +7,9 @@
                     <h1>Trade History</h1>
                 </div>
                 <div class="myorder-select">
-                    <v-select v-model="selected" :options="['Buy','Sell']" class="filter-select">
-                    </v-select>
+                    <multiselect  v-model="selected" placeholder="Select Buy/Sell" :searchable="false" :allow-empty="false"
+                                  :show-labels="false" :options="['All', 'Buy','Sell']" class="filter-select">
+                    </multiselect>
                 </div>
                 <div class="myorder-input1">
                     From: <input type="date" class="find-market"/>
@@ -196,12 +197,12 @@
     import Paginate from 'vuejs-paginate'
     import os from 'os';
     import  * as child_process from 'child_process';
-    import vSelect from 'vue-select'
+    import Multiselect from 'vue-multiselect';
     export default {
         name: 'TradeHistory',
         components : {
             'paginate': Paginate,
-            'v-select': vSelect
+            'multiselect': Multiselect,
         },
         data() {
             return {

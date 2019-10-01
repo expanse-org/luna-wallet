@@ -79,55 +79,55 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
                                 <p>12.708</p>
                                 <p>0.00089</p>
-                                <p class="Red">0.0000467</p>
+                                <p class="Green">0.010000278</p>
                             </div>
                         </div>
                         <div>
@@ -182,8 +182,11 @@
                             </div>
                         </div>
                         <div class="balance-partition"></div>
-                        <div class="buy-btn">
+                        <div v-if="btnActive==='buy'" class="buy-btn">
                             <button>BUY EXP</button>
+                        </div>
+                        <div v-if="btnActive==='sell'" class="sell-btn">
+                            <button>SELL EXP</button>
                         </div>
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
@@ -203,53 +206,53 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p class="Green">0.010000278</p>
+                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
+                                <p class="Red">0.0000467</p>
                                 <p>0.00089</p>
                                 <p>12.708</p>
                             </div>

@@ -641,6 +641,41 @@
                 //}
                 .filter-select {
                   width: 100px;
+                  .multiselect__select {
+                    margin-top: -6px;
+                  }
+                  .multiselect__tags {
+                    border-radius: 0px;
+                    border: 1px solid #707070;
+                    background: transparent;
+                    .multiselect__single {
+                      line-height: 25px;
+                      color: #ffffff;
+                      background: transparent;
+                    }
+                  }
+                  .multiselect__content-wrapper {
+                    //display: block!important;
+                    background-color: #2C2C2C;
+                    color: #ffffff;
+                    border: 0px;
+                    .multiselect__option--highlight {
+                      background: #707070;
+                      color: #ffffff;
+                    }
+                    .multiselect__option--selected {
+                      background: transparent;
+                      color: #ffffff;
+                    }
+                    .multiselect__option--selected.multiselect__option--highlight {
+                      background: transparent;
+                      color: #ffffff;
+                    }
+                    .multiselect__option .multiselect__option--selected {
+                      background: #414141;
+                      color: #ffffff;
+                    }
+                  }
                   .dropdown-toggle {
                     border: 1px solid #707070;
                     color: #ffffff;
@@ -778,7 +813,7 @@
                     border-right: 10px solid transparent;
                     top: -10px;
                     border-bottom: 10px solid #757575;
-                    right: 210px;
+                    left: 50%;
                     bottom: 0;
                   }
                   .parrentFont {
@@ -1279,6 +1314,21 @@
                     button {
                       color: #ffffff;
                       background-color: #85A200 ;
+                      font-size: 16px;
+                      border: 0px;
+                      width: 200px;
+                      padding: 8px 15px;
+                      line-height: 19px;
+                      text-align: center;
+                      margin: 4px 0px 20px;
+                    }
+                  }
+                  .sell-btn {
+                    display: flex;
+                    justify-content: center;
+                    button {
+                      color: #ffffff;
+                      background-color: #CB4D43 ;
                       font-size: 16px;
                       border: 0px;
                       width: 200px;

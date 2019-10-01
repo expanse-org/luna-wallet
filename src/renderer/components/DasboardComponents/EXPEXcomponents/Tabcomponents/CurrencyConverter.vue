@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="exchange-btn">
-                        <button @click="handleExchange">Exchange Now <img src="../../../../assets/img/Polygonwhitearrow.png"/></button>
+                        <button @click="show">Exchange Now <img src="../../../../assets/img/Polygonwhitearrow.png"/></button>
                     </div>
                 </div>
                 <div class="partition-bar"></div>
@@ -59,10 +59,14 @@
                 </div>
             </div>
         </div>
+        <modal class="tmodal" name="exchangeNow">
+            <allowance-popup></allowance-popup>
+        </modal>
     </div>
 </template>
 
 <script>
+    import AllowancePopup from '../ExpDetailsComponents/AllowancePopup/AllowancePopup'
     export default {
         name: 'currencyConverter',
         data() {
@@ -77,9 +81,18 @@
                 receiveCurr: 'WEXP',
             };
         },
+        components : {
+            'allowance-popup': AllowancePopup,
+        },
         created(){
         },
         methods: {
+            show () {
+                this.$modal.show('exchangeNow');
+            },
+            hide () {
+                this.$modal.hide('exchangeNow');
+            },
             clickCallback (pageNum) {
                 console.log(pageNum)
             },

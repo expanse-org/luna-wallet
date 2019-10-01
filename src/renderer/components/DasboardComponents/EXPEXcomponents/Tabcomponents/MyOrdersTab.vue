@@ -7,8 +7,8 @@
                     <h1>Open Orders</h1>
                 </div>
                 <div class="myorder-select">
-                    <multiselect  v-model="selected" placeholder="Select Buy/Sell"
-                                  :show-labels="false" :options="['Buy','Sell']" class="filter-select">
+                    <multiselect  v-model="selected" placeholder="Select Buy/Sell" :searchable="false" :allow-empty="false"
+                                  :show-labels="false" :options="['All','Buy','Sell']" class="filter-select">
                     </multiselect>
                 </div>
                 <div class="myorder-input1">
@@ -198,8 +198,9 @@
                     <h1>Order History</h1>
                 </div>
                 <div class="myorder-select">
-                    <v-select v-model="selected" :options="['Buy','Sell']" class="filter-select">
-                    </v-select>
+                    <multiselect  v-model="selected" placeholder="Select Buy/Sell" :searchable="false" :allow-empty="false"
+                                  :show-labels="false" :options="['All','Buy','Sell']" class="filter-select">
+                    </multiselect>
                 </div>
                 <div class="myorder-input1">
                     From: <input type="date" class="find-market"/>

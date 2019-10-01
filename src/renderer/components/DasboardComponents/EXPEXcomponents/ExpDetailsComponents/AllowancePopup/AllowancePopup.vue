@@ -35,6 +35,12 @@
                     <div class="all-fee">
                         <p>FEE: 0.00{{gasprice}} EXP</p>
                     </div>
+                    <div class="all-form">
+                        <label>Password</label>
+                        <div class="all-input">
+                            <input type="text" v-model="password" placeholder="Enter Password"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="all-btn">
                     <button>Confirm</button>
@@ -55,6 +61,7 @@
             return{
                 web3,
                 gasprice: 20,
+                password: '',
             };
         },
         components:{
