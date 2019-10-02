@@ -70,7 +70,7 @@
     import { clipboard, remote } from 'electron';
     import * as $ from 'jquery';
     import os from 'os';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import keythereum from 'keythereum';
     const app = remote.app;
 

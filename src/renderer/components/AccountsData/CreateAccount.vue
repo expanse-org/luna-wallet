@@ -54,7 +54,7 @@
     import * as $ from 'jquery';
     import {getRandomColor} from './commonFunc';
     import {db} from '../../../../lowdbFunc';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
 
     export default {
         name: 'Create-Account',

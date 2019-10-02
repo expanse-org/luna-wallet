@@ -1,4 +1,4 @@
-# lunawalletvuetest
+# Luna Wallet
 
 > An electron-vue project
 

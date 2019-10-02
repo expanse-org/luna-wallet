@@ -10,7 +10,7 @@ import VueMoment from 'vue-moment'
 import VueNumerals from 'vue-numerals';
 import numeral from 'numeral'
 
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 
 
 Raven

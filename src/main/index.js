@@ -7,7 +7,7 @@ const low = require('lowdb')
 import * as $ from 'jquery';
 import {production} from "./libs/config";
 import appPath from 'path';
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 import solc from 'solc';
 import os from 'os';
 import {connectWeb3} from "../common/web3Config";

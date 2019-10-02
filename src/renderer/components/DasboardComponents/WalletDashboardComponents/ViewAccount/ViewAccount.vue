@@ -188,7 +188,7 @@
     import object_hash from 'object-hash';
     import {getAllAcounts, getArchiveaccounts} from '../walletcommon';
     import os from 'os';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import  * as child_process from 'child_process';
     import Transactiondetail from '../Transactiondetail';
 

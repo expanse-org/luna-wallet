@@ -259,8 +259,8 @@
                         this.total_balance = this.totalBalanceData;
                         this.accounts.map((val) => {
                             if(val.balance > 0 || val.tokens){
-            //                     // console.log(val.balance);
-            //                     // console.log(val);
+                                // console.log(val.balance);
+                                // console.log(val);
                                 this.fundsFrom = { value : val.hash ,text: val.accountTitle + '- ('+ val.balance+' EXP )'}
                                 this.handlechangeFunds();
                                 var data = { value:val.hash ,text: val.accountTitle + '- ('+ val.balance +' EXP )'};
@@ -394,7 +394,7 @@
                                 this.show();
                             }
                         } else {
-                            this.amountError = 'Seems You dont have sufficient Amount To send';
+                            this.amountError = 'Seems You don\'t have sufficient Amount To send';
 
                         }
                     }

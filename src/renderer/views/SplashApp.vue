@@ -30,7 +30,7 @@
     import {exec} from 'child_process';
     import got from 'got';
     import _ from 'underscore';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import {version} from '../../../package.json';
     import  * as child_process from 'child_process';
 

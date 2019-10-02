@@ -1,7 +1,7 @@
 import {getRandomColor} from '../../AccountsData/commonFunc';
 import {db, adapter, low} from '../../../../../lowdbFunc';
 import {web3, currencies, ExpApi, prod_app_directory} from '../../../../main/libs/config';
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 import * as $ from 'jquery';
 import _ from 'underscore';
 import store from '../../../store';

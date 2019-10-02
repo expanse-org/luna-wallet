@@ -1,7 +1,7 @@
 
 
 import { updateScreen, startConnectWeb,activeScreen  } from '../main/libs/config';
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 import store from "../renderer/store";
 import * as $ from 'jquery';
 import {ipcRenderer} from 'electron';

@@ -8,7 +8,7 @@ import fs from 'fs';
 import {ipcRenderer} from 'electron';
 import {exec} from 'child_process';
 import * as $ from 'jquery';
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 import store from '../renderer/store'
 let gexpDir = 'binaries';
 

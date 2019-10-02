@@ -268,7 +268,7 @@
   import {chainErrorHandle} from '../../../common/loadingProgress';
   import {ipcRenderer, app} from 'electron';
   import appPath from 'path';
-  import Raven from 'raven';
+  import * as Raven from 'raven-js';
   var fs  = require('fs');
   import shell from "shelljs";
   import {getAllAcounts} from '../DasboardComponents/WalletDashboardComponents/walletcommon';

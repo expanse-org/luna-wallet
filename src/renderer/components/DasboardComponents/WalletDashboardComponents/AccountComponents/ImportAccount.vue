@@ -207,7 +207,7 @@
     import * as $ from 'jquery';
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import Multiselect from 'vue-multiselect'
     import {web3} from '../../../../../main/libs/config';
     import {getAllAcounts, getAllWatchOnlyAcounts} from '../walletcommon';

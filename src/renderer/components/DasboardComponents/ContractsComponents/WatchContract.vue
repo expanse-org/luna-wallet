@@ -128,7 +128,7 @@
     import { getRandomColor } from '../../AccountsData/commonFunc';
     import {db} from '../../../../../lowdbFunc';
     import  ethereum_address from 'ethereum-address';
-    import  Raven from 'raven';
+    import * as Raven from 'raven-js';
     import  shortid from 'shortid';
     import  * as $ from 'jquery';
     import {listContracts} from './DeployFunc';

@@ -61,7 +61,7 @@
             </div>
             <div class="tab-bottom-bar"></div>
         </div>
-        <router-view></router-view>
+        <router-view :fromAddress="fromAddress"></router-view>
     </div>
 </template>
 
@@ -128,6 +128,9 @@
                     this.loading= false;
                 }
             });
+            if(this.optionFrom) {
+                this.fromAddress = { value:this.optionFrom[0].value ,text: this.optionFrom[0].text, color: this.optionFrom[0].color};
+            }
         },
         methods: {
             handleTab(tab) {

@@ -164,7 +164,7 @@
     import shortid from 'shortid';
     import { clipboard,remote } from 'electron';
     const app = remote.app;
-    import  Raven from 'raven';
+    import * as Raven from 'raven-js';
     import  lodash from 'lodash';
     import  Tx from 'ethereumjs-tx';
     import  keythereum from 'keythereum';
@@ -266,7 +266,6 @@
             }
             if(this.modalArray && this.modalArray.is_contract) {
                 this.gasPrice = this.modalArray.gasPrice;
-                this.gasPrice = this.modalArray.gasPrice;
                 this.raw_dataToken = this.modalArray.raw_data;
                 this.rawdata = true;
                 this.amount = this.modalArray.amount;
@@ -280,6 +279,9 @@
             })
         },
         methods: {
+            hide () {
+                this.$modal.hide('exchangeNow');
+            },
             hide () {
                 this.$modal.hide('sendtransactionmodal');
                 this.$modal.hide('sendTransactions');
@@ -343,7 +345,7 @@
                             .then((response) => {
                                 if(response && !this.sendToken) {
                                     try{
-                                        // console.log("transaction Hash", this.gasPrice,this.estimatedGas, web3.utils.toWei(this.modalArray.amount, "ether"), this.modalArray.fundsTo, shortid.generate(), this.modalArray && this.modalArray.fundsFrom , this.nonce);
+                                        // console.log("transaction Hash", web3.utils.toWei(this.modalArray.amount, "ether"));
                                         web3.eth.sendTransaction({
                                             from: this.modalArray && this.modalArray.fundsFrom,
                                             to: this.modalArray.fundsTo,

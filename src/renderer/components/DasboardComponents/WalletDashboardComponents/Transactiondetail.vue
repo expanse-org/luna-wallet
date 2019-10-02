@@ -131,7 +131,7 @@
 
 <script>
     import axios from 'axios';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     const numberToBN = require('number-to-bn');
     const Gwei = 1000000000;
     import {web3} from '../../../../main/libs/config';
