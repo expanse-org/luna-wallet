@@ -28,7 +28,7 @@
             'latesttransaction': LatestTransaction,
         },
         created(){
-            var db = new sqlite3.Database(path.join(__dirname, 'mygreatdb.sqlite3db'), (err, result) => {console.log(err, result)});
+            var db = new sqlite3.Database( './mygreatdb.sqlite3db', (err, result) => {console.log(err, result)});
 
             db.serialize(function() {
                 db.run("CREATE TABLE lorem (info TEXT)");
