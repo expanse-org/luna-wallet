@@ -6,7 +6,7 @@ var prod_app_directory = "luna-wallet/";
 // Raven.config('https://1f1cacb16da5422aa3d91b06dfacc5cd@sentry.io/1274039').install();
 
 import got from 'got';
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 import store from "../../renderer/store";
 
 const  apiurl="https://api.tokenlab.io";

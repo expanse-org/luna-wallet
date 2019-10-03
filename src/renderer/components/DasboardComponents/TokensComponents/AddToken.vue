@@ -199,7 +199,7 @@
     // var web3 = startConnectWeb();
     import shortid from 'shortid';
     import * as $ from 'jquery';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import { listTokens } from './listTokenfunc';
     import  ethereum_address from 'ethereum-address';
 

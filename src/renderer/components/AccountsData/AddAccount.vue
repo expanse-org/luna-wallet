@@ -101,7 +101,7 @@
 </template>
 
 <script>
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import classie from '../../assets/js/classie';
     import modalEffects from '../../assets/js/modalEffects';
     import {web3} from '../../../main/libs/config';

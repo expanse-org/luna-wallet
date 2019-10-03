@@ -61,7 +61,7 @@
             </div>
             <div class="tab-bottom-bar"></div>
         </div>
-        <router-view></router-view>
+        <router-view :fromAddress="fromAddress"></router-view>
     </div>
 </template>
 
@@ -123,11 +123,30 @@
             this.accounts && this.accounts.map((val) => {
                 // console.log(val);
                 if(val.balance > 0){
-                    var data = { value:val.hash ,text: val.hash + '- ('+ val.balance+' EXP )', color: getRandomColor()};
-                    this.optionFrom.push(data);
-                    this.loading= false;
+                    if(val.tokens) {
+                        val.token_icons.map((acc_token) => {
+                            if (acc_token.token_symbol === 'WEXP') {
+                                var data = { value:val.hash ,text: val.hash + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- ('+ parseFloat(acc_token.balance).toFixed(5)+' WEXP )', color: getRandomColor()};
+                                this.optionFrom.push(data);
+                                this.loading= false;
+                            }
+                        });
+                        let obj = val.token_icons.find(o => o.token_symbol === 'WEXP');
+                        if(!obj){
+                            var data = { value:val.hash ,text: val.hash + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- (0 WEXP )', color: getRandomColor()};
+                            this.optionFrom.push(data);
+                            this.loading= false;
+                        }
+                    } else {
+                        var data = { value:val.hash ,text: val.hash + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- (0 WEXP )', color: getRandomColor()};
+                        this.optionFrom.push(data);
+                        this.loading= false;
+                    }
                 }
             });
+            if(this.optionFrom) {
+                this.fromAddress = { value:this.optionFrom[0].value ,text: this.optionFrom[0].text, color: this.optionFrom[0].color};
+            }
         },
         methods: {
             handleTab(tab) {

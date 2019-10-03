@@ -209,7 +209,7 @@
                         <label class="date">{{ parseInt(transaction.timeUnixEpoch) * 1000 | moment("MMM-DD")}}</label>
                         <label v-if="transaction.status && transaction.status === '0x1'" class="status statstf"><strong>Completed</strong></label>
                         <label v-else-if="transaction.status && transaction.status === '0x0'" class="status statstf">Failed</label>
-                        <label v-else-if="transaction.status && transaction.status === ''" class="status statstf">Pending</label>
+                        <label v-else-if="transaction.status === ''" class="status statstf">Pending</label>
                         <div class="account">
                             <div class="fromAccount">{{transaction.from?transaction.from:'From'}}</div>
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="19px" viewBox="0 0 11 19" style="enable-background:new 0 0 11 19;" xml:space="preserve">
@@ -257,7 +257,7 @@
     import object_hash from 'object-hash';
     import {web3} from '../../../../main/libs/config';
     import Transactiondetail from './Transactiondetail';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
 
     // var web3 = startConnectWeb();
     export default {

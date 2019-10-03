@@ -116,7 +116,7 @@
 <script>
     import {web3, ExpApi} from '../../../../main/libs/config';
     import {syncPeers} from '../../../../common/web3Config';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import moment from 'moment';
     import * as $ from 'jquery';
     // var web3 = startConnectWeb();

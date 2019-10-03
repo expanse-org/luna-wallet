@@ -14,7 +14,7 @@ import {exec} from 'child_process';
 import * as $ from 'jquery';
 import targz from 'targz';
 const decompress = require('decompress');
-import Raven from 'raven';
+import * as Raven from 'raven-js';
 import store from "../renderer/store";
 
 const action = (screen) => {

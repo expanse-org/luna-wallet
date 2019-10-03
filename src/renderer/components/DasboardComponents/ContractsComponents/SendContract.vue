@@ -164,7 +164,7 @@
     import shortid from 'shortid';
     import { clipboard,remote, ipcRenderer } from 'electron';
     const app = remote.app;
-    import  Raven from 'raven';
+    import * as Raven from 'raven-js';
     import  lodash from 'lodash';
     import  Tx from 'ethereumjs-tx';
     import  keythereum from 'keythereum';

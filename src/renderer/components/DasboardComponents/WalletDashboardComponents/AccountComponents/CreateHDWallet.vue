@@ -153,7 +153,7 @@
 
 <script>
     import {getAllAcounts} from '../walletcommon';
-    import Raven from 'raven';
+    import * as Raven from 'raven-js';
     import {web3} from '../../../../../main/libs/config';
     import {getRandomColor} from '../../../AccountsData/commonFunc';
     import {db} from '../../../../../../lowdbFunc';
