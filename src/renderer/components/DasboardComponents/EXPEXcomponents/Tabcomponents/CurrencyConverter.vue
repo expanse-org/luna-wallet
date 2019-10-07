@@ -45,18 +45,18 @@
                         <!--<h1>Exchange Fee</h1>-->
                         <!--<p>0.098 ETH1</p>-->
                     <!--</div>-->
-                    <div class="txt-div network-rate">
-                        <h1>Network Rate</h1>
-                        <!--<p>0.098 ETH1</p>-->
-                        <div class="progressBar">
-                            <input id="price" v-model="price" type="range" min="53" max="212"/>
-                            <div class="ranges">
-                                <span>53</span>
-                                <span>212</span>
-                            </div>
-                            <p>{{price}} EXP</p>
-                        </div>
-                    </div>
+                    <!--<div class="txt-div network-rate">-->
+                        <!--<h1>Network Rate</h1>-->
+                        <!--&lt;!&ndash;<p>0.098 ETH1</p>&ndash;&gt;-->
+                        <!--<div class="progressBar">-->
+                            <!--<input id="price" v-model="price" type="range" min="53" max="212"/>-->
+                            <!--<div class="ranges">-->
+                                <!--<span>53</span>-->
+                                <!--<span>212</span>-->
+                            <!--</div>-->
+                            <!--<p>{{price}} EXP</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -82,8 +82,8 @@
                 gasLimit: 0,
                 gasPrice: 0,
                 price: 64,
-                sendCurr: 'WEXP',
-                receiveCurr: 'EXP',
+                sendCurr: 'EXP',
+                receiveCurr: 'WEXP',
                 sendValueError: '',
                 modalArray: {},
                 web3
@@ -93,6 +93,12 @@
             'allowance-popup': AllowancePopup,
         },
         created(){
+        },
+        computed: {
+            accounts() {
+                var expaccounts = this.$store.state.allAccounts;
+                return expaccounts;
+            },
         },
         methods: {
             show () {
@@ -120,17 +126,44 @@
 
             },
             handleExchange() {
+                this.sendValueError = "";
                 if(this.sendValue !== 0 && this.sendValue) {
                     this.sendValueError = false;
-                    if(this.fromAddress.text.split('(')[1].split(" ")[0] > this.sendValue) {
-                        web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
-                            // console.log(res, err,  "estimatedgass response");
-                            if(res > 1) {
-                                this.show();
+                    if(this.receiveCurr === 'WEXP') {
+                        if(this.fromAddress.text.split('(')[1].split(" ")[0] >= this.sendValue) {
+                            web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
+                                // console.log(res, err,  "estimatedgass response");
+                                if(res > 1) {
+                                    this.show();
+                                }
+                            })
+                        } else {
+                            this.sendValueError = "Seems You don't have sufficient Amount To send";
+                        }
+                    } else {
+                        this.accounts.map((acc) => {
+                            if(acc.hash === this.fromAddress.value) {
+                                if(acc.tokens) {
+                                    acc.token_icons.map((acc_token) => {
+                                        // console.log(acc_token, acc_token.token_symbol === 'WEXP', "acc_token")
+                                        if(acc_token.token_symbol === 'WEXP') {
+                                            if(acc_token.balance >= this.sendValue) {
+                                                web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
+                                                    // console.log(res, err,  "estimatedgass response");
+                                                    if(res > 1) {
+                                                        this.show();
+                                                    }
+                                                })
+                                            } else {
+                                                this.sendValueError = "Seems You don't have sufficient Token Amount To send";
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    this.sendValueError = "Seems You don't have WEXP Token";
+                                }
                             }
                         })
-                    } else {
-                        this.sendValueError = "Seems You don't have sufficient Amount To send";
                     }
                 } else {
                     this.sendValueError = "Please Enter Send Amount";

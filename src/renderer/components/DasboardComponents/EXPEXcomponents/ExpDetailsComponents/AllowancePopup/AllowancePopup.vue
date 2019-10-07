@@ -67,6 +67,9 @@
     const app = remote.app;
     import * as Raven from 'raven-js';
     import * as $ from 'jquery';
+    import os from 'os';
+    import  Tx from 'ethereumjs-tx';
+    import  keythereum from 'keythereum';
     import  lodash from 'lodash';
     import shortid from 'shortid';
     import {db} from '../../../../../../../lowdbFunc';
@@ -88,11 +91,14 @@
                 popupHeading: 'Allowance Calculation',
                 passwordError: '',
                 btndisable: false,
-                loading: true,
+                loading: false,
                 toAddress: '0x270ff59e03e69db4600900a2816587e7cd3e2f11',
             };
         },
         components:{
+        },
+        watch: {
+
         },
         created(){
             if(this.$router.history.current.path === '/expexdetails') {
@@ -128,15 +134,14 @@
         methods: {
             hide () {
                 this.$modal.hide('allowancePopup');
+                this.$modal.hide('exchangeNow');
             },
             sendTransaction(){
-
                 if(this.$router.history.current.path === '/expexdetails') {
                     var contract = new web3.eth.Contract(tokenInterface);
                     console.log(contract);
-                    contract.methods.allowance(this.modalArray.fromAddress, this.toAddress).call().then((res) => {
-
-                        console.log(res);
+                    contract.methods.allowance(this.modalArray.fromAddress, '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9').call().then((res) => {
+                        console.log(res, "allowance");
                     });
                 }
                 else {
@@ -149,42 +154,122 @@
                                         console.log("response", response);
                                         try {
                                             // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
-                                            web3.eth.sendTransaction({
-                                                from: this.modalArray && this.modalArray.fromAddress,
-                                                to: this.toAddress,
-                                                value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
-                                                gasPrice: parseInt(this.gasprice) * 1000000000,
-                                                gas: this.gasLimit,
-                                                nonce: this.nonce
-                                            }, (error, txHash) => {
-                                                console.log("Error", error, txHash);
-                                                if (error) {
-                                                    console.log(error);
+                                            if (this.amountCurrency === 'EXP') {
+                                                web3.eth.sendTransaction({
+                                                    from: this.modalArray && this.modalArray.fromAddress,
+                                                    to: this.toAddress,
+                                                    value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
+                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                    gas: this.gasLimit,
+                                                    nonce: this.nonce
+                                                }, (error, txHash) => {
+                                                    console.log("Error", error, txHash);
+                                                    if (error) {
+                                                        console.log(error);
+                                                        this.loading = false;
+                                                        this.btndisable = false;
+                                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                        return false;
+                                                    }
+                                                    // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
+                                                    db.get('transactions').push({
+                                                        id: shortid.generate(),
+                                                        from: this.modalArray && this.modalArray.fromAddress,
+                                                        transactionHash: txHash,
+                                                        nonce: this.nonce,
+                                                        timeStamp: currentDate.getTime()
+                                                    }).write();
+                                                    this.loading = false;
+                                                    this.btndisable = false;
+                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
+                                                    $('form').trigger('reset');
+                                                    clipboard.writeText(txHash, 'selected');
+                                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                    setTimeout(() => {
+                                                        this.$router.push({
+                                                            path: '/marketconverter'
+                                                        });
+                                                    }, 5000);
+                                                });
+                                            }
+                                            else {
+                                                var abiArray = tokenInterface; // From Config file
+                                                var contractAddress = this.toAddress;
+
+                                                var contract = new web3.eth.Contract(abiArray, contractAddress);
+
+                                                this.raw_dataToken = contract.methods.transfer(this.toAddress, web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")).encodeABI();
+
+                                                // console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
+                                                // console.log("this.gasPrice",this.gasPrice,"this.gasLimit",this.gasLimit);
+                                                var rawTransaction = {
+                                                    "from": this.modalArray && this.modalArray.fromAddress,
+                                                    "nonce": this.nonce,
+                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                    gas: this.gasLimit,
+                                                    "to": contractAddress,
+                                                    "data": this.raw_dataToken,
+                                                    "chainId": 0x02
+                                                };
+                                                let osType = os.type();
+                                                var appData = app.getPath('appData');
+
+                                                var datadir = "";
+                                                switch (osType) {
+                                                    case "Linux":
+                                                        datadir = app.getPath('home') + '/.expanse';
+                                                        break;
+                                                    case "Darwin":
+                                                        datadir = app.getPath('home') + '/Library/Expanse';
+                                                        break;
+                                                    case "Windows_NT":
+                                                        datadir = `${app.getPath('appData')}\\Expanse`;
+                                                        break;
+                                                }
+
+                                                var address = this.modalArray.fromAddress;
+
+                                                var keyObject = keythereum.importFromFile(address, datadir);
+                                                var privateKey = keythereum.recover(this.password, keyObject);
+
+                                                privateKey = privateKey.toString('hex');
+                                                var privKey = new Buffer(privateKey, 'hex');
+                                                // console.log('transaction',rawTransaction);
+                                                var tx = new Tx(rawTransaction);
+
+                                                tx.sign(privKey);
+
+                                                var serializedTx = `0x${tx.serialize().toString('hex')}`;
+
+                                                web3.eth.sendSignedTransaction(serializedTx).then((res) => {
+                                                    if (res) {
+                                                        console.log("res", res);
+                                                        this.loading = false;
+                                                        this.btndisable = false;
+                                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res.transactionHash));
+                                                        $('.trx_alert-sucess p').css({color: '#ffffff'});
+                                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                        db.get('transactions').push({
+                                                            id: shortid.generate(),
+                                                            from: this.modalArray.fromAddress,
+                                                            transactionHash: res.transactionHash,
+                                                            nonce: this.nonce,
+                                                            timeStamp: currentDate.getTime()
+                                                        }).write();
+                                                        setTimeout(() => {
+                                                            this.$router.push({
+                                                                path: '/marketconverter'
+                                                            });
+                                                        }, 5000);
+                                                    }
+                                                }, (err) => {
+                                                    console.log(err);
                                                     this.loading = false;
                                                     this.btndisable = false;
                                                     $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                                    return false;
-                                                }
-                                                // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
-                                                db.get('transactions').push({
-                                                    id: shortid.generate(),
-                                                    from: this.modalArray && this.modalArray.fromAddress,
-                                                    transactionHash: txHash,
-                                                    nonce: this.nonce,
-                                                    timeStamp: currentDate.getTime()
-                                                }).write();
-                                                this.loading = false;
-                                                this.btndisable = false;
-                                                $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
-                                                $('form').trigger('reset');
-                                                clipboard.writeText(txHash, 'selected');
-                                                $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                                setTimeout(() => {
-                                                    this.$router.push({
-                                                        path: '/marketconverter'
-                                                    });
-                                                }, 5000);
-                                            });
+                                                });
+                                            }
+
                                         } catch (e) {
                                             console.log(e)
                                             // Raven.captureException(e);

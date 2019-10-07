@@ -74,9 +74,9 @@
                 <div class="left-side">
                     <div class="left-side-table">
                         <div class="table-head">
-                            <label>PRICE (EXP)</label>
-                            <label>AMOUNT (WEXP)</label>
-                            <label>TOTAL (EXP)</label>
+                            <label>PRICE ({{tokenData.alpha}})</label>
+                            <label>AMOUNT ({{tokenData.beta}})</label>
+                            <label>TOTAL ({{tokenData.alpha}})</label>
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
@@ -192,8 +192,8 @@
                         </div>
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
-                            <p>0.000000000 EXP</p>
-                            <p>0.000000000 WEXP</p>
+                            <p>{{expAmount}} EXP</p>
+                            <p>{{wexpAmount}} WEXP</p>
                         </div>
                         <div class="balance-partition1"></div>
                         <p @click="handleMaxBuy" class="buybluetxt">MAX BUY</p>
@@ -409,6 +409,10 @@
             },
             bidPrice: function (newValue) {
                 this.totalAmount = this.quantity*newValue;
+            },
+            fromAddress: function () {
+                this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
+                this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
             }
         },
         data() {
@@ -426,12 +430,16 @@
                 orderValues: [],
                 modalArray: {},
                 matchOrderHashes: ['0x0', '0x0', '0x0', '0x0', '0x0'],
-                tokenData: {}
+                tokenData: {},
+                expAmount: 0,
+                wexpAmount: 0
             };
         },
 
         created(){
-            // console.log(this.$router.history.current.query.data);
+            console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
+            this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
+            this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
             this.tokenData = this.$router.history.current.query.data;
         },
         methods: {
