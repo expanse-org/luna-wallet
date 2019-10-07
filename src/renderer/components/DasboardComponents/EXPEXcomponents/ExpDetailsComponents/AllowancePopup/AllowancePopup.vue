@@ -93,6 +93,7 @@
                 btndisable: false,
                 loading: false,
                 toAddress: '0x270ff59e03e69db4600900a2816587e7cd3e2f11',
+                expexAddress: '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9',
             };
         },
         components:{
@@ -129,6 +130,11 @@
                     this.nonce = this.nonce > trans_nonce ? this.nonce : trans_nonce + 1;
                 }
             }
+            var contract = new web3.eth.Contract(tokenInterface, this.expexAddress);
+            console.log(contract);
+            contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
+                console.log(res, "allowance");
+            });
 
         },
         methods: {
@@ -138,11 +144,7 @@
             },
             sendTransaction(){
                 if(this.$router.history.current.path === '/expexdetails') {
-                    var contract = new web3.eth.Contract(tokenInterface);
-                    console.log(contract);
-                    contract.methods.allowance(this.modalArray.fromAddress, '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9').call().then((res) => {
-                        console.log(res, "allowance");
-                    });
+
                 }
                 else {
                     if (this.password) {
