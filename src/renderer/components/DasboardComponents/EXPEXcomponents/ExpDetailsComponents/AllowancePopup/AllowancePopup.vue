@@ -62,7 +62,7 @@
 </template>
 
 <script>
-    import {web3} from '../../../../../../main/libs/config';
+    import {web3, tokenInterface} from '../../../../../../main/libs/config';
     import { clipboard,remote } from 'electron';
     const app = remote.app;
     import * as Raven from 'raven-js';
@@ -100,7 +100,7 @@
             } else {
                 this.popupHeading = 'Exchange Now';
             }
-            if(this.modalArray) {
+            if(this.modalArray && this.modalArray.amount) {
                 console.log(this.modalArray)
                 this.amount = this.modalArray.amount;
                 this.amountCurrency = this.modalArray.currency;
@@ -130,76 +130,87 @@
                 this.$modal.hide('allowancePopup');
             },
             sendTransaction(){
-                if(this.password) {
-                    this.loading = true;
-                    try{
-                        web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password , 3000)
-                            .then((response) => {
-                                if(response) {
-                                    console.log("response", response);
-                                    try{
-                                        // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
-                                        web3.eth.sendTransaction({
-                                            from: this.modalArray && this.modalArray.fromAddress,
-                                            to: this.toAddress,
-                                            value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
-                                            gasPrice: parseInt(this.gasprice)*1000000000,
-                                            gas: this.gasLimit,
-                                            nonce : this.nonce
-                                        }, (error, txHash) => {
-                                            console.log("Error", error, txHash);
-                                            if(error){
-                                                console.log(error);
-                                                this.loading = false;
-                                                this.btndisable = false;
-                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                                return false;
-                                            }
-                                            // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
-                                            db.get('transactions').push({
-                                                id : shortid.generate(),
-                                                from: this.modalArray && this.modalArray.fromAddress,
-                                                transactionHash: txHash,
-                                                nonce : this.nonce,
-                                                timeStamp : currentDate.getTime()
-                                            }).write();
-                                            this.loading = false;
-                                            this.btndisable = false;
-                                            $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:"+txHash+" Copied to clipboard");
-                                            $('form').trigger('reset');
-                                            clipboard.writeText(txHash, 'selected');
-                                            $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                            setTimeout(() => {
-                                                this.$router.push({
-                                                    path: '/marketconverter'
-                                                });
-                                            }, 5000);
-                                        });
-                                    }catch(e){
-                                        console.log(e)
-                                        // Raven.captureException(e);
-                                        this.loading = false;
-                                        this.btndisable = false;
-                                        this.passwordError = "Invalid Password";
-                                        return false;
-                                    }
-                                }
-                            }).catch((error) => {
-                            console.log(error)
-                            // Raven.captureException(error);
-                            this.loading = false;
-                            this.btndisable = false;
-                            this.passwordError = "Invalid Password";
-                            return false;
-                        });
-                    } catch(err) {
-                        console.log(err)
-                    }
+
+                if(this.$router.history.current.path === '/expexdetails') {
+                    var contract = new web3.eth.Contract(tokenInterface);
+                    console.log(contract);
+                    contract.methods.allowance(this.modalArray.fromAddress, this.toAddress).call().then((res) => {
+
+                        console.log(res);
+                    });
                 }
                 else {
-                    this.loading = false;
-                    this.btndisable = false;
-                    this.passwordError = "Password is required";
+                    if (this.password) {
+                        this.loading = true;
+                        try {
+                            web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                .then((response) => {
+                                    if (response) {
+                                        console.log("response", response);
+                                        try {
+                                            // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
+                                            web3.eth.sendTransaction({
+                                                from: this.modalArray && this.modalArray.fromAddress,
+                                                to: this.toAddress,
+                                                value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
+                                                gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                gas: this.gasLimit,
+                                                nonce: this.nonce
+                                            }, (error, txHash) => {
+                                                console.log("Error", error, txHash);
+                                                if (error) {
+                                                    console.log(error);
+                                                    this.loading = false;
+                                                    this.btndisable = false;
+                                                    $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                    return false;
+                                                }
+                                                // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
+                                                db.get('transactions').push({
+                                                    id: shortid.generate(),
+                                                    from: this.modalArray && this.modalArray.fromAddress,
+                                                    transactionHash: txHash,
+                                                    nonce: this.nonce,
+                                                    timeStamp: currentDate.getTime()
+                                                }).write();
+                                                this.loading = false;
+                                                this.btndisable = false;
+                                                $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
+                                                $('form').trigger('reset');
+                                                clipboard.writeText(txHash, 'selected');
+                                                $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                setTimeout(() => {
+                                                    this.$router.push({
+                                                        path: '/marketconverter'
+                                                    });
+                                                }, 5000);
+                                            });
+                                        } catch (e) {
+                                            console.log(e)
+                                            // Raven.captureException(e);
+                                            this.loading = false;
+                                            this.btndisable = false;
+                                            this.passwordError = "Invalid Password";
+                                            return false;
+                                        }
+                                    }
+                                }).catch((error) => {
+                                console.log(error)
+                                // Raven.captureException(error);
+                                this.loading = false;
+                                this.btndisable = false;
+                                this.passwordError = "Invalid Password";
+                                return false;
+                            });
+                        } catch (err) {
+                            console.log(err)
+                        }
+                    }
+                    else {
+                        this.loading = false;
+                        this.btndisable = false;
+                        this.passwordError = "Password is required";
+                    }
                 }
             }
         }

@@ -4,7 +4,8 @@
             <div class="curve"></div>
             <div class="expexDetails-content">
                 <div class="expexDetails-headings">
-                    <h1>EXP-ETH1</h1>
+                    <h1 v-if="tokenData">{{tokenData.alpha}} - {{tokenData.beta}}</h1>
+                    <h1 v-else>EXP-ETH1</h1>
                     <p>Ethereum 1</p>
                 </div>
                 <div class="expHeadData">
@@ -154,7 +155,7 @@
                             <p class="uppertxt">QUANTITY</p>
                             <div class="lowertxt">
                                 <input type="number" placeholder="0.00000" v-model="quantity"/>
-                                <p>WEXP</p>
+                                <p>{{tokenData.beta}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
@@ -162,7 +163,7 @@
                             <p class="uppertxt Green">BID PRICE</p>
                             <div class="lowertxt">
                                 <input type="number" placeholder="0.00000" v-model="bidPrice"/>
-                                <p>EXP</p>
+                                <p>{{tokenData.alpha}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
@@ -170,23 +171,24 @@
                             <p class="uppertxt">TOTAL</p>
                             <div class="lowertxt">
                                 <p>{{totalAmount}}</p>
-                                <p>WEXP</p>
+                                <p>{{tokenData.alpha}}</p>
                             </div>
                         </div>
-                        <div v-if="btnActive==='sell'" class="balance-partition"></div>
-                        <div v-if="btnActive==='sell'" class="details-div">
+                        <div class="balance-partition"></div>
+                        <div class="details-div">
                             <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <span class="roundadd">+</span></p>
                             <div class="lowertxt">
                                 <p>{{allowanceAmount}}</p>
-                                <p>WEXP</p>
+                                <p v-if="btnActive==='sell'">{{tokenData.beta}}</p>
+                                <p v-if="btnActive==='buy'">{{tokenData.alpha}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
                         <div v-if="btnActive==='buy'" class="buy-btn">
-                            <button>BUY EXP</button>
+                            <button @click="handlebuy">BUY {{tokenData.alpha}}</button>
                         </div>
                         <div v-if="btnActive==='sell'" class="sell-btn">
-                            <button>SELL EXP</button>
+                            <button @click="handlesell">SELL {{tokenData.alpha}}</button>
                         </div>
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
@@ -384,16 +386,18 @@
         </div>
 
         <modal class="tmodal" name="allowancePopup">
-            <allowance-popup></allowance-popup>
+            <allowance-popup :modalArray="modalArray"></allowance-popup>
         </modal>
     </div>
 </template>
 
 <script>
     import Paginate from 'vuejs-paginate'
+    import {web3} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup'
     export default {
         name: 'ExpexDetails',
+        props: ['fromAddress'],
         components : {
             'paginate': Paginate,
             'allowance-popup': AllowancePopup,
@@ -409,6 +413,7 @@
         },
         data() {
             return {
+                web3,
                 initialPage: 1,
                 forcePage: 1,
                 totalcount: 100,
@@ -417,13 +422,23 @@
                 totalAmount: 0.00000,
                 btnActive: 'buy',
                 allowanceAmount: 0,
+                orderAddresses: ['0x270ff59e03e69db4600900a2816587e7cd3e2f11', '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197'],
+                orderValues: [],
+                modalArray: {},
+                matchOrderHashes: ['0x0', '0x0', '0x0', '0x0', '0x0'],
+                tokenData: {}
             };
         },
 
         created(){
+            // console.log(this.$router.history.current.query.data);
+            this.tokenData = this.$router.history.current.query.data;
         },
         methods: {
             show () {
+                this.modalArray = {
+                    fromAddress: this.fromAddress.value,
+                }
                 this.$modal.show('allowancePopup');
             },
             hide () {
@@ -449,6 +464,21 @@
                         this.btnActive = 'sell';
                         break;
                 }
+            },
+            OrderErc20( orderAddresses,  orderValues, matchOrderHashes) {
+
+            },
+            handlebuy() {
+                try {
+                    this.OrderErc20(this.orderAddresses, [0.0001, 0.0001], this.matchOrderHashes);
+                }
+                catch(err) {
+
+                }
+
+            },
+            handlesell() {
+
             }
         }
     }

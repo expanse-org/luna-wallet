@@ -2,7 +2,8 @@ import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 var path = require('path')
-const low = require('lowdb')
+const low = require('lowdb');
+// import '../common/cronjobs';
 
 import * as $ from 'jquery';
 import {production} from "./libs/config";

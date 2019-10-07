@@ -25,8 +25,8 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div @click="openDetails" class="table-row">
-                    <p>EXP-ETH</p>
+                <div v-for="data in marketTable" v-if="data.status === 'active'" @click="openDetails(data)" class="table-row">
+                    <p>{{data.alpha}} - {{data.beta}}</p>
                     <p>256,796.32</p>
                     <p>256,796.32</p>
                     <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
@@ -243,7 +243,8 @@
 </template>
 
 <script>
-    import Paginate from 'vuejs-paginate'
+    import Paginate from 'vuejs-paginate';
+    var sqlite3 = require('sqlite3').verbose();
     export default {
         name: 'marketsTab',
         components : {
@@ -254,17 +255,26 @@
                 initialPage: 1,
                 forcePage: 1,
                 totalcount: 100,
+                marketTable: [],
             };
         },
         created(){
+            var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {console.log(err, result)});
+            // console.log(sqldb, "sqldb");
+            this.marketTable=[];
+            sqldb.each("SELECT * FROM TokenPairs", (err, row) => {
+                console.log(row, "rowsss");
+                this.marketTable.push(row);
+            });
         },
         methods: {
             clickCallback (pageNum) {
                 console.log(pageNum)
             },
-            openDetails() {
+            openDetails(data) {
                 this.$router.push({
-                    path: '/expexdetails'
+                    path: '/expexdetails',
+                    query: { data: data }
                 });
             }
         }
