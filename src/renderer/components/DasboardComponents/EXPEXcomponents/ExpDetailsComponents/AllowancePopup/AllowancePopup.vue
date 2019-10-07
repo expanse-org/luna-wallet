@@ -131,6 +131,7 @@
         methods: {
             hide () {
                 this.$modal.hide('allowancePopup');
+                this.$modal.hide('exchangeNow');
             },
             sendTransaction(){
                 if(this.password) {
