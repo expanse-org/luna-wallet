@@ -364,14 +364,12 @@
           justify-content: flex-end;
           margin-bottom: 10px;
           .dp-section {
-            width: 660px;
-
+            width: 675px;
             .multiselect--active {
               .multiselect__select {
                 height: 41px!important;
               }
             }
-
             .multiselect__tags {
               width: 100%!important;
               border: none!important;
@@ -953,6 +951,11 @@
                     background-color: transparent;
                     margin-right: 10px;
                     text-align: end;
+                  }
+                  input::-webkit-outer-spin-button,
+                  input::-webkit-inner-spin-button { margin-left: 5px; }
+                  input[type=number] {
+                    -moz-appearance:textfield;
                   }
                   .send-select {
                     cursor: pointer;

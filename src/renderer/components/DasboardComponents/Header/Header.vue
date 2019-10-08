@@ -182,7 +182,7 @@
                     json: true
                 }).then(response => {
                     curNew = response.body.DISPLAY.EXP;
-                    this.currency = response.body.DISPLAY.EXP;
+                    this.currency = response.body.DISPLAY.EXP.EXP;
                     $(".currValue").text(curNew['USD'].PRICE);
                 },(error) => {
                 });

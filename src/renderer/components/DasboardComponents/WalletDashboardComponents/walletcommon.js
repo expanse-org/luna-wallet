@@ -43,7 +43,9 @@ const checkupdate = () => {
             getAllAcounts();
         }
     })
-}
+};
+
+
 
 const getAllAcounts = () => {
     fixpath();

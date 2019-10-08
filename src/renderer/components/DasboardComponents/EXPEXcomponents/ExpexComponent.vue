@@ -144,7 +144,7 @@
                     }
                 }
             });
-            if(this.optionFrom) {
+            if(this.optionFrom && this.optionFrom[0] && this.optionFrom[0].value) {
                 this.fromAddress = { value:this.optionFrom[0].value ,text: this.optionFrom[0].text, color: this.optionFrom[0].color};
             }
         },

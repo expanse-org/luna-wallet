@@ -127,7 +127,7 @@
             },
             handleExchange() {
                 this.sendValueError = "";
-                if(this.sendValue !== 0 && this.sendValue) {
+                if(this.sendValue > 0 && this.sendValue !== 0 && this.sendValue) {
                     this.sendValueError = false;
                     if(this.receiveCurr === 'WEXP') {
                         if(this.fromAddress.text.split('(')[1].split(" ")[0] >= this.sendValue) {
