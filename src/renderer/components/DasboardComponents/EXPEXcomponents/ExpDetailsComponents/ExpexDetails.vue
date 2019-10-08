@@ -4,7 +4,7 @@
             <div class="curve"></div>
             <div class="expexDetails-content">
                 <div class="expexDetails-headings">
-                    <h1 v-if="tokenData">{{tokenData.alpha}} - {{tokenData.beta}}</h1>
+                    <h1 v-if="tokenData">{{tokenData.alphaSymbol}} - {{tokenData.betaSymbol}}</h1>
                     <h1 v-else>EXP-ETH1</h1>
                     <p>Ethereum 1</p>
                 </div>
@@ -74,9 +74,9 @@
                 <div class="left-side">
                     <div class="left-side-table">
                         <div class="table-head">
-                            <label>PRICE ({{tokenData.alpha}})</label>
-                            <label>AMOUNT ({{tokenData.beta}})</label>
-                            <label>TOTAL ({{tokenData.alpha}})</label>
+                            <label>PRICE ({{tokenData.alphaSymbol}})</label>
+                            <label>AMOUNT ({{tokenData.betaSymbol}})</label>
+                            <label>TOTAL ({{tokenData.alphaSymbol}})</label>
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
@@ -154,24 +154,26 @@
                         <div class="details-div">
                             <p class="uppertxt">QUANTITY</p>
                             <div class="lowertxt">
-                                <input type="number" placeholder="0.00000" v-model="quantity"/>
-                                <p>{{tokenData.beta}}</p>
+                                <p v-if="quantityError" class="error-message sendFundPassword-error ">{{quantityError}}</p>
+                                <input type="number" @focus="handleFocus" placeholder="0.00000" v-model="quantity"/>
+                                <p>{{tokenData.betaSymbol}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
                         <div class="details-div">
                             <p class="uppertxt Green">BID PRICE</p>
                             <div class="lowertxt">
-                                <input type="number" placeholder="0.00000" v-model="bidPrice"/>
-                                <p>{{tokenData.alpha}}</p>
+                                <input type="number" @focus="handleFocus" placeholder="0.00000" v-model="bidPrice"/>
+                                <p>{{tokenData.alphaSymbol}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
                         <div class="details-div">
                             <p class="uppertxt">TOTAL</p>
                             <div class="lowertxt">
+                                <p v-if="totalError" @focus="handleFocus" class="error-message sendFundPassword-error ">{{totalError}}</p>
                                 <p>{{totalAmount}}</p>
-                                <p>{{tokenData.alpha}}</p>
+                                <p>{{tokenData.alphaSymbol}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
@@ -179,16 +181,16 @@
                             <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <span class="roundadd">+</span></p>
                             <div class="lowertxt">
                                 <p>{{allowanceAmount}}</p>
-                                <p v-if="btnActive==='sell'">{{tokenData.beta}}</p>
-                                <p v-if="btnActive==='buy'">{{tokenData.alpha}}</p>
+                                <p v-if="btnActive==='sell'">{{tokenData.betaSymbol}}</p>
+                                <p v-if="btnActive==='buy'">{{tokenData.alphaSymbol}}</p>
                             </div>
                         </div>
                         <div class="balance-partition"></div>
                         <div v-if="btnActive==='buy'" class="buy-btn">
-                            <button @click="handlebuy">BUY {{tokenData.alpha}}</button>
+                            <button @click="handlebuy">BUY {{tokenData.alphaSymbol}}</button>
                         </div>
                         <div v-if="btnActive==='sell'" class="sell-btn">
-                            <button @click="handlesell">SELL {{tokenData.alpha}}</button>
+                            <button @click="handlesell">SELL {{tokenData.alphaSymbol}}</button>
                         </div>
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
@@ -393,7 +395,7 @@
 
 <script>
     import Paginate from 'vuejs-paginate'
-    import {web3} from '../../../../../main/libs/config';
+    import {web3, tokenInterface} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup'
     export default {
         name: 'ExpexDetails',
@@ -426,13 +428,16 @@
                 totalAmount: 0.00000,
                 btnActive: 'buy',
                 allowanceAmount: 0,
+                expexAddress: '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9',
                 orderAddresses: ['0x270ff59e03e69db4600900a2816587e7cd3e2f11', '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197'],
                 orderValues: [],
                 modalArray: {},
                 matchOrderHashes: ['0x0', '0x0', '0x0', '0x0', '0x0'],
                 tokenData: {},
                 expAmount: 0,
-                wexpAmount: 0
+                wexpAmount: 0,
+                quantityError: '',
+                totalError: ''
             };
         },
 
@@ -444,10 +449,46 @@
         },
         methods: {
             show () {
-                this.modalArray = {
-                    fromAddress: this.fromAddress.value,
+                if(this.btnActive==='sell') {
+                    if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
+                        var contract = new web3.eth.Contract(tokenInterface, this.tokenData.betaAddress);
+                        console.log(contract);
+                        contract.methods.approve(this.expexAddress, this.quantity).call().then((res) => {
+                            console.log(res, "approve");
+                            if(res) {
+                                this.modalArray = {
+                                    fromAddress: this.fromAddress.value,
+                                    currency: this.tokenData.betaSymbol,
+                                    toAddress: this.tokenData.betaAddress,
+                                    amount: this.quantity,
+                                }
+                                this.$modal.show('allowancePopup');
+                            }
+                        });
+
+                    } else {
+                        this.quantityError = "Quantity is required";
+                    }
+                } else {
+                    if(this.totalAmount !== 0 && this.totalAmount > 0 && this.totalAmount !== '') {
+                        var contract = new web3.eth.Contract(tokenInterface, this.tokenData.alphaAddress);
+                        console.log(contract);
+                        contract.methods.approve(this.expexAddress, this.totalAmount).call().then((res) => {
+                            console.log(res, "approve");
+                            if(res) {
+                                this.modalArray = {
+                                    fromAddress: this.fromAddress.value,
+                                    currency: this.tokenData.alphaSymbol,
+                                    toAddress: this.tokenData.alphaAddress,
+                                    amount: this.totalAmount,
+                                }
+                                this.$modal.show('allowancePopup');
+                            }
+                        });
+                    } else {
+                        this.totalError = "Total Amount is required"
+                    }
                 }
-                this.$modal.show('allowancePopup');
             },
             hide () {
                 this.$modal.hide('allowancePopup');
@@ -462,6 +503,10 @@
             },
             handleMaxBuy() {
 
+            },
+            handleFocus() {
+              this.quantityError = '';
+              this.totalError = '';
             },
             handleBuySell(type){
                 switch(type) {

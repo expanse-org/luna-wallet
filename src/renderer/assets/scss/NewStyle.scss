@@ -1311,6 +1311,13 @@
                         width: 60%;
                         font-size: 13px;
                       }
+                      .error-message {
+                        padding: 5px 10px;
+                        margin-left: 100px;
+                        margin-top: -25px;
+                        top: unset;
+                        right: unset;
+                      }
                     }
                   }
                   .buy-btn {
@@ -1518,6 +1525,7 @@
 
           }
           .error-message {
+            padding: 5px 10px;
             right: 60px;
             bottom: 140px;
             top: auto;
@@ -1591,6 +1599,14 @@
       }
       .button--shikoba .button__icon{
         left: 15px;
+      }
+      .button--shikoba.button__icon{
+        display: block;
+      }
+      .button .outer-wheel {
+        transform: translate(50%, 50%);
+        animation: spin 4s infinite linear;
+        margin-left: -3px;
       }
     }
   }

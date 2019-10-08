@@ -26,204 +26,14 @@
             <div class="table-partition"></div>
             <div class="table-body">
                 <div v-for="data in marketTable" v-if="data.status === 'active'" @click="openDetails(data)" class="table-row">
-                    <p>{{data.alpha}} - {{data.beta}}</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">2.1 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">2.1 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
+                    <p>{{data.alphaSymbol}} - {{data.betaSymbol}}</p>
+                    <p>0</p>
+                    <p>0</p>
+                    <p class="row-mid Green">0 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
+                    <p>0</p>
+                    <p>0</p>
+                    <p>0</p>
+                    <p class="row-10">{{data.createdAt}}</p>
                 </div>
             </div>
             <div>
@@ -262,8 +72,8 @@
             var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {console.log(err, result)});
             // console.log(sqldb, "sqldb");
             this.marketTable=[];
-            sqldb.each("SELECT * FROM TokenPairs", (err, row) => {
-                console.log(row, "rowsss");
+            sqldb.each("SELECT * FROM marketPair", (err, row) => {
+                // console.log(row, "rowsss");
                 this.marketTable.push(row);
             });
         },

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-    import {web3, tokenInterface} from '../../../../../../main/libs/config';
+    import {web3, tokenInterface, wexpABI} from '../../../../../../main/libs/config';
     import { clipboard,remote } from 'electron';
     const app = remote.app;
     import * as Raven from 'raven-js';
@@ -94,6 +94,9 @@
                 loading: false,
                 toAddress: '0x270ff59e03e69db4600900a2816587e7cd3e2f11',
                 expexAddress: '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9',
+                wexpAddress: '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197',
+                labAddress: '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197',
+                pexAddress: '0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932',
             };
         },
         components:{
@@ -130,11 +133,11 @@
                     this.nonce = this.nonce > trans_nonce ? this.nonce : trans_nonce + 1;
                 }
             }
-            var contract = new web3.eth.Contract(tokenInterface, this.expexAddress);
-            console.log(contract);
-            contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-                console.log(res, "allowance");
-            });
+
+
+            // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
+            //     console.log(res, "allowance");
+            // });
 
         },
         methods: {
@@ -144,11 +147,82 @@
             },
             sendTransaction(){
                 if(this.$router.history.current.path === '/expexdetails') {
+                    if (this.password) {
+                        var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+                        console.log(contract);
+                        contract.methods.allowance(this.modalArray.fromAddress, this.modalArray.toAddress).call().then((res) => {
+                            console.log(res, "allowance");
+                        });
+                        try {
+                            web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                .then((response) => {
+                                    if (response) {
+                                        console.log("response", response);
+                                        try {
+                                            // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
+                                            if (this.amountCurrency === 'EXP') {
+                                                web3.eth.sendTransaction({
+                                                    from: this.modalArray && this.modalArray.fromAddress,
+                                                    to: this.modalArray && this.modalArray.toAddress,
+                                                    value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
+                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                    gas: this.gasLimit,
+                                                    nonce: this.nonce
+                                                }, (error, txHash) => {
+                                                    console.log("Error", error, txHash);
+                                                    if (error) {
+                                                        console.log(error);
+                                                        this.loading = false;
+                                                        this.btndisable = false;
+                                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                        return false;
+                                                    }
+                                                    // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
+                                                    this.loading = false;
+                                                    this.btndisable = false;
+                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
+                                                    $('form').trigger('reset');
+                                                    clipboard.writeText(txHash, 'selected');
+                                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                    setTimeout(() => {
+                                                        this.$router.push({
+                                                            path: '/expexdetails'
+                                                        });
+                                                    }, 5000);
+                                                    var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+                                                    console.log(contract);
+                                                    contract.methods.allowance(this.modalArray.fromAddress, this.modalArray.toAddress).call().then((res) => {
+                                                        console.log(res, "allowance");
+                                                    });
+                                                });
+                                            }
 
+                                        } catch (e) {
+                                            console.log(e)
+                                            // Raven.captureException(e);
+                                            this.loading = false;
+                                            this.btndisable = false;
+                                            this.passwordError = "Invalid Password";
+                                            return false;
+                                        }
+                                    }
+                                }).catch((error) => {
+                                console.log(error)
+                                // Raven.captureException(error);
+                                this.loading = false;
+                                this.btndisable = false;
+                                this.passwordError = "Invalid Password";
+                                return false;
+                            });
+                        } catch (err) {
+                            console.log(err)
+                        }
+                    }
                 }
                 else {
                     if (this.password) {
                         this.loading = true;
+                        this.btndisable = true;
                         try {
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
                                 .then((response) => {
@@ -198,9 +272,9 @@
                                                 var abiArray = tokenInterface; // From Config file
                                                 var contractAddress = this.toAddress;
 
-                                                var contract = new web3.eth.Contract(abiArray, contractAddress);
+                                                var contract = new web3.eth.Contract(wexpABI, contractAddress);
 
-                                                this.raw_dataToken = contract.methods.transfer(this.toAddress, web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")).encodeABI();
+                                                this.raw_dataToken = contract.methods.withdraw(web3.utils.toWei(this.modalArray && this.modalArray.amount.toString(), "ether")).encodeABI();
 
                                                 // console.log("contractAddress",contractAddress,"this.raw_dataToken",this.raw_dataToken);
                                                 // console.log("this.gasPrice",this.gasPrice,"this.gasLimit",this.gasLimit);

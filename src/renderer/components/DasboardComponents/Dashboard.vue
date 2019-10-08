@@ -32,6 +32,7 @@ export default {
         };
     },
     created(){
+
         if (typeof web3 !== 'undefined') {
             // console.log("if (typeof web3 !== 'undefined')");
             getAllAcounts();
@@ -48,22 +49,23 @@ export default {
             }, 100);
         }
         var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {console.log(err, result)});
-
         sqldb.serialize(function() {
             sqldb.run("CREATE TABLE if not exists Orders (orderHash TEXT, tokenBuy TEXT, amountBuy TEXT, tokenSell TEXT, amountSell REAL, maker TEXT, tokenId INTEGER, price REAL)");
             sqldb.run("CREATE TABLE if not exists Trade (orderHash TEXT, matchinOrderHash TEXT, tokenBuy TEXT, tokenSell TEXT, amountBuy REAL, amountSell REAL, taker TEXT, maker TEXT, tokenId INTEGER, price REAL)");
-            sqldb.run("CREATE TABLE if not exists TokenPairs (alpha TEXT, beta TEXT, status TEXT)");
+            sqldb.run("CREATE TABLE if not exists marketPair (createdAt TEXT, alphaSymbol TEXT,alphaAddress TEXT,alphaDecimal TEXT, betaSymbol TEXT,betaAddress TEXT,betaDecimal TEXT, status TEXT)");
             sqldb.run("CREATE TABLE if not exists Tokens (tokenId INTEGER, tokenAddress TEXT, tokenName TEXT, tokenType TEXT, tokenSymbol TEXT, decimalPlaces REAL)");
+            // sqldb.run("DROP TABLE marketPair");
 
-            // var stmt = sqldb.prepare("DELETE FROM TokenPairs WHERE alpha = '0x270ff59e03e69db4600900a2816587e7cd3e2f11'");
+            let today = new Date().toISOString().slice(0, 10)
+            // var stmt = sqldb.prepare("DELETE FROM TokenPairs WHERE alpha = 'WEXP'");
             // var stmt = sqldb.prepare("INSERT INTO Tokens VALUES (3, '0x270ff59e03e69db4600900a2816587e7cd3e2f11', 'Wrapped Expanse', 'WEXP', 'erc20', 18)");
-            // var stmt = sqldb.prepare("INSERT INTO TokenPairs VALUES ('WEXP', 'PEX', 'active')");
+            // var stmt = sqldb.prepare("INSERT INTO marketPair VALUES ('"+today+"', 'PEX','0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932','18', 'WEXP','0x270ff59e03e69db4600900a2816587e7cd3e2f11','18', 'active')");
             // stmt.run();
             // stmt.finalize();
-            //
-            // sqldb.each("SELECT * FROM TokenPairs", function(err, row) {
-            //     console.log(row, "rowsss");
-            // });
+
+            sqldb.each("SELECT * FROM marketPair", function(err, row) {
+                console.log(row, "rowsss");
+            });
         });
 
         sqldb.close();

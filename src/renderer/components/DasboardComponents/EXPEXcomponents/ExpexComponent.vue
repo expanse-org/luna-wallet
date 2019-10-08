@@ -93,6 +93,7 @@
             },
         },
         created(){
+
             switch (this.$router.history.current.path){
                 case '/market':
                     this.$router.push({
