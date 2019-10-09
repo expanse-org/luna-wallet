@@ -3,7 +3,7 @@ import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 var path = require('path')
 const low = require('lowdb');
-// import '../common/cronjobs';
+import '../common/cronjobs';
 
 import * as $ from 'jquery';
 import {production} from "./libs/config";
@@ -104,7 +104,7 @@ const runGexp = (path) => {
 
         shelljs.cd(path);
         try {
-            var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
+            var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils' , '--rpc', '--rpcaddr=0.0.0.0','--rpccorsdomain=*', '--rpcapi=db,eth,net,web3,personal,utils'];
 
             console.log("keyArgs", keyArgs);
             gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {

@@ -68,6 +68,9 @@
 <script>
     import {getRandomColor} from '../../AccountsData/commonFunc';
     import Multiselect from 'vue-multiselect'
+    import {getAllAcounts} from '../WalletDashboardComponents/walletcommon';
+    import {web3, startConnectWeb} from '../../../../main/libs/config';
+
     export default {
         name: 'Expex-component',
         data() {
@@ -93,6 +96,20 @@
             },
         },
         created(){
+
+            if (typeof web3 !== 'undefined') {
+                // console.log("if (typeof web3 !== 'undefined')");
+                getAllAcounts();
+            } else {
+                // set the provider you want from Web3.providers
+                startConnectWeb();
+                this.intervalid1 = setInterval(() => {
+                    if(typeof web3 !== 'undefined' ){
+                        getAllAcounts();
+                        clearInterval(this.intervalid1)
+                    }
+                }, 100);
+            }
 
             switch (this.$router.history.current.path){
                 case '/market':
