@@ -135,6 +135,11 @@
                 }
             }
 
+
+            // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
+            //     console.log(res, "allowance");
+            // });
+
             var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
 
             this.intervalid = setInterval(() => {

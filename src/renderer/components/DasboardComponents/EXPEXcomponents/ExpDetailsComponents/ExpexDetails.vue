@@ -451,7 +451,6 @@
                 intervalid2: ''
             };
         },
-
         created(){
             this.tokenData = this.$router.history.current.query.data;
             if(this.fromAddress) {
@@ -462,6 +461,12 @@
             } else {
                 this.$modal.show('insufficentBal');
             }
+        },
+        computed: {
+            accounts() {
+                var expaccounts = this.$store.state.allAccounts;
+                return expaccounts;
+            },
         },
         methods: {
             startAllowanceInterval() {
