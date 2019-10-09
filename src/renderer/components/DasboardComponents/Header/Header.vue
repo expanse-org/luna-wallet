@@ -181,6 +181,7 @@
                 got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
                     json: true
                 }).then(response => {
+                    // console.log(response, "got")
                     curNew = response.body.DISPLAY.EXP;
                     this.currency = response.body.DISPLAY.EXP;
                     $(".currValue").text(curNew['USD'].PRICE);

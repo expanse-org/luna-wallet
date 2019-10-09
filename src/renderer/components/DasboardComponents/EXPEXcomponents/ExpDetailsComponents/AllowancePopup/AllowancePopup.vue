@@ -83,6 +83,7 @@
             return{
                 web3,
                 amount: '',
+                intervalid: '',
                 amountCurrency: 'WEXP',
                 nonce: 87,
                 gasprice: 87,
@@ -135,19 +136,15 @@
             }
 
             var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-            console.log(contract);
-            var intervalid = setInterval(() => {
-                contract.methods.allowance(this.modalArray.fromAddress, this.modalArray.toAddress).call().then((res) => {
+
+            this.intervalid = setInterval(() => {
+                contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
                     console.log(res, "allowance");
                     if(res>0) {
-                        clearInterval(intervalid);
+                        clearInterval(this.intervalid);
                     }
                 });
             }, 3000);
-            // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-            //     console.log(res, "allowance");
-            // });
-
         },
         methods: {
             hide () {
@@ -156,7 +153,7 @@
             },
             sendTransaction(){
                 if(this.$router.history.current.path === '/expexdetails') {
-
+                    var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
                     if (this.password) {
                         this.loading = true;
                         this.btndisable = true;
@@ -180,12 +177,6 @@
                                                     $('form').trigger('reset');
                                                     clipboard.writeText(res.transactionHash, 'selected');
                                                     $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-
-                                                    setTimeout(() => {
-                                                        this.$router.push({
-                                                            path: '/expexdetails'
-                                                        });
-                                                    }, 5000);
                                                 }
                                             }).catch((error) => {
                                                 console.log(error)

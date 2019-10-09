@@ -119,7 +119,7 @@
         created(){
             this.update();
             // console.log(this.$router.history.current.path)
-            if(this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/tradehistory' || this.$router.history.current.path === '/marketconverter') {
+            if(this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/tradehistory' || this.$router.history.current.path === '/marketconverter') {
                 this.$router.push({
                     path: '/market'
                 });

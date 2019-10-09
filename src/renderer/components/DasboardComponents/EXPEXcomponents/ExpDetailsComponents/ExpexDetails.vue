@@ -178,6 +178,7 @@
                         </div>
                         <div class="balance-partition"></div>
                         <div class="details-div">
+                            <p v-if="approveError" class="error-message approveError ">{{approveError}}</p>
                             <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <span class="roundadd">+</span></p>
                             <div class="lowertxt">
                                 <p>{{allowanceAmount}}</p>
@@ -390,10 +391,15 @@
         <modal class="tmodal" name="allowancePopup">
             <allowance-popup :modalArray="modalArray"></allowance-popup>
         </modal>
+        <modal class="tmodal" name="insufficentBal">
+            <insuficentBalance ></insuficentBalance>
+        </modal>
+
     </div>
 </template>
 
 <script>
+    import  insuficentBalance from '../../insuficentBalance';
     import Paginate from 'vuejs-paginate'
     import {web3, tokenInterface} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup'
@@ -403,6 +409,7 @@
         components : {
             'paginate': Paginate,
             'allowance-popup': AllowancePopup,
+            'insuficentBalance': insuficentBalance,
         },
         watch: {
             // whenever question changes, this function will run
@@ -415,6 +422,7 @@
             fromAddress: function () {
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
                 this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+                this.startAllowanceInterval();
             }
         },
         data() {
@@ -437,45 +445,85 @@
                 expAmount: 0,
                 wexpAmount: 0,
                 quantityError: '',
-                totalError: ''
+                totalError: '',
+                approveError: '',
+                intervalid1: '',
+                intervalid2: ''
             };
         },
 
         created(){
-            console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
-            this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
-            this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
             this.tokenData = this.$router.history.current.query.data;
+            if(this.fromAddress) {
+                // console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
+                this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
+                this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+                this.startAllowanceInterval();
+            } else {
+                this.$modal.show('insufficentBal');
+            }
         },
         methods: {
-            show () {
+            startAllowanceInterval() {
+                var contract;
+                // console.log(contract , this.tokenData.betaAddress, this.fromAddress.value, this.expexAddress)
                 if(this.btnActive==='sell') {
-                    if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
-                        this.modalArray = {
-                            fromAddress: this.fromAddress.value,
-                            currency: this.tokenData.betaSymbol,
-                            toAddress: this.tokenData.betaAddress,
-                            amount: this.quantity,
-                        };
-                        this.$modal.show('allowancePopup');
+                    contract = new web3.eth.Contract(tokenInterface, this.tokenData.betaAddress);
+                    this.intervalid1 = setInterval(() => {
+                        contract.methods.allowance(this.fromAddress.value, this.expexAddress).call().then((res) => {
+                            console.log(res, "allowance sell");
+                            if(res>0) {
+                                this.allowanceAmount = res/Math.pow(10, this.tokenData.betaDecimal);
+                            }
+                        });
+                    }, 3000);
+                } else {
+                    contract = new web3.eth.Contract(tokenInterface, this.tokenData.alphaAddress);
+                    this.intervalid2 = setInterval(() => {
+                        contract.methods.allowance(this.fromAddress.value, this.expexAddress).call().then((res) => {
+                            console.log(res, "allowance buy");
+                            if(res>0) {
+                                this.allowanceAmount = res/Math.pow(10, this.tokenData.alphaDecimal);
+                            }
+                        });
+                    }, 3000);
+                }
+            },
+            show () {
+                if(this.fromAddress) {
+                    if(this.btnActive==='sell') {
+                        if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
+                            this.modalArray = {
+                                fromAddress: this.fromAddress.value,
+                                currency: this.tokenData.betaSymbol,
+                                toAddress: this.tokenData.betaAddress,
+                                amount: this.quantity,
+                            };
+                            this.$modal.show('allowancePopup');
+                        } else {
+                            this.approveError = '';
+                            this.quantityError = "Quantity is required";
+                        }
                     } else {
-                        this.quantityError = "Quantity is required";
+                        if(this.totalAmount !== 0 && this.totalAmount > 0 && this.totalAmount !== '') {
+                            this.modalArray = {
+                                fromAddress: this.fromAddress.value,
+                                currency: this.tokenData.alphaSymbol,
+                                toAddress: this.tokenData.alphaAddress,
+                                amount: this.totalAmount,
+                            };
+                            this.$modal.show('allowancePopup');
+                        } else {
+                            this.approveError = '';
+                            this.totalError = "Total Amount is required"
+                        }
                     }
                 } else {
-                    if(this.totalAmount !== 0 && this.totalAmount > 0 && this.totalAmount !== '') {
-                        this.modalArray = {
-                            fromAddress: this.fromAddress.value,
-                            currency: this.tokenData.alphaSymbol,
-                            toAddress: this.tokenData.alphaAddress,
-                            amount: this.quantity,
-                        };
-                        this.$modal.show('allowancePopup');
-                    } else {
-                        this.totalError = "Total Amount is required"
-                    }
+                    this.$modal.show('insufficentBal');
                 }
             },
             hide () {
+                this.$modal.show('insufficentBal');
                 this.$modal.hide('allowancePopup');
             },
             clickCallback (pageNum) {
@@ -491,6 +539,7 @@
             },
             handleFocus() {
               this.quantityError = '';
+              this.approveError = '';
               this.totalError = '';
             },
             handleBuySell(type){
@@ -507,8 +556,16 @@
 
             },
             handlebuy() {
+                console.log("handle buy")
+
+                if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
+                    clearInterval(this.intervalid1);
+                }
+                else {
+                    this.approveError = "Approve Expex";
+                }
                 try {
-                    this.OrderErc20(this.orderAddresses, [0.0001, 0.0001], this.matchOrderHashes);
+                    // this.OrderErc20(this.orderAddresses, [0.0001, 0.0001], this.matchOrderHashes);
                 }
                 catch(err) {
 
@@ -516,7 +573,9 @@
 
             },
             handlesell() {
-
+                if(this.allowanceAmount !==0 && this.allowanceAmount >= this.quantity) {
+                    clearInterval(this.intervalid2);
+                }
             }
         }
     }

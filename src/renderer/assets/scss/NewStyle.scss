@@ -1296,6 +1296,13 @@
                         font-size: 15px;
                       }
                     }
+                    .approveError {
+                      padding: 3px 10px;
+                      margin-left: 81px;
+                      margin-top: -24px;
+                      top: unset;
+                      right: unset;
+                    }
                     .lowertxt {
                       display: flex;
                       justify-content: space-between;
@@ -1461,6 +1468,10 @@
   }
   .popup {
     background-color: #2C2C2C;
+    .tab-modal {
+      border: 1px solid #414141;
+      background-color: #414141;
+    }
   }
   .sendtransaction {
     .transaction {

@@ -396,16 +396,14 @@
                 this.notransactions = false;
                 clearInterval(this.intervalid2);
                 clearInterval(this.intervalid3);
-                console.log(postData, "postData------");
+                // console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://api.gander.tech/getalltransactionsbyaddressarray', postData)
                     .then((response) => {
                         this.istransactions = true;
                         this.notransactions = false;
                         this.transactions = response.data.data.transactions;
-                        console.log(this.transactions === null ,"this.transactions ");
                         if(this.transactions && this.transactions.length > 0 ){
-                            console.log(this.transactions ,"this.transactions ");
                             transaction_list_hash = object_hash(this.transactions);
                             this.loader = false;
                             if(transaction_list_hash == updated_transaction_list_hash && !this.searchTxn){
