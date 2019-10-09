@@ -134,6 +134,11 @@
                 }
             }
 
+
+            // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
+            //     console.log(res, "allowance");
+            // });
+
             var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
             console.log(contract);
             var intervalid = setInterval(() => {
@@ -144,10 +149,6 @@
                     }
                 });
             }, 3000);
-            // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-            //     console.log(res, "allowance");
-            // });
-
         },
         methods: {
             hide () {
@@ -156,7 +157,7 @@
             },
             sendTransaction(){
                 if(this.$router.history.current.path === '/expexdetails') {
-
+                    var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
                     if (this.password) {
                         this.loading = true;
                         this.btndisable = true;

@@ -440,24 +440,46 @@
                 totalError: ''
             };
         },
-
         created(){
             console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
             this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
             this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
             this.tokenData = this.$router.history.current.query.data;
         },
+        computed: {
+            accounts() {
+                var expaccounts = this.$store.state.allAccounts;
+                return expaccounts;
+            },
+        },
         methods: {
             show () {
                 if(this.btnActive==='sell') {
                     if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
-                        this.modalArray = {
-                            fromAddress: this.fromAddress.value,
-                            currency: this.tokenData.betaSymbol,
-                            toAddress: this.tokenData.betaAddress,
-                            amount: this.quantity,
-                        };
-                        this.$modal.show('allowancePopup');
+                        this.accounts.map((acc) => {
+                            if(acc.hash === this.fromAddress.value) {
+                                if(acc.tokens) {
+                                    acc.token_icons.map((acc_token) => {
+                                        // console.log(acc_token, acc_token.token_symbol === 'WEXP', "acc_token")
+                                        if(acc_token.token_symbol === this.tokenData.betaSymbol) {
+                                            if(acc_token.balance >= this.quantity) {
+                                                this.modalArray = {
+                                                    fromAddress: this.fromAddress.value,
+                                                    currency: this.tokenData.betaSymbol,
+                                                    toAddress: this.tokenData.betaAddress,
+                                                    amount: this.quantity,
+                                                };
+                                                this.$modal.show('allowancePopup');
+                                            } else {
+                                                this.quantityError = "You don't have sufficient Amount";
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    this.quantityError = "Seems You don't have Tokens";
+                                }
+                            }
+                        });
                     } else {
                         this.quantityError = "Quantity is required";
                     }
