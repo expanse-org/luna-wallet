@@ -58,12 +58,13 @@ export default {
 
             let today = new Date().toISOString().slice(0, 10)
             // var stmt = sqldb.prepare("DELETE FROM TokenPairs WHERE alpha = 'WEXP'");
-            // var stmt = sqldb.prepare("INSERT INTO Tokens VALUES (3, '0x270ff59e03e69db4600900a2816587e7cd3e2f11', 'Wrapped Expanse', 'WEXP', 'erc20', 18)");
+            // var stmt = sqldb.prepare("INSERT INTO Tokens VALUES (1, '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197', 'TokenLab', 'LAB', 'erc20', 18)");
             // var stmt = sqldb.prepare("INSERT INTO marketPair VALUES ('"+today+"', 'PEX','0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932','18', 'WEXP','0x270ff59e03e69db4600900a2816587e7cd3e2f11','18', 'active')");
+            // var stmt = sqldb.prepare("INSERT INTO marketPair VALUES ('"+today+"', 'LAB','0xa887adb722cf15bc1efe3c6a5d879e0482e8d197','18', 'WEXP','0x270ff59e03e69db4600900a2816587e7cd3e2f11','18', 'active')");
             // stmt.run();
             // stmt.finalize();
 
-            sqldb.each("SELECT * FROM marketPair", function(err, row) {
+            sqldb.each("SELECT * FROM Tokens", function(err, row) {
                 console.log(row, "rowsss");
             });
         });

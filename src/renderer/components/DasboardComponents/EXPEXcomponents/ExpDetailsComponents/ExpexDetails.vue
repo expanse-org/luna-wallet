@@ -451,40 +451,25 @@
             show () {
                 if(this.btnActive==='sell') {
                     if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
-                        var contract = new web3.eth.Contract(tokenInterface, this.tokenData.betaAddress);
-                        console.log(contract);
-                        contract.methods.approve(this.expexAddress, this.quantity).call().then((res) => {
-                            console.log(res, "approve");
-                            if(res) {
-                                this.modalArray = {
-                                    fromAddress: this.fromAddress.value,
-                                    currency: this.tokenData.betaSymbol,
-                                    toAddress: this.tokenData.betaAddress,
-                                    amount: this.quantity,
-                                }
-                                this.$modal.show('allowancePopup');
-                            }
-                        });
-
+                        this.modalArray = {
+                            fromAddress: this.fromAddress.value,
+                            currency: this.tokenData.betaSymbol,
+                            toAddress: this.tokenData.betaAddress,
+                            amount: this.quantity,
+                        };
+                        this.$modal.show('allowancePopup');
                     } else {
                         this.quantityError = "Quantity is required";
                     }
                 } else {
                     if(this.totalAmount !== 0 && this.totalAmount > 0 && this.totalAmount !== '') {
-                        var contract = new web3.eth.Contract(tokenInterface, this.tokenData.alphaAddress);
-                        console.log(contract);
-                        contract.methods.approve(this.expexAddress, this.totalAmount).call().then((res) => {
-                            console.log(res, "approve");
-                            if(res) {
-                                this.modalArray = {
-                                    fromAddress: this.fromAddress.value,
-                                    currency: this.tokenData.alphaSymbol,
-                                    toAddress: this.tokenData.alphaAddress,
-                                    amount: this.totalAmount,
-                                }
-                                this.$modal.show('allowancePopup');
-                            }
-                        });
+                        this.modalArray = {
+                            fromAddress: this.fromAddress.value,
+                            currency: this.tokenData.alphaSymbol,
+                            toAddress: this.tokenData.alphaAddress,
+                            amount: this.quantity,
+                        };
+                        this.$modal.show('allowancePopup');
                     } else {
                         this.totalError = "Total Amount is required"
                     }

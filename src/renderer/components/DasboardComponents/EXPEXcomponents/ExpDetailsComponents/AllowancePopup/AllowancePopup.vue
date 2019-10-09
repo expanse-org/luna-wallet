@@ -134,7 +134,16 @@
                 }
             }
 
-
+            var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+            console.log(contract);
+            var intervalid = setInterval(() => {
+                contract.methods.allowance(this.modalArray.fromAddress, this.modalArray.toAddress).call().then((res) => {
+                    console.log(res, "allowance");
+                    if(res>0) {
+                        clearInterval(intervalid);
+                    }
+                });
+            }, 3000);
             // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
             //     console.log(res, "allowance");
             // });
@@ -147,62 +156,52 @@
             },
             sendTransaction(){
                 if(this.$router.history.current.path === '/expexdetails') {
+
                     if (this.password) {
-                        var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-                        console.log(contract);
-                        contract.methods.allowance(this.modalArray.fromAddress, this.modalArray.toAddress).call().then((res) => {
-                            console.log(res, "allowance");
-                        });
+                        this.loading = true;
+                        this.btndisable = true;
                         try {
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
                                 .then((response) => {
                                     if (response) {
                                         console.log("response", response);
                                         try {
-                                            // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
-                                            if (this.amountCurrency === 'EXP') {
-                                                web3.eth.sendTransaction({
-                                                    from: this.modalArray && this.modalArray.fromAddress,
-                                                    to: this.modalArray && this.modalArray.toAddress,
-                                                    value: web3.utils.toWei(this.modalArray.amount.toString(), "ether"),
-                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
-                                                    gas: this.gasLimit,
-                                                    nonce: this.nonce
-                                                }, (error, txHash) => {
-                                                    console.log("Error", error, txHash);
-                                                    if (error) {
-                                                        console.log(error);
-                                                        this.loading = false;
-                                                        this.btndisable = false;
-                                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                                        return false;
-                                                    }
-                                                    // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
+                                            contract.methods.approve(this.expexAddress, web3.utils.toWei(this.modalArray.amount.toString(), "ether")).send({
+                                                from: this.modalArray && this.modalArray.fromAddress,
+                                                gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                gas: this.gasLimit,
+                                                value: 0,
+                                            }).then((res) => {
+                                                console.log(res, "approve")
+                                                if(res) {
                                                     this.loading = false;
                                                     this.btndisable = false;
-                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
+                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res.transactionHash + " Copied to clipboard");
                                                     $('form').trigger('reset');
-                                                    clipboard.writeText(txHash, 'selected');
+                                                    clipboard.writeText(res.transactionHash, 'selected');
                                                     $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+
                                                     setTimeout(() => {
                                                         this.$router.push({
                                                             path: '/expexdetails'
                                                         });
                                                     }, 5000);
-                                                    var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-                                                    console.log(contract);
-                                                    contract.methods.allowance(this.modalArray.fromAddress, this.modalArray.toAddress).call().then((res) => {
-                                                        console.log(res, "allowance");
-                                                    });
-                                                });
-                                            }
-
+                                                }
+                                            }).catch((error) => {
+                                                console.log(error)
+                                                // Raven.captureException(error);
+                                                this.loading = false;
+                                                this.btndisable = false;
+                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                return false;
+                                            });
+                                            // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
                                         } catch (e) {
                                             console.log(e)
                                             // Raven.captureException(e);
                                             this.loading = false;
                                             this.btndisable = false;
-                                            this.passwordError = "Invalid Password";
+                                            $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
                                             return false;
                                         }
                                     }
@@ -351,7 +350,7 @@
                                             // Raven.captureException(e);
                                             this.loading = false;
                                             this.btndisable = false;
-                                            this.passwordError = "Invalid Password";
+                                            $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
                                             return false;
                                         }
                                     }
