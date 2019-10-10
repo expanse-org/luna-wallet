@@ -25,7 +25,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-for="data in marketTable" v-if="data.status === 'active'" @click="openDetails(data)" class="table-row">
+                <div v-for="data in marketTable" @click="openDetails(data)" class="table-row">
                     <p>{{data.alphaSymbol}} - {{data.betaSymbol}}</p>
                     <p>0</p>
                     <p>0</p>
@@ -54,7 +54,7 @@
 
 <script>
     import Paginate from 'vuejs-paginate';
-    var sqlite3 = require('sqlite3').verbose();
+    import {sqldb} from '../../../../../common/cronjobs';
     export default {
         name: 'marketsTab',
         components : {
@@ -69,8 +69,6 @@
             };
         },
         created(){
-            var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {console.log(err, result)});
-            // console.log(sqldb, "sqldb");
             this.marketTable=[];
             sqldb.each("SELECT * FROM marketPair", (err, row) => {
                 // console.log(row, "rowsss");

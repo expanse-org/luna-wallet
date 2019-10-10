@@ -115,9 +115,9 @@ const startingGexp = () => {
 
 let gexplogs = [];
 
-//
-// ipcRenderer.on('gexpLogs', (event, res) => {
-//     console.log(res, 'expresssss');
-// });
+
+ipcRenderer.on('connectwebhttp', (event, res) => {
+    console.log(res, 'expresssss  1231312');
+});
 
 export { startingGexp, downloadGexp, gexplogs }

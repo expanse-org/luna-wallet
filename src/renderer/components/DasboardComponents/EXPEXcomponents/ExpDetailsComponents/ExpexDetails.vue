@@ -462,6 +462,10 @@
                 this.$modal.show('insufficentBal');
             }
         },
+        destroyed() {
+            clearInterval(this.intervalid1);
+            clearInterval(this.intervalid2);
+        },
         computed: {
             accounts() {
                 var expaccounts = this.$store.state.allAccounts;

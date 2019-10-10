@@ -2,6 +2,7 @@
   <div id="app">
     <router-view></router-view>
     <footer-app v-if="!archive" />
+    <notifications group="foo" />
   </div>
 </template>
 

@@ -1,14 +1,15 @@
-import Vue from 'vue'
-import axios from 'axios'
+import Vue from 'vue';
+import axios from 'axios';
 
-import App from './App'
-import router from './router'
-import store from './store'
-import VModal from 'vue-js-modal'
-import moment from 'moment'
-import VueMoment from 'vue-moment'
+import App from './App';
+import router from './router';
+import store from './store';
+import VModal from 'vue-js-modal';
+import moment from 'moment';
+import VueMoment from 'vue-moment';
 import VueNumerals from 'vue-numerals';
-import numeral from 'numeral'
+import numeral from 'numeral';
+import Notifications from 'vue-notification';
 
 import * as Raven from 'raven-js';
 
@@ -26,6 +27,7 @@ Vue.use(VueMoment,{moment});
 Vue.use(VueNumerals, {
     locale: 'en'
 });
+Vue.use(Notifications)
 
 /* eslint-disable no-new */
 new Vue({
