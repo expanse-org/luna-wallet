@@ -9,11 +9,13 @@ import moment from 'moment';
 import VueMoment from 'vue-moment';
 import VueNumerals from 'vue-numerals';
 import numeral from 'numeral';
-import Notifications from 'vue-notification';
+import VueNotification from "@kugatsu/vuenotification";
 
 import * as Raven from 'raven-js';
-
-
+Vue.use(VueNotification, {
+    timer: 20,
+    position: "topRight",
+});
 Raven
     .config('https://204e85c8efd64965baa31c06301c0426@sentry.io/1480137')
     .install();
@@ -27,7 +29,6 @@ Vue.use(VueMoment,{moment});
 Vue.use(VueNumerals, {
     locale: 'en'
 });
-Vue.use(Notifications)
 
 /* eslint-disable no-new */
 new Vue({

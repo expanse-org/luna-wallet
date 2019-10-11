@@ -99,6 +99,8 @@ db.defaults({ accounts: [], contracts: [], tokens: [
     ] , accountsAdresses:[] , hdWallets:[] , transactions : [] })
     .write();
 
+
+
 export {
     db, adapter, low
 }

@@ -4,9 +4,9 @@
             <div class="curve"></div>
             <div class="expexDetails-content">
                 <div class="expexDetails-headings">
-                    <h1 v-if="tokenData">{{tokenData.alphaSymbol}} - {{tokenData.betaSymbol}}</h1>
+                    <h1 v-if="tokenData">{{tokenData.betaSymbol}} - {{tokenData.alphaSymbol}}</h1>
                     <h1 v-else>EXP-ETH1</h1>
-                    <p>Ethereum 1</p>
+<!--                    <p>Ethereum 1</p>-->
                 </div>
                 <div class="expHeadData">
                     <p>$ 459.89</p>
@@ -188,10 +188,19 @@
                         </div>
                         <div class="balance-partition"></div>
                         <div v-if="btnActive==='buy'" class="buy-btn">
-                            <button @click="handlebuy">BUY {{tokenData.alphaSymbol}}</button>
+
+                            <button :disabled="btndisable" @click="handlebuy" type="submit" class="ok button button--shikoba">
+                                <img v-if="loading" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
+                                <img v-if="!loading"  class="button__icon" src="../../../../assets/img/send.svg">
+                                <span>BUY {{tokenData.alphaSymbol}}</span>
+                            </button>
                         </div>
                         <div v-if="btnActive==='sell'" class="sell-btn">
-                            <button @click="handlesell">SELL {{tokenData.alphaSymbol}}</button>
+                            <button :disabled="btndisable1" @click="handlesell" type="submit" class="ok button button--shikoba">
+                                <img v-if="loading1" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
+                                <img v-if="!loading1"  class="button__icon" src="../../../../assets/img/send.svg">
+                                <span>SELL {{tokenData.alphaSymbol}}</span>
+                            </button>
                         </div>
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
@@ -401,8 +410,12 @@
 <script>
     import  insuficentBalance from '../../insuficentBalance';
     import Paginate from 'vuejs-paginate'
-    import {web3, tokenInterface} from '../../../../../main/libs/config';
-    import AllowancePopup from './AllowancePopup/AllowancePopup'
+    import {web3, tokenInterface, expexABI, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
+    import AllowancePopup from './AllowancePopup/AllowancePopup';
+
+    const web3http = startConnectWebHttp();
+    const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
+
     export default {
         name: 'ExpexDetails',
         props: ['fromAddress'],
@@ -436,7 +449,6 @@
                 totalAmount: 0.00000,
                 btnActive: 'buy',
                 allowanceAmount: 0,
-                expexAddress: '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9',
                 orderAddresses: ['0x270ff59e03e69db4600900a2816587e7cd3e2f11', '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197'],
                 orderValues: [],
                 modalArray: {},
@@ -448,7 +460,14 @@
                 totalError: '',
                 approveError: '',
                 intervalid1: '',
-                intervalid2: ''
+                intervalid2: '',
+                loading: false,
+                loading1: false,
+                btndisable: false,
+                btndisable1: false,
+                expexAddress,
+                gasprice: 87,
+                gasLimit: 900000,
             };
         },
         created(){
@@ -464,7 +483,6 @@
         },
         destroyed() {
             clearInterval(this.intervalid1);
-            clearInterval(this.intervalid2);
         },
         computed: {
             accounts() {
@@ -474,35 +492,30 @@
         },
         methods: {
             startAllowanceInterval() {
+                this.allowanceAmount = 0;
                 var contract;
                 // console.log(contract , this.tokenData.betaAddress, this.fromAddress.value, this.expexAddress)
-                if(this.btnActive==='sell') {
-                    contract = new web3.eth.Contract(tokenInterface, this.tokenData.betaAddress);
-                    this.intervalid1 = setInterval(() => {
+                console.log(this.btnActive==='sell', this.btnActive, "****")
+                this.intervalid1 = setInterval(() => {
+                    if(this.btnActive==='sell') {
+                        contract = new web3.eth.Contract(tokenInterface, this.tokenData.betaAddress);
                         contract.methods.allowance(this.fromAddress.value, this.expexAddress).call().then((res) => {
-                            console.log(res, "allowance sell");
-                            if(res>0) {
-                                this.allowanceAmount = res/Math.pow(10, this.tokenData.betaDecimal);
-                            }
+                            this.allowanceAmount = res/Math.pow(10, this.tokenData.betaDecimal);
                         });
-                    }, 3000);
-                } else {
-                    contract = new web3.eth.Contract(tokenInterface, this.tokenData.alphaAddress);
-                    this.intervalid2 = setInterval(() => {
+                    } else {
+                        contract = new web3.eth.Contract(tokenInterface, this.tokenData.alphaAddress);
                         contract.methods.allowance(this.fromAddress.value, this.expexAddress).call().then((res) => {
-                            console.log(res, "allowance buy");
-                            if(res>0) {
-                                this.allowanceAmount = res/Math.pow(10, this.tokenData.alphaDecimal);
-                            }
+                            this.allowanceAmount = res/Math.pow(10, this.tokenData.alphaDecimal);
                         });
-                    }, 3000);
-                }
+                    }
+                }, 3000);
             },
             show () {
                 if(this.fromAddress) {
                     if(this.btnActive==='sell') {
                         if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
                             this.modalArray = {
+                                type: "allowance",
                                 fromAddress: this.fromAddress.value,
                                 currency: this.tokenData.betaSymbol,
                                 toAddress: this.tokenData.betaAddress,
@@ -516,6 +529,7 @@
                     } else {
                         if(this.totalAmount !== 0 && this.totalAmount > 0 && this.totalAmount !== '') {
                             this.modalArray = {
+                                type: "allowance",
                                 fromAddress: this.fromAddress.value,
                                 currency: this.tokenData.alphaSymbol,
                                 toAddress: this.tokenData.alphaAddress,
@@ -552,6 +566,14 @@
               this.totalError = '';
             },
             handleBuySell(type){
+                this.quantityError = '';
+                this.approveError = '';
+                this.totalError = '';
+                this.totalcount = 0;
+                this.quantity = 0;
+                this.bidPrice = 0;
+                this.totalAmount = 0;
+                this.startAllowanceInterval();
                 switch(type) {
                     case 'buy':
                         this.btnActive = 'buy';
@@ -561,29 +583,60 @@
                         break;
                 }
             },
-            OrderErc20( orderAddresses,  orderValues, matchOrderHashes) {
-
-            },
             handlebuy() {
-                console.log("handle buy")
-
-                if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                    clearInterval(this.intervalid1);
+                if(this.totalAmount > 0 || this.totalAmount) {
+                    if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
+                        try {
+                            this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
+                            let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
+                            this.modalArray = {
+                                type: "buy",
+                                fromAddress: this.fromAddress.value,
+                                currency: this.tokenData.betaSymbol,
+                                orderAddresses: this.orderAddresses,
+                                amountData: amountData,
+                                amount: this.totalAmount,
+                                matchOrderHashes: this.matchOrderHashes,
+                            };
+                            this.$modal.show('allowancePopup');
+                        }
+                        catch(err) {
+                            console.log(err, "err");
+                        }
+                        clearInterval(this.intervalid1);
+                    }
+                    else {
+                        this.approveError = "Approve Allowance";
+                    }
                 }
                 else {
-                    this.approveError = "Approve Expex";
+                    this.totalError = "Total Amount is required"
                 }
-                try {
-                    // this.OrderErc20(this.orderAddresses, [0.0001, 0.0001], this.matchOrderHashes);
-                }
-                catch(err) {
-
-                }
-
             },
             handlesell() {
-                if(this.allowanceAmount !==0 && this.allowanceAmount >= this.quantity) {
-                    clearInterval(this.intervalid2);
+                if(this.totalAmount > 0 || this.totalAmount) {
+                    if (this.allowanceAmount !== 0 && this.allowanceAmount >= this.quantity) {
+                        try {
+                            this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
+                            let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.betaDecimal)).toString()]
+                            this.modalArray = {
+                                type: "sell",
+                                fromAddress: this.fromAddress.value,
+                                currency: this.tokenData.alphaSymbol,
+                                orderAddresses: this.orderAddresses,
+                                amountData: amountData,
+                                amount: this.totalAmount,
+                                matchOrderHashes: this.matchOrderHashes,
+                            };
+                            this.$modal.show('allowancePopup');
+                        } catch (err) {
+
+                        }
+                        clearInterval(this.intervalid1);
+                    }
+                }
+                else {
+                    this.totalError = "Total Amount is required"
                 }
             }
         }

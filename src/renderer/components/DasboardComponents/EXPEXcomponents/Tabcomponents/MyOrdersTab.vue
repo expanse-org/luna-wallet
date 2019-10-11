@@ -36,12 +36,42 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="openorderTable.length > 0"  class="table-row" v-for="data in openorderTable">
+                <div v-if="openorderTable.length > 0 && selected === 'All'"  class="table-row" v-for="data in openorderTable">
 <!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
                     <p>WEXP-LAB</p>
                     <p>{{data.createdAt}}</p>
                     <p v-if="data.marketType === 'BUY'" class="Green">{{data.marketType}}</p>
                     <p v-else class="Red">{{data.marketType}}</p>
+                    <p>0</p>
+                    <p>0%</p>
+                    <p>0</p>
+                    <p>0</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
+                        {{data.orderHash}}
+                        <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
+                    </p>
+                    <p>Cancel</p>
+                </div>
+                <div v-if="openorderTable.length > 0 && data.marketType === 'BUY' && selected === 'Buy'"  class="table-row" v-for="data in openorderTable">
+<!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
+                    <p>WEXP-LAB</p>
+                    <p>{{data.createdAt}}</p>
+                    <p class="Green">{{data.marketType}}</p>
+                    <p>0</p>
+                    <p>0%</p>
+                    <p>0</p>
+                    <p>0</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
+                        {{data.orderHash}}
+                        <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
+                    </p>
+                    <p>Cancel</p>
+                </div>
+                <div v-if="openorderTable.length > 0 && data.marketType === 'SELL' && selected === 'Sell'"  class="table-row" v-for="data in openorderTable">
+<!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
+                    <p>WEXP-LAB</p>
+                    <p>{{data.createdAt}}</p>
+                    <p class="Red">{{data.marketType}}</p>
                     <p>0</p>
                     <p>0%</p>
                     <p>0</p>

@@ -10,7 +10,7 @@
                     <div class="all-form">
                         <label>Amount</label>
                         <div class="all-input">
-                            <input type="number" v-model="amount" placeholder="Amount"/>
+                            <input type="number" disabled="true" v-model="amount" placeholder="Amount"/>
                             <span>{{amountCurrency}}</span>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-    import {web3, tokenInterface, wexpABI} from '../../../../../../main/libs/config';
+    import {web3, tokenInterface, wexpABI, expexAddress, expexABI} from '../../../../../../main/libs/config';
     import { clipboard,remote } from 'electron';
     const app = remote.app;
     import * as Raven from 'raven-js';
@@ -107,7 +107,13 @@
         },
         created(){
             if(this.$router.history.current.path === '/expexdetails') {
-                this.popupHeading = 'Allowance Calculation';
+                if(this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
+                    this.popupHeading = 'Buy Approval';
+                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "sell") {
+                    this.popupHeading = 'Sell Approval';
+                } else {
+                    this.popupHeading = 'Allowance Approval';
+                }
             } else {
                 this.popupHeading = 'Exchange Now';
             }
@@ -135,21 +141,6 @@
                 }
             }
 
-
-            // contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-            //     console.log(res, "allowance");
-            // });
-
-            var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-
-            this.intervalid = setInterval(() => {
-                contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-                    console.log(res, "allowance");
-                    if(res>0) {
-                        clearInterval(this.intervalid);
-                    }
-                });
-            }, 3000);
         },
         methods: {
             hide () {
@@ -157,41 +148,68 @@
                 this.$modal.hide('exchangeNow');
             },
             sendTransaction(){
-                if(this.$router.history.current.path === '/expexdetails') {
-                    var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-                    if (this.password) {
-                        this.loading = true;
-                        this.btndisable = true;
-                        try {
+                const dexContract = new web3.eth.Contract(expexABI, expexAddress);
+                if (this.password) {
+                    this.loading = true;
+                    this.btndisable = true;
+                    if (this.$router.history.current.path === '/expexdetails') {
+                        if (this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
+                            this.popupHeading = 'Buy Approval';
+                            this.amount = this.modalArray.amount;
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
-                                .then((response) => {
-                                    if (response) {
-                                        console.log("response", response);
-                                        try {
-                                            contract.methods.approve(this.expexAddress, web3.utils.toWei(this.modalArray.amount.toString(), "ether")).send({
-                                                from: this.modalArray && this.modalArray.fromAddress,
+                            .then(async (response) => {
+                                if (response) {
+                                    try {
+                                        const orderPlace = await dexContract.methods.OrderErc20(this.modalArray.orderAddresses, this.modalArray.amountData, this.modalArray.matchOrderHashes).send(
+                                            {
+                                                from: this.modalArray.fromAddress,
                                                 gasPrice: parseInt(this.gasprice) * 1000000000,
                                                 gas: this.gasLimit,
-                                                value: 0,
-                                            }).then((res) => {
-                                                console.log(res, "approve")
-                                                if(res) {
-                                                    this.loading = false;
-                                                    this.btndisable = false;
-                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res.transactionHash + " Copied to clipboard");
-                                                    $('form').trigger('reset');
-                                                    clipboard.writeText(res.transactionHash, 'selected');
-                                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                            }
+                                        );
+                                        if(orderPlace) {
+                                            this.loading = false;
+                                            this.btndisable = false;
+                                            console.log(orderPlace, "orderPlace");
+                                            $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
+                                            $('form').trigger('reset');
+                                            clipboard.writeText(orderPlace.transactionHash, 'selected');
+                                            $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                        }
+                                    } catch (e) {
+                                        console.log(e)
+                                        // Raven.captureException(e);
+                                        this.loading = false;
+                                        this.btndisable = false;
+                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                        return false;
+                                    }
+                                }
+                            })
+
+                        } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "sell") {
+                            this.popupHeading = 'Sell Approval';
+                            this.amount = this.modalArray.amount;
+                            web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                .then(async (response) => {
+                                    if (response) {
+                                        try {
+                                            const orderPlace = await dexContract.methods.OrderErc20(this.modalArray.orderAddresses, this.modalArray.amountData, this.modalArray.matchOrderHashes).send(
+                                                {
+                                                    from: this.modalArray.fromAddress,
+                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                    gas: this.gasLimit,
                                                 }
-                                            }).catch((error) => {
-                                                console.log(error)
-                                                // Raven.captureException(error);
+                                            );
+                                            if (orderPlace) {
+                                                console.log(orderPlace, "orderPlace");
                                                 this.loading = false;
                                                 this.btndisable = false;
-                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                                return false;
-                                            });
-                                            // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
+                                                $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
+                                                $('form').trigger('reset');
+                                                clipboard.writeText(orderPlace.transactionHash, 'selected');
+                                                $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                            }
                                         } catch (e) {
                                             console.log(e)
                                             // Raven.captureException(e);
@@ -201,21 +219,63 @@
                                             return false;
                                         }
                                     }
-                                }).catch((error) => {
-                                console.log(error)
-                                // Raven.captureException(error);
-                                this.loading = false;
-                                this.btndisable = false;
-                                this.passwordError = "Invalid Password";
-                                return false;
-                            });
-                        } catch (err) {
-                            console.log(err)
+                                })
+                        } else {
+                            this.popupHeading = 'Allowance Approval';
+                            var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+                            try {
+                                web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                    .then((response) => {
+                                        if (response) {
+                                            console.log("response", response);
+                                            try {
+                                                contract.methods.approve(this.expexAddress, web3.utils.toWei(this.modalArray.amount.toString(), "ether")).send({
+                                                    from: this.modalArray && this.modalArray.fromAddress,
+                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                    gas: this.gasLimit,
+                                                    value: 0,
+                                                }).then((res) => {
+                                                    console.log(res, "approve")
+                                                    if (res) {
+                                                        this.loading = false;
+                                                        this.btndisable = false;
+                                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res.transactionHash + " Copied to clipboard");
+                                                        $('form').trigger('reset');
+                                                        clipboard.writeText(res.transactionHash, 'selected');
+                                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                    }
+                                                }).catch((error) => {
+                                                    console.log(error)
+                                                    // Raven.captureException(error);
+                                                    this.loading = false;
+                                                    this.btndisable = false;
+                                                    $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                    return false;
+                                                });
+                                                // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
+                                            } catch (e) {
+                                                console.log(e)
+                                                // Raven.captureException(e);
+                                                this.loading = false;
+                                                this.btndisable = false;
+                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                return false;
+                                            }
+                                        }
+                                    }).catch((error) => {
+                                    console.log(error)
+                                    // Raven.captureException(error);
+                                    this.loading = false;
+                                    this.btndisable = false;
+                                    this.passwordError = "Invalid Password";
+                                    return false;
+                                });
+                            } catch (err) {
+                                console.log(err)
+                            }
+
                         }
-                    }
-                }
-                else {
-                    if (this.password) {
+                    } else {
                         this.loading = true;
                         this.btndisable = true;
                         try {
@@ -243,13 +303,6 @@
                                                         return false;
                                                     }
                                                     // console.log("transaction Hash", txHash, shortid.generate(), this.modalArray && this.modalArray.fromAddress , this.nonce, currentDate.getTime());
-                                                    db.get('transactions').push({
-                                                        id: shortid.generate(),
-                                                        from: this.modalArray && this.modalArray.fromAddress,
-                                                        transactionHash: txHash,
-                                                        nonce: this.nonce,
-                                                        timeStamp: currentDate.getTime()
-                                                    }).write();
                                                     this.loading = false;
                                                     this.btndisable = false;
                                                     $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
@@ -262,8 +315,7 @@
                                                         });
                                                     }, 5000);
                                                 });
-                                            }
-                                            else {
+                                            } else {
                                                 var abiArray = tokenInterface; // From Config file
                                                 var contractAddress = this.toAddress;
 
@@ -361,12 +413,12 @@
                         } catch (err) {
                             console.log(err)
                         }
+
                     }
-                    else {
-                        this.loading = false;
-                        this.btndisable = false;
-                        this.passwordError = "Password is required";
-                    }
+                } else {
+                    this.loading = false;
+                    this.btndisable = false;
+                    this.passwordError = "Password is required";
                 }
             }
         }

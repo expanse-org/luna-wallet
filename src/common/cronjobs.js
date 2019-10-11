@@ -7,8 +7,8 @@ import {
     marketENUM,
     prod_app_directory
 } from '../main/libs/config';
+import store from '../renderer/store';
 import shell from "shelljs";
-
 const expexAddress = '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9';
 let today = new Date().toISOString().slice(0, 10)
 
@@ -28,13 +28,16 @@ if(os.type() == 'Darwin') {
     shell.cd(appPath);
 }
 
+console.log(store);
+
+
 var sqlite3 = require('sqlite3').verbose();
 var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
     console.log(err, result, "connect DB");
 });
 
 sqldb.serialize(function() {
-    sqldb.run("DROP TABLE Orders");
+    // sqldb.run("DROP TABLE Orders");
     sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) not null UNIQUE, tokenBuy TEXT not null, amountBuy REAL not null, tokenSell TEXT not null, amountSell REAL not null, maker TEXT not null, tokenId INTEGER not null, price REAL , blockNo INTEGER not null, decimalBuy INTEGER not null, decimalSell INTEGER not null, status TEXT not null, marketType TEXT not null)");
     sqldb.run("CREATE TABLE if not exists marketPair (blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
     sqldb.run("CREATE TABLE if not exists Trade (orderHash TEXT, matchinOrderHash TEXT, tokenBuy TEXT, tokenSell TEXT, amountBuy REAL, amountSell REAL, taker TEXT, maker TEXT, tokenId INTEGER, price REAL)");
@@ -45,10 +48,8 @@ const web3http = new Web3("https://gexp.gander.tech");
 
 const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
-
-
 let isGetPastLogCronRunning  = false;
-const marketPairFetchCron = cron.schedule('0 */15 * * * *', async () =>  {
+const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
     console.log("Cron RUnning")
     if(isGetPastLogCronRunning) {
         return;
@@ -63,7 +64,7 @@ const marketPairFetchCron = cron.schedule('0 */15 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 console.log(allMarketPairs, "pastlogs");
+                 // console.log(allMarketPairs, "pastlogs");
                  for(let i =0 ;i< allMarketPairs.length; i++) {
                      const alpha = allMarketPairs[i].returnValues["token1"]
                      const beta = allMarketPairs[i].returnValues["token2"]
@@ -85,9 +86,11 @@ const marketPairFetchCron = cron.schedule('0 */15 * * * *', async () =>  {
 
                          // insert into market pair value( ? , ? ,? ,? , ? , ? ,? )
                          try {
-                             var stmt = sqldb.prepare("INSERT INTO marketPair VALUES ('"+blockNumber+"','"+txHash+"','"+today+"', '"+alphaSymbol+"', '"+alpha+"', '"+alphaDecimals+"', '"+betaSymbol+"', '"+beta+"', '"+betaDecimals+"')");
+                             var stmt = sqldb.prepare("INSERT or IGNORE INTO marketPair VALUES ('"+blockNumber+"','"+txHash+"','"+today+"', '"+alphaSymbol+"', '"+alpha+"', '"+alphaDecimals+"', '"+betaSymbol+"', '"+beta+"', '"+betaDecimals+"')");
                              stmt.run();
                              stmt.finalize();
+                             store.dispatch('addCronToast', {message: 'Market Pair Table Update', type: 'Success'});
+
                          } catch(err) {
                              console.log(err)
                          }
@@ -98,6 +101,7 @@ const marketPairFetchCron = cron.schedule('0 */15 * * * *', async () =>  {
                              var stmt = sqldb.prepare("DELETE FROM marketPair WHERE alphaAddress = '"+alpha+"' AND betaAddress = '"+beta);
                              stmt.run();
                              stmt.finalize();
+                             store.dispatch('addCronToast', {message: 'Market Pair Table Update', type: 'Success'});
 
                          } catch(err) {
                              console.log(err)
@@ -124,13 +128,15 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
     if(netIsListening) {
         try{
             const blockNo = await getRecentBlockorder();
-            console.log(blockNo, "blockno");
+            // console.log(blockNo, "blockno");
             if(blockNo) {
                 const allOrders = await dexContract.getPastEvents("Order", {
                     fromBlock : blockNo,
                     toBlock: "latest"
                 })
                 console.log(allOrders, "allOrders");
+                store.dispatch('addCronToast', {message: 'Open Orders Table Update', type: 'Success'});
+
                 for(const order of allOrders) {
                     const orderHash = order.returnValues["orderHash"]
                     const tokenBuy = order.returnValues["tokenBuy"]
@@ -153,12 +159,13 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                     //Only process first row
 
                     const orderdata = await getmarketpairorder(tokenBuy, tokenSell, price, decimalBuy, decimalSell);
-                    console.log(orderdata, "orderdata");
-                    if(orderdata) {
+                    // console.log(orderdata, "orderdata");
+                    if(orderdata.marketType && orderdata.marketType !== -1) {
                         try {
                             var stmt = sqldb.prepare("INSERT or IGNORE INTO Orders VALUES ('"+today+"','"+orderHash+"','"+tokenBuy+"',"+amountBuy+", '"+tokenSell+"', "+amountSell+", '"+maker+"', "+tokenId+", "+orderdata.price+", "+blockNo+", "+decimalBuy+", "+decimalSell+", '"+status+"', '"+orderdata.marketType+"')");
                             stmt.run();
                             stmt.finalize();
+                            store.dispatch('addCronToast', {message: 'Open Orders Table Update', type: 'Success'});
                         } catch(err) {
                             console.log(err)
                         }
@@ -184,7 +191,7 @@ const getRecentBlock = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                console.log(row, data,"data");
+                // console.log(row, data,"data");
                 resolve(data);
             }
         });
@@ -196,7 +203,7 @@ const getRecentBlockorder = async () =>  {
     return new Promise(async function (resolve, reject) {
         let data = 1;
          await sqldb.get("select * from Orders order by blockNo desc limit 1", function(err, row) {
-             console.log(row, err, "blockno");
+             // console.log(row, err, "blockno");
             if(err) {
                 reject(err);
             }
@@ -205,7 +212,7 @@ const getRecentBlockorder = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                console.log(row, data,"data");
+                // console.log(row, data,"data");
                 resolve(data);
             }
         });

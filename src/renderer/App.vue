@@ -2,7 +2,6 @@
   <div id="app">
     <router-view></router-view>
     <footer-app v-if="!archive" />
-    <notifications group="foo" />
   </div>
 </template>
 
@@ -14,7 +13,15 @@ export default {
     components:{
         'footer-app': Footer,
     },
+    watch: {
+      cronMessage() {
+        this.cronToast =  this.$store.state.cronToast;
+        console.log(this.cronToast, "cronToast cronToast");
+        return this.cronToast;
+      }
+    },
     created() {
+      console.log(this.cronMessage, "cronmessagesss");
         // console.log(this.$store,"APP");
         console.log(this.$router.history.current.path,"APP");
         if(this.$router.history.current.path === '/archiveAccounts'){
@@ -23,7 +30,8 @@ export default {
     },
     data() {
         return {
-            archive: false,
+          archive: false,
+          cronToast: '',
         };
     },
     methods: {},
