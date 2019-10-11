@@ -36,143 +36,19 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                <div class="table-row" v-for="data in openorderTable">
+<!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
+                    <p>WEXP-LAB</p>
+                    <p>{{data.createdAt}}</p>
+                    <p v-if="data.marketType === 'BUY'" class="Green">{{data.marketType}}</p>
+                    <p v-else class="Red">{{data.marketType}}</p>
+                    <p>0</p>
+                    <p>0%</p>
+                    <p>0</p>
+                    <p>0</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
+                        {{data.orderHash}}
+                        <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
                     </p>
                     <p>Cancel</p>
                 </div>
@@ -378,7 +254,8 @@
     import os from 'os';
     import  * as child_process from 'child_process';
     import Multiselect from 'vue-multiselect'
-
+    import {db} from '../../../../../../lowdbFunc';
+    import {sqldb} from '../../../../../common/cronjobs';
     export default {
         name: 'MyOrders',
         components : {
@@ -391,9 +268,31 @@
                 forcePage: 1,
                 totalcount: 100,
                 selected: 'Buy',
+                openorderTable: [],
             };
         },
+        computed: {
+            AddTokenData() {
+                let tokensdata = db.get('tokens').value();
+                return tokensdata;
+            },
+        },
         created(){
+            this.openorderTable=[];
+            sqldb.each("SELECT * FROM Orders", (err, row) => {
+
+
+                this.openorderTable.push(row);
+            });
+            // this.openorderTable.map((row) =>{
+            //     this.AddTokenData.map((tokens) =>{
+            //         if(tokens.token_address === token.toLowerCase()) {
+            //             Object.assign({tokenSymbol: tokens.token_symbol}, row);
+            //         }
+            //     });
+            //     console.log(row, "rowsss");
+            // })
+
         },
         methods: {
             clickCallback (pageNum) {

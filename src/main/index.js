@@ -128,7 +128,7 @@ const runGexp = (path) => {
                     let textChunk = data.toString('utf8');
                         if(mainWindow){
                             mainWindow.webContents.send('gexpLogsstder', JSON.stringify(textChunk));
-                            if(textChunk.includes('Rewinding blockchain')){
+                            if(textChunk.includes('Rewinding blockchain') && textChunk.includes('Rewound blockchain')){
                             // if(data.toString('utf8') && data.toString('utf8').split(' ')[2] === "Head" && data.toString('utf8').split(' ')[3] === "state" && data.toString('utf8').split(' ')[4] === "missing,"  && data.toString('utf8').split(' ')[5] === "repairing" && data.toString('utf8').split(' ')[6] === "chain"){
                                 console.log("chainrRepairError ");
                                 chainError = true;
