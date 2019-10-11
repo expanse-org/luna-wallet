@@ -26,7 +26,7 @@
             <div class="table-partition"></div>
             <div class="table-body">
                 <div v-if="marketTable.length > 0" v-for="data in marketTable" @click="openDetails(data)" class="table-row">
-                    <p>{{data.alphaSymbol}} - {{data.betaSymbol}}</p>
+                    <p>{{data.betaSymbol}} - {{data.alphaSymbol}}</p>
                     <p>0</p>
                     <p>0</p>
                     <p class="row-mid Green">0 <img src="../../../../assets/img/PolygonGreen2.png"/></p>

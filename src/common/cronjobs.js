@@ -37,8 +37,8 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 });
 
 sqldb.serialize(function() {
-    // sqldb.run("DROP TABLE Orders");
-    sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) not null UNIQUE, tokenBuy TEXT not null, amountBuy REAL not null, tokenSell TEXT not null, amountSell REAL not null, maker TEXT not null, tokenId INTEGER not null, price REAL , blockNo INTEGER not null, decimalBuy INTEGER not null, decimalSell INTEGER not null, status TEXT not null, marketType TEXT not null)");
+    sqldb.run("DROP TABLE Orders");
+    sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) not null UNIQUE, tokenBuy TEXT not null, amountBuy REAL not null, tokenSell TEXT not null, amountSell REAL not null, maker TEXT not null, tokenId INTEGER not null, price REAL , blockNo INTEGER not null, decimalBuy INTEGER not null, decimalSell INTEGER not null, status TEXT not null, marketType TEXT not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL)");
     sqldb.run("CREATE TABLE if not exists marketPair (blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
     sqldb.run("CREATE TABLE if not exists Trade (orderHash TEXT, matchinOrderHash TEXT, tokenBuy TEXT, tokenSell TEXT, amountBuy REAL, amountSell REAL, taker TEXT, maker TEXT, tokenId INTEGER, price REAL)");
 
@@ -162,7 +162,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                     // console.log(orderdata, "orderdata");
                     if(orderdata.marketType && orderdata.marketType !== -1) {
                         try {
-                            var stmt = sqldb.prepare("INSERT or IGNORE INTO Orders VALUES ('"+today+"','"+orderHash+"','"+tokenBuy+"',"+amountBuy+", '"+tokenSell+"', "+amountSell+", '"+maker+"', "+tokenId+", "+orderdata.price+", "+blockNo+", "+decimalBuy+", "+decimalSell+", '"+status+"', '"+orderdata.marketType+"')");
+                            var stmt = sqldb.prepare("INSERT or IGNORE INTO Orders VALUES ('"+today+"','"+orderHash+"','"+tokenBuy+"',"+amountBuy+", '"+tokenSell+"', "+amountSell+", '"+maker+"', "+tokenId+", "+orderdata.price+", "+blockNo+", "+decimalBuy+", "+decimalSell+", '"+status+"', '"+orderdata.marketType+"', '"+orderdata.betaSymbol+"', '"+orderdata.alphaSymbol+"', "+orderdata.orderFilled+")");
                             stmt.run();
                             stmt.finalize();
                             store.dispatch('addCronToast', {message: 'Open Orders Table Update', type: 'Success'});
@@ -222,12 +222,15 @@ const getRecentBlockorder = async () =>  {
 
 const getmarketpairorder = async (tokenBuy, tokenSell, price, decimalSell, decimalBuy) =>  {
     return new Promise(async function (resolve, reject) {
-        let marketType = -1
+        let marketType = -1;
+        var alphaAddress = '';
+        var betaAddress = '';
         await sqldb.get("select * from marketPair where (alphaAddress = '"+tokenBuy+"' and betaAddress = '"+tokenSell+"') or (alphaAddress = '"+tokenSell+"' and betaAddress = '"+tokenBuy+"') order by blockNo desc limit 1", function(err, row) {
              if(row) {
                  if(row.alphaAddress == tokenBuy) {
                      price = (tokenSell/Math.pow(10, decimalSell)) / (tokenBuy/Math.pow(10, decimalBuy));
                      marketType = marketENUM.SELL // SELL
+
                  }else {
                      price = (tokenBuy/Math.pow(10, decimalBuy)) / (tokenSell/Math.pow(10, decimalSell));
                      marketType = marketENUM.BUY // BUY
@@ -235,12 +238,18 @@ const getmarketpairorder = async (tokenBuy, tokenSell, price, decimalSell, decim
                  let data = {
                      price: price,
                      marketType: marketType,
+                     orderFilled : 0,
+                     alphaSymbol : row.alphaSymbol,
+                     betaSymbol : row.betaSymbol
                  }
                  resolve(data);
              } else {
                  let data = {
                      price: price,
                      marketType: marketType,
+                     orderFilled : 0,
+                     alphaSymbol : row.alphaSymbol,
+                     betaSymbol : row.betaSymbol
                  }
                  resolve(data);
              }

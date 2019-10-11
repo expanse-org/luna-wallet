@@ -37,8 +37,7 @@
             <div class="table-partition"></div>
             <div class="table-body">
                 <div v-if="openorderTable.length > 0 && selected === 'All'"  class="table-row" v-for="data in openorderTable">
-<!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
-                    <p>WEXP-LAB</p>
+                    <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
                     <p>{{data.createdAt}}</p>
                     <p v-if="data.marketType === 'BUY'" class="Green">{{data.marketType}}</p>
                     <p v-else class="Red">{{data.marketType}}</p>
@@ -53,8 +52,7 @@
                     <p>Cancel</p>
                 </div>
                 <div v-if="openorderTable.length > 0 && data.marketType === 'BUY' && selected === 'Buy'"  class="table-row" v-for="data in openorderTable">
-<!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
-                    <p>WEXP-LAB</p>
+                    <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
                     <p>{{data.createdAt}}</p>
                     <p class="Green">{{data.marketType}}</p>
                     <p>0</p>
@@ -68,8 +66,7 @@
                     <p>Cancel</p>
                 </div>
                 <div v-if="openorderTable.length > 0 && data.marketType === 'SELL' && selected === 'Sell'"  class="table-row" v-for="data in openorderTable">
-<!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
-                    <p>WEXP-LAB</p>
+                    <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
                     <p>{{data.createdAt}}</p>
                     <p class="Red">{{data.marketType}}</p>
                     <p>0</p>
@@ -313,16 +310,9 @@
         created(){
             this.openorderTable=[];
             sqldb.each("SELECT * FROM Orders", (err, row) => {
+                console.log(row, "rowss")
                 this.openorderTable.push(row);
             });
-            // this.openorderTable.map((row) =>{
-            //     this.AddTokenData.map((tokens) =>{
-            //         if(tokens.token_address === token.toLowerCase()) {
-            //             Object.assign({tokenSymbol: tokens.token_symbol}, row);
-            //         }
-            //     });
-            //     console.log(row, "rowsss");
-            // })
 
         },
         methods: {

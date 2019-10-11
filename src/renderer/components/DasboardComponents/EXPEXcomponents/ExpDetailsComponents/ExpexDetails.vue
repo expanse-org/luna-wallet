@@ -80,69 +80,23 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.010000278)" class="table-row">
-                                <p>12.708</p>
-                                <p>0.00089</p>
-                                <p class="Green">0.010000278</p>
+                            <div class="table-no-row">
+                                <p class="row-10">No SELL Orders Found</p>
                             </div>
                         </div>
-                        <div>
-                            <paginate
-                                    :pageCount=totalcount
-                                    :clickHandler="clickCallback"
-                                    :prevText="'<<'"
-                                    :nextText="'>>'"
-                                    :initial-page=initialPage
-                                    :force-page=forcePage
-                                    :active-class="'activeT'"
-                                    :containerClass="'paginationT'">
-                            </paginate>
-                        </div>
+
+<!--                        <div>-->
+<!--                            <paginate-->
+<!--                                    :pageCount=totalcount-->
+<!--                                    :clickHandler="clickCallback"-->
+<!--                                    :prevText="'<<'"-->
+<!--                                    :nextText="'>>'"-->
+<!--                                    :initial-page=initialPage-->
+<!--                                    :force-page=forcePage-->
+<!--                                    :active-class="'activeT'"-->
+<!--                                    :containerClass="'paginationT'">-->
+<!--                            </paginate>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <div class="middle-side">
@@ -220,69 +174,27 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
+                            <div class="table-no-row">
+                                <p class="row-10">No BUY Orders Found</p>
                             </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
-                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">
-                                <p class="Red">0.0000467</p>
-                                <p>0.00089</p>
-                                <p>12.708</p>
-                            </div>
+<!--                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">-->
+<!--                                <p class="Red">0.0000467</p>-->
+<!--                                <p>0.00089</p>-->
+<!--                                <p>12.708</p>-->
+<!--                            </div>-->
                         </div>
-                        <div>
-                            <paginate
-                                    :pageCount=totalcount
-                                    :clickHandler="clickCallback"
-                                    :prevText="'<<'"
-                                    :nextText="'>>'"
-                                    :initial-page=initialPage
-                                    :force-page=forcePage
-                                    :active-class="'activeT'"
-                                    :containerClass="'paginationT'">
-                            </paginate>
-                        </div>
+<!--                        <div>-->
+<!--                            <paginate-->
+<!--                                    :pageCount=totalcount-->
+<!--                                    :clickHandler="clickCallback"-->
+<!--                                    :prevText="'<<'"-->
+<!--                                    :nextText="'>>'"-->
+<!--                                    :initial-page=initialPage-->
+<!--                                    :force-page=forcePage-->
+<!--                                    :active-class="'activeT'"-->
+<!--                                    :containerClass="'paginationT'">-->
+<!--                            </paginate>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -382,18 +294,18 @@
                         <p>0.000467</p>
                     </div>
                 </div>
-                <div>
-                    <paginate
-                            :pageCount=totalcount
-                            :clickHandler="clickCallback"
-                            :prevText="'<<'"
-                            :nextText="'>>'"
-                            :initial-page=initialPage
-                            :force-page=forcePage
-                            :active-class="'activeT'"
-                            :containerClass="'paginationT'">
-                    </paginate>
-                </div>
+<!--                <div>-->
+<!--                    <paginate-->
+<!--                            :pageCount=totalcount-->
+<!--                            :clickHandler="clickCallback"-->
+<!--                            :prevText="'<<'"-->
+<!--                            :nextText="'>>'"-->
+<!--                            :initial-page=initialPage-->
+<!--                            :force-page=forcePage-->
+<!--                            :active-class="'activeT'"-->
+<!--                            :containerClass="'paginationT'">-->
+<!--                    </paginate>-->
+<!--                </div>-->
             </div>
         </div>
 
