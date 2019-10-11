@@ -25,7 +25,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-for="data in marketTable" @click="openDetails(data)" class="table-row">
+                <div v-if="marketTable.length > 0" v-for="data in marketTable" @click="openDetails(data)" class="table-row">
                     <p>{{data.alphaSymbol}} - {{data.betaSymbol}}</p>
                     <p>0</p>
                     <p>0</p>
@@ -34,6 +34,9 @@
                     <p>0</p>
                     <p>0</p>
                     <p class="row-10">{{data.createdAt}}</p>
+                </div>
+                <div v-if="marketTable.length === 0" class="table-no-row">
+                    <p class="row-10">No Market Data Found</p>
                 </div>
             </div>
             <div>

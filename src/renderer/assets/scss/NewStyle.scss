@@ -562,6 +562,15 @@
               border-bottom: 1px dashed #9B9B9B;
             }
             .table-body {
+              .table-no-row {
+                position: relative;
+                display: grid;
+                background-color: #2C2C2C;
+                padding: 15px 0px 11px 5px;
+                text-align: center;
+                color: #ffffff;
+                font-size: 16px;
+              }
               .table-row {
                 position: relative;
                 display: grid;
@@ -764,6 +773,15 @@
               border-bottom: 1px dashed #9B9B9B;
             }
             .table-body {
+              .table-no-row {
+                position: relative;
+                display: grid;
+                background-color: #2C2C2C;
+                padding: 15px 0px 11px 5px;
+                text-align: center;
+                color: #ffffff;
+                font-size: 16px;
+              }
               .table-row {
                 position: relative;
                 display: grid;
@@ -837,6 +855,15 @@
               grid-template-columns: 8% 12% 5% 10% 10% 10% 10% 18%;
             }
             .table-body {
+              .table-no-row {
+                position: relative;
+                display: grid;
+                background-color: #2C2C2C;
+                padding: 15px 0px 11px 5px;
+                text-align: center;
+                color: #ffffff;
+                font-size: 16px;
+              }
               .table-row{
                 grid-template-columns: 8% 12% 5% 10% 10% 10% 8% 20%;
               }
@@ -1138,6 +1165,15 @@
               border-bottom: 1px dashed #9B9B9B;
             }
             .table-body {
+              .table-no-row {
+                position: relative;
+                display: grid;
+                background-color: #2C2C2C;
+                padding: 15px 0px 11px 5px;
+                text-align: center;
+                color: #ffffff;
+                font-size: 16px;
+              }
               .table-row {
                 position: relative;
                 display: grid;
@@ -1193,6 +1229,15 @@
                     border-bottom: 1px dashed #9B9B9B;
                   }
                   .table-body {
+                    .table-no-row {
+                      position: relative;
+                      display: grid;
+                      background-color: #2C2C2C;
+                      padding: 15px 0px 11px 5px;
+                      text-align: center;
+                      color: #ffffff;
+                      font-size: 16px;
+                    }
                     .table-row {
                       position: relative;
                       display: grid;

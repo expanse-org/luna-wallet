@@ -36,7 +36,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div class="table-row" v-for="data in openorderTable">
+                <div v-if="openorderTable.length > 0"  class="table-row" v-for="data in openorderTable">
 <!--                    <p>{{(data.tokenSell)}}-{{(data.tokenBuy)}}</p>-->
                     <p>WEXP-LAB</p>
                     <p>{{data.createdAt}}</p>
@@ -51,6 +51,9 @@
                         <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
                     </p>
                     <p>Cancel</p>
+                </div>
+                <div v-if="openorderTable.length === 0" class="table-no-row">
+                    <p class="row-10">No Open Orders Found</p>
                 </div>
             </div>
             <div>
@@ -267,7 +270,7 @@
                 initialPage: 1,
                 forcePage: 1,
                 totalcount: 100,
-                selected: 'Buy',
+                selected: 'All',
                 openorderTable: [],
             };
         },
@@ -280,8 +283,6 @@
         created(){
             this.openorderTable=[];
             sqldb.each("SELECT * FROM Orders", (err, row) => {
-
-
                 this.openorderTable.push(row);
             });
             // this.openorderTable.map((row) =>{
