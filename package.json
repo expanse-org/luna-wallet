@@ -106,6 +106,7 @@
     "ky": "^0.3.0",
     "lodash": "^4.17.11",
     "lowdb": "^1.0.0",
+    "luxon": "^1.19.3",
     "md5": "^2.2.1",
     "moment": "^2.22.2",
     "mysql": "^2.17.1",
@@ -126,6 +127,7 @@
     "targz": "^1.0.1",
     "underscore": "^1.9.1",
     "vue": "^2.5.16",
+    "vue-datetime": "^1.0.0-beta.10",
     "vue-electron": "^1.0.6",
     "vue-filepond": "^4.0.3",
     "vue-js-modal": "^1.3.26",
@@ -138,6 +140,7 @@
     "vuejs-paginate": "^2.1.0",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.36",
+    "weekstart": "^1.0.0",
     "yarn": "^1.12.3"
   },
   "devDependencies": {

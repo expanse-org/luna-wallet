@@ -10,7 +10,8 @@
                     <div class="all-form">
                         <label>Amount</label>
                         <div class="all-input">
-                            <input type="number" disabled="true" v-model="amount" placeholder="Amount"/>
+                            <p v-if="amountError" class="error-message allowanceamount ">{{amountError}}</p>
+                            <input type="number" :disabled="amountdisable" v-model="amount" placeholder="Amount"/>
                             <span>{{amountCurrency}}</span>
                         </div>
                     </div>
@@ -98,6 +99,9 @@
                 wexpAddress: '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197',
                 labAddress: '0xa887adb722cf15bc1efe3c6a5d879e0482e8d197',
                 pexAddress: '0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932',
+                amountdisable: true,
+                amountError: '',
+                intervalid1: '',
             };
         },
         components:{
@@ -106,6 +110,23 @@
 
         },
         created(){
+            if(this.modalArray && this.modalArray.type === 'allowance') {
+                var contract;
+                this.intervalid1 = setInterval(() => {
+                    if(this.btnActive==='sell') {
+                        contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+                        contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
+                            this.amount = res/Math.pow(10, this.modalArray.decimal);
+                        });
+                    } else {
+                        contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+                        contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
+                            this.amount = res/Math.pow(10, this.modalArray.decimal);
+                        });
+                    }
+                }, 3000);
+                this.amountdisable = false;
+            }
             if(this.$router.history.current.path === '/expexdetails') {
                 if(this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
                     this.popupHeading = 'Buy Approval';
@@ -222,58 +243,66 @@
                                 })
                         } else {
                             this.popupHeading = 'Allowance Approval';
-                            var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-                            try {
-                                web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
-                                    .then((response) => {
-                                        if (response) {
-                                            console.log("response", response);
-                                            try {
-                                                contract.methods.approve(this.expexAddress, web3.utils.toWei(this.modalArray.amount.toString(), "ether")).send({
-                                                    from: this.modalArray && this.modalArray.fromAddress,
-                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
-                                                    gas: this.gasLimit,
-                                                    value: 0,
-                                                }).then((res) => {
-                                                    console.log(res, "approve")
-                                                    if (res) {
+                            if(this.amount) {
+                                var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
+                                try {
+                                    web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                        .then((response) => {
+                                            if (response) {
+                                                console.log("response", response);
+                                                try {
+                                                    contract.methods.approve(this.expexAddress, web3.utils.toWei(this.amount.toString(), "ether")).send({
+                                                        from: this.modalArray && this.modalArray.fromAddress,
+                                                        gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                        gas: this.gasLimit,
+                                                        value: 0,
+                                                    }).then((res) => {
+                                                        console.log(res, "approve")
+                                                        if (res) {
+                                                            clearInterval(this.intervalid1);
+                                                            this.loading = false;
+                                                            this.btndisable = false;
+                                                            $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res.transactionHash + " Copied to clipboard");
+                                                            $('form').trigger('reset');
+                                                            clipboard.writeText(res.transactionHash, 'selected');
+                                                            $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                        }
+                                                    }).catch((error) => {
+                                                        clearInterval(this.intervalid1);
+                                                        console.log(error)
+                                                        // Raven.captureException(error);
                                                         this.loading = false;
                                                         this.btndisable = false;
-                                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res.transactionHash + " Copied to clipboard");
-                                                        $('form').trigger('reset');
-                                                        clipboard.writeText(res.transactionHash, 'selected');
-                                                        $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                                    }
-                                                }).catch((error) => {
-                                                    console.log(error)
-                                                    // Raven.captureException(error);
+                                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                        return false;
+                                                    });
+                                                    // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
+                                                } catch (e) {
+                                                    clearInterval(this.intervalid1);
+                                                    console.log(e)
+                                                    // Raven.captureException(e);
                                                     this.loading = false;
                                                     this.btndisable = false;
                                                     $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
                                                     return false;
-                                                });
-                                                // console.log("sendTransaction ", this.gasLimit,this.gasprice, web3.utils.toWei(this.modalArray.amount.toString(), "ether"), this.modalArray && this.modalArray.fromAddress, this.nonce);
-                                            } catch (e) {
-                                                console.log(e)
-                                                // Raven.captureException(e);
-                                                this.loading = false;
-                                                this.btndisable = false;
-                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                                return false;
+                                                }
                                             }
-                                        }
-                                    }).catch((error) => {
-                                    console.log(error)
-                                    // Raven.captureException(error);
-                                    this.loading = false;
-                                    this.btndisable = false;
-                                    this.passwordError = "Invalid Password";
-                                    return false;
-                                });
-                            } catch (err) {
-                                console.log(err)
+                                        }).catch((error) => {
+                                        clearInterval(this.intervalid1);
+                                        console.log(error)
+                                        // Raven.captureException(error);
+                                        this.loading = false;
+                                        this.btndisable = false;
+                                        this.passwordError = "Invalid Password";
+                                        return false;
+                                    });
+                                } catch (err) {
+                                    clearInterval(this.intervalid1);
+                                    console.log(err)
+                                }
+                            } else {
+                                this.amountError = "Amount is required";
                             }
-
                         }
                     } else {
                         this.loading = true;

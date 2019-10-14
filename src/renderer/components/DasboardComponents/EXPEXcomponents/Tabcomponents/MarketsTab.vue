@@ -5,10 +5,10 @@
             <div class="market-content">
                 <div class="market-headings">
                     <h1>Expanse Markets</h1>
-                    <h3>Total Volume = 890,435.987 EXP</h3>
+                    <h3>Total Volume = 0 EXP</h3>
                 </div>
                 <div class="market-input">
-                    <input placeholder="Find Tokens..." type="text" class="find-market"/>
+                    <input placeholder="Find Tokens..." v-model="searchTokens" type="text" class="find-market"/>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <p class="row-10">No Market Data Found</p>
                 </div>
             </div>
-            <div>
+            <div v-if="marketTable.length > 10">
                 <paginate
                         :pageCount=totalcount
                         :clickHandler="clickCallback"
@@ -69,7 +69,25 @@
                 forcePage: 1,
                 totalcount: 100,
                 marketTable: [],
+                searchTokens: '',
             };
+        },
+        watch: {
+            searchTokens(value) {
+                this.marketTable = [];
+                if(value) {
+                    sqldb.each("SELECT * FROM marketPair where betaSymbol = '"+value+"' COLLATE NOCASE or alphaSymbol = '"+value+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.marketTable.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM marketPair", (err, row) => {
+                        // console.log(row, "rowsss");
+                        this.marketTable.push(row);
+                    });
+                }
+            }
         },
         created(){
             this.marketTable=[];

@@ -37,8 +37,9 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 });
 
 sqldb.serialize(function() {
-    sqldb.run("DROP TABLE Orders");
-    sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) not null UNIQUE, tokenBuy TEXT not null, amountBuy REAL not null, tokenSell TEXT not null, amountSell REAL not null, maker TEXT not null, tokenId INTEGER not null, price REAL , blockNo INTEGER not null, decimalBuy INTEGER not null, decimalSell INTEGER not null, status TEXT not null, marketType TEXT not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL)");
+    // sqldb.run("DROP TABLE Orders");
+    sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) not null UNIQUE, tokenBuy TEXT not null, amountBuy REAL not null, tokenSell TEXT not null, amountSell REAL not null, maker TEXT not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
+        "decimalSell INTEGER not null, status TEXT not null, marketType TEXT not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL, amountBuyFilled REAL NOT NULL, amountSellFilled REAL NOT NULL)");
     sqldb.run("CREATE TABLE if not exists marketPair (blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
     sqldb.run("CREATE TABLE if not exists Trade (orderHash TEXT, matchinOrderHash TEXT, tokenBuy TEXT, tokenSell TEXT, amountBuy REAL, amountSell REAL, taker TEXT, maker TEXT, tokenId INTEGER, price REAL)");
 
@@ -162,7 +163,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                     // console.log(orderdata, "orderdata");
                     if(orderdata.marketType && orderdata.marketType !== -1) {
                         try {
-                            var stmt = sqldb.prepare("INSERT or IGNORE INTO Orders VALUES ('"+today+"','"+orderHash+"','"+tokenBuy+"',"+amountBuy+", '"+tokenSell+"', "+amountSell+", '"+maker+"', "+tokenId+", "+orderdata.price+", "+blockNo+", "+decimalBuy+", "+decimalSell+", '"+status+"', '"+orderdata.marketType+"', '"+orderdata.betaSymbol+"', '"+orderdata.alphaSymbol+"', "+orderdata.orderFilled+")");
+                            var stmt = sqldb.prepare("INSERT or IGNORE INTO Orders VALUES ('"+today+"','"+orderHash+"','"+tokenBuy+"',"+amountBuy+", '"+tokenSell+"', "+amountSell+", '"+maker+"', "+tokenId+", "+orderdata.price+", "+blockNo+", "+decimalBuy+", "+decimalSell+", '"+status+"', '"+orderdata.marketType+"', '"+orderdata.betaSymbol+"', '"+orderdata.alphaSymbol+"', "+orderdata.orderFilled+", 0, 0)");
                             stmt.run();
                             stmt.finalize();
                             store.dispatch('addCronToast', {message: 'Open Orders Table Update', type: 'Success'});

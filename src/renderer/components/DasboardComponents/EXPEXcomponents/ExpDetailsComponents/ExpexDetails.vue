@@ -8,36 +8,36 @@
                     <h1 v-else>EXP-ETH1</h1>
 <!--                    <p>Ethereum 1</p>-->
                 </div>
-                <div class="expHeadData">
-                    <p>$ 459.89</p>
-                    <p class="Red">EXP 0.000000087</p>
-                    <p>LAST</p>
-                </div>
-                <div class="expHeadData">
-                    <p>$ 459.89</p>
-                    <p class="Green">EXP 0.000000087</p>
-                    <p>BID</p>
-                </div>
-                <div class="expHeadData">
-                    <p>$ 459.89</p>
-                    <p class="Green">EXP 0.000000087</p>
-                    <p>ASK</p>
-                </div>
-                <div class="expHeadData">
-                    <p>$ 459.89</p>
-                    <p class="Red">EXP 0.000000087</p>
-                    <p>VOLUME</p>
-                </div>
-                <div class="expHeadData">
-                    <p>$ 459.89</p>
-                    <p class="Green">EXP 0.000000087</p>
-                    <p>24H HIGH</p>
-                </div>
-                <div class="expHeadData">
-                    <p>$ 459.89</p>
-                    <p class="Red">EXP 0.000000087</p>
-                    <p>24H LOW</p>
-                </div>
+<!--                <div class="expHeadData">-->
+<!--                    <p>$ 459.89</p>-->
+<!--                    <p class="Red">EXP 0.000000087</p>-->
+<!--                    <p>LAST</p>-->
+<!--                </div>-->
+<!--                <div class="expHeadData">-->
+<!--                    <p>$ 459.89</p>-->
+<!--                    <p class="Green">EXP 0.000000087</p>-->
+<!--                    <p>BID</p>-->
+<!--                </div>-->
+<!--                <div class="expHeadData">-->
+<!--                    <p>$ 459.89</p>-->
+<!--                    <p class="Green">EXP 0.000000087</p>-->
+<!--                    <p>ASK</p>-->
+<!--                </div>-->
+<!--                <div class="expHeadData">-->
+<!--                    <p>$ 459.89</p>-->
+<!--                    <p class="Red">EXP 0.000000087</p>-->
+<!--                    <p>VOLUME</p>-->
+<!--                </div>-->
+<!--                <div class="expHeadData">-->
+<!--                    <p>$ 459.89</p>-->
+<!--                    <p class="Green">EXP 0.000000087</p>-->
+<!--                    <p>24H HIGH</p>-->
+<!--                </div>-->
+<!--                <div class="expHeadData">-->
+<!--                    <p>$ 459.89</p>-->
+<!--                    <p class="Red">EXP 0.000000087</p>-->
+<!--                    <p>24H LOW</p>-->
+<!--                </div>-->
             </div>
         </div>
         <div class="expexchart-section">
@@ -45,18 +45,18 @@
                 <div class="head-text">
                     <div class="text-data">
                         <h1>MARKET CHART</h1>
-                        <div class="keyvalue">
-                            <div><p>PRICE:</p> 0.06763</div>
-                            <div><p>VOL:</p> 0.08763</div>
-                        </div>
-                        <div class="keyvalue">
-                            <div><p>OPEN:</p> 0.06763</div>
-                            <div><p>HIGH:</p> 0.08763</div>
-                        </div>
-                        <div class="keyvalue">
-                            <div><p>CLOSE:</p> 0.06763</div>
-                            <div><p>LOW:</p> 0.08763</div>
-                        </div>
+<!--                        <div class="keyvalue">-->
+<!--                            <div><p>PRICE:</p> 0.06763</div>-->
+<!--                            <div><p>VOL:</p> 0.08763</div>-->
+<!--                        </div>-->
+<!--                        <div class="keyvalue">-->
+<!--                            <div><p>OPEN:</p> 0.06763</div>-->
+<!--                            <div><p>HIGH:</p> 0.08763</div>-->
+<!--                        </div>-->
+<!--                        <div class="keyvalue">-->
+<!--                            <div><p>CLOSE:</p> 0.06763</div>-->
+<!--                            <div><p>LOW:</p> 0.08763</div>-->
+<!--                        </div>-->
                     </div>
                     <div class="btns">
                         <!--<button class="deposit-btn"><img src="../../../../assets/img/Polygonwhite2.png"/> DEPOSIT</button>-->
@@ -80,23 +80,27 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div class="table-no-row">
+                            <div v-if="sellTable.length > 0" v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell), data.price,data.amountSell/Math.pow(10, data.decimalSell))" class="table-row">
+                                <p>{{parseFloat(data.price).toFixed(5)}}</p>
+                                <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
+                                <p class="Green">{{data.amountSell/Math.pow(10, data.decimalSell)}}</p>
+                            </div>
+                            <div v-if="sellTable.length === 0" class="table-no-row">
                                 <p class="row-10">No SELL Orders Found</p>
                             </div>
                         </div>
-
-<!--                        <div>-->
-<!--                            <paginate-->
-<!--                                    :pageCount=totalcount-->
-<!--                                    :clickHandler="clickCallback"-->
-<!--                                    :prevText="'<<'"-->
-<!--                                    :nextText="'>>'"-->
-<!--                                    :initial-page=initialPage-->
-<!--                                    :force-page=forcePage-->
-<!--                                    :active-class="'activeT'"-->
-<!--                                    :containerClass="'paginationT'">-->
-<!--                            </paginate>-->
-<!--                        </div>-->
+                        <div v-if="sellTable.length > 10">
+                            <paginate
+                                    :pageCount=totalcount
+                                    :clickHandler="clickCallback"
+                                    :prevText="'<<'"
+                                    :nextText="'>>'"
+                                    :initial-page=initialPage
+                                    :force-page=forcePage
+                                    :active-class="'activeT'"
+                                    :containerClass="'paginationT'">
+                            </paginate>
+                        </div>
                     </div>
                 </div>
                 <div class="middle-side">
@@ -159,7 +163,7 @@
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
                             <p>{{expAmount}} EXP</p>
-                            <p>{{wexpAmount}} WEXP</p>
+                            <p>{{parseFloat(wexpAmount).toFixed(8)}} {{this.tokenData.betaSymbol}}</p>
                         </div>
                         <div class="balance-partition1"></div>
                         <p @click="handleMaxBuy" class="buybluetxt">MAX BUY</p>
@@ -174,27 +178,27 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div class="table-no-row">
+                            <div v-if="buyTable.length > 0"  v-for="data in buyTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell),data.price,data.amountBuy/Math.pow(10, data.decimalBuy))" class="table-row">
+                                <p class="Red">{{data.amountBuy/Math.pow(10, data.decimalBuy)}}</p>
+                                <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
+                                <p>{{parseFloat(data.price).toFixed(5)}}</p>
+                            </div>
+                            <div v-if="buyTable.length === 0" class="table-no-row">
                                 <p class="row-10">No BUY Orders Found</p>
                             </div>
-<!--                            <div @click="handleRow(12.708,0.00089,0.0000467)" class="table-row">-->
-<!--                                <p class="Red">0.0000467</p>-->
-<!--                                <p>0.00089</p>-->
-<!--                                <p>12.708</p>-->
-<!--                            </div>-->
                         </div>
-<!--                        <div>-->
-<!--                            <paginate-->
-<!--                                    :pageCount=totalcount-->
-<!--                                    :clickHandler="clickCallback"-->
-<!--                                    :prevText="'<<'"-->
-<!--                                    :nextText="'>>'"-->
-<!--                                    :initial-page=initialPage-->
-<!--                                    :force-page=forcePage-->
-<!--                                    :active-class="'activeT'"-->
-<!--                                    :containerClass="'paginationT'">-->
-<!--                            </paginate>-->
-<!--                        </div>-->
+                        <div v-if="buyTable.length > 10">
+                            <paginate
+                                    :pageCount=totalcount
+                                    :clickHandler="clickCallback"
+                                    :prevText="'<<'"
+                                    :nextText="'>>'"
+                                    :initial-page=initialPage
+                                    :force-page=forcePage
+                                    :active-class="'activeT'"
+                                    :containerClass="'paginationT'">
+                            </paginate>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,85 +217,17 @@
                 </div>
                 <div class="table-partition"></div>
                 <div class="table-body">
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Green row-10">BUY</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Red row-10">SELL</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Red row-10">SELL</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Green row-10">BUY</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Green row-10">BUY</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Green row-10">BUY</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Red row-10">SELL</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Red row-10">SELL</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Green row-10">BUY</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
-                    </div>
-                    <div class="table-row">
-                        <p>12/08/19</p>
-                        <p>12:34:00</p>
-                        <p class="Green row-10">BUY</p>
-                        <p>0.00089</p>
-                        <p>0.0000467</p>
-                        <p>0.000467</p>
+<!--                    <div class="table-row">-->
+<!--                        <p>12/08/19</p>-->
+<!--                        <p>12:34:00</p>-->
+<!--                        <p class="Green row-10">BUY</p>-->
+<!--                        <p>0.00089</p>-->
+<!--                        <p>0.0000467</p>-->
+<!--                        <p>0.000467</p>-->
+<!--                    </div>-->
+
+                    <div class="table-no-row">
+                        <p class="row-10">No Market History Found</p>
                     </div>
                 </div>
 <!--                <div>-->
@@ -324,6 +260,7 @@
     import Paginate from 'vuejs-paginate'
     import {web3, tokenInterface, expexABI, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup';
+    import {sqldb} from '../../../../../common/cronjobs';
 
     const web3http = startConnectWebHttp();
     const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
@@ -344,9 +281,34 @@
             bidPrice: function (newValue) {
                 this.totalAmount = this.quantity*newValue;
             },
-            fromAddress: function () {
-                this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
-                this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+            fromAddress: function (value) {
+                this.expAmount = value.text.split('(')[1].split(' ')[0];
+                this.wexpAmount = 0;
+                if(this.tokenData.betaSymbol === 'WEXP') {
+                    this.wexpAmount = value.text.split('(')[2].split(' ')[0];
+                } else {
+                    this.accounts.map((val) => {
+                        if(val.hash === value.value) {
+                            if(val.tokens){
+                                val.token_icons.map((token) => {
+                                    if(token.token_symbol === this.tokenData.betaSymbol) {
+                                        this.wexpAmount = token.balance;
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
+                this.buyTable = [];
+                sqldb.each("SELECT * FROM Orders  where marketType = 'BUY' and maker != '"+value.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                    // console.log(row, "rowsss");
+                    this.buyTable.push(row);
+                });
+                this.sellTable = [];
+                sqldb.each("SELECT * FROM Orders where marketType = 'SELL' and maker != '"+value.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                    // console.log(row, "rowsss");
+                    this.sellTable.push(row);
+                });
                 this.startAllowanceInterval();
             }
         },
@@ -380,34 +342,61 @@
                 expexAddress,
                 gasprice: 87,
                 gasLimit: 900000,
+                buyTable: [],
+                sellTable: [],
             };
+        },
+        computed: {
+            accounts() {
+                var accountsArray = this.$store.state.allAccounts;
+                return accountsArray;
+            },
         },
         created(){
             this.tokenData = this.$router.history.current.query.data;
             if(this.fromAddress) {
                 // console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
-                this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+                this.wexpAmount = 0;
+                if(this.tokenData.betaSymbol === 'WEXP') {
+                    this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+                } else {
+                    this.accounts.map((val) => {
+                        if(val.hash === this.fromAddress.value) {
+                            if(val.tokens){
+                                val.token_icons.map((token) => {
+                                    if(token.token_symbol === this.tokenData.betaSymbol) {
+                                        this.wexpAmount = token.balance;
+                                    }
+                                })
+                            }
+                        }
+                    });
+                }
                 this.startAllowanceInterval();
             } else {
                 this.$modal.show('insufficentBal');
             }
+            this.buyTable = [];
+            sqldb.each("SELECT * FROM Orders  where marketType = 'BUY' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                // console.log(row, "rowsss");
+                this.buyTable.push(row);
+            });
+            this.sellTable = [];
+            sqldb.each("SELECT * FROM Orders where marketType = 'SELL' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                // console.log(row, "rowsss");
+                this.sellTable.push(row);
+            });
         },
         destroyed() {
             clearInterval(this.intervalid1);
-        },
-        computed: {
-            accounts() {
-                var expaccounts = this.$store.state.allAccounts;
-                return expaccounts;
-            },
         },
         methods: {
             startAllowanceInterval() {
                 this.allowanceAmount = 0;
                 var contract;
                 // console.log(contract , this.tokenData.betaAddress, this.fromAddress.value, this.expexAddress)
-                console.log(this.btnActive==='sell', this.btnActive, "****")
+                // console.log(this.btnActive==='sell', this.btnActive, "****")
                 this.intervalid1 = setInterval(() => {
                     if(this.btnActive==='sell') {
                         contract = new web3.eth.Contract(tokenInterface, this.tokenData.betaAddress);
@@ -425,33 +414,25 @@
             show () {
                 if(this.fromAddress) {
                     if(this.btnActive==='sell') {
-                        if(this.quantity !== 0 && this.quantity > 0 && this.quantity !== '') {
-                            this.modalArray = {
-                                type: "allowance",
-                                fromAddress: this.fromAddress.value,
-                                currency: this.tokenData.betaSymbol,
-                                toAddress: this.tokenData.betaAddress,
-                                amount: this.quantity,
-                            };
-                            this.$modal.show('allowancePopup');
-                        } else {
-                            this.approveError = '';
-                            this.quantityError = "Quantity is required";
-                        }
+                        this.modalArray = {
+                            type: "allowance",
+                            fromAddress: this.fromAddress.value,
+                            currency: this.tokenData.betaSymbol,
+                            toAddress: this.tokenData.betaAddress,
+                            amount: this.allowanceAmount,
+                            decimal: this.tokenData.betaDecimal,
+                        };
+                        this.$modal.show('allowancePopup');
                     } else {
-                        if(this.totalAmount !== 0 && this.totalAmount > 0 && this.totalAmount !== '') {
-                            this.modalArray = {
-                                type: "allowance",
-                                fromAddress: this.fromAddress.value,
-                                currency: this.tokenData.alphaSymbol,
-                                toAddress: this.tokenData.alphaAddress,
-                                amount: this.totalAmount,
-                            };
-                            this.$modal.show('allowancePopup');
-                        } else {
-                            this.approveError = '';
-                            this.totalError = "Total Amount is required"
-                        }
+                        this.modalArray = {
+                            type: "allowance",
+                            fromAddress: this.fromAddress.value,
+                            currency: this.tokenData.alphaSymbol,
+                            toAddress: this.tokenData.alphaAddress,
+                            amount: this.allowanceAmount,
+                            decimal: this.tokenData.alphaDecimal,
+                        };
+                        this.$modal.show('allowancePopup');
                     }
                 } else {
                     this.$modal.show('insufficentBal');

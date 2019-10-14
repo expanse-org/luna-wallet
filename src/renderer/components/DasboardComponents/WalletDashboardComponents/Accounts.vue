@@ -99,7 +99,7 @@
     import insuficentBalance from '../insuficentBalance';
     import QrcodeVue from 'qrcode.vue';
     import {web3} from '../../../../main/libs/config';
-    import { clipboard, dialog } from 'electron';
+    import { clipboard } from 'electron';
     import os from 'os';
     import  * as child_process from 'child_process';
     // var web3 = startConnectWeb();

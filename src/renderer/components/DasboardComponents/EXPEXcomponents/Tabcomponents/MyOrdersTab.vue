@@ -8,17 +8,17 @@
                 </div>
                 <div class="myorder-select">
                     <multiselect  v-model="selected" placeholder="Select Buy/Sell" :searchable="false" :allow-empty="false"
-                                  :show-labels="false" :options="['All','Buy','Sell']" class="filter-select">
+                                  :show-labels="false" :options="['ALL','BUY','SELL']" class="filter-select">
                     </multiselect>
                 </div>
                 <div class="myorder-input1">
-                   From: <input type="date" class="find-market"/>
+                    <span class="mtop-10">From:</span> <datetime type="date" v-model="fromDate" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input1">
-                   To: <input type="date" class="find-market"/>
+                    <span class="mtop-10">To:</span> <datetime type="date" v-model="todate" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input">
-                    <input placeholder="Find..." type="text" class="find-market"/>
+                    <input placeholder="Find..." v-model="hashSearch" type="text" class="find-market"/>
                 </div>
             </div>
         </div>
@@ -28,7 +28,6 @@
                 <label>DATE CREATED</label>
                 <label>ORDER TYPE</label>
                 <label>PRICE</label>
-                <label>AMOUNT</label>
                 <label>TOTAL</label>
                 <label>FULFILLED(%)</label>
                 <label>TX HASH</label>
@@ -36,54 +35,30 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="openorderTable.length > 0 && selected === 'All'"  class="table-row" v-for="data in openorderTable">
+                <div v-if="openorderTable.length > 0"  class="table-row" v-for="(data, index) in openorderTable">
                     <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
                     <p>{{data.createdAt}}</p>
                     <p v-if="data.marketType === 'BUY'" class="Green">{{data.marketType}}</p>
                     <p v-else class="Red">{{data.marketType}}</p>
-                    <p>0</p>
-                    <p>0%</p>
-                    <p>0</p>
-                    <p>0</p>
+                    <p>{{parseFloat(data.price).toFixed(6)}}</p>
+                    <p v-if="data.marketType === 'BUY'">{{(data.amountBuy/Math.pow(10, data.decimalBuy))}}</p>
+                    <p v-else >{{data.amountSell/Math.pow(10, data.decimalSell)}}</p>
+                    <p>{{data.orderFilled}}%</p>
                     <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
                         {{data.orderHash}}
                         <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
                     </p>
-                    <p>Cancel</p>
-                </div>
-                <div v-if="openorderTable.length > 0 && data.marketType === 'BUY' && selected === 'Buy'"  class="table-row" v-for="data in openorderTable">
-                    <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
-                    <p>{{data.createdAt}}</p>
-                    <p class="Green">{{data.marketType}}</p>
-                    <p>0</p>
-                    <p>0%</p>
-                    <p>0</p>
-                    <p>0</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
-                        {{data.orderHash}}
-                        <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
-                    </p>
-                    <p>Cancel</p>
-                </div>
-                <div v-if="openorderTable.length > 0 && data.marketType === 'SELL' && selected === 'Sell'"  class="table-row" v-for="data in openorderTable">
-                    <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
-                    <p>{{data.createdAt}}</p>
-                    <p class="Red">{{data.marketType}}</p>
-                    <p>0</p>
-                    <p>0%</p>
-                    <p>0</p>
-                    <p>0</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
-                        {{data.orderHash}}
-                        <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
-                    </p>
+                    <div @click="handletooltip(data.orderHash, index)" class="tooltip3 copytext">
+                        <img src="../../../../assets/img/copy.svg"  />
+                        <span v-if="copiedtip === index" class="tooltiptext2">Copied</span>
+                    </div>
                     <p>Cancel</p>
                 </div>
                 <div v-if="openorderTable.length === 0" class="table-no-row">
                     <p class="row-10">No Open Orders Found</p>
                 </div>
             </div>
-            <div>
+            <div v-if="openorderTable.length > 10">
                 <paginate
                         :pageCount=totalcount
                         :clickHandler="clickCallback"
@@ -104,166 +79,56 @@
                     <h1>Order History</h1>
                 </div>
                 <div class="myorder-select">
-                    <multiselect  v-model="selected" placeholder="Select Buy/Sell" :searchable="false" :allow-empty="false"
-                                  :show-labels="false" :options="['All','Buy','Sell']" class="filter-select">
+                    <multiselect  v-model="selected1" placeholder="Select Buy/Sell" :searchable="false" :allow-empty="false"
+                                  :show-labels="false" :options="['ALL','BUY','SELL']" class="filter-select">
                     </multiselect>
                 </div>
                 <div class="myorder-input1">
-                    From: <input type="date" class="find-market"/>
+                    <span class="mtop-10">From:</span> <datetime type="date" v-model="fromDate1" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input1">
-                    To: <input type="date" class="find-market"/>
+                    <span class="mtop-10">To:</span> <datetime type="date" v-model="todate1" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input">
-                    <input placeholder="Find..." type="text" class="find-market"/>
+                    <input placeholder="Find by Tx hash" v-model="hashSearch1" type="text" class="find-market"/>
                 </div>
             </div>
         </div>
         <div class="myorder-table myorder-table1">
             <div class="table-head">
-                <label>MARKET</label>
-                <label>OPENED DATE</label>
-                <label>TYPE</label>
+                <label>MARKET PAIR</label>
+                <label>DATE CREATED</label>
+                <label>ORDER TYPE</label>
                 <label>PRICE</label>
-                <label>FILLED</label>
-                <label>AMOUNT</label>
                 <label>TOTAL</label>
+                <label>FULFILLED(%)</label>
                 <label>TX HASH</label>
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
+                <div v-if="orderHistory.length > 0"  class="table-row" v-for="(order, index) in orderHistory">
+                    <p>{{(order.betaSymbol)}}-{{(order.alphaSymbol)}}</p>
+                    <p>{{order.createdAt}}</p>
+                    <p v-if="order.marketType === 'BUY'" class="Green">{{order.marketType}}</p>
+                    <p v-else class="Red">{{order.marketType}}</p>
+                    <p>{{parseFloat(order.price).toFixed(6)}}</p>
+                    <p v-if="order.marketType === 'BUY'">{{order.amountBuy/Math.pow(10, order.decimalBuy)}}</p>
+                    <p v-else >{{order.amountSell/Math.pow(10, order.decimalSell)}}</p>
+                    <p>{{order.orderFilled}}%</p>
+                    <p @click="openGanderUrl('https://gander.tech/tx/{{order.orderHash}}')" class="fix-text tooltip">
+                        {{order.orderHash}}
+                        <span class="tooltiptext parrentFont">{{order.orderHash}}</span>
                     </p>
+                    <div @click="handletooltip1(order.orderHash, index)" class="tooltip3 copytext">
+                        <img src="../../../../assets/img/copy.svg"  />
+                        <span v-if="copiedtip1 === index" class="tooltiptext2">Copied</span>
+                    </div>
                 </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Red">SELL</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>12/08/19 12:34:00</p>
-                    <p class="Green">BUY</p>
-                    <p>0.00089</p>
-                    <p>0.09%</p>
-                    <p>2,390</p>
-                    <p>2,390</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa')" class="fix-text tooltip">
-                        0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa
-                        <span class="tooltiptext parrentFont">0x32747c4df589f04d0bad4d0ce99d29a5e63e3076528669f2a23129d04989caaa</span>
-                    </p>
+                <div v-if="orderHistory.length === 0" class="table-no-row">
+                    <p class="row-10">No Orders History Found</p>
                 </div>
             </div>
-            <div>
+            <div v-if="orderHistory.length > 10">
                 <paginate
                         :pageCount=totalcount
                         :clickHandler="clickCallback"
@@ -286,34 +151,154 @@
     import Multiselect from 'vue-multiselect'
     import {db} from '../../../../../../lowdbFunc';
     import {sqldb} from '../../../../../common/cronjobs';
+    import { clipboard } from 'electron';
+    import { Datetime } from 'vue-datetime';
+
     export default {
         name: 'MyOrders',
         components : {
             'paginate': Paginate,
             'multiselect': Multiselect,
+            'datetime': Datetime
         },
+        props: ['fromAddress'],
         data() {
             return {
                 initialPage: 1,
                 forcePage: 1,
                 totalcount: 100,
-                selected: 'All',
+                selected: 'ALL',
+                selected1: 'ALL',
                 openorderTable: [],
+                orderHistory: [],
+                todate: '12/01/2019',
+                fromDate: '',
+                todate1: '',
+                fromDate1: '',
+                copiedtip: -1,
+                copiedtip1: -1,
+                hashSearch: '',
+                hashSearch1: '',
             };
+        },
+        watch: {
+            fromDate(data) {
+                this.openorderTable = [];
+                if(data) {
+                    sqldb.each("SELECT * FROM Orders where orderHash = '"+data+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM marketPair", (err, row) => {
+                        // console.log(row, "rowsss");
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                }
+            },
+            hashSearch(data) {
+                this.openorderTable = [];
+                if(data) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and orderHash = '"+data+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                }
+            },
+            hashSearch1(data) {
+                this.orderHistory = [];
+                if(data) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and orderHash = '"+data+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.orderHistory.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100", (err, row) => {
+                        if(row) {
+                            this.orderHistory.push(row);
+                        }
+                    });
+                }
+            },
+            selected(data) {
+                this.openorderTable = [];
+                if(data === 'BUY' || data === 'SELL' ) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 and marketType = '"+data+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                }
+            },
+            selected1(data) {
+                this.orderHistory = [];
+                if(data === 'BUY' || data === 'SELL' ) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and marketType = '"+data+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.orderHistory.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100", (err, row) => {
+                        if(row) {
+                            this.orderHistory.push(row);
+                        }
+                    });
+                }
+            },
+            fromAddress: function (value) {
+                this.openorderTable=[];
+                this.orderHistory=[];
+                sqldb.each("SELECT * FROM Orders where maker = '"+value.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                    if(row) {
+                        this.openorderTable.push(row);
+                    }
+                });
+                sqldb.each("SELECT * FROM Orders where maker = '"+value.value+"' COLLATE NOCASE and orderFilled  = 100", (err, row) => {
+                    if(row) {
+                        this.orderHistory.push(row);
+                    }
+                });
+            }
+
         },
         computed: {
             AddTokenData() {
                 let tokensdata = db.get('tokens').value();
                 return tokensdata;
             },
+
         },
         created(){
             this.openorderTable=[];
-            sqldb.each("SELECT * FROM Orders", (err, row) => {
-                console.log(row, "rowss")
-                this.openorderTable.push(row);
+            this.orderHistory=[];
+            sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                if(row) {
+                    this.openorderTable.push(row);
+                }
             });
-
+            sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  = 100", (err, row) => {
+                if(row) {
+                    this.orderHistory.push(row);
+                }
+            });
         },
         methods: {
             clickCallback (pageNum) {
@@ -329,6 +314,28 @@
                 if(os.type() == 'Darwin') {
                     child_process.execSync('open '+url)
                 }
+            },
+            handletooltip(text, index){
+                var copyText = text;
+                if (copyText) {
+                    clipboard.writeText(copyText, 'selected');
+                }
+                this.copiedtip = index;
+                setTimeout(() => {
+                    this.copiedtip = -1;
+                },2000);
+
+            },
+            handletooltip1(text, index){
+                var copyText = text;
+                if (copyText) {
+                    clipboard.writeText(copyText, 'selected');
+                }
+                this.copiedtip1 = index;
+                setTimeout(() => {
+                    this.copiedtip1 = -1;
+                },2000);
+
             },
         }
     }

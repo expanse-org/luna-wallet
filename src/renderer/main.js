@@ -10,7 +10,11 @@ import VueMoment from 'vue-moment';
 import VueNumerals from 'vue-numerals';
 import numeral from 'numeral';
 import VueNotification from "@kugatsu/vuenotification";
+import Datetime from 'vue-datetime'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
 
+Vue.use(Datetime)
 import * as Raven from 'raven-js';
 Vue.use(VueNotification, {
     timer: 20,
