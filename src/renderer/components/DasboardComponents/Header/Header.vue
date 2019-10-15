@@ -158,6 +158,11 @@
                 currencyOptions: []
             };
         },
+        watch: {
+            selectCurrency(value) {
+                this.handleCurrency(value);
+            }
+        },
         computed: {
             currentblockData: function(){
                 // console.log(this.$store.state.gexpSync,"this.$/ store.state.peerCount");
@@ -189,10 +194,14 @@
                 got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
                     json: true
                 }).then(response => {
-                    // console.log(response, "got")
-                    curNew = response.body.DISPLAY.EXP;
-                    this.currency = response.body.DISPLAY.EXP;
-                    $(".currValue").text(curNew['USD'].PRICE);
+                    if(response) {
+                        curNew = response && response.body && response.body.DISPLAY && response.body.DISPLAY.EXP;
+                        this.currency = response && response.body && response.body.DISPLAY && response.body.DISPLAY.EXP;
+                        $(".currValue").text(curNew['USD'].PRICE);
+                        if(!this.$store.state.currencies) {
+                            this.$store.dispatch('addCurrencies',this.currency);
+                        }
+                    }
                 },(error) => {
                 });
                 this.currencyOptions = [];

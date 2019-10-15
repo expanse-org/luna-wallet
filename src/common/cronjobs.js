@@ -29,7 +29,7 @@ if(os.type() == 'Darwin') {
     shell.cd(appPath);
 }
 
-console.log(store);
+// console.log(store);
 
 
 var sqlite3 = require('sqlite3').verbose();
@@ -160,7 +160,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                     //select  *  from marketpair where (alpha = tokenBuy and beta = tokenSell) or (alpha = tokenSell and beta = tokenBuy)
                     //Only process first row
 
-                    const orderdata = await getmarketpairorder(tokenBuy, tokenSell, price, decimalBuy, decimalSell);
+                    const orderdata = await getmarketpairorder(tokenBuy, tokenSell, amountSell, amountBuy, price, decimalBuy, decimalSell);
                     // console.log(orderdata, "orderdata");
                     if(orderdata.marketType && orderdata.marketType !== -1) {
                         try {
@@ -222,7 +222,7 @@ const getRecentBlockorder = async () =>  {
 
 }
 
-const getmarketpairorder = async (tokenBuy, tokenSell, price, decimalSell, decimalBuy) =>  {
+const getmarketpairorder = async (tokenBuy, tokenSell, amountSell, amountBuy, price, decimalSell, decimalBuy) =>  {
     return new Promise(async function (resolve, reject) {
         let marketType = -1;
         var alphaAddress = '';
@@ -230,11 +230,11 @@ const getmarketpairorder = async (tokenBuy, tokenSell, price, decimalSell, decim
         await sqldb.get("select * from marketPair where (alphaAddress = '"+tokenBuy+"' and betaAddress = '"+tokenSell+"') or (alphaAddress = '"+tokenSell+"' and betaAddress = '"+tokenBuy+"') order by blockNo desc limit 1", function(err, row) {
              if(row) {
                  if(row.alphaAddress == tokenBuy) {
-                     price = (tokenSell/Math.pow(10, decimalSell)) / (tokenBuy/Math.pow(10, decimalBuy));
+                     price = (amountBuy/Math.pow(10, decimalSell)) / (amountSell/Math.pow(10, decimalBuy));
                      marketType = marketENUM.SELL // SELL
 
                  }else {
-                     price = (tokenBuy/Math.pow(10, decimalBuy)) / (tokenSell/Math.pow(10, decimalSell));
+                     price = (amountSell/Math.pow(10, decimalBuy)) / (amountBuy/Math.pow(10, decimalSell));
                      marketType = marketENUM.BUY // BUY
                  }
                  let data = {

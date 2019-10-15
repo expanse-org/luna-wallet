@@ -25,38 +25,13 @@
     }
     ul  {
       li:hover {
-        .tooltiptext {
-          display: block;
+        .btn {
+          .tooltiptext {
+            display: block;
+          }
         }
       }
-      .tooltip {
-        .tooltiptext {
-          background-color: #333333;
-          //display: none;
-          position: absolute;
-          padding: 4px;
-          border: 1px solid #757575;
-          color: #85A200;
-        }
-        .tooltiptext::after {
-          content: "";
-          position: absolute;
-          width: 0;
-          height: 0;
-          border-left: 10px solid transparent;
-          border-right: 10px solid transparent;
-          top: -10px;
-          border-bottom: 10px solid #757575;
-          left: 50%;
-          bottom: 0;
-        }
-        .parrentFont {
-          z-index: 222;
-          top: 40px;
-          right: 0%;
-          font-size: inherit;
-        }
-      }
+
       li {
         border-bottom: 0px;
         margin-top: 3px;
@@ -65,6 +40,38 @@
           height: 1px;
           width: 100%;
           margin: 0px auto;
+        }
+
+        .tooltip {
+          position: relative;
+          .tooltiptext {
+            background-color: #333333;
+            display: none;
+            position: absolute;
+            padding: 4px;
+            border: 1px solid #757575;
+            color: #ffffff;
+          }
+          .tooltiptext::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            top: -8px;
+            border-bottom: 8px solid #757575;
+            left: 39%;
+            bottom: 0;
+          }
+          .parrentFont {
+            z-index: 222;
+            top: 40px;
+            width: 80px;
+            right: -8%;
+            text-align: center;
+            font-size: inherit;
+          }
         }
         .btn {
           line-height: 9px;
