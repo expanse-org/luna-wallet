@@ -1528,11 +1528,14 @@
                         margin: 3px;
                         font-size: 15px;
                       }
+                      .icon-plus-circled:before {
+                        content: '\e817';
+                      }
                     }
                     .approveError {
                       padding: 3px 10px;
-                      margin-left: 81px;
-                      margin-top: -24px;
+                      margin-left: 70px;
+                      margin-top: -26px;
                       top: unset;
                       right: unset;
                     }

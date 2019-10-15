@@ -249,8 +249,8 @@ const getmarketpairorder = async (tokenBuy, tokenSell, price, decimalSell, decim
                      price: price,
                      marketType: marketType,
                      orderFilled : 0,
-                     alphaSymbol : row.alphaSymbol,
-                     betaSymbol : row.betaSymbol
+                     alphaSymbol : '',
+                     betaSymbol : ''
                  }
                  resolve(data);
              }
