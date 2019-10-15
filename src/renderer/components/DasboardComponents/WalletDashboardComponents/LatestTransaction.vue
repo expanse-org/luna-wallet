@@ -10,16 +10,6 @@
                     </svg>
                     <span>View Tokens</span>
                 </button>
-                <button class="button view-contract-btn" @click="openTokens('contracts')" data-modal="modal-3">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="34px"
-                        height="39px" viewBox="0 0 45 52" v-bind:style="{enableBackground:'new 0 0 45 52'}" xml:space="preserve">
-                        <path id="Rounded_Rectangle_1_copy_1_" class="icon" d="M44,52H12c-0.6,0-1-0.4-1-1V41H1c-0.6,0-1-0.4-1-1V1c0-0.6,0.4-1,1-1h32
-                        c0.6,0,1,0.4,1,1v10h10c0.6,0,1,0.4,1,1v39C45,51.6,44.6,52,44,52z M32,2H2v37h9v-3h2v3h19V13h-3v-2h3V2z M43,13h-9v27
-                        c0,0.6-0.4,1-1,1H13v9h30V13z M22,11h5v2h-5V11z M16,11h4v2h-4V11z M13,14h-2v-3h3v2h-1V14z M13,20h-2v-3h2V20z M13,27h-2v-4h2V27z
-                        M13,33h-2v-4h2V33z"></path>
-                    </svg>
-                    <span>View Contracts</span>
-                </button>
             </div>
         </div>
         <div class="bottom accounts-list">

@@ -80,10 +80,10 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="sellTable.length > 0" v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell), data.price,data.amountSell/Math.pow(10, data.decimalSell))" class="table-row">
+                            <div v-if="sellTable.length > 0" v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell), data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
                                 <p>{{parseFloat(data.price).toFixed(5)}}</p>
                                 <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
-                                <p class="Green">{{data.amountSell/Math.pow(10, data.decimalSell)}}</p>
+                                <p class="Green">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
                                 <p class="row-10">No SELL Orders Found</p>
@@ -138,7 +138,7 @@
                         <div class="details-div">
                             <p v-if="approveError" class="error-message approveError ">{{approveError}}</p>
                             <i class="icon-plus-circled"></i>
-                            <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <span class="roundadd">+</span></p>
+                            <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <i class="fa fa-plus-circle"></i></p>
                             <div class="lowertxt">
                                 <p>{{allowanceAmount}}</p>
                                 <p v-if="btnActive==='sell'">{{tokenData.betaSymbol}}</p>
@@ -151,20 +151,21 @@
                             <button :disabled="btndisable" @click="handlebuy" type="submit" class="ok button button--shikoba">
                                 <img v-if="loading" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
                                 <img v-if="!loading"  class="button__icon" src="../../../../assets/img/send.svg">
-                                <span>BUY {{tokenData.alphaSymbol}}</span>
+                                <span>BUY {{tokenData.betaSymbol}}</span>
                             </button>
                         </div>
                         <div v-if="btnActive==='sell'" class="sell-btn">
                             <button :disabled="btndisable1" @click="handlesell" type="submit" class="ok button button--shikoba">
                                 <img v-if="loading1" class="outer-wheel button__icon" src="../../../../assets/img/innerCricle.svg"/>
                                 <img v-if="!loading1"  class="button__icon" src="../../../../assets/img/send.svg">
-                                <span>SELL {{tokenData.alphaSymbol}}</span>
+                                <span>SELL {{tokenData.betaSymbol}}</span>
                             </button>
                         </div>
                         <div class="bal-text">
                             <p>AVAILABLE BALANCE</p>
                             <p>{{expAmount}} EXP</p>
-                            <p>{{parseFloat(wexpAmount).toFixed(8)}} {{this.tokenData.betaSymbol}}</p>
+                            <p>{{parseFloat(wexpAmount).toFixed(8)}} WEXP</p>
+                            <p>{{parseFloat(tokenAmount).toFixed(8)}} {{this.tokenData.betaSymbol}}</p>
                         </div>
                         <div class="balance-partition1"></div>
                         <p @click="handleMaxBuy" class="buybluetxt">MAX BUY</p>
@@ -173,14 +174,14 @@
                 <div class="left-side">
                     <div class="left-side-table">
                         <div class="table-head">
-                            <label>TOTAL (EXP)</label>
-                            <label>AMOUNT (WEXP)</label>
-                            <label>PRICE (EXP)</label>
+                            <label>TOTAL ({{tokenData.alphaSymbol}})</label>
+                            <label>AMOUNT ({{tokenData.betaSymbol}})</label>
+                            <label>PRICE ({{tokenData.alphaSymbol}})</label>
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="buyTable.length > 0"  v-for="data in buyTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell),data.price,data.amountBuy/Math.pow(10, data.decimalBuy))" class="table-row">
-                                <p class="Red">{{data.amountBuy/Math.pow(10, data.decimalBuy)}}</p>
+                            <div v-if="buyTable.length > 0"  v-for="data in buyTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy),data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
+                                <p class="Red">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
                                 <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
                                 <p>{{parseFloat(data.price).toFixed(5)}}</p>
                             </div>
@@ -284,22 +285,19 @@
             },
             fromAddress: function (value) {
                 this.expAmount = value.text.split('(')[1].split(' ')[0];
-                this.wexpAmount = 0;
-                if(this.tokenData.betaSymbol === 'WEXP') {
-                    this.wexpAmount = value.text.split('(')[2].split(' ')[0];
-                } else {
-                    this.accounts.map((val) => {
-                        if(val.hash === value.value) {
-                            if(val.tokens){
-                                val.token_icons.map((token) => {
-                                    if(token.token_symbol === this.tokenData.betaSymbol) {
-                                        this.wexpAmount = token.balance;
-                                    }
-                                })
-                            }
+                this.tokenAmount = 0;
+                this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+                this.accounts.map((val) => {
+                    if(val.hash === this.fromAddress.value) {
+                        if(val.tokens){
+                            val.token_icons.map((token) => {
+                                if(token.token_symbol === this.tokenData.betaSymbol) {
+                                    this.tokenAmount = token.balance;
+                                }
+                            })
                         }
-                    });
-                }
+                    }
+                });
                 this.buyTable = [];
                 sqldb.each("SELECT * FROM Orders  where marketType = 'BUY' and maker != '"+value.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
                     // console.log(row, "rowsss");
@@ -331,6 +329,7 @@
                 tokenData: {},
                 expAmount: 0,
                 wexpAmount: 0,
+                tokenAmount: 0,
                 quantityError: '',
                 totalError: '',
                 approveError: '',
@@ -358,22 +357,19 @@
             if(this.fromAddress) {
                 // console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
-                this.wexpAmount = 0;
-                if(this.tokenData.betaSymbol === 'WEXP') {
-                    this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
-                } else {
-                    this.accounts.map((val) => {
-                        if(val.hash === this.fromAddress.value) {
-                            if(val.tokens){
-                                val.token_icons.map((token) => {
-                                    if(token.token_symbol === this.tokenData.betaSymbol) {
-                                        this.wexpAmount = token.balance;
-                                    }
-                                })
-                            }
+                this.tokenAmount = 0;
+                this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
+                this.accounts.map((val) => {
+                    if(val.hash === this.fromAddress.value) {
+                        if(val.tokens){
+                            val.token_icons.map((token) => {
+                                if(token.token_symbol === this.tokenData.betaSymbol) {
+                                    this.tokenAmount = token.balance;
+                                }
+                            })
                         }
-                    });
-                }
+                    }
+                });
                 this.startAllowanceInterval();
             } else {
                 this.$modal.show('insufficentBal');
@@ -420,7 +416,6 @@
                             fromAddress: this.fromAddress.value,
                             currency: this.tokenData.betaSymbol,
                             toAddress: this.tokenData.betaAddress,
-                            amount: this.allowanceAmount,
                             decimal: this.tokenData.betaDecimal,
                         };
                         this.$modal.show('allowancePopup');
@@ -430,7 +425,6 @@
                             fromAddress: this.fromAddress.value,
                             currency: this.tokenData.alphaSymbol,
                             toAddress: this.tokenData.alphaAddress,
-                            amount: this.allowanceAmount,
                             decimal: this.tokenData.alphaDecimal,
                         };
                         this.$modal.show('allowancePopup');
@@ -527,6 +521,9 @@
 
                         }
                         clearInterval(this.intervalid1);
+                    }
+                    else {
+                        this.approveError = "Approve Allowance";
                     }
                 }
                 else {

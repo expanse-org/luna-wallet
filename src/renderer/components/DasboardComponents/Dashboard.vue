@@ -57,6 +57,9 @@ export default {
                     this.tabClass = 'red';
                     console.log(this.tabClass, "--------------");
                     break;
+                case '/contracts':
+                    this.tabClass = 'red';
+                    break;
                 case '/market':
                     this.tabClass = 'green';
                     break;

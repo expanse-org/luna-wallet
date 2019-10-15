@@ -1,5 +1,6 @@
 import os from "os";
 const Web3 = require("web3");
+import { ipcRenderer } from 'electron'
 const cron = require('node-cron');
 import {
     expexABI,

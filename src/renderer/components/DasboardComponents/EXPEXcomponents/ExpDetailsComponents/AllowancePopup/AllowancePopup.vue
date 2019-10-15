@@ -107,25 +107,14 @@
         components:{
         },
         watch: {
-
+            amount() {
+            }
         },
         created(){
+            this.amountCurrency = this.modalArray.currency;
             if(this.modalArray && this.modalArray.type === 'allowance') {
-                var contract;
-                this.intervalid1 = setInterval(() => {
-                    if(this.btnActive==='sell') {
-                        contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-                        contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-                            this.amount = res/Math.pow(10, this.modalArray.decimal);
-                        });
-                    } else {
-                        contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);
-                        contract.methods.allowance(this.modalArray.fromAddress, this.expexAddress).call().then((res) => {
-                            this.amount = res/Math.pow(10, this.modalArray.decimal);
-                        });
-                    }
-                }, 3000);
                 this.amountdisable = false;
+                console.log(this.modalArray, "modalArray");
             }
             if(this.$router.history.current.path === '/expexdetails') {
                 if(this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
@@ -196,6 +185,9 @@
                                             $('form').trigger('reset');
                                             clipboard.writeText(orderPlace.transactionHash, 'selected');
                                             $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                            setTimeout(() => {
+                                                this.hide();
+                                            }, 5000);
                                         }
                                     } catch (e) {
                                         console.log(e)
@@ -227,9 +219,12 @@
                                                 this.loading = false;
                                                 this.btndisable = false;
                                                 $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
-                                                $('form').trigger('reset');
                                                 clipboard.writeText(orderPlace.transactionHash, 'selected');
+                                                $('form').trigger('reset');
                                                 $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                setTimeout(() => {
+                                                    this.hide();
+                                                }, 5000);
                                             }
                                         } catch (e) {
                                             console.log(e)
@@ -263,9 +258,12 @@
                                                             this.loading = false;
                                                             this.btndisable = false;
                                                             $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + res.transactionHash + " Copied to clipboard");
-                                                            $('form').trigger('reset');
                                                             clipboard.writeText(res.transactionHash, 'selected');
+                                                            $('form').trigger('reset');
                                                             $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                            setTimeout(() => {
+                                                                this.hide();
+                                                            }, 5000);
                                                         }
                                                     }).catch((error) => {
                                                         clearInterval(this.intervalid1);
@@ -335,13 +333,11 @@
                                                     this.loading = false;
                                                     this.btndisable = false;
                                                     $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + txHash + " Copied to clipboard");
-                                                    $('form').trigger('reset');
                                                     clipboard.writeText(txHash, 'selected');
+                                                    $('form').trigger('reset');
                                                     $('.trx_alert-sucess').show(300).delay(5000).hide(330);
                                                     setTimeout(() => {
-                                                        this.$router.push({
-                                                            path: '/marketconverter'
-                                                        });
+                                                        this.hide();
                                                     }, 5000);
                                                 });
                                             } else {
@@ -398,9 +394,13 @@
                                                         console.log("res", res);
                                                         this.loading = false;
                                                         this.btndisable = false;
-                                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res.transactionHash));
+                                                        $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + JSON.stringify(res.transactionHash)+ " Copied to clipboard");
                                                         $('.trx_alert-sucess p').css({color: '#ffffff'});
                                                         $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                        clipboard.writeText(JSON.stringify(res.transactionHash), 'selected');
+                                                        setTimeout(() => {
+                                                            this.hide();
+                                                        }, 5000);
                                                         db.get('transactions').push({
                                                             id: shortid.generate(),
                                                             from: this.modalArray.fromAddress,
@@ -408,11 +408,6 @@
                                                             nonce: this.nonce,
                                                             timeStamp: currentDate.getTime()
                                                         }).write();
-                                                        setTimeout(() => {
-                                                            this.$router.push({
-                                                                path: '/marketconverter'
-                                                            });
-                                                        }, 5000);
                                                     }
                                                 }, (err) => {
                                                     console.log(err);

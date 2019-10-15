@@ -12,10 +12,10 @@
                     </multiselect>
                 </div>
                 <div class="myorder-input1">
-                    <span class="mtop-10">From:</span> <datetime type="date" v-model="fromDate" class="find-market" input-id="startDate"></datetime>
+                    <span class="mtop-10">From:</span> <datetime type="date" placeholder="Start Date" v-model="fromDate" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input1">
-                    <span class="mtop-10">To:</span> <datetime type="date" v-model="todate" class="find-market" input-id="startDate"></datetime>
+                    <span class="mtop-10">To:</span> <datetime type="date" placeholder="End Date" v-model="todate" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input">
                     <input placeholder="Find..." v-model="hashSearch" type="text" class="find-market"/>
@@ -84,10 +84,10 @@
                     </multiselect>
                 </div>
                 <div class="myorder-input1">
-                    <span class="mtop-10">From:</span> <datetime type="date" v-model="fromDate1" class="find-market" input-id="startDate"></datetime>
+                    <span class="mtop-10">From:</span> <datetime type="date" placeholder="Start Date" v-model="fromDate1" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input1">
-                    <span class="mtop-10">To:</span> <datetime type="date" v-model="todate1" class="find-market" input-id="startDate"></datetime>
+                    <span class="mtop-10">To:</span> <datetime type="date" placeholder="End Date" v-model="todate1" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input">
                     <input placeholder="Find by Tx hash" v-model="hashSearch1" type="text" class="find-market"/>
@@ -183,15 +183,45 @@
         },
         watch: {
             fromDate(data) {
+                console.log(data.split('T'), "data")
                 this.openorderTable = [];
-                if(data) {
-                    sqldb.each("SELECT * FROM Orders where orderHash = '"+data+"' COLLATE NOCASE", (err, row) => {
+                if(data && this.todate) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and createdAt BETWEEN '"+data.split('T')[0]+"' AND '"+this.todate.split('T')[0]+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                } else if(data) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and createdAt = '"+ data.split('T')[0]+"' ", (err, row) => {
                         if(row) {
                             this.openorderTable.push(row);
                         }
                     });
                 } else {
-                    sqldb.each("SELECT * FROM marketPair", (err, row) => {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                        // console.log(row, "rowsss");
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                }
+            },
+            todate(data) {
+                this.openorderTable = [];
+                if(data && this.fromDate) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+data.split('T')[0]+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                } else if(data) {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and createdAt = '"+data.split('T')[0]+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.openorderTable.push(row);
+                        }
+                    });
+                } else {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row) {
                             this.openorderTable.push(row);
