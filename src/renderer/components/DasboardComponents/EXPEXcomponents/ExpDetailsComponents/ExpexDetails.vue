@@ -137,6 +137,7 @@
                         <div class="balance-partition"></div>
                         <div class="details-div">
                             <p v-if="approveError" class="error-message approveError ">{{approveError}}</p>
+                            <i class="icon-plus-circled"></i>
                             <p @click="show" class="uppertxt">ALLOWANCE AMOUNT <i class="fa fa-plus-circle"></i></p>
                             <div class="lowertxt">
                                 <p>{{allowanceAmount}}</p>
