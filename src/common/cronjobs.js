@@ -139,6 +139,49 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                 console.log(allOrders, "allOrders");
                 store.dispatch('addCronToast', {message: 'Open Orders Table Update', type: 'Success'});
 
+                if(allOrders)
+                {
+                    try
+                    {
+                        const allEvents = await dexContract.getPastEvents("Trade", {
+                            fromBlock : 1,
+                            toBlock: "latest"
+                        })
+                        console.log(allEvents)
+                        for(const tradeEvent of allEvents ) {
+                            const orderHash = tradeEvent.returnValues.orderHash
+                            const matchingOrderHash = tradeEvent.returnValues.matchinOrderHash
+                            const tokenBuy = tradeEvent.returnValues.tokenBuy
+                            const tokenSell = tradeEvent.returnValues.tokenSell
+                            const maker = tradeEvent.returnValues.maker
+                            const taker = tradeEvent.returnValues.taker
+                            const amountBuy = tradeEvent.returnValues.amountBuy
+                            const amountSell = tradeEvent.returnValues.amountSell
+                            const tokenId = tradeEvent.returnValues.tokenId;
+                            let price  = tradeEvent.returnValues.price;
+                            // if(tokenBuy == alpha) {
+                            //     // TODO price
+                            //
+                            // }else{
+                            //     // TODO price
+                            //
+                            // }
+                            // Insert into Trade table
+
+                            //We need to UPDATE ORDER on basis of order hash
+                            // First we need to fetch order detail
+                            // select order from order where order_hash  = ${orderHash}
+                            // Now we will add
+                            //order.amountFilledBuy += ${amountBuy} and same
+                            // order.amountFilledSell += ${amountSell}
+                            // Now we need to calculate percentage if order is Buy  then (order.amountFilledBuy)/order.amountBuy  * 100
+
+                            // and then check if order.amountFilledBuy == order.amountBuy then status = COMPLETE, otherwise OPEN
+                        }
+                    } catch(err) {
+                        console.log(err)
+                    }
+                }
                 for(const order of allOrders) {
                     const orderHash = order.returnValues["orderHash"]
                     const tokenBuy = order.returnValues["tokenBuy"]
@@ -225,8 +268,6 @@ const getRecentBlockorder = async () =>  {
 const getmarketpairorder = async (tokenBuy, tokenSell, amountSell, amountBuy, price, decimalSell, decimalBuy) =>  {
     return new Promise(async function (resolve, reject) {
         let marketType = -1;
-        var alphaAddress = '';
-        var betaAddress = '';
         await sqldb.get("select * from marketPair where (alphaAddress = '"+tokenBuy+"' and betaAddress = '"+tokenSell+"') or (alphaAddress = '"+tokenSell+"' and betaAddress = '"+tokenBuy+"') order by blockNo desc limit 1", function(err, row) {
              if(row) {
                  if(row.alphaAddress == tokenBuy) {

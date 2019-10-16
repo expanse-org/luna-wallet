@@ -202,6 +202,8 @@
         },
         watch: {
             fromDate() {
+                this.offset = 0;
+                this.forcePage = 1;
                 this.openorderTable = [];
                 if(this.todate && this.fromDate) {
                     this.fromDateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.todate.split('T')[0]+"' and";
@@ -219,6 +221,8 @@
                 }
             },
             todate() {
+                this.offset = 0;
+                this.forcePage = 1;
                 this.openorderTable = [];
                 if(this.todate && this.fromDate) {
                     this.todateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.todate.split('T')[0]+"' and";
@@ -236,6 +240,8 @@
                 }
             },
             hashSearch(data) {
+                this.offset = 0;
+                this.forcePage = 1;
                 this.openorderTable = [];
                 if(data) {
                     sqldb.each("SELECT * FROM Orders where orderHash = '"+data+"' COLLATE NOCASE and "+ this.mainQuery +" OFFSET "+ this.offset +"", (err, row) => {
@@ -248,8 +254,12 @@
                 }
             },
             selected(data) {
+                this.offset = 0;
+                this.forcePage = 1;
                 this.openorderTable = [];
                 if(data === 'BUY' || data === 'SELL' ) {
+                    console.log("SELECT * FROM Orders where marketType = '"+data+"' COLLATE NOCASE and "+ this.mainQuery +" OFFSET "+ this.offset);
+
                     sqldb.each("SELECT * FROM Orders where marketType = '"+data+"' COLLATE NOCASE and "+ this.mainQuery +" OFFSET "+ this.offset +"", (err, row) => {
                         if(row) {
                             this.openorderTable.push(row);
@@ -260,6 +270,8 @@
                 }
             },
             hashSearch1(data) {
+                this.offset = 0;
+                this.forcePage = 1;
                 this.orderHistory = [];
                 if(data) {
                     sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and orderHash = '"+data+"' COLLATE NOCASE ORDER BY 1 LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
@@ -272,6 +284,8 @@
                 }
             },
             selected1(data) {
+                this.offset = 0;
+                this.forcePage = 1;
                 this.orderHistory = [];
                 if(data === 'BUY' || data === 'SELL' ) {
                     sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and marketType = '"+data+"' COLLATE NOCASE ORDER BY 1 LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
@@ -286,6 +300,8 @@
             fromAddress: function (value) {
                 this.openorderTable=[];
                 this.orderHistory=[];
+                this.offset = 0;
+                this.forcePage = 1;
                 sqldb.each("SELECT * FROM  Orders where maker = '"+ value.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY 1 LIMIT "+ this.row_count +" OFFSET "+ this.offset +"", (err, row) => {
                     if(row) {
                         this.openorderTable.push(row);
@@ -299,13 +315,19 @@
             },
             openorderTable() {
                 if(this.hashSearch || this.todate || this.fromDate || this.selected !== 'ALL') {
-                    this.totalcount = Math.ceil( (this.openorderTable.length) /  5);
-                    console.log(this.totalcount, "totalcount");
+                    console.log("SELECT COUNT(*) FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" maker = "+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100");
+                    sqldb.each("SELECT COUNT(*) FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" maker = "+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 ", (err, row) => {
+                        console.log(this.totalcount, row, err);
+
+                        if(row) {
+                            this.totalcount = Math.ceil( (row['COUNT(*)'] + 1) /  5);
+                        }
+                    });
                 }
             },
             orderHistory() {
                 if(this.hashSearch1 || this.todate1 || this.fromDate1 || this.selected1 !== 'ALL') {
-                    this.totalcount1 = Math.ceil( (this.orderHistory.length) /  5);
+                    this.totalcount1 = Math.ceil( (this.orderHistory.length + 1) /  5);
                 }
             },
         },
@@ -397,7 +419,7 @@
                 if(this.selected1 !== "ALL" ) {
                     this.selectQuery1 = "marketType = '"+this.selected1+"' COLLATE NOCASE and";
                 }
-                pageNum = (pageNum -1) * this.row_count ;
+                pageNum = (pageNum -1) * this.row_count1 ;
                 // console.log("SELECT * FROM  Orders where "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ pageNum +"");
                 sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ pageNum +"", (err, row) => {
                     if(row) {
