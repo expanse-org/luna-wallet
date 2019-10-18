@@ -12,6 +12,10 @@ import store from '../renderer/store';
 import shell from "shelljs";
 const expexAddress = '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9';
 let today = new Date().toISOString().slice(0, 10)
+console.log( "eventEmitter", ipcRenderer);
+
+// ipcRenderer.send('open-second-window', 'an-argument')
+
 
 let appPath = "~/Library/Application Support/"+prod_app_directory;
 if(os.type() == 'Windows_NT') {

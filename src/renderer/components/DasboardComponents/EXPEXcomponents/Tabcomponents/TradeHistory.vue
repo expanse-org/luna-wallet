@@ -22,16 +22,14 @@
                 </div>
             </div>
         </div>
-        <div class="myorder-table">
+        <div class="myorder-table tradeTabel">
             <div class="table-head">
                 <label>MARKET</label>
                 <label>OPENED DATE</label>
                 <label>TYPE</label>
                 <label>PRICE</label>
-                <label>FILLED</label>
                 <label>TOTAL</label>
                 <label>TX HASH</label>
-                <label>ACTION</label>
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
@@ -43,11 +41,10 @@
                     <p>{{trade.createdAt}}</p>
                     <p v-if="trade.marketType === 'BUY'" class="Green">{{trade.marketType}}</p>
                     <p v-else class="Red">{{trade.marketType}}</p>
-                    <p>{{trade.price}}</p>
-                    <p>0%</p>
+                    <p>{{parseInt(trade.price).toFixed(4)}}</p>
                     <p v-if="trade.marketType === 'BUY'">{{parseFloat(trade.amountBuy).toFixed(5)}}</p>
                     <p v-else >{{parseFloat(trade.amountSell).toFixed(5)}}</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/{{trade.orderHash}}')" class="fix-text tooltip">
+                    <p @click="openGanderUrl('https://gander.tech/tx/'+trade.orderHash)" class="fix-text tooltip">
                         {{trade.orderHash}}
                         <span class="tooltiptext parrentFont">{{trade.orderHash}}</span>
                     </p>
@@ -55,7 +52,6 @@
                         <img src="../../../../assets/img/copy.svg"  />
                         <span v-if="copiedtip === index" class="tooltiptext2">Copied</span>
                     </div>
-                    <p>Cancel</p>
                 </div>
             </div>
             <div v-if="totalcount > 1">
@@ -93,7 +89,7 @@
             toDate: function (value) {
                 this.tradeTable = [];
                 if(value && this.fromDate) {
-                    sqldb.each("SELECT * FROM Trade where createdAt BETWEEN '"+ this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Trade where createdAt BETWEEN '"+ this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -101,7 +97,7 @@
                         }
                     });
                 } else if (value) {
-                    sqldb.each("SELECT * FROM Trade where createdAt = '"+value.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Trade where createdAt = '"+value.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -113,7 +109,7 @@
             fromDate: function (value) {
                 this.tradeTable = [];
                 if(value && this.toDate) {
-                    sqldb.each("SELECT * FROM Trade where createdAt BETWEEN '"+ this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Trade where createdAt BETWEEN '"+ this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -121,7 +117,7 @@
                         }
                     });
                 } else if (value) {
-                    sqldb.each("SELECT * FROM Trade where createdAt = '"+value.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Trade where createdAt = '"+value.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -136,7 +132,7 @@
                 {
                     this.gettrades();
                 } else if(value === 'BUY' || value === 'SELL') {
-                    sqldb.each("SELECT * FROM Trade where marketType = '"+value+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Trade where marketType = '"+value+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -148,7 +144,7 @@
             searchHash: function (value) {
                 this.tradeTable = [];
                 if (value) {
-                    sqldb.each("SELECT * FROM Trade where orderHash= '"+value+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Trade where orderHash= '"+value+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -162,7 +158,7 @@
             },
             fromAddress: function (value) {
                 this.tradeTable = [];
-                sqldb.each("SELECT * FROM Trade where (maker = '"+value.value+"' COLLATE NOCASE or taker = '"+value.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                sqldb.each("SELECT * FROM Trade where (maker = '"+value.value+"' COLLATE NOCASE or taker = '"+value.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                     // console.log(row, "rowsss");
                     if(row)
                     {
@@ -172,7 +168,7 @@
             },
             tradeTable() {
                 if(this.searchHash || this.toDate || this.fromDate || this.selected !== 'ALL') {
-                    sqldb.each("SELECT COUNT(*) FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    sqldb.each("SELECT COUNT(*) FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE)", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row) {
                             this.totalcount = Math.ceil( (row['COUNT(*)']) /  this.limit);
@@ -206,13 +202,13 @@
         methods: {
             gettrades(){
                 this.tradeTable=[];
-                sqldb.each("SELECT * FROM Trade where (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                sqldb.each("SELECT * FROM Trade where (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
                     if(row)
                     {
                         this.tradeTable.push(row);
                     }
                 });
-                sqldb.each("SELECT COUNT(*) FROM Trade where (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                sqldb.each("SELECT COUNT(*) FROM Trade where (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE)", (err, row) => {
                     if(row) {
                         this.totalcount = Math.ceil( (row['COUNT(*)']) /  this.limit);
                     }
@@ -241,7 +237,7 @@
                     this.selectQuery = "marketType = '"+this.selected+"' COLLATE NOCASE and";
                 }
                 pageNum = (pageNum -1) * this.row_count ;
-                sqldb.each("SELECT * FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by 1 LIMIT "+this.limit+" OFFSET "+ pageNum +"", (err, row) => {
+                sqldb.each("SELECT * FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ pageNum +"", (err, row) => {
                     // console.log(row, "rowsss");
                     if(row)
                     {

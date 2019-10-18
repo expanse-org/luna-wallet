@@ -80,10 +80,10 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell), data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
+                            <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy), data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
                                 <p>{{parseFloat(data.price).toFixed(5)}}</p>
-                                <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
-                                <p class="Green">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
+                                <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
+                                <p class="Green">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
                             </div>
                             <div v-if="buyTable.length === 0" class="table-no-row">
                                 <p class="row-10">No SELL Orders Found</p>
@@ -180,9 +180,9 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy),data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
-                                <p class="Red">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
-                                <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
+                            <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell),data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
+                                <p class="Red">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
+                                <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
                                 <p>{{parseFloat(data.price).toFixed(5)}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
@@ -588,7 +588,8 @@
                 });
             },
             async handlebuy() {
-                if(this.totalAmount > 0 || this.totalAmount) {
+                this.quantityError = "";
+                if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
                         try {
                             await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
@@ -616,39 +617,51 @@
                     }
                 }
                 else {
-                    this.totalError = "Total Amount is required"
+                    if(this.quantity === 0) {
+                        this.quantityError = "Quantity is required"
+                    }
+                    if(this.quantity && this.quantity < 0.01) {
+                        this.quantityError = "Quantity greater than 0.01"
+                    }
+                    if(this.totalAmount <= 0) {
+                        this.totalError = "Total Amount is required"
+                    }
                 }
             },
             async handlesell() {
-                if(this.totalAmount > 0 || this.totalAmount) {
-                    if (this.allowanceAmount !== 0 && this.allowanceAmount >= this.quantity) {
-                        try {
-                            await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
-                            console.log(this.matchOrderHashes, "orderhashes")
+                this.quantityError = ""
+                if (this.quantity >= 0.01) {
+                    if (this.totalAmount > 0 || this.totalAmount) {
+                        if (this.allowanceAmount !== 0 && this.allowanceAmount >= this.quantity) {
+                            try {
+                                await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
+                                console.log(this.matchOrderHashes, "orderhashes")
 
-                            this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
-                            let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.betaDecimal)).toString()]
-                            this.modalArray = {
-                                type: "sell",
-                                fromAddress: this.fromAddress.value,
-                                currency: this.tokenData.alphaSymbol,
-                                orderAddresses: this.orderAddresses,
-                                amountData: amountData,
-                                amount: this.totalAmount,
-                                matchOrderHashes: this.matchOrderHashes,
-                            };
-                            this.$modal.show('allowancePopup');
-                        } catch (err) {
+                                this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
+                                let amountData = [Math.floor(this.quantity * Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.totalAmount * Math.pow(10, this.tokenData.betaDecimal)).toString()]
+                                this.modalArray = {
+                                    type: "sell",
+                                    fromAddress: this.fromAddress.value,
+                                    currency: this.tokenData.alphaSymbol,
+                                    orderAddresses: this.orderAddresses,
+                                    amountData: amountData,
+                                    amount: this.totalAmount,
+                                    matchOrderHashes: this.matchOrderHashes,
+                                };
+                                this.$modal.show('allowancePopup');
+                            } catch (err) {
 
+                            }
+                            clearInterval(this.intervalid1);
+                        } else {
+                            this.approveError = "Approve Allowance";
                         }
-                        clearInterval(this.intervalid1);
-                    }
-                    else {
-                        this.approveError = "Approve Allowance";
+                    } else {
+                        this.totalError = "Total Amount is required"
                     }
                 }
                 else {
-                    this.totalError = "Total Amount is required"
+                    this.quantityError = "Quantity greater than 0.01"
                 }
             }
         }

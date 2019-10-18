@@ -7,7 +7,7 @@
                     <h1>{{popupHeading}}</h1>
                 </div>
                 <div class="allowance-content">
-                    <div class="all-form">
+                    <div v-if="modalArray.type === 'allowance'"  class="all-form">
                         <label>Amount</label>
                         <div class="all-input">
                             <p v-if="amountError" class="error-message allowanceamount ">{{amountError}}</p>
@@ -118,9 +118,9 @@
             }
             if(this.$router.history.current.path === '/expexdetails') {
                 if(this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
-                    this.popupHeading = 'Buy Approval';
+                    this.popupHeading = 'Buy Order';
                 } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "sell") {
-                    this.popupHeading = 'Sell Approval';
+                    this.popupHeading = 'Sell Order';
                 } else {
                     this.popupHeading = 'Allowance Approval';
                 }
