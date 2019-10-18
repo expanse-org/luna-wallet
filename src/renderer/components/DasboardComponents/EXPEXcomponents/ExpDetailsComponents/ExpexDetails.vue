@@ -80,23 +80,23 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="sellTable.length > 0" v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell), data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
+                            <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell), data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
                                 <p>{{parseFloat(data.price).toFixed(5)}}</p>
                                 <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
                                 <p class="Green">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
                             </div>
-                            <div v-if="sellTable.length === 0" class="table-no-row">
+                            <div v-if="buyTable.length === 0" class="table-no-row">
                                 <p class="row-10">No SELL Orders Found</p>
                             </div>
                         </div>
-                        <div v-if="sellTable.length > 10">
+                        <div v-if="totalcount1 > 1">
                             <paginate
-                                    :pageCount=totalcount
-                                    :clickHandler="clickCallback"
+                                    :pageCount=totalcount1
+                                    :clickHandler="clickCallback1"
                                     :prevText="'<<'"
                                     :nextText="'>>'"
-                                    :initial-page=initialPage
-                                    :force-page=forcePage
+                                    :initial-page=initialPage1
+                                    :force-page=forcePage1
                                     :active-class="'activeT'"
                                     :containerClass="'paginationT'">
                             </paginate>
@@ -180,23 +180,23 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="buyTable.length > 0"  v-for="data in buyTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy),data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
+                            <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy),data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
                                 <p class="Red">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
                                 <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
                                 <p>{{parseFloat(data.price).toFixed(5)}}</p>
                             </div>
-                            <div v-if="buyTable.length === 0" class="table-no-row">
+                            <div v-if="sellTable.length === 0" class="table-no-row">
                                 <p class="row-10">No BUY Orders Found</p>
                             </div>
                         </div>
-                        <div v-if="buyTable.length > 10">
+                        <div v-if="totalcount2 > 1">
                             <paginate
-                                    :pageCount=totalcount
-                                    :clickHandler="clickCallback"
+                                    :pageCount=totalcount2
+                                    :clickHandler="clickCallback2"
                                     :prevText="'<<'"
                                     :nextText="'>>'"
-                                    :initial-page=initialPage
-                                    :force-page=forcePage
+                                    :initial-page=initialPage2
+                                    :force-page=forcePage2
                                     :active-class="'activeT'"
                                     :containerClass="'paginationT'">
                             </paginate>
@@ -211,7 +211,6 @@
             <div class="expexDetails-table">
                 <div class="table-head">
                     <label>DATE</label>
-                    <label>TIME</label>
                     <label>ORDER TYPE</label>
                     <label>PRICE</label>
                     <label>AMOUNT</label>
@@ -219,31 +218,32 @@
                 </div>
                 <div class="table-partition"></div>
                 <div class="table-body">
-<!--                    <div class="table-row">-->
-<!--                        <p>12/08/19</p>-->
-<!--                        <p>12:34:00</p>-->
-<!--                        <p class="Green row-10">BUY</p>-->
-<!--                        <p>0.00089</p>-->
-<!--                        <p>0.0000467</p>-->
-<!--                        <p>0.000467</p>-->
-<!--                    </div>-->
-
-                    <div class="table-no-row">
+                    <div v-for="mdata in marketHistoryTable" v-if="marketHistoryTable.length > 0" class="table-row">
+                        <p>{{mdata.createdAt}}</p>
+                        <p v-if="mdata.marketType === 'BUY'" class="Green row-10">BUY</p>
+                        <p v-else class="Red row-10">SELL</p>
+                        <p>{{mdata.price}}</p>
+                        <p v-if="mdata.marketType === 'BUY'">{{mdata.amountBuy}}</p>
+                        <p v-else >{{mdata.amountSell}}</p>
+                        <p v-if="mdata.marketType === 'BUY'">{{mdata.amountSell}}</p>
+                        <p v-else >{{mdata.amountBuy}}</p>
+                    </div>
+                    <div v-if="marketHistoryTable.length === 0" class="table-no-row">
                         <p class="row-10">No Market History Found</p>
                     </div>
                 </div>
-<!--                <div>-->
-<!--                    <paginate-->
-<!--                            :pageCount=totalcount-->
-<!--                            :clickHandler="clickCallback"-->
-<!--                            :prevText="'<<'"-->
-<!--                            :nextText="'>>'"-->
-<!--                            :initial-page=initialPage-->
-<!--                            :force-page=forcePage-->
-<!--                            :active-class="'activeT'"-->
-<!--                            :containerClass="'paginationT'">-->
-<!--                    </paginate>-->
-<!--                </div>-->
+                <div v-if="totalcount > 1">
+                    <paginate
+                            :pageCount=totalcount
+                            :clickHandler="clickCallback"
+                            :prevText="'<<'"
+                            :nextText="'>>'"
+                            :initial-page=initialPage
+                            :force-page=forcePage
+                            :active-class="'activeT'"
+                            :containerClass="'paginationT'">
+                    </paginate>
+                </div>
             </div>
         </div>
 
@@ -298,25 +298,56 @@
                         }
                     }
                 });
+                this.mainquery = "marketType = 'BUY' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  group by  price order by price asc LIMIT 10";
+                this.mainquery1 = "marketType = 'SELL' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  group by  price order by price desc LIMIT 10";
                 this.buyTable = [];
-                sqldb.each("SELECT * FROM Orders  where marketType = 'BUY' and maker != '"+value.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
                     // console.log(row, "rowsss");
-                    this.buyTable.push(row);
+                    if(row) {
+                        this.buyTable.push(row);
+                    }
+                });
+                sqldb.each("SELECT COUNT(*) FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
+                    if(row) {
+                        this.totalcount1 = Math.ceil( (row['COUNT(*)']) /  5);
+                    }
                 });
                 this.sellTable = [];
-                sqldb.each("SELECT * FROM Orders where marketType = 'SELL' and maker != '"+value.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
                     // console.log(row, "rowsss");
-                    this.sellTable.push(row);
+                    if(row)
+                    {
+                        this.sellTable.push(row);
+                    }
+                });
+                sqldb.each("SELECT COUNT(*) FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
+                    if(row) {
+                        this.totalcount2 = Math.ceil( (row['COUNT(*)']) /  5);
+                    }
                 });
                 this.startAllowanceInterval();
+            },
+            allowanceAmount() {
+                if(this.allowanceAmount > 0) {
+                    this.approveError = '';
+                }
             }
         },
         data() {
             return {
                 web3,
                 initialPage: 1,
+                initialPage1: 1,
+                initialPage2: 1,
                 forcePage: 1,
-                totalcount: 100,
+                forcePage1: 1,
+                forcePage2: 1,
+                offset: 0,
+                offset1: 0,
+                offset2: 0,
+                totalcount: 0,
+                totalcount1: 0,
+                totalcount2: 0,
                 quantity: 0.00000,
                 bidPrice: 0.00000,
                 totalAmount: 0.00000,
@@ -327,6 +358,8 @@
                 modalArray: {},
                 matchOrderHashes: ['0x0', '0x0', '0x0', '0x0', '0x0'],
                 tokenData: {},
+                limit: 5,
+                limit1: 10,
                 expAmount: 0,
                 wexpAmount: 0,
                 tokenAmount: 0,
@@ -344,6 +377,10 @@
                 gasLimit: 900000,
                 buyTable: [],
                 sellTable: [],
+                marketHistoryTable: [],
+                buyselectData: "decimalSell , decimalBuy, sum(price) as price, sum(amountBuy) as amountBuy, sum(amountSell) as amountSell, sum(amountBuyFilled) as amountBuyFilled, sum(amountSellFilled) as amountSellFilled",
+                mainquery: "",
+                mainquery1: "",
             };
         },
         computed: {
@@ -354,6 +391,8 @@
         },
         created(){
             this.tokenData = this.$router.history.current.query.data;
+            this.mainquery = "marketType = 'BUY' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  group by  price order by price asc LIMIT 10";
+            this.mainquery1 = "marketType = 'SELL' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  group by  price order by price desc LIMIT 10";
             if(this.fromAddress) {
                 // console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
@@ -375,14 +414,37 @@
                 this.$modal.show('insufficentBal');
             }
             this.buyTable = [];
-            sqldb.each("SELECT * FROM Orders  where marketType = 'BUY' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
                 // console.log(row, "rowsss");
                 this.buyTable.push(row);
             });
+            sqldb.each("SELECT COUNT(*) FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
+                if(row) {
+                    this.totalcount1 = Math.ceil( (row['COUNT(*)']) /  5);
+                }
+            });
             this.sellTable = [];
-            sqldb.each("SELECT * FROM Orders where marketType = 'SELL' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100", (err, row) => {
+            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
                 // console.log(row, "rowsss");
                 this.sellTable.push(row);
+            });
+            sqldb.each("SELECT COUNT(*) FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
+                if(row) {
+                    this.totalcount2 = Math.ceil( (row['COUNT(*)']) /  5);
+                }
+            });
+            this.marketHistoryTable = [];
+            sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                // console.log(row, "rowsss");
+                if(row) {
+                    this.marketHistoryTable.push(row);
+                }
+            });
+            sqldb.each("SELECT COUNT(*) FROM Trade where ((tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                // console.log(row, "rowsss");
+                if(row) {
+                    this.totalcount = Math.ceil( (row['COUNT(*)']) /  5);
+                }
             });
         },
         destroyed() {
@@ -438,7 +500,42 @@
                 this.$modal.hide('allowancePopup');
             },
             clickCallback (pageNum) {
+                // console.log(pageNum)
+                this.marketHistoryTable = [];
+                this.forcePage = pageNum;
+                this.offset = (pageNum -1) * this.limit;
+                pageNum = (pageNum -1) * this.limit ;
+                sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ pageNum +"", (err, row) => {
+                    console.log(row, "rowsss");
+                    if(row) {
+                        this.marketHistoryTable.push(row);
+                    }
+                });
+            },
+            clickCallback1 (pageNum) {
                 console.log(pageNum)
+                this.marketHistoryTable = [];
+                this.forcePage1 = pageNum;
+                this.offset1 = (pageNum -1) * this.limit1;
+                pageNum = (pageNum -1) * this.limit1 ;
+                this.buyTable = [];
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
+                    // console.log(row, "rowsss");
+                    this.buyTable.push(row);
+                });
+            },
+            clickCallback2 (pageNum) {
+                console.log(pageNum)
+                this.marketHistoryTable = [];
+                this.forcePage = pageNum;
+                this.offset = (pageNum -1) * this.limit1;
+                pageNum = (pageNum -1) * this.limit1 ;
+
+                this.sellTable = [];
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
+                    // console.log(row, "rowsss");
+                    this.sellTable.push(row);
+                });
             },
             handleRow(p1 = 0, p2 = 0, p3 = 0){
                 this.quantity = p1;
@@ -471,10 +568,31 @@
                         break;
                 }
             },
-            handlebuy() {
+            getorderdata (tokenbuy, tokensell) {
+                return new Promise(async (resolve, reject) => {
+                    let i = 0;
+                    await sqldb.get("SELECT orderHash FROM Orders where orderfilled < 100 and maker != '"+this.fromAddress.value+"' COLLATE NOCASE  and price = '"+this.bidPrice+"' and tokenBuy = '"+tokenbuy+"' COLLATE NOCASE  and tokenSell = '"+tokensell+"' COLLATE NOCASE ", (err, row) => {
+                        if(err) {
+                            reject(err);
+                        }
+                        if(!row) {
+                            this.matchOrderHashes = ['0x0', '0x0', '0x0', '0x0', '0x0'];
+                            resolve(this.matchOrderHashes);
+                        }
+                        if(row) {
+                            this.matchOrderHashes[i] = row.orderHash;
+                            i++;
+                            resolve(this.matchOrderHashes);
+                        }
+                    });
+                });
+            },
+            async handlebuy() {
                 if(this.totalAmount > 0 || this.totalAmount) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
                         try {
+                            await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
+                            console.log(this.matchOrderHashes, "orderhashes")
                             this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
                             let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
                             this.modalArray = {
@@ -501,10 +619,13 @@
                     this.totalError = "Total Amount is required"
                 }
             },
-            handlesell() {
+            async handlesell() {
                 if(this.totalAmount > 0 || this.totalAmount) {
                     if (this.allowanceAmount !== 0 && this.allowanceAmount >= this.quantity) {
                         try {
+                            await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
+                            console.log(this.matchOrderHashes, "orderhashes")
+
                             this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
                             let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.betaDecimal)).toString()]
                             this.modalArray = {

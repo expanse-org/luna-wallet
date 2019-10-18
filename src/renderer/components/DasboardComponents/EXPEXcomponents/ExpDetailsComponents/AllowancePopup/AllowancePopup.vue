@@ -198,7 +198,15 @@
                                         return false;
                                     }
                                 }
-                            })
+                            }).catch((error) => {
+                                clearInterval(this.intervalid1);
+                                console.log(error)
+                                // Raven.captureException(error);
+                                this.loading = false;
+                                this.btndisable = false;
+                                this.passwordError = "Invalid Password";
+                                return false;
+                            });
 
                         } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "sell") {
                             this.popupHeading = 'Sell Approval';
@@ -235,7 +243,15 @@
                                             return false;
                                         }
                                     }
-                                })
+                                }).catch((error) => {
+                                clearInterval(this.intervalid1);
+                                console.log(error)
+                                // Raven.captureException(error);
+                                this.loading = false;
+                                this.btndisable = false;
+                                this.passwordError = "Invalid Password";
+                                return false;
+                            });
                         } else {
                             this.popupHeading = 'Allowance Approval';
                             if(this.amount) {

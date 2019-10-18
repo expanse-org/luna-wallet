@@ -38,11 +38,11 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 });
 
 sqldb.serialize(function() {
-    // sqldb.run("DROP TABLE Orders");
+    // sqldb.run("DROP TABLE Trade");
     sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) not null UNIQUE, tokenBuy TEXT not null, amountBuy REAL not null, tokenSell TEXT not null, amountSell REAL not null, maker TEXT not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
         "decimalSell INTEGER not null, status TEXT not null, marketType TEXT not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL, amountBuyFilled REAL NOT NULL, amountSellFilled REAL NOT NULL)");
-    sqldb.run("CREATE TABLE if not exists marketPair (blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
-    sqldb.run("CREATE TABLE if not exists Trade (orderHash TEXT, matchinOrderHash TEXT, tokenBuy TEXT, tokenSell TEXT, amountBuy REAL, amountSell REAL, taker TEXT, maker TEXT, tokenId INTEGER, price REAL)");
+    sqldb.run("CREATE TABLE if not exists marketPair (Price REAL not null, volume REAL not NULL, blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
+    sqldb.run("CREATE TABLE if not exists Trade (blockNo INTEGER not null ,createdAt TEXT not null,orderHash VARCHAR(255) not null, marketType TEXT not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL,  matchinOrderHash VARCHAR(255) not null, tokenBuy TEXT not null , tokenSell TEXT not null , amountBuy REAL not null , amountSell REAL not null , taker TEXT not null , maker TEXT not null , tokenId INTEGER not null , price REAL not null, PRIMARY KEY (orderHash, matchinOrderHash) )");
 
 });
 
@@ -88,7 +88,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
 
                          // insert into market pair value( ? , ? ,? ,? , ? , ? ,? )
                          try {
-                             var stmt = sqldb.prepare("INSERT or IGNORE INTO marketPair VALUES ('"+blockNumber+"','"+txHash+"','"+today+"', '"+alphaSymbol+"', '"+alpha+"', '"+alphaDecimals+"', '"+betaSymbol+"', '"+beta+"', '"+betaDecimals+"')");
+                             var stmt = sqldb.prepare("INSERT or IGNORE INTO marketPair VALUES (0 ,0 ,'"+blockNumber+"','"+txHash+"','"+today+"', '"+alphaSymbol+"', '"+alpha+"', '"+alphaDecimals+"', '"+betaSymbol+"', '"+beta+"', '"+betaDecimals+"')");
                              stmt.run();
                              stmt.finalize();
                              store.dispatch('addCronToast', {message: 'Market Pair Table Update', type: 'Success'});
@@ -136,47 +136,55 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                     fromBlock : blockNo,
                     toBlock: "latest"
                 })
-                console.log(allOrders, "allOrders");
+                // console.log(allOrders, "allOrders");
                 store.dispatch('addCronToast', {message: 'Open Orders Table Update', type: 'Success'});
 
                 if(allOrders)
                 {
                     try
                     {
-                        const allEvents = await dexContract.getPastEvents("Trade", {
-                            fromBlock : 1,
-                            toBlock: "latest"
-                        })
-                        console.log(allEvents)
-                        for(const tradeEvent of allEvents ) {
-                            const orderHash = tradeEvent.returnValues.orderHash
-                            const matchingOrderHash = tradeEvent.returnValues.matchinOrderHash
-                            const tokenBuy = tradeEvent.returnValues.tokenBuy
-                            const tokenSell = tradeEvent.returnValues.tokenSell
-                            const maker = tradeEvent.returnValues.maker
-                            const taker = tradeEvent.returnValues.taker
-                            const amountBuy = tradeEvent.returnValues.amountBuy
-                            const amountSell = tradeEvent.returnValues.amountSell
-                            const tokenId = tradeEvent.returnValues.tokenId;
-                            let price  = tradeEvent.returnValues.price;
-                            // if(tokenBuy == alpha) {
-                            //     // TODO price
-                            //
-                            // }else{
-                            //     // TODO price
-                            //
-                            // }
-                            // Insert into Trade table
+                        const blockNoT = await getRecentBlocktrade();
+                        if(blockNoT) {
+                            const allEvents = await dexContract.getPastEvents("Trade", {
+                                fromBlock : blockNoT,
+                                toBlock: "latest"
+                            })
+                            console.log(allEvents)
+                            for(const tradeEvent of allEvents ) {
+                                const orderHash = tradeEvent.returnValues.orderHash
+                                const matchingOrderHash = tradeEvent.returnValues.matchinOrderHash
+                                const tokenBuy = tradeEvent.returnValues.tokenBuy
+                                const tokenSell = tradeEvent.returnValues.tokenSell
+                                const maker = tradeEvent.returnValues.maker
+                                const taker = tradeEvent.returnValues.taker
+                                const tokenId = tradeEvent.returnValues.tokenId;
+                                const blockNumber = tradeEvent.blockNumber;
 
-                            //We need to UPDATE ORDER on basis of order hash
-                            // First we need to fetch order detail
-                            // select order from order where order_hash  = ${orderHash}
-                            // Now we will add
-                            //order.amountFilledBuy += ${amountBuy} and same
-                            // order.amountFilledSell += ${amountSell}
-                            // Now we need to calculate percentage if order is Buy  then (order.amountFilledBuy)/order.amountBuy  * 100
+                                const tokenBuyContract = new web3http.eth.Contract(wexpABI, tokenBuy);
+                                const tokenSellContract = new web3http.eth.Contract(wexpABI, tokenSell);
+                                const decimalBuy =await tokenBuyContract.methods.decimals().call();
+                                const decimalSell =await tokenSellContract.methods.decimals().call();
+                                const amountBuy = tradeEvent.returnValues.amountBuy/Math.pow(10, decimalBuy);
+                                const amountSell = tradeEvent.returnValues.amountSell/Math.pow(10, decimalSell);
+                                let price  = tradeEvent.returnValues.price;
+                                const orderdata = await getmarketpairorder(tokenBuy, tokenSell, amountSell, amountBuy, price, decimalBuy, decimalSell);
+                                try {
+                                    await updatemarketTabel(tokenBuy, tokenSell);
+                                } catch(err) {
+                                    console.log(err, "Trade Insert Error")
+                                }
 
-                            // and then check if order.amountFilledBuy == order.amountBuy then status = COMPLETE, otherwise OPEN
+                                if(orderdata.marketType && orderdata.marketType !== -1) {
+                                    try {
+                                        var stmt = sqldb.prepare("INSERT or IGNORE INTO Trade VALUES ('"+blockNumber+"','"+today+"','"+orderHash+"','"+orderdata.marketType+"','"+orderdata.betaSymbol+"', '"+orderdata.alphaSymbol+"','"+matchingOrderHash+"','"+tokenBuy+"','"+tokenSell+"' ,"+amountBuy+", "+amountSell+", '"+taker+"', '"+maker+"', "+tokenId+", "+orderdata.price+")");
+                                        stmt.run();
+                                        stmt.finalize();
+                                    } catch(err) {
+                                        console.log(err, "Trade Insert Error")
+                                    }
+                                }
+                                await getorderbyOrderHash(orderHash, amountBuy, amountSell);
+                            }
                         }
                     } catch(err) {
                         console.log(err)
@@ -244,10 +252,60 @@ const getRecentBlock = async () =>  {
 
 }
 
+const updatemarketTabel = async (tokenBuy, tokenSell) => {
+    return new Promise(async function (resolve, reject) {
+        let data = -1;
+        await sqldb.get("SELECT MAX(price) as maxPrice, MIN(price) as minPrice, *  FROM Trade WHERE createdAt >= date('now', '-1 days') AND createdAt < date('now') and where ((tokenBuy = '"+tokenBuy+"' and tokenSell = '"+tokenSell+"') or (tokenBuy = '"+tokenSell+"' and tokenSell = '"+tokenBuy+"')) order by createdAt desc ", (err, row) => {
+            if(err) {
+                reject(err);
+            }
+            if(!row) {
+                resolve(data);
+            }
+            if(row && row.price) {
+                let volume = 0 ;
+                if(row.marketType === 'BUY') {
+                    volume = row.amountBuy * row.price ;
+                } else {
+                    volume = row.amountSell * row.price ;
+                }
+                var stmt = sqldb.prepare("UPDATE marketPair SET price = "+row.price +",volume = "+volume+", maxPrice = "+row.maxPrice+", minPrice = "+row.minPrice+" where ((alphaAddress = '"+tokenBuy+"' and betaAddress = '"+tokenSell+"') or (alphaAddress = '"+tokenSell+"' and betaAddress = '"+tokenBuy+"'))" );
+                stmt.run();
+                stmt.finalize();
+                // console.log(row, data,"data");
+                resolve(row);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
 const getRecentBlockorder = async () =>  {
     return new Promise(async function (resolve, reject) {
         let data = 1;
          await sqldb.get("select * from Orders order by blockNo desc limit 1", function(err, row) {
+             // console.log(row, err, "blockno");
+            if(err) {
+                reject(err);
+            }
+            if(!row) {
+                resolve(data);
+            }
+            if(row) {
+                data = parseInt(row["blockNo"]) + 1;
+                // console.log(row, data,"data");
+                resolve(data);
+            }
+        });
+    })
+
+}
+
+const getRecentBlocktrade = async () =>  {
+    return new Promise(async function (resolve, reject) {
+        let data = 1;
+         await sqldb.get("select * from Trade order by blockNo desc limit 1", function(err, row) {
              // console.log(row, err, "blockno");
             if(err) {
                 reject(err);
@@ -294,6 +352,45 @@ const getmarketpairorder = async (tokenBuy, tokenSell, amountSell, amountBuy, pr
                      alphaSymbol : '',
                      betaSymbol : ''
                  }
+                 resolve(data);
+             }
+        });
+    })
+
+}
+
+const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
+    return new Promise(async function (resolve, reject) {
+        let data = {};
+        await sqldb.get("select * from Orders where orderHash = '"+orderHash+"'", function(err, row) {
+             if(row) {
+                 try {
+                     row.amountBuyFilled  =+ amountBuy
+                     row.amountSellFilled  =+ amountSell
+
+                     let orderbuyFilledPercentage = (row.amountBuyFilled/(row.amountBuy/Math.pow(10, row.decimalBuy)))  * 100;
+                     let status = marketENUM.OPEN;
+                     if(row.amountBuyFilled === (row.amountBuy/Math.pow(10, row.decimalBuy))) {
+                         status = marketENUM.COMPLETE
+                     }
+                     else if(row.amountBuyFilled > (row.amountBuy/Math.pow(10, row.decimalBuy))) {
+                         status = marketENUM.ERROR
+                     }
+                     //order.amountFilledBuy += ${amountBuy}
+                     // and same
+                     // order.amountFilledSell += ${amountSell}
+                     // Now we need to calculate percentage if order is Buy  then (order.amountFilledBuy)/order.amountBuy  * 100
+
+                     // and then check if order.amountFilledBuy == order.amountBuy then status = COMPLETE, otherwise OPEN
+                     // console.log("UPDATE Orders SET status = '"+status+"',amountBuyFilled = "+row.amountBuyFilled +",amountSellFilled = "+row.amountSellFilled+",orderFilled = "+orderbuyFilledPercentage+" WHERE orderHash = '"+orderHash+"'")
+                     var stmt = sqldb.prepare("UPDATE Orders SET status = '"+status+"',amountBuyFilled = "+(row.amountBuyFilled + amountBuy)+",amountSellFilled = "+(row.amountSellFilled + amountSell)+",orderFilled = "+orderbuyFilledPercentage+" WHERE orderHash = '"+orderHash+"'");
+                     stmt.run();
+                     stmt.finalize();
+                 } catch(err) {
+                     console.log(err)
+                 }
+                 resolve(data);
+             } else {
                  resolve(data);
              }
         });

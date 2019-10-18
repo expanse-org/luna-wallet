@@ -21,19 +21,17 @@
                 <label>24HR CHANGE</label>
                 <label>24HR HIGH</label>
                 <label>24HR LOW</label>
-                <label>DATE ADDED</label>
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
                 <div v-if="marketTable.length > 0" v-for="data in marketTable" @click="openDetails(data)" class="table-row">
                     <p>{{data.betaSymbol}} - {{data.alphaSymbol}}</p>
-                    <p>0</p>
-                    <p>0</p>
+                    <p>{{data.Price}}</p>
+                    <p>{{data.volume}}</p>
                     <p class="row-mid Green">0 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0</p>
-                    <p>0</p>
-                    <p>0</p>
-                    <p class="row-10">{{data.createdAt}}</p>
+                    <p>{{data.Price}}</p>
+                    <p>{{data.maxPrice}}</p>
+                    <p>{{data.minPrice}}</p>
                 </div>
                 <div v-if="marketTable.length === 0" class="table-no-row">
                     <p class="row-10">No Market Data Found</p>
@@ -69,6 +67,7 @@
                 forcePage: 1,
                 totalcount: 100,
                 marketTable: [],
+                othermaketData: [],
                 searchTokens: '',
             };
         },
@@ -80,11 +79,6 @@
                         if(row) {
                             this.marketTable.push(row);
                         }
-                    });
-                } else {
-                    sqldb.each("SELECT * FROM marketPair", (err, row) => {
-                        // console.log(row, "rowsss");
-                        this.marketTable.push(row);
                     });
                 }
             }

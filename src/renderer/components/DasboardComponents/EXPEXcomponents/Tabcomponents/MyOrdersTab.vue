@@ -112,7 +112,7 @@
                     <p v-if="order.marketType === 'BUY'" class="Green">{{order.marketType}}</p>
                     <p v-else class="Red">{{order.marketType}}</p>
                     <p>{{parseFloat(order.price).toFixed(4)}}</p>
-                    <p v-if="data.marketType === 'BUY'">{{parseFloat((order.price) * ((order.amountBuy - order.amountBuyFilled)/Math.pow(10, order.decimalBuy))).toFixed(4)}}</p>
+                    <p v-if="order.marketType === 'BUY'">{{parseFloat((order.price) * ((order.amountBuy - order.amountBuyFilled)/Math.pow(10, order.decimalBuy))).toFixed(4)}}</p>
                     <p v-else >{{parseFloat((order.price) * ((order.amountSell - order.amountSellFilled)/Math.pow(10, order.decimalSell))).toFixed(4)}}</p>
                     <p>{{order.orderFilled}}%</p>
                     <p @click="openGanderUrl('https://gander.tech/tx/{{order.orderHash}}')" class="fix-text tooltip">
@@ -258,8 +258,7 @@
                 this.forcePage = 1;
                 this.openorderTable = [];
                 if(data === 'BUY' || data === 'SELL' ) {
-                    console.log("SELECT * FROM Orders where marketType = '"+data+"' COLLATE NOCASE and "+ this.mainQuery +" OFFSET "+ this.offset);
-
+                    // console.log("SELECT * FROM Orders where marketType = '"+data+"' COLLATE NOCASE and "+ this.mainQuery +" OFFSET "+ this.offset);
                     sqldb.each("SELECT * FROM Orders where marketType = '"+data+"' COLLATE NOCASE and "+ this.mainQuery +" OFFSET "+ this.offset +"", (err, row) => {
                         if(row) {
                             this.openorderTable.push(row);
@@ -315,10 +314,7 @@
             },
             openorderTable() {
                 if(this.hashSearch || this.todate || this.fromDate || this.selected !== 'ALL') {
-                    console.log("SELECT COUNT(*) FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" maker = "+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100");
                     sqldb.each("SELECT COUNT(*) FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" maker = "+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 ", (err, row) => {
-                        console.log(this.totalcount, row, err);
-
                         if(row) {
                             this.totalcount = Math.ceil( (row['COUNT(*)'] + 1) /  5);
                         }

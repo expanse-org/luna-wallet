@@ -683,7 +683,7 @@
             .table-head {
               position: relative;
               display: grid;
-              grid-template-columns: repeat(8, 1fr);
+              grid-template-columns: repeat(7, 1fr);
               color: #9B9B9B;
               font-size: 19px;
 
@@ -707,7 +707,7 @@
                 position: relative;
                 display: grid;
                 padding: 15px 0px 11px 5px;
-                grid-template-columns: repeat(8, 1fr);
+                grid-template-columns: repeat(7, 1fr);
                 color: #ffffff;
                 font-size: 16px;
                 cursor: pointer;
@@ -911,10 +911,11 @@
           }
           .myorder-table {
             margin-top: 15px;
+            margin-bottom: 15px;
             .table-head {
               position: relative;
               display: grid;
-              grid-template-columns: 9% 9% 10% 8% 7% 17% 18% 9%;
+              grid-template-columns: 9% 9% 8% 9% 8% 17% 18% 9%;
               color: #9B9B9B;
               font-size: 19px;
               grid-gap: 15px;
@@ -939,7 +940,7 @@
                 position: relative;
                 display: grid;
                 padding: 15px 0px 11px 5px;
-                grid-template-columns: 8% 10% 9% 11% 9% 9% 18% 4% 10%;
+                grid-template-columns: 8% 10% 9% 10% 6% 9% 21% 4% 10%;
                 color: #ffffff;
                 font-size: 16px;
                 grid-gap: 15px;
@@ -957,7 +958,7 @@
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
-                  min-width: 190px;
+                  min-width: 215px;
                   cursor: pointer;
                 }
                 .fix-text:hover {
@@ -1379,10 +1380,11 @@
 
           .expexDetails-table {
             margin-top: 15px;
+            margin-bottom: 15px;
             .table-head {
               position: relative;
               display: grid;
-              grid-template-columns: repeat(6, 1fr);
+              grid-template-columns: repeat(5, 1fr);
               color: #9B9B9B;
               font-size: 19px;
               grid-gap: 10px;
@@ -1407,7 +1409,7 @@
                 position: relative;
                 display: grid;
                 padding: 15px 0px 11px 5px;
-                grid-template-columns: repeat(6, 1fr);
+                grid-template-columns: repeat(5, 1fr);
                 color: #ffffff;
                 font-size: 16px;
                 grid-gap: 15px;
