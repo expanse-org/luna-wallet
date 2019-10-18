@@ -26,12 +26,12 @@
             <div class="table-body">
                 <div v-if="marketTable.length > 0" v-for="data in marketTable" @click="openDetails(data)" class="table-row">
                     <p>{{data.betaSymbol}} - {{data.alphaSymbol}}</p>
-                    <p>{{data.Price}}</p>
-                    <p>{{data.volume}}</p>
+                    <p>{{data.Price? data.Price: 0}}</p>
+                    <p>{{data.volume? data.volume: 0}}</p>
                     <p class="row-mid Green">0 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>{{data.Price}}</p>
-                    <p>{{data.maxPrice}}</p>
-                    <p>{{data.minPrice}}</p>
+                    <p>{{data.Price? data.Price:0}}</p>
+                    <p>{{data.maxPrice? maxPrice:0}}</p>
+                    <p>{{data.minPrice? data.minPrice:0}}</p>
                 </div>
                 <div v-if="marketTable.length === 0" class="table-no-row">
                     <p class="row-10">No Market Data Found</p>
