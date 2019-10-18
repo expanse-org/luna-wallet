@@ -28,6 +28,7 @@
                 <label>DATE CREATED</label>
                 <label>ORDER TYPE</label>
                 <label>PRICE</label>
+                <label>AMOUNT</label>
                 <label>TOTAL</label>
                 <label>FULFILLED(%)</label>
                 <label>TX HASH</label>
@@ -41,10 +42,12 @@
                     <p v-if="data.marketType === 'BUY'" class="Green">{{data.marketType}}</p>
                     <p v-else class="Red">{{data.marketType}}</p>
                     <p>{{parseFloat(data.price).toFixed(4)}}</p>
+                    <p v-if="data.marketType === 'BUY'">{{parseFloat(((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(4)}}</p>
+                    <p v-else >{{parseFloat(((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(4)}}</p>
                     <p v-if="data.marketType === 'BUY'">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(4)}}</p>
                     <p v-else >{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(4)}}</p>
                     <p>{{data.orderFilled}}%</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/{{data.orderHash}}')" class="fix-text tooltip">
+                    <p @click="openGanderUrl('https://gander.tech/tx/'+data.orderHash)" class="fix-text tooltip">
                         {{data.orderHash}}
                         <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
                     </p>
@@ -100,6 +103,7 @@
                 <label>DATE CREATED</label>
                 <label>ORDER TYPE</label>
                 <label>PRICE</label>
+                <label>AMOUNT</label>
                 <label>TOTAL</label>
                 <label>FULFILLED(%)</label>
                 <label>TX HASH</label>
@@ -112,10 +116,12 @@
                     <p v-if="order.marketType === 'BUY'" class="Green">{{order.marketType}}</p>
                     <p v-else class="Red">{{order.marketType}}</p>
                     <p>{{parseFloat(order.price).toFixed(4)}}</p>
+                    <p v-if="order.marketType === 'BUY'">{{parseFloat(((order.amountBuy - order.amountBuyFilled)/Math.pow(10, order.decimalBuy))).toFixed(4)}}</p>
+                    <p v-else >{{parseFloat(((order.amountSell - order.amountSellFilled)/Math.pow(10, order.decimalSell))).toFixed(4)}}</p>
                     <p v-if="order.marketType === 'BUY'">{{parseFloat((order.price) * ((order.amountBuy - order.amountBuyFilled)/Math.pow(10, order.decimalBuy))).toFixed(4)}}</p>
                     <p v-else >{{parseFloat((order.price) * ((order.amountSell - order.amountSellFilled)/Math.pow(10, order.decimalSell))).toFixed(4)}}</p>
                     <p>{{order.orderFilled}}%</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/{{order.orderHash}}')" class="fix-text tooltip">
+                    <p @click="openGanderUrl('https://gander.tech/tx/'+order.orderHash)" class="fix-text tooltip">
                         {{order.orderHash}}
                         <span class="tooltiptext parrentFont">{{order.orderHash}}</span>
                     </p>
@@ -273,7 +279,7 @@
                 this.forcePage = 1;
                 this.orderHistory = [];
                 if(data) {
-                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and orderHash = '"+data+"' COLLATE NOCASE ORDER BY 1 LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and orderHash = '"+data+"' COLLATE NOCASE ORDER BY createdAt desc LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
                         if(row) {
                             this.orderHistory.push(row);
                         }
@@ -287,7 +293,7 @@
                 this.forcePage = 1;
                 this.orderHistory = [];
                 if(data === 'BUY' || data === 'SELL' ) {
-                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and marketType = '"+data+"' COLLATE NOCASE ORDER BY 1 LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
+                    sqldb.each("SELECT * FROM Orders where maker = '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 and marketType = '"+data+"' COLLATE NOCASE ORDER BY createdAt desc LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
                         if(row) {
                             this.orderHistory.push(row);
                         }
@@ -301,12 +307,12 @@
                 this.orderHistory=[];
                 this.offset = 0;
                 this.forcePage = 1;
-                sqldb.each("SELECT * FROM  Orders where maker = '"+ value.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY 1 LIMIT "+ this.row_count +" OFFSET "+ this.offset +"", (err, row) => {
+                sqldb.each("SELECT * FROM  Orders where maker = '"+ value.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY createdAt desc LIMIT "+ this.row_count +" OFFSET "+ this.offset +"", (err, row) => {
                     if(row) {
                         this.openorderTable.push(row);
                     }
                 });
-                sqldb.each("SELECT * FROM Orders where maker = '"+value.value+"' COLLATE NOCASE and orderFilled  = 100 ORDER BY 1 LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
+                sqldb.each("SELECT * FROM Orders where maker = '"+value.value+"' COLLATE NOCASE and orderFilled  = 100 ORDER BY createdAt desc LIMIT "+ this.row_count1 +" OFFSET "+ this.offset1 +"", (err, row) => {
                     if(row) {
                         this.orderHistory.push(row);
                     }
@@ -335,8 +341,8 @@
 
         },
         created(){
-            this.mainQuery = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY 1 LIMIT "+ this.row_count +"";
-            this.mainQuery1 = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 ORDER BY 1 LIMIT "+ this.row_count1 +"";
+            this.mainQuery = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY createdAt desc LIMIT "+ this.row_count +"";
+            this.mainQuery1 = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
             this.getopenOrders();
             this.getorderHistory();
         },

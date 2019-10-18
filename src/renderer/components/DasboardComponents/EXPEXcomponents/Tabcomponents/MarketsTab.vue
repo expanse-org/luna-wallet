@@ -56,6 +56,8 @@
 <script>
     import Paginate from 'vuejs-paginate';
     import {sqldb} from '../../../../../common/cronjobs';
+    import {ipcRenderer} from 'electron';
+
     export default {
         name: 'marketsTab',
         components : {
@@ -73,7 +75,6 @@
         },
         watch: {
             searchTokens(value) {
-                this.marketTable = [];
                 if(value) {
                     sqldb.each("SELECT * FROM marketPair where betaSymbol = '"+value+"' COLLATE NOCASE or alphaSymbol = '"+value+"' COLLATE NOCASE", (err, row) => {
                         if(row) {
@@ -81,13 +82,34 @@
                         }
                     });
                 }
+            },
+            getmarketPair() {
+                this.marketTable = [];
+                sqldb.each("SELECT * FROM marketPair", (err, row) => {
+                    if(row) {
+                        this.marketTable.push(row);
+                    }
+                });
             }
+
+        },
+        computed: {
+          getmarketPair() {
+              var mdata = this.$store.state.cronToast;
+              return mdata;
+          }
         },
         created(){
             this.marketTable=[];
+            this.getmarketPair;
             sqldb.each("SELECT * FROM marketPair", (err, row) => {
                 // console.log(row, "rowsss");
                 this.marketTable.push(row);
+            });
+            sqldb.each("SELECT COUNT(*) FROM marketPair", (err, row) => {
+                if(row) {
+                    this.totalcount = Math.ceil( (row['COUNT(*)']) /  10);
+                }
             });
         },
         methods: {
