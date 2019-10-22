@@ -2,7 +2,6 @@
     <div class="accounts">
         <div class="top">
             <label>ACCOUNTS</label>
-
             <div>
                 <button class="button view-token-btn" @click="openTokens('tokens')" data-modal="modal-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="555" height="555" viewBox="0 0 555 555">

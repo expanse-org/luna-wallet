@@ -111,17 +111,18 @@
             }
         },
         created(){
+            this.passwordError = "";
             this.amountCurrency = this.modalArray.currency;
             if(this.modalArray && this.modalArray.type === 'allowance') {
                 this.amountdisable = false;
                 console.log(this.modalArray, "modalArray");
             }
             if(this.$router.history.current.path === '/expexdetails') {
-                if(this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
+                if(this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
                     this.popupHeading = 'Buy Order';
-                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "sell") {
+                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "sellBtn") {
                     this.popupHeading = 'Sell Order';
-                } else {
+                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "allowance") {
                     this.popupHeading = 'Allowance Approval';
                 }
             } else {
@@ -140,15 +141,6 @@
                 //     console.log(res, err,  "estimatedgass response")
                 //     this.gasLimit = res
                 // })
-
-                var trans_nonce;
-                var latest_transaction = db.get('transactions').filter({from: this.modalArray && this.modalArray.fromAddress}).value();
-
-                if(latest_transaction.length > 0){
-                    latest_transaction = lodash.orderBy(latest_transaction, ['nonce'], ['desc']);
-                    trans_nonce = latest_transaction[0].nonce;
-                    this.nonce = this.nonce > trans_nonce ? this.nonce : trans_nonce + 1;
-                }
             }
 
         },
@@ -158,13 +150,13 @@
                 this.$modal.hide('exchangeNow');
             },
             sendTransaction(){
+                this.passwordError = "";
                 const dexContract = new web3.eth.Contract(expexABI, expexAddress);
                 if (this.password) {
                     this.loading = true;
                     this.btndisable = true;
                     if (this.$router.history.current.path === '/expexdetails') {
-                        if (this.modalArray && this.modalArray.type && this.modalArray.type === "buy") {
-                            this.popupHeading = 'Buy Approval';
+                        if (this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
                             this.amount = this.modalArray.amount;
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
                             .then(async (response) => {
@@ -208,8 +200,7 @@
                                 return false;
                             });
 
-                        } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "sell") {
-                            this.popupHeading = 'Sell Approval';
+                        } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "sellBtn") {
                             this.amount = this.modalArray.amount;
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
                                 .then(async (response) => {
@@ -252,7 +243,7 @@
                                 this.passwordError = "Invalid Password";
                                 return false;
                             });
-                        } else {
+                        } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "allowance") {
                             this.popupHeading = 'Allowance Approval';
                             if(this.amount) {
                                 var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);

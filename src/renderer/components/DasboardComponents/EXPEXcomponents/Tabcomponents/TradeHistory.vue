@@ -38,7 +38,7 @@
                 </div>
                 <div v-if="tradeTable.length > 0" v-for="(trade, index) in tradeTable" class="table-row">
                     <p>{{trade.betaSymbol}} -{{trade.alphaSymbol}}</p>
-                    <p>{{trade.createdAt}}</p>
+                    <p>{{ parseInt(trade.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                     <p v-if="trade.marketType === 'BUY'" class="Green">{{trade.marketType}}</p>
                     <p v-else class="Red">{{trade.marketType}}</p>
                     <p>{{parseInt(trade.price).toFixed(4)}}</p>
@@ -88,63 +88,58 @@
         watch: {
             toDate: function (value) {
                 this.tradeTable = [];
-                if(value && this.fromDate) {
-                    sqldb.each("SELECT * FROM Trade where createdAt BETWEEN '"+ this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
-                        // console.log(row, "rowsss");
-                        if(row)
-                        {
-                            this.tradeTable.push(row);
-                        }
-                    });
-                } else if (value) {
-                    sqldb.each("SELECT * FROM Trade where createdAt = '"+value.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
-                        // console.log(row, "rowsss");
-                        if(row)
-                        {
+                if(this.toDate && this.fromDate) {
+                    this.todateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and";
+                } else if(this.toDate ) {
+                    this.todateQuery = "createdAt = '"+ this.toDate.split('T')[0] +"' and";
+                }
+                if(this.toDate || this.fromDate) {
+                    sqldb.each("SELECT * FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery +" OFFSET "+ this.offset +"", (err, row) => {
+                        if(row) {
                             this.tradeTable.push(row);
                         }
                     });
                 }
+                this.getTradeCount();
             },
             fromDate: function (value) {
                 this.tradeTable = [];
-                if(value && this.toDate) {
-                    sqldb.each("SELECT * FROM Trade where createdAt BETWEEN '"+ this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
-                        // console.log(row, "rowsss");
-                        if(row)
-                        {
-                            this.tradeTable.push(row);
-                        }
-                    });
-                } else if (value) {
-                    sqldb.each("SELECT * FROM Trade where createdAt = '"+value.split('T')[0]+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
-                        // console.log(row, "rowsss");
-                        if(row)
-                        {
+                if(this.toDate && this.fromDate) {
+                    this.fromDateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.toDate.split('T')[0]+"' and";
+                } else if(this.toDate ) {
+                    this.fromDateQuery = "createdAt = '"+ this.toDate.split('T')[0] +"' and";
+                }
+                if(this.toDate || this.fromDate) {
+                    sqldb.each("SELECT * FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery +" OFFSET "+ this.offset +"", (err, row) => {
+                        if(row) {
                             this.tradeTable.push(row);
                         }
                     });
                 }
+                this.getTradeCount();
             },
             selected: function (value) {
                 this.tradeTable = [];
-                if(value === 'ALL')
-                {
-                    this.gettrades();
-                } else if(value === 'BUY' || value === 'SELL') {
-                    sqldb.each("SELECT * FROM Trade where marketType = '"+value+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
-                        // console.log(row, "rowsss");
-                        if(row)
-                        {
+                this.offset = 0;
+                this.forcePage = 1;
+                if(value === 'BUY' || value === 'SELL' ) {
+                    this.selectQuery = "marketType = '"+value+"' COLLATE NOCASE and";
+                    sqldb.each("SELECT * FROM  Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
+                        if(row) {
                             this.tradeTable.push(row);
                         }
                     });
+                } else if(this.selected === 'ALL') {
+                    this.selectQuery = "";
+                    this.gettrades();
                 }
+                this.getTradeCount();
             },
             searchHash: function (value) {
                 this.tradeTable = [];
                 if (value) {
-                    sqldb.each("SELECT * FROM Trade where orderHash= '"+value+"' and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                    this.hashQuery = "orderHash = '"+value+"' COLLATE NOCASE and";
+                    sqldb.each("SELECT * FROM  Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
                         // console.log(row, "rowsss");
                         if(row)
                         {
@@ -153,28 +148,22 @@
                     });
                 }
                 else {
+                    this.hashQuery = "";
                     this.gettrades();
                 }
+                this.getTradeCount();
             },
             fromAddress: function (value) {
                 this.tradeTable = [];
-                sqldb.each("SELECT * FROM Trade where (maker = '"+value.value+"' COLLATE NOCASE or taker = '"+value.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                this.mainQuery = "(maker = '"+ value.value+"' COLLATE NOCASE or taker = '"+ value.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+"";
+                sqldb.each("SELECT * FROM  Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
                     // console.log(row, "rowsss");
                     if(row)
                     {
                         this.tradeTable.push(row);
                     }
                 });
-            },
-            tradeTable() {
-                if(this.searchHash || this.toDate || this.fromDate || this.selected !== 'ALL') {
-                    sqldb.each("SELECT COUNT(*) FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE)", (err, row) => {
-                        // console.log(row, "rowsss");
-                        if(row) {
-                            this.totalcount = Math.ceil( (row['COUNT(*)']) /  this.limit);
-                        }
-                    });
-                }
+                this.getTradeCount();
             }
         },
         data() {
@@ -194,23 +183,28 @@
                 todateQuery: '',
                 fromDateQuery: '',
                 selectQuery: '',
+                mainQuery: '',
             };
         },
         created(){
+            this.mainQuery = "(maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+"";
             this.gettrades();
         },
         methods: {
             gettrades(){
                 this.tradeTable=[];
-                sqldb.each("SELECT * FROM Trade where (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+                sqldb.each("SELECT * FROM  Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
                     if(row)
                     {
                         this.tradeTable.push(row);
                     }
                 });
-                sqldb.each("SELECT COUNT(*) FROM Trade where (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE)", (err, row) => {
+                this.getTradeCount();
+            },
+            getTradeCount() {
+                sqldb.each("SELECT COUNT(*) as count FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery +" OFFSET "+ this.offset +"", (err, row) => {
                     if(row) {
-                        this.totalcount = Math.ceil( (row['COUNT(*)']) /  this.limit);
+                        this.totalcount = Math.ceil((row.count) / this.limit);
                     }
                 });
             },
@@ -237,8 +231,7 @@
                     this.selectQuery = "marketType = '"+this.selected+"' COLLATE NOCASE and";
                 }
                 pageNum = (pageNum -1) * this.row_count ;
-                sqldb.each("SELECT * FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" and (maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+" OFFSET "+ pageNum +"", (err, row) => {
-                    // console.log(row, "rowsss");
+                sqldb.each("SELECT * FROM Trade where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery +" OFFSET "+ pageNum +"", (err, row) => {
                     if(row)
                     {
                         this.tradeTable.push(row);
