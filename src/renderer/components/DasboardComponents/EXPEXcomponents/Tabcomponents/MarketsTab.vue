@@ -30,7 +30,7 @@
                     <p>{{data.volume? data.volume: 0}}</p>
                     <p class="row-mid Green">0 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
                     <p>{{data.Price? data.Price:0}}</p>
-                    <p>{{data.maxPrice? maxPrice:0}}</p>
+                    <p>{{data.maxPrice? data.maxPrice:0}}</p>
                     <p>{{data.minPrice? data.minPrice:0}}</p>
                 </div>
                 <div v-if="marketTable.length === 0" class="table-no-row">
