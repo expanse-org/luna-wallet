@@ -30,7 +30,7 @@
                     <p>{{data.volume? data.volume: 0}}</p>
                     <p class="row-mid Green">0 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
                     <p>{{data.Price? data.Price:0}}</p>
-                    <p>{{data.maxPrice? maxPrice:0}}</p>
+                    <p>{{data.maxPrice? data.maxPrice:0}}</p>
                     <p>{{data.minPrice? data.minPrice:0}}</p>
                 </div>
                 <div v-if="marketTable.length === 0" class="table-no-row">
@@ -57,6 +57,7 @@
     import Paginate from 'vuejs-paginate';
     import {sqldb} from '../../../../../common/cronjobs';
     import {ipcRenderer} from 'electron';
+    import {web3} from '../../../../../main/libs/config';
 
     export default {
         name: 'marketsTab',
@@ -71,6 +72,7 @@
                 marketTable: [],
                 othermaketData: [],
                 searchTokens: '',
+                tsYesterday: '',
             };
         },
         watch: {
@@ -84,12 +86,12 @@
                 }
             },
             getmarketPair() {
-                this.marketTable = [];
-                sqldb.each("SELECT * FROM marketPair", (err, row) => {
-                    if(row) {
-                        this.marketTable.push(row);
-                    }
-                });
+                // this.marketTable = [];
+                // sqldb.each("SELECT * FROM marketPair", (err, row) => {
+                //     if(row) {
+                //         this.marketTable.push(row);
+                //     }
+                // });
             }
 
         },

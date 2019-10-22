@@ -81,7 +81,7 @@
                         <div class="table-partition"></div>
                         <div class="table-body">
                             <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy), data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
-                                <p>{{parseFloat(data.price).toFixed(5)}}</p>
+                                <p>{{data.price}}</p>
                                 <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
                                 <p class="Green">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
                             </div>
@@ -183,7 +183,7 @@
                             <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell),data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
                                 <p class="Red">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
                                 <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
-                                <p>{{parseFloat(data.price).toFixed(5)}}</p>
+                                <p>{{data.price}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
                                 <p class="row-10">No BUY Orders Found</p>
@@ -219,7 +219,7 @@
                 <div class="table-partition"></div>
                 <div class="table-body">
                     <div v-for="mdata in marketHistoryTable" v-if="marketHistoryTable.length > 0" class="table-row">
-                        <p>{{mdata.createdAt}}</p>
+                        <p>{{ parseInt(mdata.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                         <p v-if="mdata.marketType === 'BUY'" class="Green row-10">BUY</p>
                         <p v-else class="Red row-10">SELL</p>
                         <p>{{mdata.price}}</p>
@@ -571,7 +571,8 @@
             getorderdata (tokenbuy, tokensell) {
                 return new Promise(async (resolve, reject) => {
                     let i = 0;
-                    await sqldb.get("SELECT orderHash FROM Orders where orderfilled < 100 and maker != '"+this.fromAddress.value+"' COLLATE NOCASE  and price = '"+this.bidPrice+"' and tokenBuy = '"+tokenbuy+"' COLLATE NOCASE  and tokenSell = '"+tokensell+"' COLLATE NOCASE ", (err, row) => {
+                    // console.log("SELECT orderHash FROM Orders where orderfilled < 100 and maker != '"+this.fromAddress.value+"' COLLATE NOCASE  and price = "+this.bidPrice+" and tokenBuy = '"+tokenbuy+"' COLLATE NOCASE  and tokenSell = '"+tokensell+"' COLLATE NOCASE ")
+                    await sqldb.get("SELECT orderHash FROM Orders where orderfilled < 100 and maker != '"+this.fromAddress.value+"' COLLATE NOCASE  and price = "+this.bidPrice+" and tokenBuy = '"+tokenbuy+"' COLLATE NOCASE  and tokenSell = '"+tokensell+"' COLLATE NOCASE ", (err, row) => {
                         if(err) {
                             reject(err);
                         }
@@ -597,7 +598,7 @@
                             this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
                             let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
                             this.modalArray = {
-                                type: "buy",
+                                type: "buyBtn",
                                 fromAddress: this.fromAddress.value,
                                 currency: this.tokenData.betaSymbol,
                                 orderAddresses: this.orderAddresses,
@@ -638,9 +639,9 @@
                                 console.log(this.matchOrderHashes, "orderhashes")
 
                                 this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
-                                let amountData = [Math.floor(this.quantity * Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.totalAmount * Math.pow(10, this.tokenData.betaDecimal)).toString()]
+                                let amountData = [Math.floor(this.totalAmount * Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.quantity * Math.pow(10, this.tokenData.betaDecimal)).toString()]
                                 this.modalArray = {
-                                    type: "sell",
+                                    type: "sellBtn",
                                     fromAddress: this.fromAddress.value,
                                     currency: this.tokenData.alphaSymbol,
                                     orderAddresses: this.orderAddresses,
