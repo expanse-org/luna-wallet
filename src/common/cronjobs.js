@@ -127,6 +127,42 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
          web3http = new Web3("http://127.0.0.1:9656")
      }
 });
+const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
+    console.log("Cron RUnning")
+    if(isGetPastLogCronRunning) {
+        return;
+    }
+    isGetPastLogCronRunning = true;
+    let netIsListening = await web3http.eth.net.isListening();
+     if(netIsListening) {
+         try{
+             const blockNo = await getCancelOrderBlock();
+             console.log(blockNo, "blockno")
+             if(blockNo) {
+                 const allCancelOrders = await dexContract.getPastEvents("Cancel", {
+                     fromBlock : blockNo,
+                     toBlock: "latest"
+                 })
+                 console.log(allCancelOrders, "pastlogs");
+                 for(let i =0 ;i< allCancelOrders.length; i++) {
+                     const orderHash = allCancelOrders[i].returnValues.orderHash;
+                     try {
+                         var stmt = sqldb.prepare("UPDATE Orders SET status = '"+marketENUM.CANCELED+"' WHERE orderHash = '"+orderHash+"'");
+                         stmt.run();
+                         stmt.finalize();
+                     } catch(err) {
+                         console.log(err)
+                     }
+                 }
+             }
+         }catch(err) {
+             console.log(err, "err");
+         }
+         isGetPastLogCronRunning = false;
+     } else {
+         web3http = new Web3("http://127.0.0.1:9656")
+     }
+});
 
 let isGetPastEventsCronRunning  = false;
 const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
@@ -277,6 +313,25 @@ const getRecentBlock = async () =>  {
         });
     })
 
+};
+
+const getCancelOrderBlock = async () =>  {
+    return new Promise(async function (resolve, reject) {
+        let data = 1;
+         await sqldb.get("select * from Orders where status = '"+marketENUM.CANCELED+"' order by blockNo desc limit 1", function(err, row) {
+            if(err) {
+                reject(err);
+            }
+            if(!row) {
+                resolve(data);
+            }
+            if(row) {
+                data = parseInt(row["blockNo"]) + 1;
+                console.log(row, data,"data");
+                resolve(data);
+            }
+        });
+    })
 }
 
 
@@ -526,6 +581,7 @@ if(startAction) {
             console.log("HTTP socket open")
             marketPairFetchCron.start();
             getRecentBlockCron.start();
+            getRecentCancelOrders.start();
         }
     });
 }

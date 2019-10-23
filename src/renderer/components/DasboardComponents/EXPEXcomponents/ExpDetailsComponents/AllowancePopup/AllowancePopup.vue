@@ -103,7 +103,7 @@
                 amountdisable: true,
                 amountError: '',
                 intervalid1: '',
-                feeError: 'sadasjkdhaksj',
+                feeError: '',
             };
         },
         computed: {
@@ -123,6 +123,10 @@
                 this.amountdisable = false;
                 console.log(this.modalArray, "modalArray");
             }
+            console.log(this.modalArray, "modalArray");
+            const dexContract = new web3.eth.Contract(expexABI, expexAddress);
+            console.log(dexContract.methods, "methods");
+
             if(this.$router.history.current.path === '/expexdetails') {
                 if(this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
                     this.popupHeading = 'Buy Order';
@@ -131,6 +135,8 @@
                 } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "allowance") {
                     this.popupHeading = 'Allowance Approval';
                 }
+            } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "cancelOrder") {
+                this.popupHeading = 'Cancel Order';
             } else {
                 this.popupHeading = 'Exchange Now';
             }
@@ -158,61 +164,108 @@
             },
             sendTransaction(){
                 this.passwordError = "";
+                this.feeError = "";
                 var userData = this.accounts.find((val) => val.hash === (this.modalArray && this.modalArray.fromAddress));
                 let expAmount = userData.balance;
                 console.log(expAmount);
                 const dexContract = new web3.eth.Contract(expexABI, expexAddress);
+                if((this.gasLimit * (this.gasprice/1000000000)) > expAmount) {
+                    this.feeError = "You don't have sufficient EXP balance";
+                    return;
+                }
                 if (this.password) {
                     this.loading = true;
                     this.btndisable = true;
-                    if (this.$router.history.current.path === '/expexdetails') {
+                    console.log(this.modalArray.type);
+                    if(this.modalArray && this.modalArray.type && this.modalArray.type === "cancelOrder") {
+                        web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                            .then(async (response) => {
+                                if (response) {
+                                    try {
+                                        console.log(dexContract.methods, "methods");
+                                        const orderPlace = await dexContract.methods.CancelOrderErc20(this.modalArray.orderHash).send(
+                                            {
+                                                from: this.modalArray.fromAddress,
+                                                gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                gas: this.gasLimit,
+                                            }
+                                        );
+                                        if(orderPlace) {
+                                            this.loading = false;
+                                            this.btndisable = false;
+                                            console.log(orderPlace, "orderPlace");
+                                            $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
+                                            $('form').trigger('reset');
+                                            clipboard.writeText(orderPlace.transactionHash, 'selected');
+                                            $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                            setTimeout(() => {
+                                                this.hide();
+                                            }, 5000);
+                                        }
+                                    } catch (e) {
+                                        console.log(e)
+                                        // Raven.captureException(e);
+                                        this.loading = false;
+                                        this.btndisable = false;
+                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                        return false;
+                                    }
+                                }
+                            }).catch((error) => {
+                            clearInterval(this.intervalid1);
+                            console.log(error)
+                            // Raven.captureException(error);
+                            this.loading = false;
+                            this.btndisable = false;
+                            this.passwordError = "Invalid Password";
+                            return false;
+                        });
+                    }
+                    else if (this.$router.history.current.path === '/expexdetails') {
                         if (this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
                             this.amount = this.modalArray.amount;
-                            if((this.gasLimit * (this.gasprice/1000000000)) <= expAmount){
-                                web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
-                                    .then(async (response) => {
-                                        if (response) {
-                                            try {
-                                                const orderPlace = await dexContract.methods.OrderErc20(this.modalArray.orderAddresses, this.modalArray.amountData, this.modalArray.matchOrderHashes).send(
-                                                    {
-                                                        from: this.modalArray.fromAddress,
-                                                        gasPrice: parseInt(this.gasprice) * 1000000000,
-                                                        gas: this.gasLimit,
-                                                    }
-                                                );
-                                                if(orderPlace) {
-                                                    this.loading = false;
-                                                    this.btndisable = false;
-                                                    console.log(orderPlace, "orderPlace");
-                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
-                                                    $('form').trigger('reset');
-                                                    clipboard.writeText(orderPlace.transactionHash, 'selected');
-                                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                                    setTimeout(() => {
-                                                        this.hide();
-                                                    }, 5000);
+                            web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                .then(async (response) => {
+                                    if (response) {
+                                        try {
+                                            const orderPlace = await dexContract.methods.OrderErc20(this.modalArray.orderAddresses, this.modalArray.amountData, this.modalArray.matchOrderHashes).send(
+                                                {
+                                                    from: this.modalArray.fromAddress,
+                                                    gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                    gas: this.gasLimit,
                                                 }
-                                            } catch (e) {
-                                                console.log(e)
-                                                // Raven.captureException(e);
+                                            );
+                                            if(orderPlace) {
                                                 this.loading = false;
                                                 this.btndisable = false;
-                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                                return false;
+                                                console.log(orderPlace, "orderPlace");
+                                                $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
+                                                $('form').trigger('reset');
+                                                clipboard.writeText(orderPlace.transactionHash, 'selected');
+                                                $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                setTimeout(() => {
+                                                    this.hide();
+                                                }, 5000);
                                             }
+                                        } catch (e) {
+                                            console.log(e)
+                                            // Raven.captureException(e);
+                                            this.loading = false;
+                                            this.btndisable = false;
+                                            $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                            return false;
                                         }
-                                    }).catch((error) => {
-                                    clearInterval(this.intervalid1);
-                                    console.log(error)
-                                    // Raven.captureException(error);
-                                    this.loading = false;
-                                    this.btndisable = false;
-                                    this.passwordError = "Invalid Password";
-                                    return false;
-                                });
-                            } else {
+                                    }
+                                }).catch((error) => {
+                                clearInterval(this.intervalid1);
+                                console.log(error)
+                                // Raven.captureException(error);
+                                this.loading = false;
+                                this.btndisable = false;
+                                this.passwordError = "Invalid Password";
+                                return false;
+                            });
 
-                            }
                         } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "sellBtn") {
                             this.amount = this.modalArray.amount;
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)

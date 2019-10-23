@@ -55,7 +55,7 @@
                         <img src="../../../../assets/img/copy.svg"  />
                         <span v-if="copiedtip === index" class="tooltiptext2">Copied</span>
                     </div>
-                    <p>Cancel</p>
+                    <p class="buttonCancel" @click="handleCancel(data)">Cancel</p>
                 </div>
                 <div v-if="openorderTable.length === 0" class="table-no-row">
                     <p class="row-10">No Open Orders Found</p>
@@ -147,6 +147,10 @@
                 </paginate>
             </div>
         </div>
+
+        <modal class="tmodal" name="cancelOrderPopup">
+            <allowance-popup :modalArray="modalArray"></allowance-popup>
+        </modal>
     </div>
 </template>
 
@@ -160,12 +164,14 @@
     import { clipboard,ipcRenderer } from 'electron';
     import { Datetime } from 'vue-datetime';
     import {web3} from '../../../../../main/libs/config';
+    import AllowancePopup from '../ExpDetailsComponents/AllowancePopup/AllowancePopup';
 
     export default {
         name: 'MyOrders',
         components : {
             'paginate': Paginate,
             'multiselect': Multiselect,
+            'allowance-popup': AllowancePopup,
             'datetime': Datetime
         },
         props: ['fromAddress'],
@@ -204,6 +210,7 @@
                 fromDateQuery1: '',
                 selectQuery1: '',
                 mainQuery1: '',
+                modalArray: [],
             };
         },
         watch: {
@@ -362,7 +369,7 @@
                 this.forcePage = 1;
                 this.offset1 = 0;
                 this.forcePage1 = 1;
-                this.mainQuery = " maker = '"+ value.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY createdAt desc LIMIT "+ this.row_count +"";
+                this.mainQuery = " maker = '"+ value.value+"' COLLATE NOCASE and orderFilled < 100 and status = 'OPEN' ORDER BY createdAt desc LIMIT "+ this.row_count +"";
                 this.mainQuery1 = " maker = '"+ value.value+"' COLLATE NOCASE and orderFilled = 100 ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
                 this.getopenOrders();
                 this.getorderHistory();
@@ -396,7 +403,7 @@
             }
         },
         created(){
-            this.mainQuery = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY createdAt desc LIMIT "+ this.row_count +"";
+            this.mainQuery = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 and status = 'OPEN' ORDER BY createdAt desc LIMIT "+ this.row_count +"";
             this.mainQuery1 = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
             this.getopenOrders();
             this.getopenorderCount('' , '' , '', '',this.mainQuery , this.offset);
@@ -404,6 +411,14 @@
             this.getorderCount();
         },
         methods: {
+            handleCancel(data) {
+                this.modalArray = {
+                    type: "cancelOrder",
+                    fromAddress: this.fromAddress.value,
+                    orderHash: data.orderHash,
+                };
+                this.$modal.show('cancelOrderPopup');
+            },
             getopenOrders() {
                 this.openorderTable=[];
                 sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {

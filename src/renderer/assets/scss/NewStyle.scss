@@ -1038,6 +1038,12 @@
                     border-color: #fff transparent transparent transparent;
                   }
                 }
+                .buttonCancel {
+                  cursor: pointer;
+                }
+                .buttonCancel:hover {
+                  color: #FF0031;
+                }
               }
               .table-row:nth-child(odd) {
                 background-color: #414141;
