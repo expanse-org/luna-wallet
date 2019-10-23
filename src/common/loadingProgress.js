@@ -1,5 +1,3 @@
-
-
 import {prod_app_directory, production, updateScreen} from '../main/libs/config';
 import {getClientInfo } from '../common/clientInfo';
 import {connectWeb3 } from '../common/web3Config';
