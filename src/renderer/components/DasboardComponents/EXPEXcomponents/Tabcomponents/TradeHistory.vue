@@ -36,7 +36,7 @@
                 <div v-if="tradeTable.length === 0" class="table-no-row">
                     <p class="row-10">No Trade History Found</p>
                 </div>
-                <div v-if="tradeTable.length > 0" v-for="(trade, index) in tradeTable" class="table-row">
+                <div v-if="tradeTable.length > 0" v-for="(trade, index) in (tradeTable || getTradeData)" class="table-row">
                     <p>{{trade.betaSymbol}} -{{trade.alphaSymbol}}</p>
                     <p>{{ parseInt(trade.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                     <p v-if="trade.marketType === 'BUY'" class="Green">{{trade.marketType}}</p>
@@ -76,7 +76,7 @@
     import  * as child_process from 'child_process';
     import Multiselect from 'vue-multiselect';
     import {sqldb} from '../../../../../common/cronjobs';
-    import { clipboard } from 'electron';
+    import { clipboard, ipcRenderer } from 'electron';
     export default {
         name: 'TradeHistory',
         components : {
@@ -164,6 +164,14 @@
                     }
                 });
                 this.getTradeCount();
+            },
+            getTradeData() {
+                ipcRenderer.on('newTrade', (event , res) => {
+                    if(res) {
+                        this.gettrades();
+                        this.getTradeCount();
+                    }
+                });
             }
         },
         data() {
@@ -189,6 +197,16 @@
         created(){
             this.mainQuery = "(maker = '"+this.fromAddress.value+"' COLLATE NOCASE or taker = '"+this.fromAddress.value+"' COLLATE NOCASE) order by createdAt desc LIMIT "+this.limit+"";
             this.gettrades();
+        },
+        computed: {
+            getTradeData() {
+                ipcRenderer.on('newTrade', (event , res) => {
+                    if(res) {
+                        this.gettrades();
+                        this.getTradeCount();
+                    }
+                });
+            }
         },
         methods: {
             gettrades(){

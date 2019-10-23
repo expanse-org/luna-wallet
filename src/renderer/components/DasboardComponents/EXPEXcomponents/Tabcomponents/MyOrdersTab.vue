@@ -36,7 +36,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="openorderTable.length > 0"  class="table-row" v-for="(data, index) in openorderTable">
+                <div v-if="openorderTable.length > 0"  class="table-row" v-for="(data, index) in (openorderTable || getOrders)">
                     <p>{{(data.betaSymbol)}}-{{(data.alphaSymbol)}}</p>
                     <p>{{ parseInt(data.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                     <p v-if="data.marketType === 'BUY'" class="Green">{{data.marketType}}</p>
@@ -110,7 +110,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="orderHistory.length > 0"  class="table-row" v-for="(order, index) in orderHistory">
+                <div v-if="orderHistory.length > 0"  class="table-row" v-for="(order, index) in (orderHistory || getOrders)">
                     <p>{{(order.betaSymbol)}}-{{(order.alphaSymbol)}}</p>
                     <p>{{ parseInt(order.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                     <p v-if="order.marketType === 'BUY'" class="Green">{{order.marketType}}</p>
@@ -157,7 +157,7 @@
     import Multiselect from 'vue-multiselect'
     import {db} from '../../../../../../lowdbFunc';
     import {sqldb} from '../../../../../common/cronjobs';
-    import { clipboard } from 'electron';
+    import { clipboard,ipcRenderer } from 'electron';
     import { Datetime } from 'vue-datetime';
     import {web3} from '../../../../../main/libs/config';
 
@@ -375,7 +375,25 @@
                 let tokensdata = db.get('tokens').value();
                 return tokensdata;
             },
-
+            getOrders() {
+                ipcRenderer.on('newOrder', (event , res) => {
+                    console.log(event, res);
+                    if(res) {
+                        this.getopenOrders();
+                        this.getopenorderCount('' , '' , '', '',this.mainQuery , this.offset);
+                        this.getorderHistory();
+                        this.getorderCount();
+                    }
+                });
+                ipcRenderer.on('updateOrder', (event , res) => {
+                    if(res) {
+                        this.getopenOrders();
+                        this.getopenorderCount('' , '' , '', '',this.mainQuery , this.offset);
+                        this.getorderHistory();
+                        this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                    }
+                });
+            }
         },
         created(){
             this.mainQuery = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 ORDER BY createdAt desc LIMIT "+ this.row_count +"";

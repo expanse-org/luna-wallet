@@ -34,6 +34,7 @@
                         </div>
                     </div>
                     <div class="all-fee">
+                        <p v-if="feeError" class="error-message allowanceamount ">{{feeError}}</p>
                         <p>FEE= {{gasLimit * (gasprice/1000000000)}} EXP</p>
                     </div>
                     <div class="all-form">
@@ -102,13 +103,18 @@
                 amountdisable: true,
                 amountError: '',
                 intervalid1: '',
+                feeError: 'sadasjkdhaksj',
             };
+        },
+        computed: {
+            accounts() {
+                var accountsArray = this.$store.state.allAccounts;
+                return accountsArray;
+            },
         },
         components:{
         },
         watch: {
-            amount() {
-            }
         },
         created(){
             this.passwordError = "";
@@ -143,6 +149,7 @@
                 // })
             }
 
+
         },
         methods: {
             hide () {
@@ -151,6 +158,9 @@
             },
             sendTransaction(){
                 this.passwordError = "";
+                var userData = this.accounts.find((val) => val.hash === (this.modalArray && this.modalArray.fromAddress));
+                let expAmount = userData.balance;
+                console.log(expAmount);
                 const dexContract = new web3.eth.Contract(expexABI, expexAddress);
                 if (this.password) {
                     this.loading = true;
@@ -158,48 +168,51 @@
                     if (this.$router.history.current.path === '/expexdetails') {
                         if (this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
                             this.amount = this.modalArray.amount;
-                            web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
-                            .then(async (response) => {
-                                if (response) {
-                                    try {
-                                        const orderPlace = await dexContract.methods.OrderErc20(this.modalArray.orderAddresses, this.modalArray.amountData, this.modalArray.matchOrderHashes).send(
-                                            {
-                                                from: this.modalArray.fromAddress,
-                                                gasPrice: parseInt(this.gasprice) * 1000000000,
-                                                gas: this.gasLimit,
+                            if((this.gasLimit * (this.gasprice/1000000000)) <= expAmount){
+                                web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)
+                                    .then(async (response) => {
+                                        if (response) {
+                                            try {
+                                                const orderPlace = await dexContract.methods.OrderErc20(this.modalArray.orderAddresses, this.modalArray.amountData, this.modalArray.matchOrderHashes).send(
+                                                    {
+                                                        from: this.modalArray.fromAddress,
+                                                        gasPrice: parseInt(this.gasprice) * 1000000000,
+                                                        gas: this.gasLimit,
+                                                    }
+                                                );
+                                                if(orderPlace) {
+                                                    this.loading = false;
+                                                    this.btndisable = false;
+                                                    console.log(orderPlace, "orderPlace");
+                                                    $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
+                                                    $('form').trigger('reset');
+                                                    clipboard.writeText(orderPlace.transactionHash, 'selected');
+                                                    $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                                    setTimeout(() => {
+                                                        this.hide();
+                                                    }, 5000);
+                                                }
+                                            } catch (e) {
+                                                console.log(e)
+                                                // Raven.captureException(e);
+                                                this.loading = false;
+                                                this.btndisable = false;
+                                                $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
+                                                return false;
                                             }
-                                        );
-                                        if(orderPlace) {
-                                            this.loading = false;
-                                            this.btndisable = false;
-                                            console.log(orderPlace, "orderPlace");
-                                            $('.trx_alert-sucess p').text("Your Transaction Completed Successfully. Hash:" + orderPlace.transactionHash + " Copied to clipboard");
-                                            $('form').trigger('reset');
-                                            clipboard.writeText(orderPlace.transactionHash, 'selected');
-                                            $('.trx_alert-sucess').show(300).delay(5000).hide(330);
-                                            setTimeout(() => {
-                                                this.hide();
-                                            }, 5000);
                                         }
-                                    } catch (e) {
-                                        console.log(e)
-                                        // Raven.captureException(e);
-                                        this.loading = false;
-                                        this.btndisable = false;
-                                        $('.trx_alert-unsucess').show(300).delay(5000).hide(330);
-                                        return false;
-                                    }
-                                }
-                            }).catch((error) => {
-                                clearInterval(this.intervalid1);
-                                console.log(error)
-                                // Raven.captureException(error);
-                                this.loading = false;
-                                this.btndisable = false;
-                                this.passwordError = "Invalid Password";
-                                return false;
-                            });
+                                    }).catch((error) => {
+                                    clearInterval(this.intervalid1);
+                                    console.log(error)
+                                    // Raven.captureException(error);
+                                    this.loading = false;
+                                    this.btndisable = false;
+                                    this.passwordError = "Invalid Password";
+                                    return false;
+                                });
+                            } else {
 
+                            }
                         } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "sellBtn") {
                             this.amount = this.modalArray.amount;
                             web3.eth.personal.unlockAccount(this.modalArray && this.modalArray.fromAddress, this.password, 3000)

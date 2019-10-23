@@ -131,7 +131,8 @@
                     this.sendValueError = false;
                     if(this.fromAddress) {
                         if(this.receiveCurr === 'WEXP') {
-                            if(this.fromAddress.text.split('(')[1].split(" ")[0] >= this.sendValue) {
+                            if(parseFloat(this.fromAddress.text.split('(')[1].split(" ")[0]) >= parseFloat(this.sendValue)) {
+                                console.log(this.fromAddress.text.split('(')[1].split(" ")[0],this.fromAddress,  "estimatedgass response");
                                 web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
                                     // console.log(res, err,  "estimatedgass response");
                                     if(res > 1) {
@@ -148,7 +149,7 @@
                                         acc.token_icons.map((acc_token) => {
                                             // console.log(acc_token, acc_token.token_symbol === 'WEXP', "acc_token")
                                             if(acc_token.token_symbol === 'WEXP') {
-                                                if(acc_token.balance >= this.sendValue) {
+                                                if(parseFloat(acc_token.balance) >= parseFloat(this.sendValue)) {
                                                     web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
                                                         // console.log(res, err,  "estimatedgass response");
                                                         if(res > 1) {

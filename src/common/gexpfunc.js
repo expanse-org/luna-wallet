@@ -119,4 +119,10 @@ ipcRenderer.on('connectwebhttp', (event, res) => {
     console.log(res, 'expresssss  1231312');
 });
 
+//
+// myEmitter.on('newMarketPairevent', () => {
+//     console.log('an newMarketPairevent occurred !');
+//     ipcRenderer.send('newMarketPair', true);
+// });
+
 export { startingGexp, downloadGexp, gexplogs }

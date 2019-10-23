@@ -3,7 +3,7 @@ import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 var path = require('path');
 const low = require('lowdb');
-import '../common/cronjobs';
+import {sqldb} from '../common/cronjobs';
 
 import * as Raven from 'raven-js';
 import solc from 'solc';
@@ -490,3 +490,5 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+
+export { mainWindow }

@@ -81,7 +81,7 @@
                         <div class="table-partition"></div>
                         <div class="table-body">
                             <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy), data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
-                                <p>{{data.price}}</p>
+                                <p>{{parseFloat(data.price).toFixed(4)}}</p>
                                 <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
                                 <p class="Green">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
                             </div>
@@ -121,6 +121,7 @@
                         <div class="details-div">
                             <p class="uppertxt Green">BID PRICE</p>
                             <div class="lowertxt">
+                                <p v-if="bidPriceError" class="error-message sendFundPassword-error ">{{bidPriceError}}</p>
                                 <input type="number" @focus="handleFocus" placeholder="0.00000" v-model="bidPrice"/>
                                 <p>{{tokenData.alphaSymbol}}</p>
                             </div>
@@ -183,7 +184,7 @@
                             <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell),data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
                                 <p class="Red">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
                                 <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
-                                <p>{{data.price}}</p>
+                                <p>{{parseFloat(data.price).toFixed(4)}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
                                 <p class="row-10">No BUY Orders Found</p>
@@ -381,6 +382,7 @@
                 buyselectData: "decimalSell , decimalBuy, sum(price) as price, sum(amountBuy) as amountBuy, sum(amountSell) as amountSell, sum(amountBuyFilled) as amountBuyFilled, sum(amountSellFilled) as amountSellFilled",
                 mainquery: "",
                 mainquery1: "",
+                bidPriceError: "",
             };
         },
         computed: {
@@ -398,17 +400,11 @@
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
                 this.tokenAmount = 0;
                 this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
-                this.accounts.map((val) => {
-                    if(val.hash === this.fromAddress.value) {
-                        if(val.tokens){
-                            val.token_icons.map((token) => {
-                                if(token.token_symbol === this.tokenData.betaSymbol) {
-                                    this.tokenAmount = token.balance;
-                                }
-                            })
-                        }
-                    }
-                });
+                var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                if(userData) {
+                    this.tokenAmount = tokenData.balance;
+                }
                 this.startAllowanceInterval();
             } else {
                 this.$modal.show('insufficentBal');
@@ -549,11 +545,12 @@
               this.quantityError = '';
               this.approveError = '';
               this.totalError = '';
+              this.bidPriceError = '';
             },
             handleBuySell(type){
-                this.quantityError = '';
-                this.approveError = '';
-                this.totalError = '';
+                this.quantityError = "";
+                this.bidPriceError = "";
+                this.totalError = "";
                 this.totalcount = 0;
                 this.quantity = 0;
                 this.bidPrice = 0;
@@ -590,50 +587,86 @@
             },
             async handlebuy() {
                 this.quantityError = "";
+                this.bidPriceError = "";
+                this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        try {
-                            await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
-                            console.log(this.matchOrderHashes, "orderhashes")
-                            this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
-                            let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
-                            this.modalArray = {
-                                type: "buyBtn",
-                                fromAddress: this.fromAddress.value,
-                                currency: this.tokenData.betaSymbol,
-                                orderAddresses: this.orderAddresses,
-                                amountData: amountData,
-                                amount: this.totalAmount,
-                                matchOrderHashes: this.matchOrderHashes,
-                            };
-                            this.$modal.show('allowancePopup');
+                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount))) {
+                            try {
+                                await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
+                                console.log(this.matchOrderHashes, "orderhashes")
+                                this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
+                                let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
+                                this.modalArray = {
+                                    type: "buyBtn",
+                                    fromAddress: this.fromAddress.value,
+                                    currency: this.tokenData.betaSymbol,
+                                    orderAddresses: this.orderAddresses,
+                                    amountData: amountData,
+                                    amount: this.totalAmount,
+                                    matchOrderHashes: this.matchOrderHashes,
+                                };
+                                this.$modal.show('allowancePopup');
+                            }
+                            catch(err) {
+                                console.log(err, "err");
+                            }
+                            clearInterval(this.intervalid1);
+                        } else {
+                            var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                            var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance))) {
+                                try {
+                                    await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
+                                    console.log(this.matchOrderHashes, "orderhashes")
+                                    this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
+                                    let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
+                                    this.modalArray = {
+                                        type: "buyBtn",
+                                        fromAddress: this.fromAddress.value,
+                                        currency: this.tokenData.betaSymbol,
+                                        orderAddresses: this.orderAddresses,
+                                        amountData: amountData,
+                                        amount: this.totalAmount,
+                                        matchOrderHashes: this.matchOrderHashes,
+                                    };
+                                    this.$modal.show('allowancePopup');
+                                }
+                                catch(err) {
+                                    console.log(err, "err");
+                                }
+                                clearInterval(this.intervalid1);
+                            } else {
+                                this.bidPriceError = "Seems You don't have sufficient Token Amount"
+                            }
                         }
-                        catch(err) {
-                            console.log(err, "err");
-                        }
-                        clearInterval(this.intervalid1);
                     }
                     else {
                         this.approveError = "Approve Allowance";
                     }
                 }
                 else {
-                    if(this.quantity === 0) {
+                    if(!this.quantity || this.quantity === 0) {
                         this.quantityError = "Quantity is required"
                     }
                     if(this.quantity && this.quantity < 0.01) {
                         this.quantityError = "Quantity greater than 0.01"
                     }
-                    if(this.totalAmount <= 0) {
+                    if(!this.totalAmount || this.totalAmount <= 0) {
                         this.totalError = "Total Amount is required"
+                    }
+                    if(!this.bidPrice || this.bidPrice <= 0) {
+                        this.bidPriceError = "Bid Price is required"
                     }
                 }
             },
             async handlesell() {
-                this.quantityError = ""
-                if (this.quantity >= 0.01) {
-                    if (this.totalAmount > 0 || this.totalAmount) {
-                        if (this.allowanceAmount !== 0 && this.allowanceAmount >= this.quantity) {
+                this.quantityError = "";
+                this.bidPriceError = "";
+                this.totalError = "";
+                if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
+                    if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
+                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount))) {
                             try {
                                 await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
@@ -655,14 +688,49 @@
                             }
                             clearInterval(this.intervalid1);
                         } else {
-                            this.approveError = "Approve Allowance";
+                            var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                            var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance))) {
+                                try {
+                                    await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
+                                    console.log(this.matchOrderHashes, "orderhashes")
+
+                                    this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
+                                    let amountData = [Math.floor(this.totalAmount * Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.quantity * Math.pow(10, this.tokenData.betaDecimal)).toString()]
+                                    this.modalArray = {
+                                        type: "sellBtn",
+                                        fromAddress: this.fromAddress.value,
+                                        currency: this.tokenData.alphaSymbol,
+                                        orderAddresses: this.orderAddresses,
+                                        amountData: amountData,
+                                        amount: this.totalAmount,
+                                        matchOrderHashes: this.matchOrderHashes,
+                                    };
+                                    this.$modal.show('allowancePopup');
+                                } catch (err) {
+
+                                }
+                                clearInterval(this.intervalid1);
+                            } else {
+                                this.bidPriceError = "Seems You don't have sufficient Token Amount"
+                            }
                         }
                     } else {
+                        this.approveError = "Approve Allowance";
+                    }
+                } else {
+                    if(!this.quantity || this.quantity === 0) {
+                        this.quantityError = "Quantity is required"
+                    }
+                    if(this.quantity && this.quantity < 0.01) {
+                        this.quantityError = "Quantity greater than 0.01"
+                    }
+                    if(!this.totalAmount || this.totalAmount <= 0) {
                         this.totalError = "Total Amount is required"
                     }
-                }
-                else {
-                    this.quantityError = "Quantity greater than 0.01"
+                    if(!this.bidPrice || this.bidPrice <= 0) {
+                        this.bidPriceError = "Bid Price is required"
+                    }
                 }
             }
         }

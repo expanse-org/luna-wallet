@@ -49,6 +49,10 @@
             };
         },
         computed: {
+            accounts() {
+                var accountsArray = this.$store.state.allAccounts;
+                return accountsArray;
+            },
             gexpLogData() {
                 console.log("computed");
                 if(this.gexplog.length > 50) {
@@ -75,6 +79,28 @@
                         if(this.pausegexp){
                             this.gexplog.push(res.replace(/\\n/g, '').substring(5));
                         }
+                    }
+                });
+                ipcRenderer.on('newMarketPair', (res) => {
+                    if(res) {
+                        this.$notification.success("New Market Pair Inserted", {  timer: 10, showCloseIcn: true });
+                    }
+                });
+                ipcRenderer.on('newTrade', (res) => {
+                    console.log(res, "newTrade");
+                    if(res) {
+                        this.$notification.success("New Trade Inserted", {  timer: 10, showCloseIcn: true });
+                    }
+                });
+                ipcRenderer.on('notificationOrder', (event, res) => {
+                    if(res) {
+                        console.log("notificationOrder",res)
+                        this.accounts.map((val) => {
+                            // console.log("notificationOrder",val.hash , res.maker)
+                            if(val.hash.toLowerCase() === res.maker.toLowerCase()) {
+                                this.$notification.success(res.betaSymbol+'-'+res.alphaSymbol+" order placed with price:"+res.price, {  timer: 10, showCloseIcn: true });
+                            }
+                        })
                     }
                 });
                 return this.gexplog;
