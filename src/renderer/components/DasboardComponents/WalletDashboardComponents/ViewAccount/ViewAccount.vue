@@ -39,7 +39,7 @@
                     <label>Transfer Expanse & Tokens</label>
                 </div>
 
-                <div  v-if="option!== 'watch'" class="deposit tooltip2 copytext " @click="handletooltip('comingSoon')">
+                <div  v-if="option!== 'watch'" class="deposit tooltip2 copytext " @click="openGanderUrl('https://international.bittrex.com/Market/Index?MarketName=BTC-EXP')">
                     <!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In  -->
                     <svg class="up" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0.347in" height="0.347in">
                         <path fill-rule="evenodd" fill="rgb(203, 77, 67)" d="M12.500,25.000 C5.596,25.000 -0.000,19.404 -0.000,12.500 C-0.000,5.596 5.596,-0.000 12.500,-0.000 C19.404,-0.000 25.000,5.596 25.000,12.500 C25.000,19.404 19.404,25.000 12.500,25.000 L12.500,25.000 ZM12.500,2.273 C6.852,2.273 2.273,6.852 2.273,12.500 C2.273,18.148 6.852,22.727 12.500,22.727 C18.148,22.727 22.727,18.148 22.727,12.500 C22.727,6.852 18.148,2.273 12.500,2.273 ZM18.182,15.606 C18.178,17.088 17.380,18.455 16.091,19.187 L16.091,20.783 C16.091,21.360 15.623,21.828 15.045,21.828 C14.468,21.828 14.000,21.360 14.000,20.783 L14.000,20.783 L14.000,19.748 L11.909,19.748 L11.909,20.783 C11.909,21.361 11.441,21.829 10.864,21.829 C10.286,21.829 9.818,21.361 9.818,20.783 L9.818,19.748 L8.773,19.748 C8.198,19.750 7.730,19.287 7.727,18.712 L7.727,6.288 C7.730,5.713 8.198,5.250 8.773,5.252 L9.818,5.252 L9.818,4.217 C9.818,3.640 10.286,3.172 10.864,3.172 C11.441,3.172 11.909,3.640 11.909,4.217 L11.909,5.253 L14.000,5.253 L14.000,4.217 C14.000,3.640 14.469,3.172 15.046,3.173 C15.623,3.173 16.090,3.641 16.091,4.217 L16.091,5.813 C18.068,6.928 18.767,9.435 17.651,11.413 C17.419,11.823 17.118,12.191 16.762,12.500 C17.663,13.281 18.181,14.414 18.182,15.606 ZM14.000,7.323 L9.818,7.323 L9.818,11.465 L14.000,11.465 C15.144,11.482 16.084,10.568 16.101,9.425 C16.118,8.281 15.205,7.340 14.061,7.323 C14.041,7.323 14.020,7.323 14.000,7.323 ZM14.000,13.535 L9.818,13.535 L9.818,17.677 L14.000,17.677 C15.144,17.694 16.084,16.780 16.101,15.637 C16.118,14.493 15.205,13.552 14.061,13.535 C14.041,13.535 14.020,13.535 14.000,13.535 Z"/>
@@ -96,7 +96,7 @@
                                        <p>{{ parseFloat(tokenHash.balance).toFixed(8) +' '+tokenHash.token_symbol}}</p>
                                        </div>
                                    </div>
-                               <div v-if="option!== 'watch'" class="right">
+                               <div @click="handleSend" v-if="option!== 'watch'" class="right">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27px" height="27px">
                                        <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M13.500,27.000 C6.044,27.000 -0.000,20.956 -0.000,13.500 C-0.000,6.044 6.044,-0.000 13.500,-0.000 C20.956,-0.000 27.000,6.044 27.000,13.500 C27.000,20.956 20.956,27.000 13.500,27.000 ZM21.504,5.459 C21.420,5.385 21.301,5.368 21.199,5.415 L2.864,13.963 C2.765,14.009 2.701,14.108 2.700,14.217 C2.699,14.326 2.760,14.426 2.858,14.474 L8.047,17.029 C8.142,17.076 8.256,17.065 8.341,17.002 L13.386,13.219 L9.425,17.306 C9.369,17.364 9.340,17.444 9.346,17.525 L9.740,22.678 C9.749,22.792 9.825,22.890 9.934,22.925 C9.963,22.935 9.993,22.939 10.022,22.939 C10.103,22.939 10.181,22.905 10.236,22.841 L12.990,19.639 L16.395,21.271 C16.469,21.307 16.554,21.308 16.629,21.275 C16.704,21.243 16.762,21.179 16.786,21.100 L21.588,5.757 C21.621,5.650 21.589,5.533 21.504,5.459 Z"></path>
                                        </svg>
@@ -396,16 +396,14 @@
                 this.notransactions = false;
                 clearInterval(this.intervalid2);
                 clearInterval(this.intervalid3);
-                console.log(postData, "postData------");
+                // console.log(postData, "postData------");
                 var transaction_list_hash ,updated_transaction_list_hash;
                 axios.post('https://api.gander.tech/getalltransactionsbyaddressarray', postData)
                     .then((response) => {
                         this.istransactions = true;
                         this.notransactions = false;
                         this.transactions = response.data.data.transactions;
-                        console.log(this.transactions === null ,"this.transactions ");
                         if(this.transactions && this.transactions.length > 0 ){
-                            console.log(this.transactions ,"this.transactions ");
                             transaction_list_hash = object_hash(this.transactions);
                             this.loader = false;
                             if(transaction_list_hash == updated_transaction_list_hash && !this.searchTxn){
@@ -441,6 +439,12 @@
                 db.get('accounts').find({ hash: this.accountHash }).assign({ accountTitle : newtitle}).write();
                 // console.log(db.get('accounts').find({hash: this.accountHash}));
                 getAllAcounts();
+            },
+            handleSend() {
+                this.$router.push({
+                    path: '/transferfunds',
+                    query: { hash:  this.accountHash},
+                });
             }
         }
     }

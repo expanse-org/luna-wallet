@@ -33,6 +33,47 @@ const fixpath = () =>{
         shell.cd('..');
         shell.cd('..');
     }
+
+    let token = db.get('tokens').find({ token_symbol: 'WEXP' }).value();
+    if(!token)
+    {
+        db.get('tokens').assign().push({
+            "id": "0mEaHa2DH",
+            "token_address": "0x270ff59e03e69db4600900a2816587e7cd3e2f11",
+            "token_name": "Wrapped Expanse",
+            "token_symbol": "WEXP",
+            "tokenType": "erc20",
+            "decimal_places": 18,
+            "color": "#50843C"
+        }).write();
+    }
+    token = db.get('tokens').find({ token_symbol: 'LAB' }).value();
+    if(!token)
+    {
+        db.get('tokens').assign().push({
+            "id": "DrZsGjQIZ",
+            "token_address": "0xa887adb722cf15bc1efe3c6a5d879e0482e8d197",
+            "token_name": "Token Lab",
+            "token_symbol": "LAB",
+            "tokenType": "erc20",
+            "decimal_places": 18,
+            "color": "#fa0fa0"
+        }).write();
+    }
+    token = db.get('tokens').find({ token_symbol: 'PEX' }).value();
+    if(!token)
+    {
+        db.get('tokens').assign().push({
+            "id": "6zxjBkREl",
+            "token_address": "0x4f5ec5a69dbe12c48ca1edc9c52b1e8896aed932",
+            "token_name": "Pex Token",
+            "token_symbol": "PEX",
+            "tokenType": "erc20",
+            "decimal_places": 18,
+            "color": "#0297da"
+        }).write();
+    }
+
 };
 
 fixpath();
@@ -159,12 +200,14 @@ const getallExpBalance = () => {
     fixpath();
     unarchiveAccounts.map((account, index) => {
         web3.eth.getBalance(account.hash).then((bal) => {
-            balance = web3.utils.fromWei(bal, "ether");
-            if(balance> 0){
-                total_balance += parseFloat(balance);
+            if(bal) {
+                balance = web3.utils.fromWei(bal, "ether");
+                if(balance> 0){
+                    total_balance += parseFloat(balance);
+                }
+                store.dispatch('addTotalBalance',total_balance);
+                unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index]);
             }
-            store.dispatch('addTotalBalance',total_balance);
-            unarchiveAccounts[index] = Object.assign({balance: balance}, unarchiveAccounts[index]);
         }, (error) => {
             // console.log(error, "getallExpBalance");
             Raven.captureException(error);

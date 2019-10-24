@@ -49,6 +49,7 @@ export default {
                 }
             }, 100);
         }
+
     },
     methods: {
         changeColorHead(tab) {
@@ -57,6 +58,9 @@ export default {
                 case '/wallet':
                     this.tabClass = 'red';
                     console.log(this.tabClass, "--------------");
+                    break;
+                case '/contracts':
+                    this.tabClass = 'red';
                     break;
                 case '/market':
                     this.tabClass = 'green';

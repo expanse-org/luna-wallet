@@ -1,5 +1,3 @@
-
-
 import { updateScreen, startConnectWeb,activeScreen  } from '../main/libs/config';
 import * as Raven from 'raven-js';
 import store from "../renderer/store";

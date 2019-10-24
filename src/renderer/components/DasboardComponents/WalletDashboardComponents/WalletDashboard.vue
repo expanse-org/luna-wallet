@@ -11,6 +11,7 @@
 
 <script>
     import Accounts from './Accounts';
+    var path = require('path')
     import LatestTransaction from './LatestTransaction';
     export default {
         name: 'WalletDashboard',
@@ -25,10 +26,7 @@
             'latesttransaction': LatestTransaction,
         },
         created(){
-            console.log(this.$router.history.current.path, this.$router.history)
-            if(this.$router.history.current.path === "/accountdetails"){
-                this.accdetails = false;
-            }
+
         },
         methods: {
         }

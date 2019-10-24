@@ -12,19 +12,21 @@
         </button>
         <ul >
             <li :class="walletTab" @click="mainMenu($event, 'wallet')">
-                <button class="btn" type="button">
+                <button class="btn tooltip" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="33px" height="33px"
                             viewBox="0 0 53 54" v-bind:style="{enableBackground:'new 0 0 53 54'}" xml:space="preserve">
                             <path class="icon" d="M53,25.2h-2.6V13.2c0-2.8-2.3-5.2-5.1-5.2h-3.5l-3.6-6.5c-0.8-1.5-2.7-2-4.2-1.2c0,0,0,0,0,0L20.4,8.1H5.1C2.3,8.1,0,10.4,0,13.2v35.6C0,51.7,2.3,54,5.1,54h40.2c2.8,0,5.1-2.3,5.1-5.2V38.4H53V25.2L53,25.2zM45.3,10.1c1.6,0,2.9,1.2,3,2.8h-3.9L43,10.1H45.3z M35.1,2.2c0.5-0.3,1.1-0.1,1.4,0.4l5.7,10.3H16L35.1,2.2z M48.4,48.8c0,1.7-1.4,3.1-3.1,3.1H5.1c-1.7,0-3.1-1.4-3.1-3.1V13.2c0-1.7,1.4-3.1,3.1-3.1h11.6l-4.9,2.8h-6c-0.6,0-1,0.5-1,1s0.5,1,1,1h42.6v10.2h-7.5c-3.5,0-6.3,2.9-6.3,6.4V32c0,3.5,2.8,6.4,6.3,6.4h7.5L48.4,48.8L48.4,48.8L48.4,48.8z M50.9,36.3H40.9c-2.4,0-4.3-1.9-4.3-4.3v-0.4c0-2.4,1.9-4.3,4.3-4.3h10.1V36.3z M44,31.8c0,1.3-1,2.3-2.3,2.2s-2.3-1-2.2-2.3c0-1.2,1-2.2,2.3-2.2    C43,29.6,44,30.6,44,31.8C44,31.8,44,31.8,44,31.8z"></path>
                         </svg>
                     <span>WALLETS</span>
+                    <label class="tooltiptext parrentFont">Wallets</label>
                 </button>
                 <div class="sidebar-line"></div>
             </li>
             <li :class="expexTab" @click="mainMenu($event, 'market')">
-                <button class="btn" type="button">
+                <button class="btn tooltip" type="button">
                     <img src="../../../assets/img/expexlogo.png"/>
                     <span>EXPEX</span>
+                    <label class="tooltiptext parrentFont">Expex</label>
                 </button>
                 <div class="sidebar-line"></div>
             </li>
@@ -59,16 +61,18 @@
                 <!--</button>-->
             <!--</li>-->
             <li :class="tokenlabTab" @click="mainMenu($event, 'tokenlab')">
-                <button class="btn">
+                <button class="btn tooltip">
                     <img src="../../../assets/img/tokenlab.svg"/>
                     <span>TOKENLAB</span>
+                    <label class="tooltiptext parrentFont">tokenlab</label>
                 </button>
                 <div class="sidebar-line"></div>
             </li>
-            <li :class="smartTab" @click="mainMenu($event, 'smartContracts')">
-                <button class="btn" type="button">
+            <li :class="contractsTab" @click="mainMenu($event, 'contracts')">
+                <button class="btn tooltip" type="button">
                     <img src="../../../assets/img/smartContract.png"/>
                     <span>SMART CONTRACT</span>
+                    <label class="tooltiptext parrentFont">Smart Contract</label>
                 </button>
                 <div class="sidebar-line"></div>
             </li>
@@ -119,7 +123,7 @@
         created(){
             this.update();
             // console.log(this.$router.history.current.path)
-            if(this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/tradehistory' || this.$router.history.current.path === '/marketconverter') {
+            if(this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/tradehistory' || this.$router.history.current.path === '/marketconverter') {
                 this.$router.push({
                     path: '/market'
                 });
@@ -131,23 +135,12 @@
                     this.walletTab = 'tablinks active red';
                     this.$emit('changeColorHead', '/wallet');
                     break;
-                case '/transferfunds':
-                    this.$router.push({
-                        path: '/transferfunds'
-                    });
-                    this.transferfundTab = 'tablinks active';
-                    break;
-                case '/token':
-                    this.$router.push({
-                        path: '/token'
-                    });
-                    this.tokenTab = 'tablinks active';
-                    break;
                 case '/contracts':
                     this.$router.push({
                         path: '/contracts'
                     });
-                    this.contractsTab = 'tablinks active';
+                    this.contractsTab = 'tablinks active red';
+                    this.$emit('changeColorHead', '/contracts');
                     break;
                 case '/market':
                     this.$router.push({
@@ -163,12 +156,6 @@
                     this.tokenlabTab = 'tablinks active blue';
                     this.$emit('changeColorHead', '/tokenlab');
                     break;
-                case '/currencyconverter':
-                    this.$router.push({
-                        path: '/currencyconverter'
-                    });
-                    this.currencyTab = 'tablinks active';
-                    break;
             }
 
         },
@@ -180,8 +167,6 @@
                 // console.log("update");
                 this.walletTab= 'tablinks';
                 this.expexTab= 'tablinks';
-                this.transferfundTab= 'tablinks';
-                this.tokenTab= 'tablinks';
                 this.contractsTab= 'tablinks';
                 this.currencyTab= 'tablinks';
                 this.tokenlabTab= 'tablinks';
@@ -206,30 +191,13 @@
                         this.expexTab = 'tablinks';
                         this.walletTab = 'tablinks active red';
                         break;
-                    case 'transferfund':
-                        if (this.totalBalanceData > 0) {
-                            this.$router.push({
-                                path: '/transferfunds'
-                            });
-                            this.transferfundTab = 'tablinks active';
-                        }else if(this.totalBalanceData === 0){
-                            // console.log("balanceeedasada")
-                            this.show();
-                        }
-                        break;
-                    case 'token':
-                        this.$router.push({
-                            path: '/token'
-                        });
-                        this.expexTab = 'tablinks';
-                        this.tokenTab = 'tablinks active';
-                        break;
                     case 'contracts':
                         this.$router.push({
                             path: '/contracts'
                         });
                         this.expexTab = 'tablinks';
-                        this.contractsTab = 'tablinks active';
+                        this.contractsTab = 'tablinks active red';
+                        this.$emit('changeColorHead', '/contracts');
                         break;
                     case 'tokenlab':
                         // console.log("dsasda",tab)
@@ -252,13 +220,6 @@
                     case 'smartContracts':
                         this.expexTab = 'tablinks';
                         this.smartTab = 'tablinks active';
-                        break;
-                    case 'currencyconverter':
-                        this.expexTab = 'tablinks';
-                        this.$router.push({
-                            path: '/currencyconverter'
-                        });
-                        this.currencyTab = 'tablinks active';
                         break;
                 }
 

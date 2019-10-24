@@ -100,17 +100,6 @@ db.defaults({ accounts: [], contracts: [], tokens: [
     ] , accountsAdresses:[] , hdWallets:[] , transactions : [] })
     .write();
 
-if(!db.get('tokens').find({ token_symbol: 'WEXP' }).value()) {
-    db.get('tokens').assign().push({
-        "id": "0mEaHa2DH",
-        "token_address": "0x270ff59e03e69db4600900a2816587e7cd3e2f11",
-        "token_name": "Wrapped Expanse",
-        "token_symbol": "WEXP",
-        "tokenType": "erc20",
-        "decimal_places": 18,
-        "color": "#50843C"
-    }).write();
-}
 
 export {
     db, adapter, low

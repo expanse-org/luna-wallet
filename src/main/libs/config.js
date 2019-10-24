@@ -46,6 +46,737 @@ const startConnectWeb = () => {
     return web3;
 };
 
+const startConnectWebHttp = () => {
+
+    const web3http = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9656"));
+    return web3http;
+};
+
+const marketENUM = {
+    'CANCELED' : "CANCELED",
+    'COMPLETE' : "COMPLETE",
+    'ERROR' : "ERROR",
+    'OPEN' : "OPEN",
+    'BUY' : "BUY",
+    'SELL' : "SELL"
+};
+
+
+
+var wexpABI= [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"guy","type":"address"},{"name":"wad","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"src","type":"address"},{"name":"dst","type":"address"},{"name":"wad","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"wad","type":"uint256"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"dst","type":"address"},{"name":"wad","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"src","type":"address"},{"indexed":true,"name":"guy","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"src","type":"address"},{"indexed":true,"name":"dst","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"dst","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"src","type":"address"},{"indexed":false,"name":"wad","type":"uint256"}],"name":"Withdrawal","type":"event"}]
+
+
+var expexABI = [
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "orderHash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "CancelOrderErc20",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "buyFilled",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "cancelled",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "address"
+            },
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "tokens",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "pairs",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "sellFilled",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "signer",
+                "type": "address"
+            },
+            {
+                "name": "hash",
+                "type": "bytes32"
+            },
+            {
+                "name": "v",
+                "type": "uint8"
+            },
+            {
+                "name": "r",
+                "type": "bytes32"
+            },
+            {
+                "name": "s",
+                "type": "bytes32"
+            }
+        ],
+        "name": "isValidSignature",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "isOwner",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "token1",
+                "type": "address"
+            },
+            {
+                "name": "token2",
+                "type": "address"
+            },
+            {
+                "name": "status",
+                "type": "bool"
+            }
+        ],
+        "name": "marketPairStatus",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "orderHash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getRemainingSellTokens",
+        "outputs": [
+            {
+                "name": "matcherRemaining",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "orders",
+        "outputs": [
+            {
+                "name": "maker",
+                "type": "address"
+            },
+            {
+                "name": "tokenBuy",
+                "type": "address"
+            },
+            {
+                "name": "tokenSell",
+                "type": "address"
+            },
+            {
+                "name": "amountBuy",
+                "type": "uint256"
+            },
+            {
+                "name": "amountSell",
+                "type": "uint256"
+            },
+            {
+                "name": "price",
+                "type": "uint256"
+            },
+            {
+                "name": "orderHash",
+                "type": "bytes32"
+            },
+            {
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "name": "status",
+                "type": "uint8"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "orderAddresses",
+                "type": "address[2]"
+            },
+            {
+                "name": "orderValues",
+                "type": "uint256[2]"
+            },
+            {
+                "name": "matchOrderHashes",
+                "type": "bytes32[5]"
+            }
+        ],
+        "name": "OrderErc20",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "isAdmin",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "orderHash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getRemainingBuyTokens",
+        "outputs": [
+            {
+                "name": "matcherRemaining",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "orderAddress1",
+                "type": "address"
+            },
+            {
+                "name": "orderAddress2",
+                "type": "address"
+            }
+        ],
+        "name": "getMarketPairHash",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "traded",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "orderHashes",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "orderAddresses",
+                "type": "address[2]"
+            },
+            {
+                "name": "orderValues",
+                "type": "uint256[2]"
+            }
+        ],
+        "name": "getOrderHash",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "name": "orderFills",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "name": "status",
+                "type": "bool"
+            }
+        ],
+        "name": "adminRole",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "token1",
+                "type": "address"
+            },
+            {
+                "name": "token2",
+                "type": "address"
+            }
+        ],
+        "name": "marketPairStatusCheck",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "VERSION",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "orderHash",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "name": "tokenBuy",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amountBuy",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "name": "tokenSell",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amountSell",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "name": "maker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "Order",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "orderHash",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "tokenBuy",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amountBuy",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "amountBuyCancelled",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "tokenSell",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amountSell",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "amountSellCancelled",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "name": "maker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "Cancel",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "orderHash",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "matchinOrderHash",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "tokenBuy",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amountBuy",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "name": "tokenSell",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "amountSell",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "name": "maker",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "taker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "Trade",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "token1",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "token2",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "name": "status",
+                "type": "bool"
+            }
+        ],
+        "name": "MarketPair",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "name": "previousOwner",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    }
+];
 
 var tokenInterface = [
     {
@@ -223,4 +954,9 @@ const ExpApi = () => {
     });
 }
 
-export { production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi, currencies, web3, apiurl }
+var expexAddress = '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9';
+
+export {
+    production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi,
+    currencies, web3, apiurl, expexABI, wexpABI, startConnectWebHttp, marketENUM, expexAddress
+}

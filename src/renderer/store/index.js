@@ -10,7 +10,6 @@ import {activeScreen} from '../../main/libs/config'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    strict: false,
   state: {
     count: 0,
     screenState: 'config',
@@ -33,6 +32,7 @@ const store = new Vuex.Store({
     watchAccounts: '',
     addresseshash: '',
     gexpLogs: '',
+    cronToast: ''
   },
   mutations: {
     increment (state) {
@@ -100,6 +100,9 @@ const store = new Vuex.Store({
     },
     pushGexpLogs (state, gexplogs) {
       state.gexpLogs = gexplogs;
+    },
+    pushCronToast (state, crontoast) {
+      state.cronToast = crontoast;
     }
   },
   actions: {
@@ -165,6 +168,9 @@ const store = new Vuex.Store({
       },
       addGexpLog({ commit }, gexpLogs) {
           store.commit('pushGexpLogs',gexpLogs)
+      },
+      addCronToast({ commit }, cronToast) {
+          store.commit('pushCronToast',cronToast)
       }
     },
     getters: {
@@ -189,17 +195,12 @@ const store = new Vuex.Store({
         getWatchAccounts: state => {
             return state.watchAccounts;
         },
+        getCronToast: state => {
+            return state.cronToast;
+        },
     },
   modules,
-  strict: process.env.NODE_ENV !== 'production',
+  strict: process.env.NODE_ENV !== 'production' && false,
 })
-//
-// console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
-//
-// ipcRenderer.on('asynchronous-reply', (event, arg) => {
-//   console.log(arg) // prints "pong"
-// })
-// ipcRenderer.send('asynchronous-message', 'ping')
-
 
 export default store

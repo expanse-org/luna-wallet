@@ -70,6 +70,9 @@
 <script>
     import {getRandomColor} from '../../AccountsData/commonFunc';
     import Multiselect from 'vue-multiselect'
+    import {getAllAcounts} from '../WalletDashboardComponents/walletcommon';
+    import {web3, startConnectWeb} from '../../../../main/libs/config';
+
     export default {
         name: 'Expex-component',
         data() {
@@ -95,6 +98,21 @@
             },
         },
         created(){
+
+            if (typeof web3 !== 'undefined') {
+                // console.log("if (typeof web3 !== 'undefined')");
+                getAllAcounts();
+            } else {
+                // set the provider you want from Web3.providers
+                startConnectWeb();
+                this.intervalid1 = setInterval(() => {
+                    if(typeof web3 !== 'undefined' ){
+                        getAllAcounts();
+                        clearInterval(this.intervalid1)
+                    }
+                }, 100);
+            }
+
             switch (this.$router.history.current.path){
                 case '/market':
                     this.$router.push({
@@ -128,25 +146,25 @@
                     if(val.tokens) {
                         val.token_icons.map((acc_token) => {
                             if (acc_token.token_symbol === 'WEXP') {
-                                var data = { value:val.hash ,text: val.hash + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- ('+ parseFloat(acc_token.balance).toFixed(5)+' WEXP )', color: getRandomColor()};
+                                var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- ('+ parseFloat(acc_token.balance).toFixed(5)+' WEXP )', color: getRandomColor()};
                                 this.optionFrom.push(data);
                                 this.loading= false;
                             }
                         });
                         let obj = val.token_icons.find(o => o.token_symbol === 'WEXP');
                         if(!obj){
-                            var data = { value:val.hash ,text: val.hash + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- (0 WEXP )', color: getRandomColor()};
+                            var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- (0 WEXP )', color: getRandomColor()};
                             this.optionFrom.push(data);
                             this.loading= false;
                         }
                     } else {
-                        var data = { value:val.hash ,text: val.hash + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- (0 WEXP )', color: getRandomColor()};
+                        var data = { value:val.hash ,text: val.accountTitle + '- ('+ parseFloat(val.balance).toFixed(5)+' EXP )'+ '- (0 WEXP )', color: getRandomColor()};
                         this.optionFrom.push(data);
                         this.loading= false;
                     }
                 }
             });
-            if(this.optionFrom && this.optionFrom[0] && this.optionFrom[0].value) {
+            if(this.optionFrom && this.optionFrom[0] && this.optionFrom[0].value ) {
                 this.fromAddress = { value:this.optionFrom[0].value ,text: this.optionFrom[0].text, color: this.optionFrom[0].color};
             }
         },

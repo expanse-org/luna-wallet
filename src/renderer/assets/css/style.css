@@ -2219,7 +2219,7 @@ FONTS
   /* ///  END DECORATION CSS  ///  */
   /* etiqueta <p> con la opcion selecionada  */ }
   .popup::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
     border-radius: 8px;
     background-color: none;
     border-radius: 10px !important;
@@ -2228,7 +2228,7 @@ FONTS
     background-clip: content-box;
     border: 2px solid transparent;
     border-radius: 10px !important;
-    background-color: #ffffff;
+    background-color: #e1e1e1;
     background-image: url(../img/account-scroll.png);
     background-repeat: no-repeat;
     background-position: center center; }
@@ -4341,8 +4341,10 @@ perspective effects (not including the modals and the overlay).
             -webkit-border-radius: 10px 10px 10px 10px;
             -ms-border-radius: 10px 10px 10px 10px;
             border-radius: 10px 10px 10px 10px;
-            background-color: #0a3640;
-            border: 3px solid #115666;
+            /*background-color: #0a3640;*/
+            /*border: 3px solid #115666;*/
+            background-color: #2C2C2C;
+            border: 3px solid #707070;
             margin-bottom: 10px;
             border-radius: 25px; }
           .loading .loadingMain .downloadNode .content .logo .bar-fill {

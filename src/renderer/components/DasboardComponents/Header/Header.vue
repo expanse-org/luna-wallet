@@ -97,9 +97,12 @@
             </div>
 
             <div class="down">
-                <select v-on:change="handleCurrency(selectCurrency)" v-model="selectCurrency"  id="currency">
-                    <option v-for="(val,currency) in currenciesData" :value="currency">{{currency}}</option>
-                </select>
+                <multiselect id="currency" v-model="selectCurrency" :searchable="false" :allow-empty="false"
+                              :show-labels="false" :options="currencyOptions" class="filter-select">
+                </multiselect>
+<!--                <select v-on:change="handleCurrency(selectCurrency)" v-model="selectCurrency"  id="currency">-->
+<!--                    <option v-for="(val,currency) in currenciesData" :value="currency">{{currency}}</option>-->
+<!--                </select>-->
             </div>
         </div>
         <!-- <button type="button" class="notifications">
@@ -122,10 +125,14 @@
     // var web3 = startConnectWeb();
     const got = require('got');
     import _ from 'underscore';
+    import Multiselect from 'vue-multiselect'
 
     export default {
         name: 'Header-page',
         props:['tabClass'],
+        components:{
+            'multiselect': Multiselect,
+        },
         data() {
             return {
                 barWrap: false,
@@ -148,7 +155,13 @@
                 tb: 0,
                 tmspm: 0,
                 price: 0,
+                currencyOptions: []
             };
+        },
+        watch: {
+            selectCurrency(value) {
+                this.handleCurrency(value);
+            }
         },
         computed: {
             currentblockData: function(){
@@ -181,11 +194,21 @@
                 got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
                     json: true
                 }).then(response => {
-                    curNew = response.body.DISPLAY.EXP;
-                    this.currency = response.body.DISPLAY.EXP.EXP;
-                    $(".currValue").text(curNew['USD'].PRICE);
+                    if(response) {
+                        curNew = response && response.body && response.body.DISPLAY && response.body.DISPLAY.EXP;
+                        this.currency = response && response.body && response.body.DISPLAY && response.body.DISPLAY.EXP;
+                        $(".currValue").text(curNew['USD'].PRICE);
+                        if(!this.$store.state.currencies) {
+                            this.$store.dispatch('addCurrencies',this.currency);
+                        }
+                    }
                 },(error) => {
                 });
+                this.currencyOptions = [];
+                // console.log(this.currency, "this.cue====");
+                Object.keys(this.currency).map((cur) => {
+                    this.currencyOptions.push(cur);
+                })
                 return this.currency;
             },
             totalBalanceData: function(){

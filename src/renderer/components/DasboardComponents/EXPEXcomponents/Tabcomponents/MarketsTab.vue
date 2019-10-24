@@ -5,10 +5,10 @@
             <div class="market-content">
                 <div class="market-headings">
                     <h1>Expanse Markets</h1>
-                    <h3>Total Volume = 890,435.987 EXP</h3>
+                    <h3>Total Volume = 0 EXP</h3>
                 </div>
                 <div class="market-input">
-                    <input placeholder="Find Tokens..." type="text" class="find-market"/>
+                    <input placeholder="Find Tokens " v-model="searchTokens" type="text" class="find-market"/>
                 </div>
             </div>
         </div>
@@ -16,217 +16,31 @@
             <div class="table-head">
                 <label>PAIR</label>
                 <label>PRICE</label>
-                <label>VOLUME</label>
-                <label>%CHANGE</label>
+                <label>24HR VOLUME</label>
                 <label>24HR CHANGE</label>
                 <label>24HR HIGH</label>
                 <label>24HR LOW</label>
-                <label>DATE ADDED</label>
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div @click="openDetails" class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
+                <div v-if="marketTable.length > 0" v-for="(data, index) in (marketTable || getmarketPair)" @click="openDetails(data)" :class="data.perChange > 0 ? 'table-row Greenback': 'table-row'">
+                    <p>{{data.betaSymbol}} - {{data.alphaSymbol}}</p>
+                    <p>{{data.Price? data.Price: 0}}</p>
+                    <p>{{data.volume? data.volume: 0}}</p>
+                    <p v-if="data.perChange >= 0" class="row-mid Green">
+                        {{data.perChange ? parseFloat(data.perChange):0}}% <img src="../../../../assets/img/PolygonGreen2.png"/>
+                    </p>
+                    <p v-else class="row-mid Red">
+                        {{data.perChange ? parseFloat(data.perChange):0}}% <img src="../../../../assets/img/PolygonRed2.png"/>
+                    </p>
+                    <p>{{data.maxPrice? data.maxPrice: 0}}</p>
+                    <p>{{data.minPrice ? data.minPrice: 0}}</p>
                 </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">2.1 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">2.1 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-RSP</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-NOC</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">2.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Green">5.1 <img src="../../../../assets/img/PolygonGreen2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
-                </div>
-                <div class="table-row">
-                    <p>EXP-ETH</p>
-                    <p>256,796.32</p>
-                    <p>256,796.32</p>
-                    <p class="row-mid Red">1.2 <img src="../../../../assets/img/PolygonRed2.png"/></p>
-                    <p>0.0000567</p>
-                    <p>0.0000567</p>
-                    <p>0.0000467</p>
-                    <p class="row-10">08/13/18</p>
+                <div v-if="marketTable.length === 0" class="table-no-row">
+                    <p class="row-10">No Market Data Found</p>
                 </div>
             </div>
-            <div>
+            <div v-if="totalcount > 1">
                 <paginate
                         :pageCount=totalcount
                         :clickHandler="clickCallback"
@@ -243,7 +57,11 @@
 </template>
 
 <script>
-    import Paginate from 'vuejs-paginate'
+    import Paginate from 'vuejs-paginate';
+    import {sqldb} from '../../../../../common/cronjobs';
+    import {ipcRenderer} from 'electron';
+    import {web3} from '../../../../../main/libs/config';
+
     export default {
         name: 'marketsTab',
         components : {
@@ -253,18 +71,132 @@
             return {
                 initialPage: 1,
                 forcePage: 1,
+                offset: 0,
+                limit: 10,
                 totalcount: 100,
+                marketTable: [],
+                othermaketData: [],
+                searchTokens: '',
+                tsYesterday: '',
+                lastmarketType: [],
+                updaterow: -1,
+                updaterowColor: '',
             };
         },
+        watch: {
+            searchTokens(value) {
+                if(value) {
+                    sqldb.each("SELECT * FROM marketPair where betaSymbol = '"+value+"' COLLATE NOCASE or alphaSymbol = '"+value+"' COLLATE NOCASE", (err, row) => {
+                        if(row) {
+                            this.marketTable.push(row);
+                        }
+                    });
+                } else {
+                    this.getmarketData();
+                    this.getmarketCount();
+                }
+            }
+
+        },
+        computed: {
+           getmarketPair() {
+               ipcRenderer.on('newMarketPair', (event , res) => {
+                   console.log(event, res);
+                   if(res) {
+                       this.getmarketData();
+                       this.getmarketCount();
+                   }
+              });
+               ipcRenderer.on('deleteMarketPair', (event , res) => {
+                   if(res) {
+                       this.getmarketData();
+                       this.getmarketCount();
+                   }
+              });
+               ipcRenderer.on('updatemarketPair', (event , res) => {
+                   if(res) {
+                       this.getmarketData();
+                       this.getmarketCount();
+                       this.marketTable.map((pair , index) => {
+                           if((pair.alphaAddress == res.tokenBuy && pair.betaAddress == res.tokenSell) || (pair.alphaAddress == res.tokenSell && pair.betaAddress == res.tokenBuy)) {
+                               this.updaterow = index;
+                           }
+                           sqldb.each("SELECT * FROM Trade order by createdAt Limit 1", (err, rowtrade) => {
+                               console.log(rowtrade, "rowsss");
+                               if((rowtrade.tokenSell == pair.alphaAddress && rowtrade.tokenBuy == pair.betaAddress) || (rowtrade.tokenSell == pair.betaAddress && rowtrade.tokenBuy == pair.alphaAddress)) {
+                                   this.updaterow = index;
+                               }
+                           });
+                       })
+                   }
+              });
+           }
+        },
         created(){
+            this.marketTable=[];
+            this.lastmarketType=[];
+            this.getmarketPair;
+            this.getmarketData();
+            this.getmarketCount();
         },
         methods: {
             clickCallback (pageNum) {
-                console.log(pageNum)
+                this.forcePage = pageNum;
+                this.offset = (pageNum -1) * this.limit;
+                this.marketTable=[];
+                pageNum = (pageNum -1) * this.limit ;
+                sqldb.each("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+pageNum+"", (err, row) => {
+                    // console.log(row, "rowsss");
+                    this.marketTable.push(row);
+                    // sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+row.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+row.betaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+row.betaAddress+"' COLLATE NOCASE and tokenSell = '"+row.alphaAddress+"' COLLATE NOCASE)) order by createdAt Limit 1", (err, rowtrade) => {
+                    //     // console.log(rowtrade, "rowsss");
+                    //     if(rowtrade.marketType === 'BUY') {
+                    //         this.updaterowColor = 'Greenback';
+                    //     } else if(rowtrade.marketType === 'SELL') {
+                    //         this.updaterowColor = 'Redback';
+                    //     }
+                    //     this.lastmarketType.push({alphaAddress: row.alphaAddress, betaAddress: row.betaAddress, marketType: rowtrade.marketType })
+                    // });
+                });
             },
-            openDetails() {
+            getmarketData() {
+                this.marketTable=[];
+                let i = 0;
+                sqldb.each("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+this.offset+"", (err, row) => {
+                    // console.log(row, "rowsss");
+                    if(row) {
+                        this.marketTable.push(row);
+                        // sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+row.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+row.betaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+row.betaAddress+"' COLLATE NOCASE and tokenSell = '"+row.alphaAddress+"' COLLATE NOCASE)) order by createdAt Limit 1", (err, rowtrade) => {
+                        //     // console.log(rowtrade, "rowsss");
+                        //     if(rowtrade.marketType === 'BUY') {
+                        //         this.updaterowColor = 'Greenback';
+                        //     } else if(rowtrade.marketType === 'SELL') {
+                        //         this.updaterowColor = 'Redback';
+                        //     }
+                        //     this.lastmarketType.push({alphaAddress: row.alphaAddress, betaAddress: row.betaAddress, marketType: rowtrade.marketType })
+                        // });
+                        // sqldb.each("SELECT * FROM Trade order by createdAt Limit 1", (err, rowtrade) => {
+                        //     if((rowtrade.tokenSell == row.alphaAddress && rowtrade.tokenBuy == row.betaAddress) || (rowtrade.tokenSell == row.betaAddress && rowtrade.tokenBuy == row.alphaAddress)) {
+                        //         console.log(this.marketTable, row.alphaAddress , row.betaAddress, "index");
+                        //         let index = this.marketTable.findIndex(x => (x.alphaAddress === row.alphaAddress && x.betaAddress === row.betaAddress));
+                        //         this.updaterow = index;
+                        //     }
+                        // });
+                    }
+                    i=i+1;
+                });
+            },
+            getmarketCount() {
+                sqldb.each("SELECT COUNT(*) as count FROM marketPair", (err, row) => {
+                    if(row) {
+                        this.totalcount = Math.ceil( (row.count) /  this.limit);
+                    }
+                });
+            },
+            openDetails(data) {
                 this.$router.push({
-                    path: '/expexdetails'
+                    path: '/expexdetails',
+                    query: { data: data }
                 });
             }
         }
