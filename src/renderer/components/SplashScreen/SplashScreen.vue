@@ -328,14 +328,12 @@
                 // console.log(web3.eth.getAccounts());
                 web3.eth.getAccounts().then((accounts, error) => {
                     if(accounts && accounts.length > 0){
-                        // ipcRender
-                        // er.send('launchApplication', 'Launch App');
-                        that.$router.push({
-                            path: '/walletdashboard'
-                        });
+                        this.$router.push({
+                            path: '/wallet'
+                        });     
                     }else{
                         // ipcRenderer.send('launchCreateAccount', 'Create Account');
-                        that.$router.push({
+                        this.$router.push({
                             path: '/createaccount'
                         })
                     }

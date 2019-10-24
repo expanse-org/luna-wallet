@@ -127,12 +127,9 @@
                 this.$emit('changeColorHead', '/market');
             }
             switch (this.$router.history.current.path){
-                case '/walletdashboard':
-                    this.$router.push({
-                        path: '/walletdashboard'
-                    });
+                case '/wallet':
                     this.walletTab = 'tablinks active red';
-                    this.$emit('changeColorHead', '/walletdashboard');
+                    this.$emit('changeColorHead', '/wallet');
                     break;
                 case '/transferfunds':
                     this.$router.push({
@@ -203,9 +200,9 @@
                 switch (tab){
                     case 'wallet':
                         this.$router.push({
-                            path: '/walletdashboard'
+                            path: '/wallet'
                         });
-                        this.$emit('changeColorHead', '/walletdashboard');
+                        this.$emit('changeColorHead', '/wallet');
                         this.expexTab = 'tablinks';
                         this.walletTab = 'tablinks active red';
                         break;

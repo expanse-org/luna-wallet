@@ -5,7 +5,9 @@
             <div class="container-outer">
                 <div class="contant-outer">
                     <header-app :tabClass="tabClass"/>
-                    <router-view />
+                    <keep-alive>
+                        <router-view />
+                    </keep-alive>
                 </div>
             </div>
         </div>
@@ -31,6 +33,7 @@ export default {
         };
     },
     created(){
+        console.log(this.$router, "router");
         if (typeof web3 !== 'undefined') {
             // console.log("if (typeof web3 !== 'undefined')");
             getAllAcounts();
@@ -51,7 +54,7 @@ export default {
         changeColorHead(tab) {
             console.log(tab, "--------------");
             switch (tab){
-                case '/walletdashboard':
+                case '/wallet':
                     this.tabClass = 'red';
                     console.log(this.tabClass, "--------------");
                     break;

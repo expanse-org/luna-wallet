@@ -61,7 +61,9 @@
             </div>
             <div class="tab-bottom-bar"></div>
         </div>
-        <router-view :fromAddress="fromAddress"></router-view>
+        <keep-alive>
+            <router-view :fromAddress="fromAddress"></router-view>
+        </keep-alive>
     </div>
 </template>
 

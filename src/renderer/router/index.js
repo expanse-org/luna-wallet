@@ -55,6 +55,11 @@ export default new Router({
                 },
             ]
         },
+        // {
+        //     path: '/walletdashboard',
+        //     name: 'WalletDashboard',
+        //     component: WalletDashboard
+        // },
         {
             path: '/accounts',
             name: 'AccountApp',
@@ -73,20 +78,13 @@ export default new Router({
             ]
         },
         {
-            path: '/dashboard',
-            name: 'MainApp',
+            path: '/mainapp',
             component: MainApp,
             children: [
-                {
-                    path: '/dashboard',
-                    name: 'Dashboard',
+                {   
+                    path: '',
                     component: Dashboard,
                     children: [
-                        {
-                            path: '/walletdashboard',
-                            name: 'WalletDashboard',
-                            component: WalletDashboard
-                        },
                         {
                             path: '/transferfunds',
                             name: 'TransferFunds',
@@ -96,6 +94,11 @@ export default new Router({
                             path: '/expwalletaddress',
                             name: 'EXPWalletAdd',
                             component: EXPWalletAdd
+                        },
+                        {
+                            path: '/wallet',
+                            name: 'WalletDashboard',
+                            component: WalletDashboard
                         },
                         {
                             path: '/token',
