@@ -63,6 +63,7 @@
                         <!--<button class="withdraw-btn"><img src="../../../../assets/img/PolygonWhite3.png"/> WITHDRAW</button>-->
                     </div>
                 </div>
+                <div id="thechart"></div>
                 <div class="partition-chart"></div>
                 <div class="chart-body">
 
@@ -264,6 +265,8 @@
     import {web3, tokenInterface, expexABI, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup';
     import {sqldb} from '../../../../../common/cronjobs';
+    var Highcharts = require('highcharts/highstock');
+
 
     const web3http = startConnectWebHttp();
     const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
@@ -334,9 +337,229 @@
                 }
             }
         },
+        mounted() {
+            var candleData = [];
+
+            let startDate = new Date("2019-10-20:00:00");
+            let endDate = new Date();
+            endDate.setDate(endDate.getDate() + 1);
+            for(let i=0;i<20;i++) {
+                let ts1 = Math.round(startDate / 1000);
+                startDate.setDate(startDate.getDate() + 1);
+                let ts2 = Math.round(startDate / 1000);
+                sqldb.each("SELECT MAX(price) as maxPrice,MIN(price) as minPrice,createdAt,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt desc limit 1" +
+                    ") as lastPrice,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt asc limit 1" +
+                    ") as firstPrice  FROM Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' ORDER BY createdAt desc", (err, row) => {
+                    if(row && (row.createdAt && row.maxPrice)) {
+                        let data = [parseInt(row.createdAt) * 1000, row.firstPrice,row.maxPrice, row.minPrice, row.lastPrice];
+                        candleData.push(data);
+                        this.chart = new Highcharts.stockChart(spec)
+                    }
+                });
+                if(startDate.toLocaleDateString() == endDate.toLocaleDateString()) {
+                    break;
+                }
+            }
+            var spec = {
+                chart: {
+                    type: 'candlestick',
+                    renderTo: 'thechart',
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                        stops: [
+                            [0, '#2a2a2b'],
+                            [1, '#3e3e40']
+                        ]
+                    },
+                },
+                subtitle: {
+                    style: {
+                        color: '#E0E0E3',
+                        textTransform: 'uppercase'
+                    }
+                },
+                xAxis: {
+                    gridLineColor: '#707073',
+                    labels: {
+                        style: {
+                            color: '#E0E0E3'
+                        }
+                    },
+                    lineColor: '#707073',
+                    minorGridLineColor: '#505053',
+                    tickColor: '#707073',
+                    title: {
+                        style: {
+                            color: '#A0A0A3'
+
+                        }
+                    }
+                },
+                yAxis: {
+                    gridLineColor: '#707073',
+                    labels: {
+                        style: {
+                            color: '#E0E0E3'
+                        }
+                    },
+                    lineColor: '#707073',
+                    minorGridLineColor: '#505053',
+                    tickColor: '#707073',
+                    tickWidth: 1,
+                    title: {
+                        style: {
+                            color: '#A0A0A3'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    style: {
+                        color: '#F0F0F0'
+                    }
+                },
+                plotOptions: {
+                    boxplot: {
+                        fillColor: '#505053'
+                    },
+                    candlestick: {
+                        lineColor: 'white',
+                        color: '#85A200'
+                    },
+                },
+                navigator: {
+                    handles: {
+                        backgroundColor: '#666',
+                        borderColor: '#AAA'
+                    },
+                    outlineColor: '#CCC',
+                    maskFill: 'rgba(255,255,255,0.1)',
+                    series: {
+                        color: '#000000',
+                        lineColor: '#000000'
+                    },
+                    xAxis: {
+                        gridLineColor: '#505053'
+                    }
+                },
+                legend: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    itemStyle: {
+                        color: '#E0E0E3'
+                    },
+                    itemHoverStyle: {
+                        color: '#FFF'
+                    },
+                    itemHiddenStyle: {
+                        color: '#606063'
+                    },
+                    title: {
+                        style: {
+                            color: '#C0C0C0'
+                        }
+                    }
+                },
+                credits: {
+                    style: {
+                        color: '#666'
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#707073'
+                    }
+                },
+
+                drilldown: {
+                    activeAxisLabelStyle: {
+                        color: '#F0F0F3'
+                    },
+                    activeDataLabelStyle: {
+                        color: '#F0F0F3'
+                    }
+                },
+
+                navigation: {
+                    buttonOptions: {
+                        symbolStroke: '#DDDDDD',
+                        theme: {
+                            fill: '#505053'
+                        }
+                    }
+                },
+
+                // scroll charts
+                rangeSelector: {
+                    buttonTheme: {
+                        fill: '#505053',
+                        stroke: '#000000',
+                        style: {
+                            color: '#CCC'
+                        },
+                        states: {
+                            hover: {
+                                fill: '#707073',
+                                stroke: '#000000',
+                                style: {
+                                    color: 'white'
+                                }
+                            },
+                            select: {
+                                fill: '#000003',
+                                stroke: '#000000',
+                                style: {
+                                    color: 'white'
+                                }
+                            }
+                        }
+                    },
+                    inputBoxBorderColor: '#505053',
+                    inputStyle: {
+                        backgroundColor: '#333',
+                        color: 'silver'
+                    },
+                    labelStyle: {
+                        color: 'silver'
+                    }
+                },
+                scrollbar: {
+                    barBackgroundColor: '#808083',
+                    barBorderColor: '#808083',
+                    buttonArrowColor: '#CCC',
+                    buttonBackgroundColor: '#606063',
+                    buttonBorderColor: '#606063',
+                    rifleColor: '#FFF',
+                    trackBackgroundColor: '#404043',
+                    trackBorderColor: '#404043'
+                },
+                series: [{
+                    type: 'candlestick',
+                    name: 'Trade Chart',
+                    data: candleData,
+                    dataGrouping: {
+                        units: [
+                            [
+                                'week', // unit name
+                                [1] // allowed multiples
+                            ], [
+                                'month',
+                                [1, 2, 3, 4, 6]
+                            ]
+                        ]
+                    },
+                }]
+
+            };
+
+        },
         data() {
             return {
                 web3,
+                chart:undefined,
+                candleDataset: [
+                    [1571814823000, 0.25, 0.001, 0.001, 0.001],
+                    [1571906885000, 0.25, 0.3, 0.3, 0.3],
+                ],
                 initialPage: 1,
                 initialPage1: 1,
                 initialPage2: 1,
@@ -400,8 +623,8 @@
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
                 this.tokenAmount = 0;
                 this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
-                var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                let userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                let tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
                 if(userData) {
                     this.tokenAmount = tokenData.balance;
                 }
@@ -409,6 +632,7 @@
             } else {
                 this.$modal.show('insufficentBal');
             }
+
             this.buyTable = [];
             sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
                 // console.log(row, "rowsss");
@@ -416,7 +640,7 @@
             });
             sqldb.each("SELECT COUNT(*) FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
                 if(row) {
-                    this.totalcount1 = Math.ceil( (row['COUNT(*)']) /  5);
+                    this.totalcount1 = Math.ceil( (row['COUNT(*)']) /  10);
                 }
             });
             this.sellTable = [];
@@ -426,7 +650,7 @@
             });
             sqldb.each("SELECT COUNT(*) FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
                 if(row) {
-                    this.totalcount2 = Math.ceil( (row['COUNT(*)']) /  5);
+                    this.totalcount2 = Math.ceil( (row['COUNT(*)']) /  10);
                 }
             });
             this.marketHistoryTable = [];
@@ -591,7 +815,7 @@
                 this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount))) {
+                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount)) && (parseFloat(this.totalAmount) <= parseFloat(this.wexpAmount))) {
                             try {
                                 await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
@@ -615,7 +839,7 @@
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
                             var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance))) {
+                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance)) && (parseFloat(this.totalAmount) <= parseFloat(tokenData.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")
