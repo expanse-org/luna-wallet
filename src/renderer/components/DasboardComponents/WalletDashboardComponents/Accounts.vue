@@ -3,11 +3,9 @@
         <div class="userInfo">
             <div class="curve"></div>
             <div class="left">
-                <!-- <div class="qrCode" id="qrCode1"> -->
                 <div class="qrCodevue" >
                     <qrcode-vue :value="accountHash" level="L"></qrcode-vue>
                 </div>
-                <!-- </div> -->
                 <div class="info main-account">
                     <h1 class="m_name">{{accountTitle? accountTitle: 'Main Account'}}</h1>
                     <label class="balance">
@@ -98,12 +96,12 @@
     import WalletInfo from './ViewAccount/WalletInfo';
     import insuficentBalance from '../insuficentBalance';
     import QrcodeVue from 'qrcode.vue';
-    import {web3} from '../../../../main/libs/config';
+    import {startConnectWeb} from '../../../../main/libs/config';
+    import AddAccount from './AddAccount';
     import { clipboard } from 'electron';
     import os from 'os';
     import  * as child_process from 'child_process';
-    // var web3 = startConnectWeb();
-    import AddAccount from './AddAccount';
+    var web3 = startConnectWeb();
     export default {
         name: 'Accounts',
         components:{
@@ -123,7 +121,6 @@
               copiedtip1: false,
               balance: '',
               size: 116,
-              web3,
               loader: true,
               searchTxn: '',
               txndetaildata: '',
@@ -132,48 +129,67 @@
         },
         computed: {
             accounts() {
-                this.expaccounts = this.$store.state.allAccounts;
-                return this.expaccounts;
+                try{
+                    this.expaccounts = this.$store.state.allAccounts;
+                    return this.expaccounts;
+                } catch (e) {
+                    console.log(e, "err");
+                }
             },
             defaultCurrencyData() {
-                this.defaultSign = this.$store.state.ac_dcurrency ;
-                // console.log(this.defaultSign, "this.defaultSign -----------------------------")
-                return this.defaultSign;
+                try{
+                    this.defaultSign = this.$store.state.ac_dcurrency ;
+                    // console.log(this.defaultSign, "this.defaultSign -----------------------------")
+                    return this.defaultSign;
+                } catch (e) {
+                    console.log(e, "err");
+                }
             },
             accPriceData() {
-                var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
-                this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
-                return this.accbprice;
+                try{
+                    var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
+                    this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
+                    return this.accbprice;
+                } catch (e) {
+                    console.log(e, "err");
+                }
             },
             totalBalanceData: function(){
-                let tb = this.$store.state.total_balance;
-                return tb;
+                try{
+                    let tb = this.$store.state.total_balance;
+                    return tb;
+                } catch (e) {
+                    console.log(e, "err");
+                }
             },
         },
         created(){
             console.log(web3, this.accountHash,"web3")
-            let that = this;
-            that.intervalid1 = setInterval(() => {
-                if (that.accounts.length > 0 && that.accounts !== ' ') {
-                    that.accounts.map((account_hash) => {
-                        if(account_hash){
-                            web3.eth.getCoinbase().then((res)=> {
-                                // console.log(res);
-                                if(account_hash.hash) {
-                                    if (res == (account_hash.hash).toLowerCase()){
-                                        // console.log(account_hash, "account_hash");
-                                        that.accountTitle = account_hash.accountTitle;
-                                        that.accountHash = account_hash.hash;
-                                        that.accountbalance = account_hash.balance;
-                                        // console.log(that.accountbalance, "accountbalance");
-                                        clearInterval(that.intervalid1)
+            try{
+                this.intervalid1 = setInterval(() => {
+                    if (this.accounts.length > 0 && this.accounts !== ' ') {
+                        this.accounts.map((account_hash) => {
+                            if(account_hash){
+                                web3.eth.getCoinbase().then((res)=> {
+                                    // console.log(res);
+                                    if(account_hash.hash) {
+                                        if (res == (account_hash.hash).toLowerCase()){
+                                            // console.log(account_hash, "account_hash");
+                                            this.accountTitle = account_hash.accountTitle;
+                                            this.accountHash = account_hash.hash;
+                                            this.accountbalance = account_hash.balance;
+                                            // console.log(this.accountbalance, "accountbalance");
+                                            clearInterval(this.intervalid1)
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    })
-                }
-            }, 100);
+                                });
+                            }
+                        })
+                    }
+                }, 100);
+            } catch(e) {
+                console.log(e, "err");
+            }
         },
         methods: {
             mainMenu(type){

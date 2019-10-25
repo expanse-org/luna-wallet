@@ -1712,6 +1712,10 @@
                   position: relative;
                   display: grid;
                   grid-template-columns: repeat(4, 1fr);
+                  h1 {
+                    width: 120px;
+                    margin-bottom: 10px;
+                  }
                   .keyvalue {
                     div {
                       font-size: 14px;

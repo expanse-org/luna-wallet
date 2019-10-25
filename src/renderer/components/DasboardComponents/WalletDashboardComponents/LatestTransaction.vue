@@ -160,18 +160,6 @@
         <div class="contractinfo">
             <label>Most exchanges don't support receiving exp from a contract wallet yet. Be sure to move the
                 money to an account address first!</label>
-            <!--   <button>
-
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px"
-                    viewBox="0 0 45 52" style="enable-background:new 0 0 45 52;" xml:space="preserve">
-                    <path class="show" d="M44,52H12c-0.6,0-1-0.4-1-1V41H1c-0.6,0-1-0.4-1-1V1c0-0.6,0.4-1,1-1h32c0.6,0,1,0.4,1,1v10h10c0.6,0,1,0.4,1,1
-                    v39C45,51.6,44.6,52,44,52z M32,2H2v37h9v-3h2v3h19V13h-3v-2h3V2z M43,13h-9v27c0,0.6-0.4,1-1,1H13v9h30V13z M22,11h5v2h-5V11z
-                    M16,11h4v2h-4V11z M13,14h-2v-3h3v2h-1V14z M13,20h-2v-3h2V20z M13,27h-2v-4h2V27z M13,33h-2v-4h2V33z"
-                    />
-                </svg>
-
-                Show Contract Info
-            </button> -->
         </div>
 
         <div class="latestTransaction">
@@ -244,11 +232,10 @@
     import { sortbyEXPBalance, watchOnlyAccounts} from './walletcommon';
     import axios from 'axios';
     import object_hash from 'object-hash';
-    import {web3} from '../../../../main/libs/config';
+    import {startConnectWeb} from '../../../../main/libs/config';
     import Transactiondetail from './Transactiondetail';
     import * as Raven from 'raven-js';
-
-    // var web3 = startConnectWeb();
+    var web3 = startConnectWeb();
     export default {
         name: 'latestTransaction',
         data() {
@@ -279,66 +266,88 @@
         },
         computed: {
             accounts() {
-                this.expaccounts = this.$store.state.allAccounts;
-                return this.expaccounts;
+                try {
+                    this.expaccounts = this.$store.state.allAccounts;
+                    return this.expaccounts;
+                } catch (e) {
+                }
             },
             hashaccounts() {
-                this.addhashes = this.$store.state.addresseshash;
-                return this.addhashes;
+                try {
+                    this.addhashes = this.$store.state.addresseshash;
+                    return this.addhashes;
+                } catch (e) {
+                }
             },
             WatchAccounts() {
-                this.watchaccounts = this.$store.state.watchAccounts ;
-                return this.watchaccounts;
+                try {
+                    this.watchaccounts = this.$store.state.watchAccounts ;
+                    return this.watchaccounts;
+                } catch (e) {
+                }
             },
             defaultCurrencyData() {
-                this.defaultSign = this.$store.state.ac_dcurrency ;
-                // console.log(this.defaultSign, "this.defaultSign -----------------------------")
-                return this.defaultSign;
+                try {
+                    this.defaultSign = this.$store.state.ac_dcurrency ;
+                    // console.log(this.defaultSign, "this.defaultSign -----------------------------")
+                    return this.defaultSign;
+                } catch (e) {
+                }
             },
             accPriceData() {
-                var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
-                // console.log(curr, "cur-----")
-                this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
+                try {
+                    var curr = this.defaultCurrencyData === "$" ?  'USD':this.defaultCurrencyData;
+                    // console.log(curr, "cur-----")
+                    this.accbprice = this.$store.state.currencies && this.$store.state.currencies[curr].PRICE.replace(/[^0-9\.]/g, '');
 
-                return this.accbprice;
+                    return this.accbprice;
+                } catch (e) {
+                }
             },
             filtertransaction() {
-                if(this.searchTxn.trim()){
-                    return this.transactions.filter(item => {
-                        return item.to.indexOf(this.searchTxn.toLowerCase()) > -1 || item.from.indexOf(this.searchTxn.toLowerCase()) > -1 || item.transactionStatus && item.transactionStatus.indexOf(this.searchTxn.toLowerCase()) > -1 || item.valueDecimal && (parseFloat(item.valueDecimal).toFixed(4)).indexOf(this.searchTxn.toLowerCase()) > -1
-                    })
+                try {
+                    if(this.searchTxn.trim()){
+                        return this.transactions.filter(item => {
+                            return item.to.indexOf(this.searchTxn.toLowerCase()) > -1 || item.from.indexOf(this.searchTxn.toLowerCase()) > -1 || item.transactionStatus && item.transactionStatus.indexOf(this.searchTxn.toLowerCase()) > -1 || item.valueDecimal && (parseFloat(item.valueDecimal).toFixed(4)).indexOf(this.searchTxn.toLowerCase()) > -1
+                        })
+                    }
+                } catch (e) {
                 }
             }
         },
         created(){
-            let pageNo = this.$router.history.current.query.page_no;
-            if(pageNo) {
-                this.initialPage = parseInt(pageNo);
-                this.forcePage =  parseInt(pageNo);
-            } else {
-                this.initialPage = 0;
-                this.forcePage =  0;
-            }
-            this.intervalid1 = setInterval(() => {
-                if(this.accounts.length > 0 ){
-                    this.accountdetailTab = true;
-                    this.accountWatch = true;
-                    if(this.hashaccounts.length > 0){
-                        this.istransactions = true;
-                        var postData = {
-                            skip: 0,
-                            limit: 15,
-                            addresses: this.hashaccounts,
-                        }
-                        this.fetch(postData);
-                        clearInterval(this.intervalid1);
-                    }
+            try {
+                let pageNo = this.$router.history.current.query.page_no;
+                if(pageNo) {
+                    this.initialPage = parseInt(pageNo);
+                    this.forcePage =  parseInt(pageNo);
                 } else {
-                    this.accountdetailTab = false;
-                    this.istransactions = false;
-                    this.loader = true;
+                    this.initialPage = 0;
+                    this.forcePage =  0;
                 }
-            }, 100);
+                this.intervalid1 = setInterval(() => {
+                    if(this.accounts.length > 0 ){
+                        this.accountdetailTab = true;
+                        this.accountWatch = true;
+                        if(this.hashaccounts.length > 0){
+                            this.istransactions = true;
+                            var postData = {
+                                skip: 0,
+                                limit: 15,
+                                addresses: this.hashaccounts,
+                            }
+                            this.fetch(postData);
+                            clearInterval(this.intervalid1);
+                        }
+                    } else {
+                        this.accountdetailTab = false;
+                        this.istransactions = false;
+                        this.loader = true;
+                    }
+                }, 100);
+            } catch(e) {
+                console.log(e, "latestTransaction");
+            }
         },
         methods: {
             clickCallback (pageNum) {

@@ -1,5 +1,10 @@
 <template>
     <div class="popup popup1 md-content ">
+
+        <accounts />
+        <!--<div v-if="accdetails">
+            <latesttransaction />
+        </div> -->
         <h1>EXPANSE Wallet Address</h1>
         <h2>Your Public EXPANSE Address:</h2>
         <div class="address">
