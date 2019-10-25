@@ -87,7 +87,7 @@
                                 <p class="Green">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
                             </div>
                             <div v-if="buyTable.length === 0" class="table-no-row">
-                                <p class="row-10">No SELL Orders Found</p>
+                                <p class="row-10">No Buy Orders Found</p>
                             </div>
                         </div>
                         <div v-if="totalcount1 > 1">
@@ -170,7 +170,8 @@
                             <p>{{parseFloat(tokenAmount).toFixed(8)}} {{this.tokenData.betaSymbol}}</p>
                         </div>
                         <div class="balance-partition1"></div>
-                        <p @click="handleMaxBuy" class="buybluetxt">MAX BUY</p>
+                        <p v-if="btnActive==='buy'" @click="handleMaxBuy" class="buybluetxt">MAX BUY</p>
+                        <p v-if="btnActive==='sell'" @click="handleMaxSell" class="buybluetxt">MAX SELL</p>
                     </div>
                 </div>
                 <div class="left-side">
@@ -188,7 +189,7 @@
                                 <p>{{parseFloat(data.price).toFixed(4)}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
-                                <p class="row-10">No BUY Orders Found</p>
+                                <p class="row-10">No Sell Orders Found</p>
                             </div>
                         </div>
                         <div v-if="totalcount2 > 1">
@@ -267,7 +268,6 @@
     import {sqldb} from '../../../../../common/cronjobs';
     var Highcharts = require('highcharts/highstock');
 
-
     const web3http = startConnectWebHttp();
     const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
@@ -288,47 +288,44 @@
                 this.totalAmount = this.quantity*newValue;
             },
             fromAddress: function (value) {
+                this.offset1 = 0;
+                this.offset2 = 0;
+                this.initialPage1 = 0;
+                this.initialPage2 = 0;
+                this.forcePage1 = 0;
+                this.forcePage2 = 0;
                 this.expAmount = value.text.split('(')[1].split(' ')[0];
                 this.tokenAmount = 0;
                 this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
-                this.accounts.map((val) => {
-                    if(val.hash === this.fromAddress.value) {
-                        if(val.tokens){
-                            val.token_icons.map((token) => {
-                                if(token.token_symbol === this.tokenData.betaSymbol) {
-                                    this.tokenAmount = token.balance;
-                                }
-                            })
-                        }
-                    }
-                });
-                this.mainquery = "marketType = 'BUY' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  group by  price order by price asc LIMIT 10";
-                this.mainquery1 = "marketType = 'SELL' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  group by  price order by price desc LIMIT 10";
+                let userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                let tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.betaSymbol);
+                if(tokenBal) {
+                    this.tokenAmount = tokenBal.balance;
+                }
+                this.mainquery = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+                this.mainquery1 = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
                 this.buyTable = [];
-                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
+
+                let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
                     if(row) {
                         this.buyTable.push(row);
                     }
                 });
-                sqldb.each("SELECT COUNT(*) FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
-                    if(row) {
-                        this.totalcount1 = Math.ceil( (row['COUNT(*)']) /  5);
-                    }
-                });
+
                 this.sellTable = [];
-                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
+                new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
                     if(row)
                     {
                         this.sellTable.push(row);
                     }
                 });
-                sqldb.each("SELECT COUNT(*) FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
-                    if(row) {
-                        this.totalcount2 = Math.ceil( (row['COUNT(*)']) /  5);
-                    }
-                });
+
+                this.getbuyCount();
+                this.getsellCount();
                 this.startAllowanceInterval();
             },
             allowanceAmount() {
@@ -338,7 +335,9 @@
             }
         },
         mounted() {
+            this.tokenData = this.$router.history.current.query.data;
             var candleData = [];
+            console.log(this.tokenData);
 
             let startDate = new Date("2019-10-20:00:00");
             let endDate = new Date();
@@ -347,9 +346,13 @@
                 let ts1 = Math.round(startDate / 1000);
                 startDate.setDate(startDate.getDate() + 1);
                 let ts2 = Math.round(startDate / 1000);
+                let query = "SELECT MAX(price) as maxPrice,MIN(price) as minPrice,createdAt,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt desc limit 1" +
+                    ") as lastPrice,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt asc limit 1" +
+                    ") as firstPrice  FROM Trade where ((tokenBuy = '"+this.tokenData.alphaAddress+"' and tokenSell = '"+this.tokenData.betaAddress+"') or (tokenBuy = '"+this.tokenData.betaAddress+"' and tokenSell = '"+this.tokenData.alphaAddress+"')) and createdAt BETWEEN '"+ts1+"' and '"+ts2+"' ORDER BY createdAt desc"
+                // console.log(this.tokenData, query);
                 sqldb.each("SELECT MAX(price) as maxPrice,MIN(price) as minPrice,createdAt,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt desc limit 1" +
                     ") as lastPrice,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt asc limit 1" +
-                    ") as firstPrice  FROM Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' ORDER BY createdAt desc", (err, row) => {
+                    ") as firstPrice  FROM Trade where ((tokenBuy = '"+this.tokenData.alphaAddress+"' and tokenSell = '"+this.tokenData.betaAddress+"') or (tokenBuy = '"+this.tokenData.betaAddress+"' and tokenSell = '"+this.tokenData.alphaAddress+"')) and createdAt BETWEEN '"+ts1+"' and '"+ts2+"' ORDER BY createdAt desc", (err, row) => {
                     if(row && (row.createdAt && row.maxPrice)) {
                         let data = [parseInt(row.createdAt) * 1000, row.firstPrice,row.maxPrice, row.minPrice, row.lastPrice];
                         candleData.push(data);
@@ -556,10 +559,6 @@
             return {
                 web3,
                 chart:undefined,
-                candleDataset: [
-                    [1571814823000, 0.25, 0.001, 0.001, 0.001],
-                    [1571906885000, 0.25, 0.3, 0.3, 0.3],
-                ],
                 initialPage: 1,
                 initialPage1: 1,
                 initialPage2: 1,
@@ -616,61 +615,88 @@
         },
         created(){
             this.tokenData = this.$router.history.current.query.data;
-            this.mainquery = "marketType = 'BUY' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  group by  price order by price asc LIMIT 10";
-            this.mainquery1 = "marketType = 'SELL' and maker != '"+this.fromAddress.value+"' COLLATE NOCASE and orderFilled  < 100 and tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE  and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE  group by  price order by price desc LIMIT 10";
+            this.mainquery = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+            this.mainquery1 = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
             if(this.fromAddress) {
                 // console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
                 this.tokenAmount = 0;
                 this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
                 let userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                let tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                if(userData) {
-                    this.tokenAmount = tokenData.balance;
+                let tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.betaSymbol);
+                if(tokenBal) {
+                    this.tokenAmount = tokenBal.balance;
                 }
                 this.startAllowanceInterval();
             } else {
                 this.$modal.show('insufficentBal');
             }
-
             this.buyTable = [];
-            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
+            let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
                 // console.log(row, "rowsss");
-                this.buyTable.push(row);
-            });
-            sqldb.each("SELECT COUNT(*) FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
                 if(row) {
-                    this.totalcount1 = Math.ceil( (row['COUNT(*)']) /  10);
+                    this.buyTable.push(row);
                 }
             });
             this.sellTable = [];
-            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
+            new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
                 // console.log(row, "rowsss");
-                this.sellTable.push(row);
-            });
-            sqldb.each("SELECT COUNT(*) FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
-                if(row) {
-                    this.totalcount2 = Math.ceil( (row['COUNT(*)']) /  10);
+                if(row)
+                {
+                    this.sellTable.push(row);
                 }
             });
+            new_data = [this.tokenData.betaAddress, this.tokenData.alphaAddress, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+            let paramquery = "((tokenBuy = ? and tokenSell = ?) or (tokenBuy = ? and tokenSell = ?)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ this.offset +"";
             this.marketHistoryTable = [];
-            sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
+            sqldb.each("SELECT * FROM Trade where "+ paramquery,new_data, (err, row) => {
                 // console.log(row, "rowsss");
                 if(row) {
                     this.marketHistoryTable.push(row);
                 }
             });
-            sqldb.each("SELECT COUNT(*) FROM Trade where ((tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ this.offset +"", (err, row) => {
-                // console.log(row, "rowsss");
-                if(row) {
-                    this.totalcount = Math.ceil( (row['COUNT(*)']) /  5);
-                }
-            });
+            this.getbuyCount();
+            this.getsellCount();
+            this.getHistoryCount();
         },
         destroyed() {
             clearInterval(this.intervalid1);
         },
         methods: {
+            getbuyCount() {
+                let i =0 ;
+                let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                let mainqueryCount = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc";
+                sqldb.each("SELECT COUNT(*) as count FROM Orders where "+mainqueryCount,new_data, (err, row) => {
+                    if(row) {
+                        i++;
+                        this.totalcount1 = Math.ceil( i /  10);
+                    }
+                });
+            },
+            getsellCount() {
+                let i =0 ;
+                let new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                let mainqueryCount = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc";
+                sqldb.each("SELECT COUNT(*) as count FROM Orders where  "+mainqueryCount,new_data, (err, row) => {
+                    if(row) {
+                        i++;
+                        this.totalcount2 = Math.ceil( i /  10);
+                    }
+                });
+            },
+            getHistoryCount() {
+                let new_data = [this.tokenData.betaAddress, this.tokenData.alphaAddress, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                let mainqueryCount = "((tokenBuy = ? COLLATE NOCASE and tokenSell = ? COLLATE NOCASE) or (tokenBuy = ? COLLATE NOCASE and tokenSell = ? COLLATE NOCASE)) ORDER BY createdAt";
+                sqldb.each("SELECT COUNT(*) as count FROM Trade where "+mainqueryCount,new_data,(err, row) => {
+                    // console.log(row, "rowsss");
+                    if(row) {
+                        this.totalcount = Math.ceil( (row.count) /  5);
+                    }
+                });
+            },
             startAllowanceInterval() {
                 this.allowanceAmount = 0;
                 var contract;
@@ -726,35 +752,41 @@
                 this.offset = (pageNum -1) * this.limit;
                 pageNum = (pageNum -1) * this.limit ;
                 sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+this.tokenData.betaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+this.tokenData.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+this.tokenData.betaAddress+"' COLLATE NOCASE)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ pageNum +"", (err, row) => {
-                    console.log(row, "rowsss");
+                    // console.log(row, "rowsss");
                     if(row) {
                         this.marketHistoryTable.push(row);
                     }
                 });
             },
             clickCallback1 (pageNum) {
-                console.log(pageNum)
-                this.marketHistoryTable = [];
+                console.log(pageNum);
                 this.forcePage1 = pageNum;
                 this.offset1 = (pageNum -1) * this.limit1;
                 pageNum = (pageNum -1) * this.limit1 ;
                 this.buyTable = [];
-                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'", (err, row) => {
+                this.mainquery = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+                let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+pageNum+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
-                    this.buyTable.push(row);
+                    if(row) {
+                        this.buyTable.push(row);
+                    }
                 });
             },
             clickCallback2 (pageNum) {
-                console.log(pageNum)
-                this.marketHistoryTable = [];
-                this.forcePage = pageNum;
-                this.offset = (pageNum -1) * this.limit1;
+                console.log(pageNum);
+                this.forcePage2 = pageNum;
+                this.offset2 = (pageNum -1) * this.limit1;
                 pageNum = (pageNum -1) * this.limit1 ;
-
                 this.sellTable = [];
-                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'", (err, row) => {
+                let new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                this.mainquery1 = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+pageNum+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
-                    this.sellTable.push(row);
+                    if(row)
+                    {
+                        this.sellTable.push(row);
+                    }
                 });
             },
             handleRow(p1 = 0, p2 = 0, p3 = 0){
@@ -763,7 +795,12 @@
                 this.totalAmount = p3;
             },
             handleMaxBuy() {
-
+                this.quantity = this.wexpAmount;
+                this.bidPrice = this.wexpAmount;
+            },
+            handleMaxSell() {
+                this.quantity = this.tokenAmount;
+                this.bidPrice = this.wexpAmount;
             },
             handleFocus() {
               this.quantityError = '';
@@ -792,8 +829,9 @@
             getorderdata (tokenbuy, tokensell) {
                 return new Promise(async (resolve, reject) => {
                     let i = 0;
-                    // console.log("SELECT orderHash FROM Orders where orderfilled < 100 and maker != '"+this.fromAddress.value+"' COLLATE NOCASE  and price = "+this.bidPrice+" and tokenBuy = '"+tokenbuy+"' COLLATE NOCASE  and tokenSell = '"+tokensell+"' COLLATE NOCASE ")
-                    await sqldb.get("SELECT orderHash FROM Orders where orderfilled < 100 and maker != '"+this.fromAddress.value+"' COLLATE NOCASE  and price = "+this.bidPrice+" and tokenBuy = '"+tokenbuy+"' COLLATE NOCASE  and tokenSell = '"+tokensell+"' COLLATE NOCASE ", (err, row) => {
+                    let new_data = [100, this.fromAddress.value, this.bidPrice, tokenbuy, tokensell];
+                    let paramquery = "orderfilled < ? and maker != ? and price = ? and tokenBuy = ? and tokenSell = ?";
+                    await sqldb.get("SELECT orderHash FROM Orders where "+paramquery,new_data, (err, row) => {
                         if(err) {
                             reject(err);
                         }
@@ -838,8 +876,8 @@
                             clearInterval(this.intervalid1);
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                            var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance)) && (parseFloat(this.totalAmount) <= parseFloat(tokenData.balance))) {
+                            var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                            if(tokenBal && (parseFloat(this.bidPrice) <= parseFloat(tokenBal.balance)) && (parseFloat(this.totalAmount) <= parseFloat(tokenBal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")
@@ -890,7 +928,7 @@
                 this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount))) {
+                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount)) && (parseFloat(this.quantity) <= parseFloat(this.wexpAmount))) {
                             try {
                                 await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
@@ -913,8 +951,8 @@
                             clearInterval(this.intervalid1);
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                            var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance))) {
+                            var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                            if(tokenBal && (parseFloat(this.bidPrice) <= parseFloat(tokenBal.balance)) && (parseFloat(this.quantity) <= parseFloat(tokenBal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")

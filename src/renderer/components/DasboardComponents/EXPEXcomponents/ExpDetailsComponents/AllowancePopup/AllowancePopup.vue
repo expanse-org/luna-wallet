@@ -25,7 +25,7 @@
                     <div class="all-form">
                         <label>Gas Price</label>
                         <div class="progressBar">
-                            <input id="gasprice" v-model="gasprice" type="range" min="53" max="212"/>
+                            <input id="gasprice"  v-model="gasprice" @focus="handleFocus" type="range" min="53" max="212"/>
                             <div class="ranges">
                                 <span>Cheaper</span>
                                 <span>Faster</span>
@@ -161,9 +161,16 @@
             hide () {
                 this.$modal.hide('allowancePopup');
                 this.$modal.hide('exchangeNow');
+                this.$modal.hide('cancelOrderPopup');
+            },
+            handleFocus() {
+                this.passwordError = "";
+                this.amountError = "";
+                this.feeError = "";
             },
             sendTransaction(){
                 this.passwordError = "";
+                this.amountError = "";
                 this.feeError = "";
                 var userData = this.accounts.find((val) => val.hash === (this.modalArray && this.modalArray.fromAddress));
                 let expAmount = userData.balance;

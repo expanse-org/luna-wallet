@@ -9,6 +9,7 @@ import moment from 'moment';
 import VueMoment from 'vue-moment';
 import VueNumerals from 'vue-numerals';
 import numeral from 'numeral';
+
 import VueNotification from "@kugatsu/vuenotification";
 import Datetime from 'vue-datetime'
 // You need a specific loader for CSS files

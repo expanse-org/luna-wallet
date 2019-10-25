@@ -18,7 +18,7 @@
                     <span class="mtop-10">To:</span> <datetime type="date" placeholder="End Date" v-model="todate" class="find-market" input-id="startDate"></datetime>
                 </div>
                 <div class="myorder-input">
-                    <input placeholder="Find..." v-model="hashSearch" type="text" class="find-market"/>
+                    <input placeholder="Find by Tx hash" v-model="hashSearch" type="text" class="find-market"/>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="orderHistory.length > 0"  class="table-row" v-for="(order, index) in (orderHistory || getOrders)">
+                <div v-if="orderHistory.length > 0"  class="table-row" v-for="(order, index) in orderHistory">
                     <p>{{(order.betaSymbol)}}-{{(order.alphaSymbol)}}</p>
                     <p>{{ parseInt(order.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                     <p v-if="order.marketType === 'BUY'" class="Green">{{order.marketType}}</p>
@@ -205,6 +205,8 @@
                 fromDateQuery: '',
                 selectQuery: '',
                 mainQuery: '',
+                paramData: [],
+                paramData1: [],
                 hashQuery1: '',
                 todateQuery1: '',
                 fromDateQuery1: '',
@@ -218,149 +220,130 @@
                 this.offset = 0;
                 this.forcePage = 1;
                 this.openorderTable = [];
+                let startDate = new Date(this.fromDate.split('T')[0]+":00:00");
+                let ts1 = Math.round(startDate / 1000);
                 if(this.todate && this.fromDate) {
-                    this.fromDateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.todate.split('T')[0]+"' and";
+                    let todate = new Date(this.todate.split('T')[0]+":00:00");
+                    let ts2 = Math.round(todate / 1000);
+                    this.fromDateQuery = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
                 } else {
                     if(this.fromDate ) {
-                        this.fromDateQuery = "createdAt = '"+ this.fromDate.split('T')[0] +"' and";
+                        this.fromDateQuery = "createdAt >= '"+ts1+"' and";
                     }
                 }
                 if(this.todate || this.fromDate) {
-                    sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
-                        if(row) {
-                            this.openorderTable.push(row);
-                        }
-                    });
+                    console.log(this.fromDateQuery);
+                    this.getopenOrders(0);
                 }
-                this.getopenorderCount(this.hashSearch , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
+                this.getopenorderCount();
             },
             todate() {
                 this.offset = 0;
                 this.forcePage = 1;
                 this.openorderTable = [];
+                let todate = new Date(this.todate.split('T')[0]+":00:00");
+                let ts2 = Math.round(todate / 1000);
                 if(this.todate && this.fromDate) {
-                    this.todateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.todate.split('T')[0]+"' and";
+                    let startDate = new Date(this.fromDate.split('T')[0]+":00:00");
+                    let ts1 = Math.round(startDate / 1000);
+                    this.todateQuery = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
                 } else {
                     if(this.todate ) {
-                        this.todateQuery = "createdAt = '"+ this.todate.split('T')[0] +"' and";
+                        this.todateQuery = "createdAt <= '"+ ts2 +"' and";
                     }
                 }
                 if(this.todate || this.fromDate) {
-                    sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
-                        if(row) {
-                            this.openorderTable.push(row);
-                        }
-                    });
+                    this.getopenOrders(0);
                 }
-                this.getopenorderCount(this.hashSearch , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
+                this.getopenorderCount();
             },
             hashSearch(data) {
                 this.offset = 0;
                 this.forcePage = 1;
                 this.openorderTable = [];
                 if(data) {
-                    this.hashQuery = "orderHash = '"+data+"' COLLATE NOCASE and";
-                    sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
-                        if(row) {
-                            this.openorderTable.push(row);
-                        }
-                    });
+                    this.getopenOrders(0);
                 } else if(!this.hashSearch) {
                     this.hashQuery = "";
-                    this.getopenOrders();
+                    this.getopenOrders(0);
                 }
-                this.getopenorderCount(this.hashQuery , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
+                this.getopenorderCount();
             },
             selected(data) {
                 this.offset = 0;
                 this.forcePage = 1;
                 this.openorderTable = [];
                 if(data === 'BUY' || data === 'SELL' ) {
-                    this.selectQuery = "marketType = '"+data+"' COLLATE NOCASE and";
-                    sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
-                        if(row) {
-                            this.openorderTable.push(row);
-                        }
-                    });
+                    this.getopenOrders(0);
                 } else if(this.selected === 'ALL') {
                     this.selectQuery = "";
                     this.getopenOrders();
                 }
-                this.getopenorderCount(this.hashSearch , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
+                this.getopenorderCount();
             },
             fromDate1() {
                 this.offset1 = 0;
                 this.forcePage1 = 1;
                 this.orderHistory = [];
+                let startDate = new Date(this.fromDate1.split('T')[0]+":00:00");
+                let ts1 = Math.round(startDate / 1000);
                 if(this.todate1 && this.fromDate1) {
-                    this.fromDateQuery1 = "createdAt BETWEEN '"+this.fromDate1.split('T')[0]+"' AND '"+this.todate1.split('T')[0]+"' and";
+                    let todate = new Date(this.todate1.split('T')[0]+":00:00");
+                    let ts2 = Math.round(todate / 1000);
+                    this.fromDateQuery1 = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
                 } else {
                     if(this.fromDate1 ) {
-                        this.fromDateQuery1 = "createdAt = '"+ this.fromDate1.split('T')[0] +"' and";
+                        this.fromDateQuery1 = "createdAt >= '"+ ts1 +"' and";
                     }
                 }
                 if(this.todate1 || this.fromDate1) {
-                    sqldb.each("SELECT * FROM  Orders where "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ this.offset1 +"", (err, row) => {
-                        if(row) {
-                            this.orderHistory.push(row);
-                        }
-                    });
+                    this.getorderHistory(0);
                 }
-                this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                this.getorderCount();
             },
             todate1() {
                 this.offset1 = 0;
                 this.forcePage1 = 1;
                 this.orderHistory = [];
+                let todate = new Date(this.todate1.split('T')[0]+":00:00");
+                let ts2 = Math.round(todate / 1000);
                 if(this.todate1 && this.fromDate1) {
-                    this.todateQuery1 = "createdAt BETWEEN '"+this.fromDate1.split('T')[0]+"' AND '"+this.todate1.split('T')[0]+"' and";
+                    let startDate = new Date(this.fromDate1.split('T')[0]+":00:00");
+                    let ts1 = Math.round(startDate / 1000);
+                    this.todateQuery1 = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
                 } else {
                     if(this.todate1 ) {
-                        this.todateQuery1 = "createdAt = '"+ this.todate.split('T')[0] +"' and";
+                        this.todateQuery1 = "createdAt <= '"+ ts2 +"' and";
                     }
                 }
                 if(this.todate1 || this.fromDate1) {
-                    sqldb.each("SELECT * FROM  Orders where "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ this.offset1 +"", (err, row) => {
-                        if(row) {
-                            this.orderHistory.push(row);
-                        }
-                    });
+                    this.getorderHistory(0);
                 }
-                this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                this.getorderCount();
             },
             hashSearch1(data) {
                 this.offset1 = 0;
                 this.forcePage1 = 1;
                 this.orderHistory = [];
                 if(data) {
-                    this.hashQuery1 = "orderHash = '"+data+"' COLLATE NOCASE and";
-                    sqldb.each("SELECT  * FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ this.offset1 +"", (err, row) => {
-                        if(row) {
-                            this.orderHistory.push(row);
-                        }
-                    });
-                } else {
+                    this.getorderHistory(0);
+                } else if(!this.hashSearch1) {
                     this.hashQuery1 = "";
-                    this.getorderHistory();
+                    this.getorderHistory(0);
                 }
-                this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                this.getorderCount();
             },
             selected1(data) {
                 this.offset1 = 0;
                 this.forcePage1 = 1;
                 this.orderHistory = [];
                 if(data === 'BUY' || data === 'SELL' ) {
-                    this.selectQuery1 = "marketType = '"+data+"' COLLATE NOCASE and";
-                    sqldb.each("SELECT  * FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ this.offset1 +"", (err, row) => {
-                        if(row) {
-                            this.orderHistory.push(row);
-                        }
-                    });
-                } else {
+                    this.getorderHistory(0);
+                } else if(this.selected1 === 'ALL') {
                     this.selectQuery1 = "";
-                    this.getorderHistory();
+                    this.getorderHistory(0);
                 }
-                this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                this.getorderCount();
             },
             fromAddress: function (value) {
                 this.openorderTable=[];
@@ -369,12 +352,14 @@
                 this.forcePage = 1;
                 this.offset1 = 0;
                 this.forcePage1 = 1;
-                this.mainQuery = " maker = '"+ value.value+"' COLLATE NOCASE and orderFilled < 100 and status = 'OPEN' ORDER BY createdAt desc LIMIT "+ this.row_count +"";
-                this.mainQuery1 = " maker = '"+ value.value+"' COLLATE NOCASE and orderFilled = 100 ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
-                this.getopenOrders();
-                this.getorderHistory();
-                this.getopenorderCount(this.hashSearch , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
-                this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                this.paramData = [this.fromAddress.value, 100,'OPEN'];
+                this.mainQuery = "maker = ? COLLATE NOCASE and orderFilled < ? and status = ? ORDER BY createdAt desc LIMIT "+ this.row_count +"";
+                this.paramData1 = [this.fromAddress.value, 100];
+                this.mainQuery1 = " maker = ? and orderFilled = ? ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
+                this.getopenOrders(0);
+                this.getorderHistory(0);
+                this.getopenorderCount();
+                this.getorderCount();
             },
         },
         computed: {
@@ -387,26 +372,28 @@
                     console.log(event, res);
                     if(res) {
                         this.getopenOrders();
-                        this.getopenorderCount('' , '' , '', '',this.mainQuery , this.offset);
-                        this.getorderHistory();
+                        this.getopenorderCount();
+                        // this.getorderHistory();
                         this.getorderCount();
                     }
                 });
                 ipcRenderer.on('updateOrder', (event , res) => {
                     if(res) {
                         this.getopenOrders();
-                        this.getopenorderCount('' , '' , '', '',this.mainQuery , this.offset);
-                        this.getorderHistory();
-                        this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                        this.getopenorderCount();
+                        // this.getorderHistory();
+                        this.getorderCount();
                     }
                 });
             }
         },
         created(){
-            this.mainQuery = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled < 100 and status = 'OPEN' ORDER BY createdAt desc LIMIT "+ this.row_count +"";
-            this.mainQuery1 = " maker = '"+ this.fromAddress.value+"' COLLATE NOCASE and orderFilled = 100 ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
+            this.paramData = [this.fromAddress.value, 100,'OPEN'];
+            this.mainQuery = "maker = ? COLLATE NOCASE and orderFilled < ? and status = ? ORDER BY createdAt desc LIMIT "+ this.row_count +"";
+            this.paramData1 = [this.fromAddress.value, 100];
+            this.mainQuery1 = "maker = ? COLLATE NOCASE and orderFilled = ? ORDER BY createdAt desc LIMIT "+ this.row_count1 +"";
             this.getopenOrders();
-            this.getopenorderCount('' , '' , '', '',this.mainQuery , this.offset);
+            this.getopenorderCount();
             this.getorderHistory();
             this.getorderCount();
         },
@@ -419,93 +406,175 @@
                 };
                 this.$modal.show('cancelOrderPopup');
             },
-            getopenOrders() {
+            getopenOrders(pageNum = 0) {
                 this.openorderTable=[];
-                sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"", (err, row) => {
+                this.hashQuery = '';
+                this.selectQuery = '';
+                if(this.hashSearch && this.selected !== "ALL" ) {
+                    this.hashQuery = 'orderHash = ? and ';
+                    this.selectQuery = 'marketType = ? and ';
+                    this.paramData = [this.hashSearch,this.selected, this.fromAddress.value, 100,'OPEN'];
+                } else {
+                    if(this.selected !== "ALL" ) {
+                        this.selectQuery = 'marketType = ? and ';
+                        this.paramData = [this.selected, this.fromAddress.value, 100,'OPEN'];
+                    } else if(this.selected === "ALL" ){
+                        if(this.hashSearch) {
+                            this.hashQuery = 'orderHash = ? and ';
+                            this.paramData = [this.hashSearch, this.fromAddress.value, 100,'OPEN'];
+                        } else {
+                            this.paramData = [this.fromAddress.value, 100,'OPEN'];
+                        }
+                    }
+                }
+                sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ pageNum +"",this.paramData, (err, row) => {
                     if(row) {
                         this.openorderTable.push(row);
                     }
                 });
-                this.getopenorderCount(this.hashSearch , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
+                this.getopenorderCount();
             },
-            getorderHistory() {
+            getorderHistory(pageNum = 0) {
                 this.orderHistory=[];
-                sqldb.each("SELECT  * FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+  this.offset1  +"", (err, row) => {
+                this.hashQuery1 = '';
+                this.selectQuery1 = '';
+                if(this.hashSearch1 && this.selected1 !== "ALL" ) {
+                    this.hashQuery1 = 'orderHash = ? and ';
+                    this.selectQuery1 = 'marketType = ? and ';
+                    this.paramData1 = [this.hashSearch1,this.selected1, this.fromAddress.value, 100];
+                } else {
+                    if(this.selected1 !== "ALL" ) {
+                        this.selectQuery1 = 'marketType = ? and ';
+                        this.paramData1 = [this.selected1, this.fromAddress.value, 100];
+                    } else if(this.selected1 === "ALL" ){
+                        if(this.hashSearch1) {
+                            this.hashQuery1 = 'orderHash = ? and ';
+                            this.paramData1 = [this.hashSearch1, this.fromAddress.value, 100];
+                        } else {
+                            this.paramData1 = [this.fromAddress.value, 100];
+                        }
+                    }
+                }
+                sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ this.offset1 +"",this.paramData1, (err, row) => {
                     if(row) {
                         this.orderHistory.push(row);
                     }
                 });
-                this.getorderCount(this.hashSearch1 , this.selectQuery1 , this.todateQuery1, this.fromDateQuery1 ,this.mainQuery1 , this.offset1);
+                this.getorderCount();
             },
-            getopenorderCount(hashQuery = '',selectQuery = '',todateQuery = '',fromDateQuery = '',mainQuery = '',offset = 0){
-                sqldb.each("SELECT COUNT(*) as count FROM  Orders where "+ hashQuery +" "+ selectQuery +" "+ todateQuery +" "+ fromDateQuery +" "+ mainQuery + " OFFSET "+ offset +"", (err, row) => {
+            getopenorderCount(){
+                this.hashQuery = '';
+                this.selectQuery = '';
+                if(this.hashSearch && this.selected !== "ALL" ) {
+                    this.hashQuery = 'orderHash = ? and ';
+                    this.selectQuery = 'marketType = ? and ';
+                    this.paramData = [this.hashSearch,this.selected, this.fromAddress.value, 100,'OPEN'];
+                } else {
+                    if(this.selected !== "ALL" ) {
+                        this.selectQuery = 'marketType = ? and ';
+                        this.paramData = [this.selected, this.fromAddress.value, 100,'OPEN'];
+                    } else if(this.selected === "ALL" ){
+                        if(this.hashSearch) {
+                            this.hashQuery = 'orderHash = ? and ';
+                            this.paramData = [this.hashSearch, this.fromAddress.value, 100,'OPEN'];
+                        } else {
+                            this.paramData = [this.fromAddress.value, 100,'OPEN'];
+                        }
+                    }
+                }
+                let todate = new Date(this.todate.split('T')[0]+":00:00");
+                let ts2 = Math.round(todate / 1000);
+                if(this.todate && this.fromDate) {
+                    let startDate = new Date(this.fromDate.split('T')[0]+":00:00");
+                    let ts1 = Math.round(startDate / 1000);
+                    this.todateQuery = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
+                } else {
+                    if(this.todate ) {
+                        this.todateQuery = "createdAt <= '"+ ts2 +"' and";
+                    }
+                }
+                sqldb.each("SELECT COUNT(*) as count FROM  Orders where  "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ this.offset +"",this.paramData ,  (err, row) => {
                     if(row) {
                         this.totalcount = Math.ceil((row.count) / this.row_count);
                     }
                 });
             },
-            getorderCount(hashQuery1 = '',selectQuery1 = '',todateQuery1 = '',fromDateQuery1 = '',mainQuery1 = '',offset1 = 0){
-                sqldb.each("SELECT COUNT(*) as count FROM  Orders where "+ hashQuery1 +" "+ selectQuery1 +" "+ todateQuery1 +" "+ fromDateQuery1 +" "+ mainQuery1 + " OFFSET "+ offset1 +"", (err, row) => {
+            getorderCount(){
+                this.hashQuery1 = '';
+                this.selectQuery1 = '';
+                if(this.hashSearch1 && this.selected1 !== "ALL" ) {
+                    this.hashQuery1 = 'orderHash = ? and ';
+                    this.selectQuery1 = 'marketType = ? and ';
+                    this.paramData1 = [this.hashSearch1,this.selected1, this.fromAddress.value, 100];
+                } else {
+                    if(this.selected1 !== "ALL" ) {
+                        this.selectQuery1 = 'marketType = ? and ';
+                        this.paramData1 = [this.selected1, this.fromAddress.value, 100];
+                    } else if(this.selected1 === "ALL" ){
+                        if(this.hashSearch1) {
+                            this.hashQuery1 = 'orderHash = ? and ';
+                            this.paramData1 = [this.hashSearch1, this.fromAddress.value, 100];
+                        } else {
+                            this.paramData1 = [this.fromAddress.value, 100];
+                        }
+                    }
+                }
+                let todate = new Date(this.todate1.split('T')[0]+":00:00");
+                let ts2 = Math.round(todate / 1000);
+                if(this.todate1 && this.fromDate1) {
+                    let startDate = new Date(this.fromDate1.split('T')[0]+":00:00");
+                    let ts1 = Math.round(startDate / 1000);
+                    this.todateQuery1 = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
+                } else {
+                    if(this.todate1 ) {
+                        this.todateQuery1 = "createdAt <= '"+ ts2 +"' and";
+                    }
+                }
+                sqldb.each("SELECT COUNT(*) as count FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ this.offset1 +"",this.paramData1 , (err, row) => {
                     if(row) {
                         this.totalcount1 = Math.ceil((row.count) / this.row_count1);
                     }
                 });
             },
+            hide () {
+                this.$modal.hide('cancelOrderPopup');
+            },
             clickCallback (pageNum) {
                 this.forcePage = pageNum;
                 this.offset = (pageNum -1) * this.row_count;
                 this.openorderTable=[];
+                let todate = new Date(this.todate.split('T')[0]+":00:00");
+                let ts2 = Math.round(todate / 1000);
                 if(this.todate && this.fromDate) {
-                    this.fromDateQuery = "createdAt BETWEEN '"+this.fromDate.split('T')[0]+"' AND '"+this.todate.split('T')[0]+"' and";
+                    let startDate = new Date(this.fromDate.split('T')[0]+":00:00");
+                    let ts1 = Math.round(startDate / 1000);
+                    this.todateQuery = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
                 } else {
                     if(this.todate ) {
-                        this.todateQuery = "createdAt = '"+ this.todate.split('T')[0] +"' and";
+                        this.todateQuery = "createdAt <= '"+ ts2 +"' and";
                     }
-                    if(this.fromDate ) {
-                        this.fromDateQuery = "createdAt = '"+ this.fromDate.split('T')[0] +"' and";
-                    }
-                }
-                if(this.hashSearch ) {
-                    this.hashQuery = "orderHash = '"+this.hashSearch+"' COLLATE NOCASE and";
-                }
-                if(this.selected !== "ALL" ) {
-                    this.selectQuery = "marketType = '"+this.selected+"' COLLATE NOCASE and";
                 }
                 pageNum = (pageNum -1) * this.row_count ;
-                sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ pageNum +"", (err, row) => {
-                    if(row) {
-                        this.openorderTable.push(row);
-                    }
-                });
-                this.getopenorderCount(this.hashSearch , this.selectQuery , this.todateQuery, this.fromDateQuery,this.mainQuery , this.offset);
+                this.getopenOrders(pageNum);
+                this.getopenorderCount();
             },
             clickCallback1 (pageNum) {
                 this.forcePage1 = pageNum;
                 this.offset1 = (pageNum -1) * this.row_count1;
                 this.orderHistory=[];
+                let todate = new Date(this.todate1.split('T')[0]+":00:00");
+                let ts2 = Math.round(todate / 1000);
                 if(this.todate1 && this.fromDate1) {
-                    this.fromDateQuery1 = "createdAt BETWEEN '"+this.fromDate1.split('T')[0]+"' AND '"+this.todate1.split('T')[0]+"' and";
+                    let startDate = new Date(this.fromDate1.split('T')[0]+":00:00");
+                    let ts1 = Math.round(startDate / 1000);
+                    this.todateQuery1 = "createdAt BETWEEN '"+ts1+"' AND '"+ts2+"' and";
                 } else {
                     if(this.todate1 ) {
-                        this.todateQuery1 = "createdAt = '"+ this.todate1.split('T')[0] +"' and";
+                        this.todateQuery1 = "createdAt <= '"+ ts2 +"' and";
                     }
-                    if(this.fromDate1 ) {
-                        this.fromDateQuery1 = "createdAt = '"+ this.fromDate1.split('T')[0] +"' and";
-                    }
-                }
-                if(this.hashSearch1 ) {
-                    this.hashQuery1 = "orderHash = '"+this.hashSearch1+"' COLLATE NOCASE and";
-                }
-                if(this.selected1 !== "ALL" ) {
-                    this.selectQuery1 = "marketType = '"+this.selected1+"' COLLATE NOCASE and";
                 }
                 pageNum = (pageNum -1) * this.row_count1 ;
-                // console.log("SELECT * FROM  Orders where "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ pageNum +"");
-                sqldb.each("SELECT  * FROM  Orders where "+ this.hashQuery1 +" "+ this.selectQuery1 +" "+ this.todateQuery1 +" "+ this.fromDateQuery1 +" "+ this.mainQuery1 + " OFFSET "+ pageNum +"", (err, row) => {
-                    if(row) {
-                        this.orderHistory.push(row);
-                    }
-                });
+                this.getorderHistory(pageNum);
                 this.getopenorderCount();
             },
             openGanderUrl(url){
