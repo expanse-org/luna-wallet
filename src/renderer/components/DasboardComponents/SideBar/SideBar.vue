@@ -142,7 +142,7 @@
                     this.$router.push({
                         path: '/contracts'
                     });
-                    this.contractsTab = 'tablinks active red';
+                    this.contractsTab = 'tablinks active orange';
                     this.$emit('changeColorHead', '/contracts');
                     break;
                 case '/market':
@@ -199,7 +199,7 @@
                             path: '/contracts'
                         });
                         this.expexTab = 'tablinks';
-                        this.contractsTab = 'tablinks active red';
+                        this.contractsTab = 'tablinks active orange';
                         this.$emit('changeColorHead', '/contracts');
                         break;
                     case 'tokenlab':

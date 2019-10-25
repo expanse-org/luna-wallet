@@ -7130,7 +7130,8 @@ FONTS
         display: flex;
         justify-content: center; }
         .contract .content .custom-tokens .buttons .action {
-          background: #d7523f;
+          /*background: #d7523f;*/
+          background: #FCA617;
           padding: 15px;
           cursor: pointer;
           outline: none;
@@ -7147,10 +7148,10 @@ FONTS
             width: 100%;
             background: #ffffff;
             height: 100%;
-            border: 2px solid #d7523f; }
+            border: 2px solid #FCA617; }
           .contract .content .custom-tokens .buttons .action:hover {
             background: #ffffff;
-            border: 2px solid #d7523f; }
+            border: 2px solid #FCA617; }
             .contract .content .custom-tokens .buttons .action:hover:before {
               content: '';
               position: absolute;
@@ -7159,12 +7160,12 @@ FONTS
               width: 100%;
               background: #ffffff;
               height: 100%;
-              border: 2px solid #d7523f; }
+              border: 2px solid #FCA617; }
             .contract .content .custom-tokens .buttons .action:hover .plus {
-              fill: #d7523f;
+              fill: #FCA617;
               fill-rule: evenodd; }
             .contract .content .custom-tokens .buttons .action:hover span {
-              color: #d7523f; }
+              color: #FCA617; }
           .contract .content .custom-tokens .buttons .action .plus {
             fill: #fff;
             fill-rule: evenodd; }
