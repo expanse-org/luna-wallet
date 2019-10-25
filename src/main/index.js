@@ -76,7 +76,7 @@ function createWindow () {
                 mainWindow = null;
                 if(gexpProc) {
                     gexpProc.kill();
-                 }
+                }
                 app.quit();
             }
         })

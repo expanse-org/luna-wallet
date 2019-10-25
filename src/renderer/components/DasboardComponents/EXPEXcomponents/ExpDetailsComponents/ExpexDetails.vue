@@ -839,7 +839,7 @@
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
                             var tokensbal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokensbal && (parseFloat(this.bidPrice) <= parseFloat(tokensbal.balance))) {
+                            if(tokensbal && (parseFloat(this.bidPrice) <= parseFloat(tokensbal.balance)) && (parseFloat(this.totalAmount) <= parseFloat(tokensbal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")
