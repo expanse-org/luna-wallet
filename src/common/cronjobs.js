@@ -218,6 +218,8 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                 const bnumber = await web3http.eth.getBlock(blockNumber);
                                 const timeStamp = bnumber.timestamp;
 
+                                console.log(timeStamp, "timestamp");
+
                                 try {
                                     await updatemarketTabel(tokenBuy, tokenSell);
                                 } catch(err) {
