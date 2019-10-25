@@ -3,11 +3,8 @@ import * as Raven from 'raven-js';
 import store from "../renderer/store";
 import * as $ from 'jquery';
 import {ipcRenderer} from 'electron';
-
 import {getAllAcounts} from '../renderer/components/DasboardComponents/WalletDashboardComponents/walletcommon';
 import {web3} from '../main/libs/config';
-
-
 
 const action = (screen) => {
     // console.log("storee Action")
@@ -159,7 +156,5 @@ const connectWeb3 = () => {
 
     },3000);  // Time interval
 }
-
-
 
 export { connectWeb3, syncPeers }

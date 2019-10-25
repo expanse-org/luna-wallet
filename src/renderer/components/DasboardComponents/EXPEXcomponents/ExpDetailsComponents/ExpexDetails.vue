@@ -401,9 +401,9 @@
                 this.tokenAmount = 0;
                 this.wexpAmount = this.fromAddress.text.split('(')[2].split(' ')[0];
                 var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                if(userData) {
-                    this.tokenAmount = tokenData.balance;
+                var tokensbal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                if(tokensbal) {
+                    this.tokenAmount = tokensbal.balance;
                 }
                 this.startAllowanceInterval();
             } else {
@@ -614,8 +614,8 @@
                             clearInterval(this.intervalid1);
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                            var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance))) {
+                            var tokensbal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                            if(tokensbal && (parseFloat(this.bidPrice) <= parseFloat(tokensbal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")
@@ -689,8 +689,8 @@
                             clearInterval(this.intervalid1);
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                            var tokenData = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenData && (parseFloat(this.bidPrice) <= parseFloat(tokenData.balance))) {
+                            var tokensbal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                            if(tokensbal && (parseFloat(this.bidPrice) <= parseFloat(tokensbal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")

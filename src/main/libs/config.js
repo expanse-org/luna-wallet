@@ -1,3 +1,4 @@
+import {ipcRenderer} from "electron";
 
 var production = true;
 var prod_app_directory = "luna-wallet/";
@@ -17,13 +18,23 @@ var activeScreen = 'config';
 
 import Web3 from 'web3';
 var web3 ;
+var web3Stop = false ;
 
 const updateScreen = (screen) => {
     activeScreen = screen;
 };
 
 const startConnectWeb = () => {
+    ipcRenderer.on('closeWeb3', (event, res) => {
+        if(res) {
+            web3Stop = true;
+            web3.currentProvider.connection.close();
+        }
+    });
 
+    if(web3Stop) {
+        return ;
+    }
     const RINKEBY_WSS = "ws://127.0.0.1:9657";
     var provider = new Web3.providers.WebsocketProvider(RINKEBY_WSS);
     web3 = new Web3(provider);
@@ -31,6 +42,9 @@ const startConnectWeb = () => {
     provider.on('error', e => console.log('WS Error', e));
     provider.on('end', e => {
         console.log('WS closed');
+        if(web3Stop) {
+            ipcRenderer.send('closeWeb3true', true);
+        }
         console.log('Attempting to reconnect...');
         provider = new Web3.providers.WebsocketProvider(RINKEBY_WSS);
 

@@ -37,7 +37,7 @@
                     <p>{{data.minPrice ? data.minPrice: 0}}</p>
                 </div>
                 <div v-if="marketTable.length === 0" class="table-no-row">
-                    <p class="row-10">No Market Data Found</p>
+                    <p class="row-10">No Market Pair Found</p>
                 </div>
             </div>
             <div v-if="totalcount > 1">
@@ -85,6 +85,7 @@
         },
         watch: {
             searchTokens(value) {
+                this.marketTable=[];
                 if(value) {
                     sqldb.each("SELECT * FROM marketPair where betaSymbol = '"+value+"' COLLATE NOCASE or alphaSymbol = '"+value+"' COLLATE NOCASE", (err, row) => {
                         if(row) {
@@ -148,42 +149,15 @@
                 sqldb.each("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+pageNum+"", (err, row) => {
                     // console.log(row, "rowsss");
                     this.marketTable.push(row);
-                    // sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+row.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+row.betaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+row.betaAddress+"' COLLATE NOCASE and tokenSell = '"+row.alphaAddress+"' COLLATE NOCASE)) order by createdAt Limit 1", (err, rowtrade) => {
-                    //     // console.log(rowtrade, "rowsss");
-                    //     if(rowtrade.marketType === 'BUY') {
-                    //         this.updaterowColor = 'Greenback';
-                    //     } else if(rowtrade.marketType === 'SELL') {
-                    //         this.updaterowColor = 'Redback';
-                    //     }
-                    //     this.lastmarketType.push({alphaAddress: row.alphaAddress, betaAddress: row.betaAddress, marketType: rowtrade.marketType })
-                    // });
                 });
             },
             getmarketData() {
                 this.marketTable=[];
-                let i = 0;
                 sqldb.each("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+this.offset+"", (err, row) => {
                     // console.log(row, "rowsss");
                     if(row) {
                         this.marketTable.push(row);
-                        // sqldb.each("SELECT * FROM Trade where ((tokenBuy = '"+row.alphaAddress+"' COLLATE NOCASE and tokenSell = '"+row.betaAddress+"' COLLATE NOCASE) or (tokenBuy = '"+row.betaAddress+"' COLLATE NOCASE and tokenSell = '"+row.alphaAddress+"' COLLATE NOCASE)) order by createdAt Limit 1", (err, rowtrade) => {
-                        //     // console.log(rowtrade, "rowsss");
-                        //     if(rowtrade.marketType === 'BUY') {
-                        //         this.updaterowColor = 'Greenback';
-                        //     } else if(rowtrade.marketType === 'SELL') {
-                        //         this.updaterowColor = 'Redback';
-                        //     }
-                        //     this.lastmarketType.push({alphaAddress: row.alphaAddress, betaAddress: row.betaAddress, marketType: rowtrade.marketType })
-                        // });
-                        // sqldb.each("SELECT * FROM Trade order by createdAt Limit 1", (err, rowtrade) => {
-                        //     if((rowtrade.tokenSell == row.alphaAddress && rowtrade.tokenBuy == row.betaAddress) || (rowtrade.tokenSell == row.betaAddress && rowtrade.tokenBuy == row.alphaAddress)) {
-                        //         console.log(this.marketTable, row.alphaAddress , row.betaAddress, "index");
-                        //         let index = this.marketTable.findIndex(x => (x.alphaAddress === row.alphaAddress && x.betaAddress === row.betaAddress));
-                        //         this.updaterow = index;
-                        //     }
-                        // });
                     }
-                    i=i+1;
                 });
             },
             getmarketCount() {

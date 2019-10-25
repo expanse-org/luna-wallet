@@ -1,5 +1,7 @@
 import {getClientInfo } from './clientInfo';
 import {loadingProgress } from './loadingProgress';
+import { startConnectWeb  } from '../main/libs/config';
+
 import {connectWeb3 } from '../common/web3Config';
 import {production, activeScreen, updateScreen} from '../main/libs/config';
 import os from 'os';
@@ -66,7 +68,7 @@ const downloadGexp = () => {
     }
 
 };
-
+var web3;
 const startingGexp = () => {
     console.log("GexpStart")
     var dlData =   getClientInfo();
@@ -106,6 +108,7 @@ const startingGexp = () => {
             if(res)
             {
                 connectWeb3();
+                web3 = startConnectWeb();
                 console.log("connectweb3 funcction start")
 
             }

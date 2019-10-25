@@ -35,6 +35,8 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+let willQuitApp = false;
+
 function createWindow () {
   /**
    * Initial window options
@@ -64,6 +66,29 @@ function createWindow () {
     });
     mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
+    mainWindow.on('close', (e) => {
+        console.log("close apppp");
+        mainWindow.webContents.send('closeWeb3', true);
+
+        ipcMain.on('closeWeb3true', (event, res) => {
+            console.log("close apppp closeWeb3true");
+            if(res) {
+                mainWindow = null;
+                if(gexpProc) {
+                    gexpProc.kill();
+                 }
+                app.quit();
+            }
+        })
+        if (willQuitApp) {
+            /* the user tried to quit the app */
+            // window = null;
+        } else {
+            /* the user only tried to close the window */
+            e.preventDefault();
+            // window.hide();
+        }
+    });
 
     mainWindow.on('closed', () => {
     mainWindow = null;
@@ -74,7 +99,7 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
     if(gexpProc) {
@@ -82,6 +107,9 @@ app.on('window-all-closed', () => {
     }
     app.quit();
 });
+
+app.on('will-quit', () => willQuitApp = true);
+
 
 app.on('activate', () => {
   if (mainWindow === null) {

@@ -36,7 +36,7 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 });
 
 sqldb.serialize(function() {
-    // sqldb.run("DROP TABLE Trade");
+    // sqldb.run("DROP TABLE marketPair");
     sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null UNIQUE, tokenBuy TEXT collate nocase not null, amountBuy REAL not null, tokenSell TEXT collate nocase not null, amountSell REAL not null, maker TEXT collate nocase not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
         "decimalSell INTEGER not null, status TEXT not null, marketType TEXT collate nocase not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL, amountBuyFilled REAL NOT NULL, amountSellFilled REAL NOT NULL)");
     sqldb.run("CREATE TABLE if not exists marketPair (perChange REAL not null, maxPrice REAL not null,minPrice REAL not null,Price REAL not null, volume REAL not NULL, blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) collate nocase not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) collate nocase not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
@@ -44,7 +44,10 @@ sqldb.serialize(function() {
 
 });
 
-let web3http = new Web3("http://127.0.0.1:9656") ;
+const webhtpIP = 'http://127.0.0.1:9656';
+// const webhtpIP = 'https://gexp.gander.tech';
+
+let web3http = new Web3(webhtpIP) ;
 
 const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
@@ -64,7 +67,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 // console.log(allMarketPairs, "pastlogs");
+                 console.log(allMarketPairs, "pastlogs");
                  for(let i =0 ;i< allMarketPairs.length; i++) {
                      const alpha = allMarketPairs[i].returnValues["token1"]
                      const beta = allMarketPairs[i].returnValues["token2"]
@@ -91,7 +94,8 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                              var stmt = sqldb.prepare("INSERT or IGNORE INTO marketPair VALUES (0, 0 ,0 ,0 ,0 ,'"+blockNumber+"','"+txHash+"','"+timeStamp+"', '"+alphaSymbol+"', '"+alpha+"', '"+alphaDecimals+"', '"+betaSymbol+"', '"+beta+"', '"+betaDecimals+"')");
                              stmt.run();
                              stmt.finalize();
-                             if((allMarketPairs.length -1) === i) {
+                             if((allMarketPairs.length - 1) === i) {
+                                 console.log("send request");
                                  mainWindow && mainWindow.forEach(win => {
                                      win.webContents.send('newMarketPair', true);
                                  });
@@ -124,7 +128,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
          }
          isGetPastLogCronRunning = false;
      } else {
-         web3http = new Web3("http://127.0.0.1:9656")
+         web3http = new Web3(webhtpIP)
      }
 });
 const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
@@ -160,7 +164,7 @@ const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
          }
          isGetPastLogCronRunning = false;
      } else {
-         web3http = new Web3("http://127.0.0.1:9656")
+         web3http = new Web3(webhtpIP)
      }
 });
 
@@ -291,7 +295,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
         }
         isGetPastEventsCronRunning = false;
     } else {
-        web3http = new Web3("http://127.0.0.1:9656")
+        web3http = new Web3(webhtpIP)
     }
 });
 
@@ -560,13 +564,13 @@ setTimeout (() => {
         console.log(mainWindow)
     } catch (e) {
     }
-    web3http = new Web3("http://127.0.0.1:9656");
+    web3http = new Web3(webhtpIP);
     if(web3http) {
         startAction = true;
     }
     let interval = setInterval(function() {
         if (web3http === undefined) {
-            web3http = new Web3("http://127.0.0.1:9656");
+            web3http = new Web3(webhtpIP);
             startAction = false;
         } else {
             startAction = true;
@@ -576,6 +580,7 @@ setTimeout (() => {
 }, 10000);
 
 if(startAction) {
+    console.log("HTTP socket check",startAction, ipcRenderer);
     ipcRenderer.on('connectwebhttp', (event, res) => {
         if(res){
             console.log("HTTP socket open")
@@ -585,6 +590,5 @@ if(startAction) {
         }
     });
 }
-
 
 export { sqldb }
