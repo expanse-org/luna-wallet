@@ -954,7 +954,7 @@ const ExpApi = () => {
     });
 }
 
-var expexAddress = '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9';
+var expexAddress = '0x48d5936bC69b6e7b61842c84F7473BAD5e197250';
 
 export {
     production, prod_app_directory, tokenInterface, activeScreen, updateScreen, startConnectWeb, ExpApi,

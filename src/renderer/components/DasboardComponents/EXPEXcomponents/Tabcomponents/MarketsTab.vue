@@ -23,7 +23,7 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="marketTable.length > 0" v-for="(data, index) in (marketTable || getmarketPair)" @click="openDetails(data)" :class="data.perChange > 0 ? 'table-row Greenback': 'table-row'">
+                <div v-if="marketTable.length > 0" v-for="(data, index) in (marketTable || getmarketPair)" @click="openDetails(data)" :class="data.perChange > 0 ? 'table-row'+designColor: 'table-row'">
                     <p>{{data.betaSymbol}} - {{data.alphaSymbol}}</p>
                     <p>{{data.Price? data.Price: 0}}</p>
                     <p>{{data.volume? data.volume: 0}}</p>
@@ -81,6 +81,7 @@
                 lastmarketType: [],
                 updaterow: -1,
                 updaterowColor: '',
+                designColor: ' Greenback',
             };
         },
         watch: {
@@ -98,8 +99,12 @@
                     this.getmarketData();
                     this.getmarketCount();
                 }
+            },
+            designColor() {
+                setTimeout (() =>{
+                    this.designColor = '';
+                },5000)
             }
-
         },
         computed: {
            getmarketPair() {
@@ -131,6 +136,9 @@
             this.getmarketPair;
             this.getmarketData();
             this.getmarketCount();
+            setTimeout (() =>{
+                this.designColor = '';
+            },5000)
         },
         methods: {
             clickCallback (pageNum) {

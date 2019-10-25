@@ -132,7 +132,7 @@
                             <p class="uppertxt">TOTAL</p>
                             <div class="lowertxt">
                                 <p v-if="totalError" @focus="handleFocus" class="error-message sendFundPassword-error ">{{totalError}}</p>
-                                <p>{{totalAmount}}</p>
+                                <p>{{parseFloat(totalAmount).toFixed(6)}}</p>
                                 <p>{{tokenData.alphaSymbol}}</p>
                             </div>
                         </div>
@@ -853,12 +853,12 @@
                 this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount)) && (parseFloat(this.totalAmount) <= parseFloat(this.wexpAmount))) {
+                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.totalAmount) <= parseFloat(this.wexpAmount))) {
                             try {
                                 await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
                                 this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
-                                let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
+                                let amountData= [web3.utils.toWei(parseFloat(this.quantity).toFixed(6).toString(), 'ether'), web3.utils.toWei(parseFloat(this.totalAmount).toFixed(6).toString(), 'ether')]
                                 this.modalArray = {
                                     type: "buyBtn",
                                     fromAddress: this.fromAddress.value,
@@ -877,12 +877,12 @@
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
                             var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenBal && (parseFloat(this.bidPrice) <= parseFloat(tokenBal.balance)) && (parseFloat(this.totalAmount) <= parseFloat(tokenBal.balance))) {
+                            if(tokenBal && (parseFloat(this.totalAmount) <= parseFloat(tokenBal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")
                                     this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
-                                    let amountData= [Math.floor(this.quantity*Math.pow(10, this.tokenData.betaDecimal)).toString(), Math.floor(this.totalAmount*Math.pow(10, this.tokenData.alphaDecimal)).toString()]
+                                    let amountData= [web3.utils.toWei(parseFloat(this.quantity).toFixed(6).toString(), 'ether'), web3.utils.toWei(parseFloat(this.totalAmount).toFixed(6).toString(), 'ether')]
                                     this.modalArray = {
                                         type: "buyBtn",
                                         fromAddress: this.fromAddress.value,
@@ -899,7 +899,7 @@
                                 }
                                 clearInterval(this.intervalid1);
                             } else {
-                                this.bidPriceError = "Seems You don't have sufficient Token Amount"
+                                this.totalError = "Seems You don't have sufficient Token Amount"
                             }
                         }
                     }
@@ -928,13 +928,13 @@
                 this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.bidPrice) <= parseFloat(this.wexpAmount)) && (parseFloat(this.quantity) <= parseFloat(this.wexpAmount))) {
+                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.quantity) <= parseFloat(this.wexpAmount))) {
                             try {
                                 await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
 
                                 this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
-                                let amountData = [Math.floor(this.totalAmount * Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.quantity * Math.pow(10, this.tokenData.betaDecimal)).toString()]
+                                let amountData= [web3.utils.toWei(this.totalAmount.toString(), 'ether'), web3.utils.toWei(this.quantity.toString(), 'ether')]
                                 this.modalArray = {
                                     type: "sellBtn",
                                     fromAddress: this.fromAddress.value,
@@ -952,13 +952,13 @@
                         } else {
                             var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
                             var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenBal && (parseFloat(this.bidPrice) <= parseFloat(tokenBal.balance)) && (parseFloat(this.quantity) <= parseFloat(tokenBal.balance))) {
+                            if(tokenBal && (parseFloat(this.quantity) <= parseFloat(tokenBal.balance))) {
                                 try {
                                     await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                     console.log(this.matchOrderHashes, "orderhashes")
 
                                     this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
-                                    let amountData = [Math.floor(this.totalAmount * Math.pow(10, this.tokenData.alphaDecimal)).toString(), Math.floor(this.quantity * Math.pow(10, this.tokenData.betaDecimal)).toString()]
+                                    let amountData= [web3.utils.toWei(this.totalAmount.toString(), 'ether'), web3.utils.toWei(this.quantity.toString(), 'ether')]
                                     this.modalArray = {
                                         type: "sellBtn",
                                         fromAddress: this.fromAddress.value,
@@ -974,7 +974,7 @@
                                 }
                                 clearInterval(this.intervalid1);
                             } else {
-                                this.bidPriceError = "Seems You don't have sufficient Token Amount"
+                                this.quantityError = "Seems You don't have sufficient Token Amount"
                             }
                         }
                     } else {

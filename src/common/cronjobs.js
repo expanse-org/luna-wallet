@@ -11,7 +11,7 @@ import {
 import shell from "shelljs";
 let mainWindow;
 
-const expexAddress = '0xD3627766D0584Ed23f8D1acd2E493F8c281C9EF9';
+const expexAddress = '0x48d5936bC69b6e7b61842c84F7473BAD5e197250';
 let startAction = false;
 
 let appPath = "~/Library/Application Support/"+prod_app_directory;
@@ -37,7 +37,7 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 
 
 sqldb.serialize(function() {
-    // sqldb.run("DROP TABLE Orders");
+    // sqldb.run("DROP TABLE Trade");
     sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null UNIQUE, tokenBuy TEXT collate nocase not null, amountBuy REAL not null, tokenSell TEXT collate nocase not null, amountSell REAL not null, maker TEXT collate nocase not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
         "decimalSell INTEGER not null, status TEXT not null, marketType TEXT collate nocase not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL, amountBuyFilled REAL NOT NULL, amountSellFilled REAL NOT NULL)");
     sqldb.run("CREATE TABLE if not exists marketPair (perChange REAL not null, maxPrice REAL not null,minPrice REAL not null,Price REAL not null, volume REAL not NULL, blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) collate nocase not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) collate nocase not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
@@ -65,7 +65,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 // console.log(allMarketPairs, "pastlogs");
+                 console.log(blockNo, allMarketPairs, "pastlogs");
                  for(let i =0 ;i< allMarketPairs.length; i++) {
                      const alpha = allMarketPairs[i].returnValues["token1"]
                      const beta = allMarketPairs[i].returnValues["token2"]
@@ -240,76 +240,78 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                 mainWindow && mainWindow.forEach(win => {
                                     win.webContents.send('newOrder', {maker, alphaSymbol: orderdata.alphaSymbol, betaSymbol: orderdata.betaSymbol, amountSell, amountBuy, price: orderdata.price});
                                 });
-                                if(allOrders)
-                                {
-                                    try
-                                    {
-                                        const blockNoT = await getRecentBlocktrade();
-                                        if(blockNoT) {
-                                            const allEvents = await dexContract.getPastEvents("Trade", {
-                                                fromBlock : blockNoT,
-                                                toBlock: "latest"
-                                            })
-                                            // console.log(allEvents)
-                                            for(const [index, tradeEvent] of allEvents.entries() ) {
-                                                const orderHash = tradeEvent.returnValues.orderHash
-                                                const matchingOrderHash = tradeEvent.returnValues.matchinOrderHash
-                                                const tokenBuy = tradeEvent.returnValues.tokenBuy
-                                                const tokenSell = tradeEvent.returnValues.tokenSell
-                                                const maker = tradeEvent.returnValues.maker
-                                                const taker = tradeEvent.returnValues.taker
-                                                const tokenId = tradeEvent.returnValues.tokenId;
-                                                const blockNumber = tradeEvent.blockNumber;
-
-                                                const tokenBuyContract = new web3http.eth.Contract(wexpABI, tokenBuy);
-                                                const tokenSellContract = new web3http.eth.Contract(wexpABI, tokenSell);
-                                                const decimalBuy =await tokenBuyContract.methods.decimals().call();
-                                                const decimalSell =await tokenSellContract.methods.decimals().call();
-                                                const amountBuy = tradeEvent.returnValues.amountBuy/Math.pow(10, decimalBuy);
-                                                const amountSell = tradeEvent.returnValues.amountSell/Math.pow(10, decimalSell);
-                                                let price  = tradeEvent.returnValues.price;
-                                                const orderdata = await getmarketpairorder(tokenBuy, tokenSell, amountSell, amountBuy, price, decimalBuy, decimalSell);
-
-                                                const bnumber = await web3http.eth.getBlock(blockNumber);
-                                                const timeStamp = bnumber.timestamp;
-
-                                                try {
-                                                    await updatemarketTabel(tokenBuy, tokenSell);
-                                                } catch(err) {
-                                                    console.log(err, "Trade Insert Error")
-                                                }
-                                                if(orderdata.marketType && orderdata.marketType !== -1) {
-                                                    try {
-                                                        let new_data = [blockNumber,timeStamp,orderHash, orderdata.marketType,orderdata.betaSymbol,orderdata.alphaSymbol ,matchingOrderHash,tokenBuy,tokenSell ,amountBuy,amountSell,taker ,maker,tokenId,orderdata.price];
-                                                        let sql = "INSERT or IGNORE INTO Trade (blockNo,createdAt,orderHash ,marketType,betaSymbol,alphaSymbol ,  matchinOrderHash,tokenBuy,tokenSell, amountBuy,amountSell,taker, maker,tokenId,price) VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?)";
-                                                        sqldb.run(sql, new_data, function(err) {
-                                                            if (err) {
-                                                                return console.error(err.message);
-                                                            }
-                                                            console.log(`Rows inserted trade `);
-                                                        });
-                                                        if((allEvents.length - 1) === index ) {
-                                                            mainWindow && mainWindow.forEach(win => {
-                                                                win.webContents.send('newTrade', true);
-                                                            });
-
-                                                        }
-                                                    } catch(err) {
-                                                        console.log(err, "Trade Insert Error")
-                                                    }
-                                                }
-                                                await getorderbyOrderHash(orderHash, amountBuy, amountSell);
-                                            }
-                                        }
-                                    } catch(err) {
-                                        console.log(err)
-                                    }
-                                }
                             }
                         } catch(err) {
                             console.log(err)
                         }
                     }
+                }
+            }
+
+            {
+                try
+                {
+                    const blockNoT = await getRecentBlocktrade();
+                    if(blockNoT) {
+                        const allEvents = await dexContract.getPastEvents("Trade", {
+                            fromBlock : blockNoT,
+                            toBlock: "latest"
+                        })
+                        // console.log(allEvents)
+                        for(const [index, tradeEvent] of allEvents.entries() ) {
+                            const orderHash = tradeEvent.returnValues.orderHash
+                            const matchingOrderHash = tradeEvent.returnValues.matchinOrderHash
+                            const tokenBuy = tradeEvent.returnValues.tokenBuy
+                            const tokenSell = tradeEvent.returnValues.tokenSell
+                            const maker = tradeEvent.returnValues.maker
+                            const taker = tradeEvent.returnValues.taker
+                            const tokenId = tradeEvent.returnValues.tokenId;
+                            const blockNumber = tradeEvent.blockNumber;
+
+                            const tokenBuyContract = new web3http.eth.Contract(wexpABI, tokenBuy);
+                            const tokenSellContract = new web3http.eth.Contract(wexpABI, tokenSell);
+                            const decimalBuy =await tokenBuyContract.methods.decimals().call();
+                            const decimalSell =await tokenSellContract.methods.decimals().call();
+                            let amountBuy = tradeEvent.returnValues.amountBuy;
+                            let amountSell = tradeEvent.returnValues.amountSell;
+                            let price  = tradeEvent.returnValues.price;
+                            const orderdata = await getmarketpairorder(tokenBuy, tokenSell, amountSell, amountBuy, price, decimalBuy, decimalSell);
+
+                            amountBuy = web3http.utils.fromWei(tradeEvent.returnValues.amountBuy);
+                            amountSell = web3http.utils.fromWei(tradeEvent.returnValues.amountSell);
+                            const bnumber = await web3http.eth.getBlock(blockNumber);
+                            const timeStamp = bnumber.timestamp;
+
+                            try {
+                                await updatemarketTabel(tokenBuy, tokenSell);
+                            } catch(err) {
+                                console.log(err, "Trade Insert Error")
+                            }
+                            if(orderdata.marketType && orderdata.marketType !== -1) {
+                                try {
+                                    let new_data = [blockNumber,timeStamp,orderHash, orderdata.marketType,orderdata.betaSymbol,orderdata.alphaSymbol ,matchingOrderHash,tokenBuy,tokenSell ,amountBuy,amountSell,taker ,maker,tokenId,orderdata.price];
+                                    let sql = "INSERT or IGNORE INTO Trade (blockNo,createdAt,orderHash ,marketType,betaSymbol,alphaSymbol ,  matchinOrderHash,tokenBuy,tokenSell, amountBuy,amountSell,taker, maker,tokenId,price) VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?)";
+                                    sqldb.run(sql, new_data, function(err) {
+                                        if (err) {
+                                            return console.error(err.message);
+                                        }
+                                        console.log(`Rows inserted trade `);
+                                    });
+                                    if((allEvents.length - 1) === index ) {
+                                        mainWindow && mainWindow.forEach(win => {
+                                            win.webContents.send('newTrade', true);
+                                        });
+
+                                    }
+                                } catch(err) {
+                                    console.log(err, "Trade Insert Error")
+                                }
+                            }
+                            await getorderbyOrderHash(orderHash, amountBuy, amountSell);
+                        }
+                    }
+                } catch(err) {
+                    console.log(err)
                 }
             }
         }catch(err) {
@@ -526,12 +528,14 @@ const getmarketpairorder = async (tokenBuy, tokenSell, amountSell, amountBuy, pr
         let paramData = [tokenBuy,tokenSell,tokenSell,tokenBuy];
         await sqldb.get("select * from marketPair where (alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?) order by blockNo desc limit 1",paramData, function(err, row) {
              if(row) {
+                 console.log("row.alphaAddress == tokenBuy",(web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)),amountBuy,amountSell,row.alphaAddress == tokenBuy,row.alphaAddress , tokenBuy)
                  if(row.alphaAddress == tokenBuy) {
-                     price = (amountBuy/Math.pow(10, decimalSell)) / (amountSell/Math.pow(10, decimalBuy));
+                     price = ((web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)).toString());
                      marketType = marketENUM.SELL // SELL
 
                  }else {
-                     price = (amountSell/Math.pow(10, decimalBuy)) / (amountBuy/Math.pow(10, decimalSell));
+                     price = ((web3http.utils.toBN(amountSell)/web3http.utils.toBN(amountBuy)).toString());
+                     // price = (amountSell/Math.pow(10, decimalSell)) / (amountBuy/Math.pow(10, decimalBuy));
                      marketType = marketENUM.BUY // BUY
                  }
                  let data = {
@@ -561,6 +565,7 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
     return new Promise(async function (resolve, reject) {
         let data = {};
         let paramData = [orderHash];
+        console.log(`Rows inserted `,orderHash);
         await sqldb.get("select * from Orders where orderHash = ?",paramData, function(err, row) {
              if(row) {
                  try {

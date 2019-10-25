@@ -41,7 +41,7 @@
                     <p>{{ parseInt(trade.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                     <p v-if="trade.marketType === 'BUY'" class="Green">{{trade.marketType}}</p>
                     <p v-else class="Red">{{trade.marketType}}</p>
-                    <p>{{parseInt(trade.price).toFixed(4)}}</p>
+                    <p>{{parseFloat(trade.price).toFixed(4)}}</p>
                     <p v-if="trade.marketType === 'BUY'">{{parseFloat(trade.amountBuy).toFixed(5)}}</p>
                     <p v-else >{{parseFloat(trade.amountSell).toFixed(5)}}</p>
                     <p @click="openGanderUrl('https://gander.tech/tx/'+trade.orderHash)" class="fix-text tooltip">
