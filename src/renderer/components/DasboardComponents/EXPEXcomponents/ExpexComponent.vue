@@ -33,6 +33,9 @@
                             <rect x="27.3" y="26.7" class="st125" width="9.7" height="9.6"/>
                         </svg><img class="option__image setImg" src="../../../assets/img/selectkey.png" /><span class="option__title">{{ props.option.text }}</span>
                     </template>
+                    <template slot="noOptions">
+                        <span>You don't have sufficient funds in your wallet</span>
+                    </template>
                 </multiselect>
             </div>
         </div>

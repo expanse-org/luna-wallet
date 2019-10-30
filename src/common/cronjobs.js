@@ -37,11 +37,11 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 
 
 sqldb.serialize(function() {
-    // sqldb.run("DROP TABLE Trade");
-    sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null UNIQUE, tokenBuy TEXT collate nocase not null, amountBuy REAL not null, tokenSell TEXT collate nocase not null, amountSell REAL not null, maker TEXT collate nocase not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
+    sqldb.run("DROP TABLE Trade");
+    sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null UNIQUE,txHash VARCHAR(255) collate nocase not null, tokenBuy TEXT collate nocase not null, amountBuy REAL not null, tokenSell TEXT collate nocase not null, amountSell REAL not null, maker TEXT collate nocase not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
         "decimalSell INTEGER not null, status TEXT not null, marketType TEXT collate nocase not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL, amountBuyFilled REAL NOT NULL, amountSellFilled REAL NOT NULL)");
     sqldb.run("CREATE TABLE if not exists marketPair (perChange REAL not null, maxPrice REAL not null,minPrice REAL not null,Price REAL not null, volume REAL not NULL, blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) collate nocase not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) collate nocase not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
-    sqldb.run("CREATE TABLE if not exists Trade (blockNo INTEGER not null ,createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null, marketType TEXT collate nocase not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL,  matchinOrderHash VARCHAR(255) collate nocase not null, tokenBuy TEXT collate nocase not null , tokenSell TEXT collate nocase not null , amountBuy REAL not null , amountSell REAL not null , taker TEXT collate nocase not null , maker TEXT collate nocase not null , tokenId INTEGER not null , price REAL not null, PRIMARY KEY (orderHash, matchinOrderHash) )");
+    sqldb.run("CREATE TABLE if not exists Trade (blockNo INTEGER not null ,createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null,txHash VARCHAR(255) collate nocase not null, marketType TEXT collate nocase not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL,  matchinOrderHash VARCHAR(255) collate nocase not null, tokenBuy TEXT collate nocase not null , tokenSell TEXT collate nocase not null , amountBuy REAL not null , amountSell REAL not null , taker TEXT collate nocase not null , maker TEXT collate nocase not null , tokenId INTEGER not null , price REAL not null, PRIMARY KEY (orderHash, matchinOrderHash) )");
 
 });
 
@@ -228,8 +228,8 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                 win.webContents.send('notificationOrder', {maker, alphaSymbol: orderdata.alphaSymbol, betaSymbol: orderdata.betaSymbol, amountSell, amountBuy, price: orderdata.price});
                             });
 
-                            let new_data = [timeStamp,orderHash,tokenBuy ,amountBuy,tokenSell,amountSell ,maker,tokenId,orderdata.price ,orderblockNumber,decimalBuy,decimalSell ,status,orderdata.marketType,orderdata.betaSymbol ,orderdata.alphaSymbol,orderdata.orderFilled, 0, 0];
-                            let sql = "INSERT or IGNORE INTO Orders(createdAt,orderHash,tokenBuy , amountBuy,tokenSell,amountSell , maker,tokenId,price ,blockNo,decimalBuy,decimalSell ,status,marketType,betaSymbol , alphaSymbol,orderFilled,amountBuyFilled , amountSellFilled) VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?)";
+                            let new_data = [timeStamp,orderHash,transactionHash,tokenBuy ,amountBuy,tokenSell,amountSell ,maker,tokenId,orderdata.price ,orderblockNumber,decimalBuy,decimalSell ,status,orderdata.marketType,orderdata.betaSymbol ,orderdata.alphaSymbol,orderdata.orderFilled, 0, 0];
+                            let sql = "INSERT or IGNORE INTO Orders(createdAt,orderHash,txHash, tokenBuy , amountBuy,tokenSell,amountSell , maker,tokenId,price ,blockNo,decimalBuy,decimalSell ,status,marketType,betaSymbol , alphaSymbol,orderFilled,amountBuyFilled , amountSellFilled) VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,? ,?,?,?,?, ?)";
                             sqldb.run(sql, new_data, function(err) {
                                 if (err) {
                                     return console.error(err.message);
@@ -267,6 +267,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                             const taker = tradeEvent.returnValues.taker
                             const tokenId = tradeEvent.returnValues.tokenId;
                             const blockNumber = tradeEvent.blockNumber;
+                            const transactionHash = tradeEvent.transactionHash
 
                             const tokenBuyContract = new web3http.eth.Contract(wexpABI, tokenBuy);
                             const tokenSellContract = new web3http.eth.Contract(wexpABI, tokenSell);
@@ -289,8 +290,8 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                             }
                             if(orderdata.marketType && orderdata.marketType !== -1) {
                                 try {
-                                    let new_data = [blockNumber,timeStamp,orderHash, orderdata.marketType,orderdata.betaSymbol,orderdata.alphaSymbol ,matchingOrderHash,tokenBuy,tokenSell ,amountBuy,amountSell,taker ,maker,tokenId,orderdata.price];
-                                    let sql = "INSERT or IGNORE INTO Trade (blockNo,createdAt,orderHash ,marketType,betaSymbol,alphaSymbol ,  matchinOrderHash,tokenBuy,tokenSell, amountBuy,amountSell,taker, maker,tokenId,price) VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?)";
+                                    let new_data = [blockNumber,timeStamp,orderHash,transactionHash, orderdata.marketType,orderdata.betaSymbol,orderdata.alphaSymbol ,matchingOrderHash,tokenBuy,tokenSell ,amountBuy,amountSell,taker ,maker,tokenId,orderdata.price];
+                                    let sql = "INSERT or IGNORE INTO Trade (blockNo,createdAt,orderHash ,txHash, marketType,betaSymbol,alphaSymbol ,  matchinOrderHash,tokenBuy,tokenSell, amountBuy,amountSell,taker, maker,tokenId,price) VALUES (?,?,?,?,? ,?,?,?,?,? ,?,?,?,?,?, ?)";
                                     sqldb.run(sql, new_data, function(err) {
                                         if (err) {
                                             return console.error(err.message);

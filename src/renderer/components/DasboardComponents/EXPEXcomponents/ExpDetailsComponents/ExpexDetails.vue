@@ -263,6 +263,7 @@
 <script>
     import  insuficentBalance from '../../insuficentBalance';
     import Paginate from 'vuejs-paginate'
+    import { ipcRenderer } from 'electron';
     import {web3, tokenInterface, expexABI, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup';
     import {sqldb} from '../../../../../common/cronjobs';
@@ -612,11 +613,63 @@
                 var accountsArray = this.$store.state.allAccounts;
                 return accountsArray;
             },
+            getOrders() {
+
+                ipcRenderer.on('newOrder', (event , res) => {
+                    console.log(event, res);
+                    if(res) {
+                        this.getbuyCount();
+                        this.getsellCount();
+                        this.mainquery = "marketType = ? and maker != ? and status = ? and  orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+                        this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
+
+                        this.buyTable = [];
+                        let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
+                            if(row) {
+                                this.buyTable.push(row);
+                            }
+                        });
+                        this.sellTable = [];
+                        new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
+                            if(row)
+                            {
+                                this.sellTable.push(row);
+                            }
+                        });
+                    }
+                });
+                ipcRenderer.on('updateOrder', (event , res) => {
+                    if(res) {
+                        this.getbuyCount();
+                        this.getsellCount();
+                        this.mainquery = "marketType = ? and maker != ? and status = ? and  orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+                        this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
+
+                        this.buyTable = [];
+                        let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
+                            if(row) {
+                                this.buyTable.push(row);
+                            }
+                        });
+                        this.sellTable = [];
+                        new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
+                            if(row)
+                            {
+                                this.sellTable.push(row);
+                            }
+                        });
+                    }
+                });
+            }
         },
         created(){
             this.tokenData = this.$router.history.current.query.data;
-            this.mainquery = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
-            this.mainquery1 = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
+            this.mainquery = "marketType = ? and maker != ? and status = ? and  orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+            this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
             if(this.fromAddress) {
                 // console.log(this.fromAddress.text.split('('), this.fromAddress.text.split('(')[2].split(' ')[0]);
                 this.expAmount = this.fromAddress.text.split('(')[1].split(' ')[0];
@@ -632,7 +685,7 @@
                 this.$modal.show('insufficentBal');
             }
             this.buyTable = [];
-            let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+            let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
             sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
                 // console.log(row, "rowsss");
                 if(row) {
@@ -640,7 +693,7 @@
                 }
             });
             this.sellTable = [];
-            new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+            new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
             sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
                 // console.log(row, "rowsss");
                 if(row)
@@ -667,8 +720,8 @@
         methods: {
             getbuyCount() {
                 let i =0 ;
-                let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
-                let mainqueryCount = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc";
+                let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                let mainqueryCount = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc";
                 sqldb.each("SELECT COUNT(*) as count FROM Orders where "+mainqueryCount,new_data, (err, row) => {
                     if(row) {
                         i++;
@@ -678,8 +731,8 @@
             },
             getsellCount() {
                 let i =0 ;
-                let new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-                let mainqueryCount = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc";
+                let new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                let mainqueryCount = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc";
                 sqldb.each("SELECT COUNT(*) as count FROM Orders where  "+mainqueryCount,new_data, (err, row) => {
                     if(row) {
                         i++;
@@ -764,8 +817,8 @@
                 this.offset1 = (pageNum -1) * this.limit1;
                 pageNum = (pageNum -1) * this.limit1 ;
                 this.buyTable = [];
-                this.mainquery = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
-                let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
+                this.mainquery = "marketType = ? and maker != ? and status = ?  and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
+                let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
                 sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+pageNum+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
                     if(row) {
@@ -779,8 +832,8 @@
                 this.offset2 = (pageNum -1) * this.limit1;
                 pageNum = (pageNum -1) * this.limit1 ;
                 this.sellTable = [];
-                let new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-                this.mainquery1 = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
+                let new_data = ['SELL', this.fromAddress.value,'OPEN' , 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
                 sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+pageNum+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
                     if(row)
@@ -853,7 +906,9 @@
                 this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.totalAmount) <= parseFloat(this.wexpAmount))) {
+                        var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                        var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
+                        if((this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.totalAmount) <= parseFloat(this.wexpAmount))) || (tokenBal && (parseFloat(this.totalAmount) <= parseFloat(tokenBal.balance)))) {
                             try {
                                 await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
@@ -875,32 +930,7 @@
                             }
                             clearInterval(this.intervalid1);
                         } else {
-                            var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                            var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenBal && (parseFloat(this.totalAmount) <= parseFloat(tokenBal.balance))) {
-                                try {
-                                    await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
-                                    console.log(this.matchOrderHashes, "orderhashes")
-                                    this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
-                                    let amountData= [web3.utils.toWei(parseFloat(this.quantity).toFixed(6).toString(), 'ether'), web3.utils.toWei(parseFloat(this.totalAmount).toFixed(6).toString(), 'ether')]
-                                    this.modalArray = {
-                                        type: "buyBtn",
-                                        fromAddress: this.fromAddress.value,
-                                        currency: this.tokenData.betaSymbol,
-                                        orderAddresses: this.orderAddresses,
-                                        amountData: amountData,
-                                        amount: this.totalAmount,
-                                        matchOrderHashes: this.matchOrderHashes,
-                                    };
-                                    this.$modal.show('allowancePopup');
-                                }
-                                catch(err) {
-                                    console.log(err, "err");
-                                }
-                                clearInterval(this.intervalid1);
-                            } else {
-                                this.totalError = "Seems You don't have sufficient Token Amount"
-                            }
+                            this.totalError = "Seems You don't have sufficient Token Amount"
                         }
                     }
                     else {
@@ -928,7 +958,8 @@
                 this.totalError = "";
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
-                        if(this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.quantity) <= parseFloat(this.wexpAmount))) {
+                        if((this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.quantity) <= parseFloat(this.wexpAmount))) || (tokenBal && (parseFloat(this.quantity) <= parseFloat(tokenBal.balance))))
+                        {
                             try {
                                 await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
                                 console.log(this.matchOrderHashes, "orderhashes")
@@ -950,32 +981,7 @@
                             }
                             clearInterval(this.intervalid1);
                         } else {
-                            var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
-                            var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
-                            if(tokenBal && (parseFloat(this.quantity) <= parseFloat(tokenBal.balance))) {
-                                try {
-                                    await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
-                                    console.log(this.matchOrderHashes, "orderhashes")
-
-                                    this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
-                                    let amountData= [web3.utils.toWei(this.totalAmount.toString(), 'ether'), web3.utils.toWei(this.quantity.toString(), 'ether')]
-                                    this.modalArray = {
-                                        type: "sellBtn",
-                                        fromAddress: this.fromAddress.value,
-                                        currency: this.tokenData.alphaSymbol,
-                                        orderAddresses: this.orderAddresses,
-                                        amountData: amountData,
-                                        amount: this.totalAmount,
-                                        matchOrderHashes: this.matchOrderHashes,
-                                    };
-                                    this.$modal.show('allowancePopup');
-                                } catch (err) {
-
-                                }
-                                clearInterval(this.intervalid1);
-                            } else {
-                                this.quantityError = "Seems You don't have sufficient Token Amount"
-                            }
+                            this.quantityError = "Seems You don't have sufficient Token Amount"
                         }
                     } else {
                         this.approveError = "Approve Allowance";

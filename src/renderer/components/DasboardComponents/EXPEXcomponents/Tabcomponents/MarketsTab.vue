@@ -88,8 +88,8 @@
             searchTokens(value) {
                 this.marketTable = [];
                 if(value) {
-                    let new_data = [value, value]
-                    let mainqueryCount = " betaSymbol = ? or alphaSymbol = ?";
+                    let new_data = ['%'+value+'%', '%'+value+'%'];
+                    let mainqueryCount = " betaSymbol LIKE ? COLLATE NOCASE  or alphaSymbol LIKE ? COLLATE NOCASE ";
                     sqldb.each("SELECT * FROM marketPair where "+ mainqueryCount,new_data, (err, row) => {
                         if(row) {
                             this.marketTable.push(row);
@@ -103,7 +103,7 @@
             designColor() {
                 setTimeout (() =>{
                     this.designColor = '';
-                },5000)
+                },1000)
             }
         },
         computed: {
@@ -138,7 +138,7 @@
             this.getmarketCount();
             setTimeout (() =>{
                 this.designColor = '';
-            },5000)
+            },1000)
         },
         methods: {
             clickCallback (pageNum) {

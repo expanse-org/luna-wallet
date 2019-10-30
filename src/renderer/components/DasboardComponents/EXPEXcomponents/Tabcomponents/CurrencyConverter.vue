@@ -126,13 +126,14 @@
 
             },
             handleExchange() {
+                var userData = this.accounts.find((val) => val.hash === (this.fromAddress && this.fromAddress.value));
                 this.sendValueError = "";
-                if(this.sendValue !== 0 && this.sendValue) {
+                if(this.sendValue > 0 && this.sendValue) {
                     this.sendValueError = false;
                     if(this.fromAddress) {
                         if(this.receiveCurr === 'WEXP') {
-                            if(parseFloat(this.fromAddress.text.split('(')[1].split(" ")[0]) >= parseFloat(this.sendValue)) {
-                                console.log(this.fromAddress.text.split('(')[1].split(" ")[0],this.fromAddress,  "estimatedgass response");
+                            if(parseFloat(userData.balance) >= parseFloat(this.sendValue)) {
+                                console.log(userData.balance,this.fromAddress,  "estimatedgass response");
                                 web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
                                     // console.log(res, err,  "estimatedgass response");
                                     if(res > 1) {
@@ -143,32 +144,30 @@
                                 this.sendValueError = "Seems You don't have sufficient Amount To send";
                             }
                         } else {
-                            this.accounts.map((acc) => {
-                                if(acc.hash === this.fromAddress.value) {
-                                    if(acc.tokens) {
-                                        acc.token_icons.map((acc_token) => {
-                                            // console.log(acc_token, acc_token.token_symbol === 'WEXP', "acc_token")
-                                            if(acc_token.token_symbol === 'WEXP') {
-                                                if(parseFloat(acc_token.balance) >= parseFloat(this.sendValue)) {
-                                                    web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
-                                                        // console.log(res, err,  "estimatedgass response");
-                                                        if(res > 1) {
-                                                            this.show();
-                                                        }
-                                                    })
-                                                } else {
-                                                    this.sendValueError = "Seems You don't have sufficient Token Amount To send";
+                            if(userData.tokens) {
+                                userData.token_icons.map((acc_token) => {
+                                    // console.log(acc_token, acc_token.token_symbol === 'WEXP', "acc_token")
+                                    if(acc_token.token_symbol === 'WEXP') {
+                                        if(parseFloat(acc_token.balance) >= parseFloat(this.sendValue)) {
+                                            web3.eth.estimateGas({from: this.fromAddress.value, to: '0x270ff59e03e69db4600900a2816587e7cd3e2f11', amount: web3.utils.toWei(this.sendValue.toString(), "ether")}, (err, res) => {
+                                                // console.log(res, err,  "estimatedgass response");
+                                                if(res > 1) {
+                                                    this.show();
                                                 }
-                                            }
-                                        })
+                                            })
+                                        } else {
+                                            this.sendValueError = "Seems You don't have sufficient Token Amount To send";
+                                        }
                                     } else {
                                         this.sendValueError = "Seems You don't have WEXP Token";
                                     }
-                                }
-                            })
+                                })
+                            } else {
+                                this.sendValueError = "Seems You don't have WEXP Token";
+                            }
                         }
                     } else {
-                        this.sendValueError = "Seems You don't have sufficient Token Amount To send";
+                        this.sendValueError = "Seems You don't have sufficient Amount To send";
                     }
                 } else {
                     this.sendValueError = "Please Enter Send Amount";

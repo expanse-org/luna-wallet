@@ -44,11 +44,11 @@
                     <p>{{parseFloat(trade.price).toFixed(4)}}</p>
                     <p v-if="trade.marketType === 'BUY'">{{parseFloat(trade.amountBuy).toFixed(5)}}</p>
                     <p v-else >{{parseFloat(trade.amountSell).toFixed(5)}}</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/'+trade.orderHash)" class="fix-text tooltip">
-                        {{trade.orderHash}}
-                        <span class="tooltiptext parrentFont">{{trade.orderHash}}</span>
+                    <p @click="openGanderUrl('https://gander.tech/tx/'+trade.txHash)" class="fix-text tooltip">
+                        {{trade.txHash}}
+                        <span class="tooltiptext parrentFont">{{trade.txHash}}</span>
                     </p>
-                    <div @click="handletooltip1(trade.orderHash, index)" class="tooltip3 copytext">
+                    <div @click="handletooltip1(trade.txHash, index)" class="tooltip3 copytext">
                         <img src="../../../../assets/img/copy.svg"  />
                         <span v-if="copiedtip === index" class="tooltiptext2">Copied</span>
                     </div>

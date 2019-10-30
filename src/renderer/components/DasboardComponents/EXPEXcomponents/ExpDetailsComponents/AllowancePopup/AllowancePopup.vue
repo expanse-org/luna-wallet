@@ -11,7 +11,7 @@
                         <label>Amount</label>
                         <div class="all-input">
                             <p v-if="amountError" class="error-message allowanceamount ">{{amountError}}</p>
-                            <input type="number" :disabled="amountdisable" v-model="amount" placeholder="Amount"/>
+                            <input type="number" @focus="handleFocus" :disabled="amountdisable" v-model="amount" placeholder="Amount"/>
                             <span>{{amountCurrency}}</span>
                         </div>
                     </div>
@@ -127,19 +127,6 @@
             const dexContract = new web3.eth.Contract(expexABI, expexAddress);
             console.log(dexContract.methods, "methods");
 
-            if(this.$router.history.current.path === '/expexdetails') {
-                if(this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
-                    this.popupHeading = 'Buy Order';
-                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "sellBtn") {
-                    this.popupHeading = 'Sell Order';
-                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "allowance") {
-                    this.popupHeading = 'Allowance Approval';
-                }
-            } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "cancelOrder") {
-                this.popupHeading = 'Cancel Order';
-            } else {
-                this.popupHeading = 'Exchange Now';
-            }
             if(this.modalArray && this.modalArray.amount) {
                 console.log(this.modalArray)
                 this.amount = this.modalArray.amount;
@@ -153,6 +140,20 @@
                 //     console.log(res, err,  "estimatedgass response")
                 //     this.gasLimit = res
                 // })
+            }
+            if(this.$router.history.current.path === '/expexdetails') {
+                if(this.modalArray && this.modalArray.type && this.modalArray.type === "buyBtn") {
+                    this.popupHeading = 'Buy Order';
+                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "sellBtn") {
+                    this.popupHeading = 'Sell Order';
+                } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "allowance") {
+                    this.popupHeading = 'Allowance Approval';
+                    this.amount = 0;
+                }
+            } else if(this.modalArray && this.modalArray.type && this.modalArray.type === "cancelOrder") {
+                this.popupHeading = 'Cancel Order';
+            } else {
+                this.popupHeading = 'Exchange Now';
             }
 
 
@@ -172,6 +173,10 @@
                 this.passwordError = "";
                 this.amountError = "";
                 this.feeError = "";
+                if(!this.amount || this.amount <= 0) {
+                    this.amountError = "Amount is required";
+                    return;
+                }
                 var userData = this.accounts.find((val) => val.hash === (this.modalArray && this.modalArray.fromAddress));
                 let expAmount = userData.balance;
                 console.log(expAmount);

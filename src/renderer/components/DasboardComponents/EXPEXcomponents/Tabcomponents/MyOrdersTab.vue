@@ -47,11 +47,11 @@
                     <p v-if="data.marketType === 'BUY'">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(4)}}</p>
                     <p v-else >{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(4)}}</p>
                     <p>{{data.orderFilled}}%</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/'+data.orderHash)" class="fix-text tooltip">
-                        {{data.orderHash}}
-                        <span class="tooltiptext parrentFont">{{data.orderHash}}</span>
+                    <p @click="openGanderUrl('https://gander.tech/tx/'+data.txHash)" class="fix-text tooltip">
+                        {{data.txHash}}
+                        <span class="tooltiptext parrentFont">{{data.txHash}}</span>
                     </p>
-                    <div @click="handletooltip(data.orderHash, index)" class="tooltip3 copytext">
+                    <div @click="handletooltip(data.txHash, index)" class="tooltip3 copytext">
                         <img src="../../../../assets/img/copy.svg"  />
                         <span v-if="copiedtip === index" class="tooltiptext2">Copied</span>
                     </div>
@@ -121,11 +121,11 @@
                     <p v-if="order.marketType === 'BUY'">{{parseFloat((order.price) * ((order.amountBuy - order.amountBuyFilled)/Math.pow(10, order.decimalBuy))).toFixed(4)}}</p>
                     <p v-else >{{parseFloat((order.price) * ((order.amountSell - order.amountSellFilled)/Math.pow(10, order.decimalSell))).toFixed(4)}}</p>
                     <p>{{order.orderFilled}}%</p>
-                    <p @click="openGanderUrl('https://gander.tech/tx/'+order.orderHash)" class="fix-text tooltip">
-                        {{order.orderHash}}
-                        <span class="tooltiptext parrentFont">{{order.orderHash}}</span>
+                    <p @click="openGanderUrl('https://gander.tech/tx/'+order.txHash)" class="fix-text tooltip">
+                        {{order.txHash}}
+                        <span class="tooltiptext parrentFont">{{order.txHash}}</span>
                     </p>
-                    <div @click="handletooltip1(order.orderHash, index)" class="tooltip3 copytext">
+                    <div @click="handletooltip1(order.txHash, index)" class="tooltip3 copytext">
                         <img src="../../../../assets/img/copy.svg"  />
                         <span v-if="copiedtip1 === index" class="tooltiptext2">Copied</span>
                     </div>
@@ -373,7 +373,7 @@
                     if(res) {
                         this.getopenOrders();
                         this.getopenorderCount();
-                        // this.getorderHistory();
+                        this.getorderHistory();
                         this.getorderCount();
                     }
                 });
@@ -381,7 +381,7 @@
                     if(res) {
                         this.getopenOrders();
                         this.getopenorderCount();
-                        // this.getorderHistory();
+                        this.getorderHistory();
                         this.getorderCount();
                     }
                 });
