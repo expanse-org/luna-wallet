@@ -37,7 +37,7 @@ var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
 
 
 sqldb.serialize(function() {
-    sqldb.run("DROP TABLE Trade");
+    // sqldb.run("DROP TABLE Trade");
     sqldb.run("CREATE TABLE if not exists Orders (createdAt TEXT not null,orderHash VARCHAR(255) collate nocase not null UNIQUE,txHash VARCHAR(255) collate nocase not null, tokenBuy TEXT collate nocase not null, amountBuy REAL not null, tokenSell TEXT collate nocase not null, amountSell REAL not null, maker TEXT collate nocase not null, tokenId INTEGER not null, price REAL not NULL, blockNo INTEGER not null, decimalBuy INTEGER not null, " +
         "decimalSell INTEGER not null, status TEXT not null, marketType TEXT collate nocase not null, betaSymbol TEXT not null, alphaSymbol TEXT NOT NULL, orderFilled REAL NOT NULL, amountBuyFilled REAL NOT NULL, amountSellFilled REAL NOT NULL)");
     sqldb.run("CREATE TABLE if not exists marketPair (perChange REAL not null, maxPrice REAL not null,minPrice REAL not null,Price REAL not null, volume REAL not NULL, blockNo INTEGER not null , txHash VARCHAR(255) not null,createdAt TEXT not null, alphaSymbol TEXT not null, alphaAddress VARCHAR(255) collate nocase not null, alphaDecimal INTEGER not null,  betaSymbol TEXT not null, betaAddress VARCHAR(255) collate nocase not null, betaDecimal INTEGER not null, PRIMARY KEY (alphaAddress, betaAddress))");
@@ -65,7 +65,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 console.log(blockNo, allMarketPairs, "pastlogs");
+                 // console.log(blockNo, allMarketPairs, "pastlogs");
                  for(let i =0 ;i< allMarketPairs.length; i++) {
                      const alpha = allMarketPairs[i].returnValues["token1"]
                      const beta = allMarketPairs[i].returnValues["token2"]
@@ -154,7 +154,7 @@ const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 console.log(allCancelOrders, "pastlogs");
+                 // console.log(allCancelOrders, "pastlogs");
                  for(let i =0 ;i< allCancelOrders.length; i++) {
                      const orderHash = allCancelOrders[i].returnValues.orderHash;
                      try {
@@ -234,9 +234,9 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                 if (err) {
                                     return console.error(err.message);
                                 }
-                                console.log(`Rows inserted orders`);
                             });
                             if((allOrders.length - 1) === index ) {
+                                console.log(`Rows inserted orders`);
                                 mainWindow && mainWindow.forEach(win => {
                                     win.webContents.send('newOrder', {maker, alphaSymbol: orderdata.alphaSymbol, betaSymbol: orderdata.betaSymbol, amountSell, amountBuy, price: orderdata.price});
                                 });
@@ -357,7 +357,7 @@ const getCancelOrderBlock = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                console.log(row, data,"data");
+                // console.log(row, data,"data");
                 resolve(data);
             }
         });
@@ -529,7 +529,7 @@ const getmarketpairorder = async (tokenBuy, tokenSell, amountSell, amountBuy, pr
         let paramData = [tokenBuy,tokenSell,tokenSell,tokenBuy];
         await sqldb.get("select * from marketPair where (alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?) order by blockNo desc limit 1",paramData, function(err, row) {
              if(row) {
-                 console.log("row.alphaAddress == tokenBuy",(web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)),amountBuy,amountSell,row.alphaAddress == tokenBuy,row.alphaAddress , tokenBuy)
+                 // console.log("row.alphaAddress == tokenBuy",(web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)),amountBuy,amountSell,row.alphaAddress == tokenBuy,row.alphaAddress , tokenBuy)
                  if(row.alphaAddress == tokenBuy) {
                      price = ((web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)).toString());
                      marketType = marketENUM.SELL // SELL
@@ -566,7 +566,7 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
     return new Promise(async function (resolve, reject) {
         let data = {};
         let paramData = [orderHash];
-        console.log(`Rows inserted `,orderHash);
+        // console.log(`Rows inserted `,orderHash);
         await sqldb.get("select * from Orders where orderHash = ?",paramData, function(err, row) {
              if(row) {
                  try {

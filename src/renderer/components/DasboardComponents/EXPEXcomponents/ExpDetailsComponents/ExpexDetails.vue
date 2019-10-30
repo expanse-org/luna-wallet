@@ -45,22 +45,18 @@
                 <div class="head-text">
                     <div class="text-data">
                         <h1>MARKET CHART</h1>
-<!--                        <div class="keyvalue">-->
-<!--                            <div><p>PRICE:</p> 0.06763</div>-->
-<!--                            <div><p>VOL:</p> 0.08763</div>-->
-<!--                        </div>-->
-<!--                        <div class="keyvalue">-->
-<!--                            <div><p>OPEN:</p> 0.06763</div>-->
-<!--                            <div><p>HIGH:</p> 0.08763</div>-->
-<!--                        </div>-->
-<!--                        <div class="keyvalue">-->
-<!--                            <div><p>CLOSE:</p> 0.06763</div>-->
-<!--                            <div><p>LOW:</p> 0.08763</div>-->
-<!--                        </div>-->
-                    </div>
-                    <div class="btns">
-                        <!--<button class="deposit-btn"><img src="../../../../assets/img/Polygonwhite2.png"/> DEPOSIT</button>-->
-                        <!--<button class="withdraw-btn"><img src="../../../../assets/img/PolygonWhite3.png"/> WITHDRAW</button>-->
+                        <div class="keyvalue">
+                            <div><p>PRICE:</p>{{marketStats.maxPrice? marketStats.maxPrice : 0 }}</div>
+                            <div><p>VOL:</p> 0.08763</div>
+                        </div>
+                        <div class="keyvalue">
+                            <div><p>OPEN:</p> {{marketStats.firstPrice? marketStats.firstPrice : 0 }}</div>
+                            <div><p>HIGH:</p> {{marketStats.maxPrice? marketStats.maxPrice : 0 }}</div>
+                        </div>
+                        <div class="keyvalue">
+                            <div><p>CLOSE:</p> {{marketStats.lastPrice? marketStats.lastPrice : 0 }}</div>
+                            <div><p>LOW:</p> {{marketStats.minPrice? marketStats.minPrice : 0 }}</div>
+                        </div>
                     </div>
                 </div>
                 <div id="thechart"></div>
@@ -351,13 +347,25 @@
                     ") as lastPrice,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt asc limit 1" +
                     ") as firstPrice  FROM Trade where ((tokenBuy = '"+this.tokenData.alphaAddress+"' and tokenSell = '"+this.tokenData.betaAddress+"') or (tokenBuy = '"+this.tokenData.betaAddress+"' and tokenSell = '"+this.tokenData.alphaAddress+"')) and createdAt BETWEEN '"+ts1+"' and '"+ts2+"' ORDER BY createdAt desc"
                 // console.log(this.tokenData, query);
-                sqldb.each("SELECT MAX(price) as maxPrice,MIN(price) as minPrice,createdAt,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt desc limit 1" +
+                sqldb.each("SELECT SUM(amountBuy) as amountBuy,SUM(amountSell) as amountSell,MAX(price) as maxPrice,MIN(price) as minPrice,createdAt,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt desc limit 1" +
                     ") as lastPrice,(select price from Trade where createdAt BETWEEN '"+ts1+"' and '"+ts2+"' order by createdAt asc limit 1" +
                     ") as firstPrice  FROM Trade where ((tokenBuy = '"+this.tokenData.alphaAddress+"' and tokenSell = '"+this.tokenData.betaAddress+"') or (tokenBuy = '"+this.tokenData.betaAddress+"' and tokenSell = '"+this.tokenData.alphaAddress+"')) and createdAt BETWEEN '"+ts1+"' and '"+ts2+"' ORDER BY createdAt desc", (err, row) => {
                     if(row && (row.createdAt && row.maxPrice)) {
                         let data = [parseInt(row.createdAt) * 1000, row.firstPrice,row.maxPrice, row.minPrice, row.lastPrice];
                         candleData.push(data);
                         this.chart = new Highcharts.stockChart(spec)
+                        if(startDate.toLocaleDateString() == endDate.toLocaleDateString()) {
+                            console.log(row, "rowcheck");
+
+                            this.marketStats = {
+                                maxPrice: row.maxPrice,
+                                minPrice: row.minPrice,
+                                lastPrice: row.lastPrice,
+                                firstPrice: row.firstPrice,
+                                amountBuy: row.amountBuy,
+                                amountSell: row.amountSell,
+                            }
+                        }
                     }
                 });
                 if(startDate.toLocaleDateString() == endDate.toLocaleDateString()) {
@@ -421,15 +429,6 @@
                     style: {
                         color: '#F0F0F0'
                     }
-                },
-                plotOptions: {
-                    boxplot: {
-                        fillColor: '#505053'
-                    },
-                    candlestick: {
-                        lineColor: 'white',
-                        color: '#85A200'
-                    },
                 },
                 navigator: {
                     handles: {
@@ -540,6 +539,8 @@
                     type: 'candlestick',
                     name: 'Trade Chart',
                     data: candleData,
+                    color: '#85A200',
+                    upColor: '#cb4d43',
                     dataGrouping: {
                         units: [
                             [
@@ -606,6 +607,12 @@
                 mainquery: "",
                 mainquery1: "",
                 bidPriceError: "",
+                marketStats: {
+                    maxPrice: 0,
+                    minPrice: 0,
+                    lastPrice: 0,
+                    firstPrice: 0,
+                },
             };
         },
         computed: {
