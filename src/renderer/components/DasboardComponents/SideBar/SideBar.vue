@@ -154,6 +154,10 @@
                     this.$router.push({
                         path: '/market'
                     });
+
+                    if(!localStorage.getItem('TOS_check') || localStorage.getItem('TOS_check') === null) {
+                        this.$modal.show('privacyModal');
+                    }
                     this.expexTab = 'tablinks active green';
                     this.$emit('changeColorHead', '/market');
                     break;

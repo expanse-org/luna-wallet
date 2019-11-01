@@ -1988,51 +1988,82 @@ footer {
   }
 }
 
-.privacypopup {
-  .bluetext{
-    color: #35A7F7;
-  }
-  p{
-    line-height: 25px;
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  .alignLeft {
-    text-align: left;
-  }
-  ul{
-    font-size: 16px;
-    list-style-type: circle;
-    padding: 0px!important;
-    margin-bottom: 5px!important;
-  }
-  ul li{
-    line-height: 25px;
-    font-size: 16px!important;
-    text-align: left!important;
-    font-weight: 100!important;
-    margin-top: 0px!important;
-    padding-top: 0px!important;
-    text-transform: unset!important;
-  }
-  h1, h2{
-    font-weight: 600!important;
-    padding: 0.4em;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 3px 3px 0 0;
-  }
-  h2 {
-    font-weight: 600!important;
-    font-size: 22px;
-  }
-  h3 {
-    font-weight: 500!important;
-    background: none;
-    font-size: 20px;
-    text-align: left!important;
-  }
-}
+.privacymodal {
+  padding: 20px 30px !important;
+  max-height: 80vh;
+  .privacypopup {
+    .bluetext{
+      color: #35A7F7;
+    }
+    p{
+      line-height: 25px;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .alignLeft {
+      text-align: left;
+    }
+    ul{
+      font-size: 16px;
+      list-style-type: disc!important;
+      padding: 0px!important;
+      margin-bottom: 5px!important;
+    }
+    ul li{
+      padding: 0px 10px 0 0px!important;
+      line-height: 25px;
+      font-size: 16px!important;
+      text-align: left!important;
+      font-weight: 100!important;
+      margin-top: 0px!important;
+      text-transform: unset!important;
+    }
+    h1 {
+      margin: 10px 0!important;
+      padding: 0.4em;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 3px 3px 0 0;
+    }
+    h1, h2{
+      font-weight: 600!important;
+    }
+    h2 {
+      font-weight: 600!important;
+      font-size: 20px;
+      margin-bottom: 10px!important;
+      margin-top: 10px!important;
+    }
+    h3 {
+      font-weight: 500!important;
+      background: none;
+      font-size: 18px;
+      text-align: left!important;
+    }
+    .italictext{
+      font-style: italic;
+    }
+    .contentTab {
+      height: 400px!important;
+      overflow-x: scroll;
+      min-height: 400px;
+      padding: 0.4em;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 3px 3px 0 0;
+    }
+    .buttons {
+      margin-top: 20px!important;
 
+    }
+    .disablebtn {
+      cursor: no-drop!important;
+    }
+    .marginleftul {
+      padding-left: 20px;
+    }
+
+  }
+
+}
 
 #snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */

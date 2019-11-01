@@ -938,7 +938,7 @@ var tokenInterface = [
 let currencies;
 let Dprice;
 const ExpApi = () => {
-    got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
+    got('https://rates.expanse.tech/live', {
         json: true
     }).then(response => {
         if(response){

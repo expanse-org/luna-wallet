@@ -191,7 +191,7 @@
             currenciesData: function(){
                 this.currency = this.$store.state.currencies;
                 var curNew= this.currency;
-                got('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EXP&tsyms=USD,BTC,EXP', {
+                got('https://rates.expanse.tech/live', {
                     json: true
                 }).then(response => {
                     if(response) {

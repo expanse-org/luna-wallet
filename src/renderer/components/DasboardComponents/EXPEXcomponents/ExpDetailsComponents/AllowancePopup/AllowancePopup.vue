@@ -173,10 +173,6 @@
                 this.passwordError = "";
                 this.amountError = "";
                 this.feeError = "";
-                if(!this.amount || this.amount <= 0) {
-                    this.amountError = "Amount is required";
-                    return;
-                }
                 var userData = this.accounts.find((val) => val.hash === (this.modalArray && this.modalArray.fromAddress));
                 let expAmount = userData.balance;
                 console.log(expAmount);
@@ -210,6 +206,7 @@
                                             $('form').trigger('reset');
                                             clipboard.writeText(orderPlace.transactionHash, 'selected');
                                             $('.trx_alert-sucess').show(300).delay(5000).hide(330);
+                                            this.$emit('cancelOrderDone');
                                             setTimeout(() => {
                                                 this.hide();
                                             }, 5000);
@@ -322,6 +319,10 @@
                                 return false;
                             });
                         } else if (this.modalArray && this.modalArray.type && this.modalArray.type === "allowance") {
+                            if(!this.amount || this.amount <= 0) {
+                                this.amountError = "Amount is required";
+                                return;
+                            }
                             this.popupHeading = 'Allowance Approval';
                             if(this.amount) {
                                 var contract = new web3.eth.Contract(tokenInterface, this.modalArray.toAddress);

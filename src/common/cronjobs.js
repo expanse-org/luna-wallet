@@ -138,8 +138,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
          web3http = new Web3("http://127.0.0.1:9656")
      }
 });
-const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
-    console.log("Cron RUnning")
+const getRecentCancelOrders = cron.schedule('0 * * * * *', async () =>  {
     if(isGetPastLogCronRunning) {
         return;
     }
@@ -154,7 +153,7 @@ const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 // console.log(allCancelOrders, "pastlogs");
+                 console.log(allCancelOrders, "pastlogs");
                  for(let i =0 ;i< allCancelOrders.length; i++) {
                      const orderHash = allCancelOrders[i].returnValues.orderHash;
                      try {
@@ -166,6 +165,14 @@ const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
                              }
                              // console.log(`Rows inserted `);
                          });
+
+                         if((allCancelOrders.length - 1) === i ) {
+                             console.log(`Rows inserted orders`,allCancelOrders.length - 1 , i );
+
+                             mainWindow && mainWindow.forEach(win => {
+                                 win.webContents.send('cancelOrder', true);
+                             });
+                         }
                      } catch(err) {
                          console.log(err)
                      }

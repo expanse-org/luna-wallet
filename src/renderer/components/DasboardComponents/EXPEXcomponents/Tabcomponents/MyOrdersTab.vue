@@ -149,7 +149,7 @@
         </div>
 
         <modal class="tmodal" name="cancelOrderPopup">
-            <allowance-popup :modalArray="modalArray"></allowance-popup>
+            <allowance-popup @cancelOrderDone="cancelOrderDone" :modalArray="modalArray"></allowance-popup>
         </modal>
     </div>
 </template>
@@ -385,6 +385,15 @@
                         this.getorderCount();
                     }
                 });
+                ipcRenderer.on('cancelOrder', (event , res) => {
+                    console.log("cancel orer")
+                    if(res) {
+                        this.getopenOrders();
+                        this.getopenorderCount();
+                        this.getorderHistory();
+                        this.getorderCount();
+                    }
+                });
             }
         },
         created(){
@@ -406,6 +415,13 @@
                 };
                 this.$modal.show('cancelOrderPopup');
             },
+            cancelOrderDone() {
+                this.getopenOrders();
+                this.getopenorderCount();
+                this.getorderHistory();
+                this.getorderCount();
+            },
+
             getopenOrders(pageNum = 0) {
                 this.openorderTable=[];
                 this.hashQuery = '';

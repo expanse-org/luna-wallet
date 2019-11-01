@@ -315,7 +315,7 @@
         mounted() {
             this.tokenData = this.$router.history.current.query.data;
             var candleData = [];
-            console.log(this.tokenData);
+            // console.log(this.tokenData);
 
             let startDate = new Date("2019-10-20:00:00");
             let endDate = new Date();
@@ -668,7 +668,7 @@
             getBuyOrders() {
                 this.buyTable = [];
                 let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress];
-                console.log(new_data, "new_data", this.mainquery);
+                // console.log(new_data, "new_data", this.mainquery);
                 sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
                     console.log(row, "rowsss");
                     if(row) {
