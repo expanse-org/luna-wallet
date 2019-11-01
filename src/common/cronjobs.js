@@ -148,7 +148,7 @@ const getRecentCancelOrders = cron.schedule('0 */1 * * * *', async () =>  {
      if(netIsListening) {
          try{
              const blockNo = await getCancelOrderBlock();
-             console.log(blockNo, "blockno")
+             // console.log(blockNo, "blockno")
              if(blockNo) {
                  const allCancelOrders = await dexContract.getPastEvents("Cancel", {
                      fromBlock : blockNo,
@@ -225,7 +225,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                     if(orderdata.marketType && orderdata.marketType !== -1) {
                         try {
                             mainWindow && mainWindow.forEach(win => {
-                                win.webContents.send('notificationOrder', {maker, alphaSymbol: orderdata.alphaSymbol, betaSymbol: orderdata.betaSymbol, amountSell, amountBuy, price: orderdata.price});
+                                win.webContents.send('notificationOrder', {status, maker, alphaSymbol: orderdata.alphaSymbol, betaSymbol: orderdata.betaSymbol, amountSell, amountBuy, price: orderdata.price});
                             });
 
                             let new_data = [timeStamp,orderHash,transactionHash,tokenBuy ,amountBuy,tokenSell,amountSell ,maker,tokenId,orderdata.price ,orderblockNumber,decimalBuy,decimalSell ,status,orderdata.marketType,orderdata.betaSymbol ,orderdata.alphaSymbol,orderdata.orderFilled, 0, 0];
@@ -288,6 +288,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                             } catch(err) {
                                 console.log(err, "Trade Insert Error")
                             }
+
                             if(orderdata.marketType && orderdata.marketType !== -1) {
                                 try {
                                     let new_data = [blockNumber,timeStamp,orderHash,transactionHash, orderdata.marketType,orderdata.betaSymbol,orderdata.alphaSymbol ,matchingOrderHash,tokenBuy,tokenSell ,amountBuy,amountSell,taker ,maker,tokenId,orderdata.price];
@@ -301,6 +302,9 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                     if((allEvents.length - 1) === index ) {
                                         mainWindow && mainWindow.forEach(win => {
                                             win.webContents.send('newTrade', true);
+                                        });
+                                        mainWindow && mainWindow.forEach(win => {
+                                            win.webContents.send('updateMarketPair', {tokenSell,tokenBuy});
                                         });
 
                                     }
@@ -376,9 +380,6 @@ const updatemarketmaxmin = async (tokenBuy, tokenSell) => {
                 reject(err);
             }
             if(row && row.maxPrice) {
-                mainWindow && mainWindow.forEach(win => {
-                    win.webContents.send('updatemarketPair', {tokenSell,tokenBuy});
-                });
                 let paramData = [row.maxPrice,row.minPrice,tokenBuy,tokenSell,tokenSell,tokenBuy];
                 sqldb.run("UPDATE marketPair SET maxPrice = ?, minPrice = ? where ((alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?))", paramData, function(err) {
                     if (err) {
@@ -388,9 +389,6 @@ const updatemarketmaxmin = async (tokenBuy, tokenSell) => {
                 });
                 resolve(row);
             } else {
-                mainWindow && mainWindow.forEach(win => {
-                    win.webContents.send('updatemarketPair', {tokenSell,tokenBuy});
-                });
                 let paramData = [0,0,tokenBuy,tokenSell,tokenSell,tokenBuy];
                 sqldb.run("UPDATE marketPair SET maxPrice = ?, minPrice = ? where ((alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?))", paramData, function(err) {
                     if (err) {
@@ -408,18 +406,17 @@ const updatemarketvol = async (tokenBuy, tokenSell, marketTableArray) => {
     return new Promise(async function (resolve, reject) {
         let ts = Math.round(new Date().getTime() / 1000);
         let tsYesterday = ts - (24 * 3600);
-        let paramData = [tsYesterday,tokenBuy,tokenSell,tokenSell,tokenBuy];
-        await sqldb.get("SELECT * FROM Trade WHERE createdAt >= ? and ((tokenBuy = ? and tokenSell = ?) or (tokenBuy = ? and tokenSell = ?))",paramData, (err, row) => {
-            if(err) {
-                reject(err);
-            }
-            if(row && row.price) {
-                marketTableArray.push(row);
-                resolve(marketTableArray);
-            } else {
+        let paramData = [tsYesterday, tokenBuy,tokenSell,tokenSell,tokenBuy];
+        let stmt = await sqldb.prepare("SELECT * FROM Trade WHERE createdAt >= ? and ((tokenBuy = ? and tokenSell = ?) or (tokenBuy = ? and tokenSell = ?))");
+        stmt.each(paramData, function(err, row) {
+            marketTableArray.push(row);
+        }, function(err, count) {
+            if(count === marketTableArray.length) {
                 resolve(marketTableArray);
             }
+            stmt.finalize();
         });
+
     });
 }
 
@@ -430,16 +427,13 @@ const updatemarketTabel = async (tokenBuy, tokenSell) => {
         let volume = 0;
         await updatemarketmaxmin(tokenBuy, tokenSell);
         await updatemarketvol(tokenBuy, tokenSell, marketTableArray);
-        if(marketTableArray.length === 1 )
+        if(marketTableArray.length === 2 )
         {
             if(marketTableArray[0].marketType === 'BUY') {
                 volume = marketTableArray[0].amountBuy ;
             } else {
                 volume = marketTableArray[0].amountSell ;
             }
-            mainWindow && mainWindow.forEach(win => {
-                win.webContents.send('updatemarketPair', {tokenSell,tokenBuy});
-            });
             let paramData = [marketTableArray[0].price, volume,100,tokenBuy,tokenSell,tokenSell,tokenBuy];
             sqldb.run("UPDATE marketPair SET price = ?, volume = ?,perChange = ?  where ((alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?))", paramData, function(err) {
                 if (err) {
@@ -448,8 +442,8 @@ const updatemarketTabel = async (tokenBuy, tokenSell) => {
                 // console.log(`Rows inserted `);
             });
             // console.log(marketTableArray, "marketTableArray 1" , volume)
-        } else if(marketTableArray.length > 1 ) {
-            let changePercentage = ((marketTableArray[marketTableArray.length - 1] - marketTableArray[0]) / marketTableArray[0]) * 100
+        } else if(marketTableArray.length > 2 ) {
+            let changePercentage = ((marketTableArray[marketTableArray.length - 1].price - marketTableArray[0].price) / marketTableArray[0].price) * 100
 
             if(marketTableArray[0].marketType === 'BUY') {
                 volume += marketTableArray[0].amountBuy ;
@@ -458,17 +452,14 @@ const updatemarketTabel = async (tokenBuy, tokenSell) => {
             }
             // console.log(marketTableArray, "marketTableArray > 1" , volume);
 
-            mainWindow && mainWindow.forEach(win => {
-                win.webContents.send('updatemarketPair', {tokenSell,tokenBuy});
-            });
-            let paramData = [marketTableArray[marketTableArray.length].price,volume,changePercentage,tokenBuy,tokenSell,tokenSell,tokenBuy];
+            let paramData = [marketTableArray[marketTableArray.length -1].price,volume,changePercentage,tokenBuy,tokenSell,tokenSell,tokenBuy];
             sqldb.run("UPDATE marketPair SET price = ?, volume = ?,perChange = ?  where ((alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?))", paramData, function(err) {
                 if (err) {
                     return console.error(err.message);
                 }
                 // console.log(`Rows inserted `);
             });
-        } else {
+        } else if(marketTableArray.length === 0 ) {
             let paramData = [0,0,0,tokenBuy,tokenSell,tokenSell,tokenBuy];
             sqldb.run("UPDATE marketPair SET price = ?, volume = ?,perChange = ?  where ((alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?))", paramData, function(err) {
                 if (err) {
@@ -570,8 +561,8 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
         await sqldb.get("select * from Orders where orderHash = ?",paramData, function(err, row) {
              if(row) {
                  try {
-                     row.amountBuyFilled  =+ amountBuy
-                     row.amountSellFilled  =+ amountSell
+                     row.amountBuyFilled  =+ parseFloat(amountBuy)
+                     row.amountSellFilled  =+ parseFloat(amountSell)
 
                      let orderbuyFilledPercentage = (row.amountBuyFilled/(row.amountBuy/Math.pow(10, row.decimalBuy)))  * 100;
                      let status = marketENUM.OPEN;
@@ -589,7 +580,8 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
                      // and then check if order.amountFilledBuy == order.amountBuy then status = COMPLETE, otherwise OPEN
                      // console.log("UPDATE Orders SET status = '"+status+"',amountBuyFilled = "+row.amountBuyFilled +",amountSellFilled = "+row.amountSellFilled+",orderFilled = "+orderbuyFilledPercentage+" WHERE orderHash = '"+orderHash+"'")
 
-                     let paramData = [status,(row.amountBuyFilled + amountBuy),(row.amountSellFilled + amountSell),orderbuyFilledPercentage,orderHash];
+                     console.log(row.amountBuyFilled,row.amountSellFilled)
+                     let paramData = [status,row.amountBuyFilled,row.amountSellFilled,orderbuyFilledPercentage,orderHash];
                      sqldb.run("UPDATE Orders SET status = ?,amountBuyFilled = ?,amountSellFilled = ?,orderFilled = ? WHERE orderHash = ?", paramData, function(err) {
                          if (err) {
                              return console.error(err.message);
@@ -633,6 +625,12 @@ setTimeout (() => {
 }, 10000);
 
 if(startAction) {
+    mainWindow && mainWindow.forEach(win => {
+        win.webContents.on('connectwebhttp', () => {
+            console.log("HTTP socket open")
+        });
+    });
+
     ipcRenderer.on('connectwebhttp', (event, res) => {
         if(res){
             console.log("HTTP socket open")

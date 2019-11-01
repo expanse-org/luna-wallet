@@ -429,6 +429,7 @@
                 }
                 sqldb.each("SELECT * FROM  Orders where "+ this.hashQuery +" "+ this.selectQuery +" "+ this.todateQuery +" "+ this.fromDateQuery +" "+ this.mainQuery + " OFFSET "+ pageNum +"",this.paramData, (err, row) => {
                     if(row) {
+                        // console.log(row, "ro")
                         this.openorderTable.push(row);
                     }
                 });

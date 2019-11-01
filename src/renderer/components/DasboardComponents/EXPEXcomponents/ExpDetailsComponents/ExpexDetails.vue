@@ -77,10 +77,10 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy), data.price,((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))))" class="table-row">
+                            <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((web3.utils.fromWei((data.amountBuy - data.amountBuyFilled).toString(), 'ether')), parseFloat(data.price).toFixed(4))" class="table-row">
                                 <p>{{parseFloat(data.price).toFixed(4)}}</p>
-                                <p>{{(data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy)}}</p>
-                                <p class="Green">{{parseFloat((data.price) * ((data.amountBuy - data.amountBuyFilled)/Math.pow(10, data.decimalBuy))).toFixed(5)}}</p>
+                                <p>{{web3.utils.fromWei((data.amountBuy - data.amountBuyFilled).toString(), 'ether')}}</p>
+                                <p class="Green">{{parseFloat((parseFloat(data.price).toFixed(4)) * (web3.utils.fromWei((data.amountBuy - data.amountBuyFilled).toString(), 'ether'))).toFixed(5)}}</p>
                             </div>
                             <div v-if="buyTable.length === 0" class="table-no-row">
                                 <p class="row-10">No Buy Orders Found</p>
@@ -179,9 +179,10 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell),data.price,((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))))" class="table-row">
-                                <p class="Red">{{parseFloat((data.price) * ((data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell))).toFixed(5)}}</p>
-                                <p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>
+                            <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((web3.utils.fromWei((data.amountSell - data.amountSellFilled).toString(), 'ether')),parseFloat(data.price).toFixed(4))" class="table-row">
+                                <p class="Red">{{parseFloat((data.price) * (web3.utils.fromWei((data.amountSell - data.amountSellFilled).toString(), 'ether'))).toFixed(5)}}</p>
+                                <!--<p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>-->
+                                <p>{{web3.utils.fromWei((data.amountSell - data.amountSellFilled).toString(), 'ether')}}</p>
                                 <p>{{parseFloat(data.price).toFixed(4)}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
@@ -260,11 +261,12 @@
     import  insuficentBalance from '../../insuficentBalance';
     import Paginate from 'vuejs-paginate'
     import { ipcRenderer } from 'electron';
-    import {web3, tokenInterface, expexABI, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
+    import {tokenInterface, expexABI,startConnectWeb, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup';
     import {sqldb} from '../../../../../common/cronjobs';
     var Highcharts = require('highcharts/highstock');
 
+    const web3 = startConnectWeb();
     const web3http = startConnectWebHttp();
     const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
@@ -299,28 +301,8 @@
                 if(tokenBal) {
                     this.tokenAmount = tokenBal.balance;
                 }
-                this.mainquery = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
-                this.mainquery1 = "marketType = ? and maker != ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
-                this.buyTable = [];
-
-                let new_data = ['BUY', this.fromAddress.value, 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
-                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
-                    // console.log(row, "rowsss");
-                    if(row) {
-                        this.buyTable.push(row);
-                    }
-                });
-
-                this.sellTable = [];
-                new_data = ['SELL', this.fromAddress.value, 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
-                    // console.log(row, "rowsss");
-                    if(row)
-                    {
-                        this.sellTable.push(row);
-                    }
-                });
-
+                this.getBuyOrders();
+                this.getSellOrders();
                 this.getbuyCount();
                 this.getsellCount();
                 this.startAllowanceInterval();
@@ -355,8 +337,7 @@
                         candleData.push(data);
                         this.chart = new Highcharts.stockChart(spec)
                         if(startDate.toLocaleDateString() == endDate.toLocaleDateString()) {
-                            console.log(row, "rowcheck");
-
+                            // console.log(row, "rowcheck");
                             this.marketStats = {
                                 maxPrice: row.maxPrice,
                                 minPrice: row.minPrice,
@@ -603,7 +584,7 @@
                 buyTable: [],
                 sellTable: [],
                 marketHistoryTable: [],
-                buyselectData: "decimalSell , decimalBuy, sum(price) as price, sum(amountBuy) as amountBuy, sum(amountSell) as amountSell, sum(amountBuyFilled) as amountBuyFilled, sum(amountSellFilled) as amountSellFilled",
+                buyselectData: "decimalSell , decimalBuy, price, sum(amountBuy) as amountBuy, sum(amountSell) as amountSell, sum(amountBuyFilled) as amountBuyFilled, sum(amountSellFilled) as amountSellFilled",
                 mainquery: "",
                 mainquery1: "",
                 bidPriceError: "",
@@ -621,54 +602,28 @@
                 return accountsArray;
             },
             getOrders() {
-
-                ipcRenderer.on('newOrder', (event , res) => {
-                    console.log(event, res);
+                ipcRenderer.on('newTrade', (res) => {
                     if(res) {
+                        this.getBuyOrders();
+                        this.getSellOrders();
                         this.getbuyCount();
                         this.getsellCount();
-                        this.mainquery = "marketType = ? and maker != ? and status = ? and  orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
-                        this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
-
-                        this.buyTable = [];
-                        let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
-                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
-                            if(row) {
-                                this.buyTable.push(row);
-                            }
-                        });
-                        this.sellTable = [];
-                        new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
-                            if(row)
-                            {
-                                this.sellTable.push(row);
-                            }
-                        });
+                    }
+                });
+                ipcRenderer.on('newOrder', (event , res) => {
+                    if(res) {
+                        this.getBuyOrders();
+                        this.getSellOrders();
+                        this.getbuyCount();
+                        this.getsellCount();
                     }
                 });
                 ipcRenderer.on('updateOrder', (event , res) => {
                     if(res) {
+                        this.getBuyOrders();
+                        this.getSellOrders();
                         this.getbuyCount();
                         this.getsellCount();
-                        this.mainquery = "marketType = ? and maker != ? and status = ? and  orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
-                        this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
-
-                        this.buyTable = [];
-                        let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
-                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
-                            if(row) {
-                                this.buyTable.push(row);
-                            }
-                        });
-                        this.sellTable = [];
-                        new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-                        sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
-                            if(row)
-                            {
-                                this.sellTable.push(row);
-                            }
-                        });
                     }
                 });
             }
@@ -691,24 +646,10 @@
             } else {
                 this.$modal.show('insufficentBal');
             }
-            this.buyTable = [];
-            let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
-            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
-                // console.log(row, "rowsss");
-                if(row) {
-                    this.buyTable.push(row);
-                }
-            });
-            this.sellTable = [];
-            new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-            sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
-                // console.log(row, "rowsss");
-                if(row)
-                {
-                    this.sellTable.push(row);
-                }
-            });
-            new_data = [this.tokenData.betaAddress, this.tokenData.alphaAddress, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+
+            this.getBuyOrders();
+            this.getSellOrders();
+            let new_data = [this.tokenData.betaAddress, this.tokenData.alphaAddress, this.tokenData.alphaAddress, this.tokenData.betaAddress]
             let paramquery = "((tokenBuy = ? and tokenSell = ?) or (tokenBuy = ? and tokenSell = ?)) ORDER BY createdAt LIMIT "+this.limit+" OFFSET "+ this.offset +"";
             this.marketHistoryTable = [];
             sqldb.each("SELECT * FROM Trade where "+ paramquery,new_data, (err, row) => {
@@ -725,6 +666,28 @@
             clearInterval(this.intervalid1);
         },
         methods: {
+            getBuyOrders() {
+                this.buyTable = [];
+                let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress];
+                console.log(new_data, "new_data", this.mainquery);
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
+                    console.log(row, "rowsss");
+                    if(row) {
+                        this.buyTable.push(row);
+                    }
+                });
+            },
+            getSellOrders() {
+                this.sellTable = [];
+                let new_data = ['SELL', this.fromAddress.value, 'OPEN', 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
+                sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+this.offset2+"'",new_data, (err, row) => {
+                    // console.log(row, "rowsss");
+                    if(row)
+                    {
+                        this.sellTable.push(row);
+                    }
+                });
+            },
             getbuyCount() {
                 let i =0 ;
                 let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
@@ -824,7 +787,6 @@
                 this.offset1 = (pageNum -1) * this.limit1;
                 pageNum = (pageNum -1) * this.limit1 ;
                 this.buyTable = [];
-                this.mainquery = "marketType = ? and maker != ? and status = ?  and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price asc LIMIT 10";
                 let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress]
                 sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+pageNum+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
@@ -840,7 +802,6 @@
                 pageNum = (pageNum -1) * this.limit1 ;
                 this.sellTable = [];
                 let new_data = ['SELL', this.fromAddress.value,'OPEN' , 100, this.tokenData.alphaAddress, this.tokenData.betaAddress]
-                this.mainquery1 = "marketType = ? and maker != ? and status = ? and orderFilled  < ? and tokenBuy = ? and tokenSell = ? group by  price order by price desc LIMIT 10";
                 sqldb.each("SELECT "+this.buyselectData+" FROM Orders where  "+this.mainquery1+" OFFSET '"+pageNum+"'",new_data, (err, row) => {
                     // console.log(row, "rowsss");
                     if(row)
@@ -918,7 +879,6 @@
                         if((this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.totalAmount) <= parseFloat(this.wexpAmount))) || (tokenBal && (parseFloat(this.totalAmount) <= parseFloat(tokenBal.balance)))) {
                             try {
                                 await this.getorderdata(this.tokenData.alphaAddress, this.tokenData.betaAddress);
-                                console.log(this.matchOrderHashes, "orderhashes")
                                 this.orderAddresses = [this.tokenData.betaAddress , this.tokenData.alphaAddress];
                                 let amountData= [web3.utils.toWei(parseFloat(this.quantity).toFixed(6).toString(), 'ether'), web3.utils.toWei(parseFloat(this.totalAmount).toFixed(6).toString(), 'ether')]
                                 this.modalArray = {
@@ -963,14 +923,14 @@
                 this.quantityError = "";
                 this.bidPriceError = "";
                 this.totalError = "";
+                var userData = this.accounts.find((val) => val.hash === this.fromAddress.value);
+                var tokenBal = userData && userData.tokens && userData.token_icons.find((token) => token.token_symbol === this.tokenData.alphaSymbol);
                 if(this.quantity >= 0.01 && this.totalAmount > 0 && this.bidPrice > 0) {
                     if(this.allowanceAmount !==0 && this.allowanceAmount >= this.totalAmount) {
                         if((this.tokenData.alphaSymbol === 'WEXP' && (parseFloat(this.quantity) <= parseFloat(this.wexpAmount))) || (tokenBal && (parseFloat(this.quantity) <= parseFloat(tokenBal.balance))))
                         {
                             try {
                                 await this.getorderdata(this.tokenData.betaAddress, this.tokenData.alphaAddress);
-                                console.log(this.matchOrderHashes, "orderhashes")
-
                                 this.orderAddresses = [this.tokenData.alphaAddress, this.tokenData.betaAddress];
                                 let amountData= [web3.utils.toWei(this.totalAmount.toString(), 'ether'), web3.utils.toWei(this.quantity.toString(), 'ether')]
                                 this.modalArray = {

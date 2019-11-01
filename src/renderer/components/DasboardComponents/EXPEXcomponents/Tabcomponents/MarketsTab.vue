@@ -23,15 +23,17 @@
             </div>
             <div class="table-partition"></div>
             <div class="table-body">
-                <div v-if="marketTable.length > 0" v-for="(data, index) in (marketTable || getmarketPair)" @click="openDetails(data)" :class="data.perChange > 0 ? 'table-row'+designColor: 'table-row'">
+                <div v-if="marketTable.length > 0" v-for="(data, index) in (marketTable || getmarketPair)" @click="openDetails(data)"
+                     :class="data.perChange > 0 ? 'table-row '+buycolor:(data.perChange < 0? 'table-row '+sellcolor: 'table-row')">
+
                     <p>{{data.betaSymbol}} - {{data.alphaSymbol}}</p>
                     <p>{{data.Price? data.Price: 0}}</p>
                     <p>{{data.volume? data.volume: 0}}</p>
                     <p v-if="data.perChange >= 0" class="row-mid Green">
-                        {{data.perChange ? parseFloat(data.perChange):0}}% <img src="../../../../assets/img/PolygonGreen2.png"/>
+                        {{data.perChange ? parseFloat(data.perChange).toFixed(1):0}}% <img src="../../../../assets/img/PolygonGreen2.png"/>
                     </p>
-                    <p v-else class="row-mid Red">
-                        {{data.perChange ? parseFloat(data.perChange):0}}% <img src="../../../../assets/img/PolygonRed2.png"/>
+                    <p v-else-if="data.perChange < 0" class="row-mid Red">
+                        {{data.perChange ? parseFloat(data.perChange).toFixed(1):0}}% <img src="../../../../assets/img/PolygonRed2.png"/>
                     </p>
                     <p>{{data.maxPrice? data.maxPrice: 0}}</p>
                     <p>{{data.minPrice ? data.minPrice: 0}}</p>
@@ -81,7 +83,8 @@
                 lastmarketType: [],
                 updaterow: -1,
                 updaterowColor: '',
-                designColor: ' Greenback',
+                buycolor: ' Greenback',
+                sellcolor: ' Redback',
             };
         },
         watch: {
@@ -90,54 +93,52 @@
                 if(value) {
                     let new_data = ['%'+value+'%', '%'+value+'%'];
                     let mainqueryCount = " betaSymbol LIKE ? COLLATE NOCASE  or alphaSymbol LIKE ? COLLATE NOCASE ";
-                    sqldb.each("SELECT * FROM marketPair where "+ mainqueryCount,new_data, (err, row) => {
-                        if(row) {
-                            this.marketTable.push(row);
-                        }
+                    let stmt = sqldb.prepare("SELECT * FROM marketPair where "+ mainqueryCount);
+                    stmt.each(new_data, (err, row) => {
+                        this.marketTable.push(row);
+                    }, function(err, count) {
+                        this.totalcount = Math.ceil( (count) /  this.limit);
+                        stmt.finalize();
                     });
                 } else if(!value) {
                     this.getmarketData();
-                    this.getmarketCount();
                 }
             },
-            designColor() {
+            buycolor() {
                 setTimeout (() =>{
-                    this.designColor = '';
+                    this.buycolor = '';
+                    this.sellcolor = '';
                 },1000)
-            }
+            },
+            sellcolor() {
+                setTimeout (() =>{
+                    this.buycolor = '';
+                    this.sellcolor = '';
+                },1000)
+            },
         },
         computed: {
            getmarketPair() {
-               this.marketTable = [];
                ipcRenderer.on('newMarketPair', (event , res) => {
-                   console.log(event, res);
                    if(res) {
                        this.getmarketData();
-                       this.getmarketCount();
                    }
               });
-               ipcRenderer.on('deleteMarketPair', (event , res) => {
+               ipcRenderer.on('updateMarketPair', (event , res) => {
                    if(res) {
                        this.getmarketData();
-                       this.getmarketCount();
                    }
               });
-               ipcRenderer.on('updatemarketPair', (event , res) => {
-                   if(res) {
-                       this.getmarketData();
-                       this.getmarketCount();
-                   }
-              });
-           }
+           },
         },
         created(){
             this.marketTable=[];
             this.lastmarketType=[];
             this.getmarketPair;
             this.getmarketData();
-            this.getmarketCount();
             setTimeout (() =>{
-                this.designColor = '';
+                this.buycolor = '';
+                this.sellcolor = '';
             },1000)
         },
         methods: {
@@ -148,26 +149,20 @@
                 pageNum = (pageNum -1) * this.limit ;
                 sqldb.each("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+pageNum+"", (err, row) => {
                     // console.log(row, "rowsss");
+
                     this.marketTable.push(row);
                 });
             },
             getmarketData() {
                 this.marketTable=[];
-                let i = 0;
-                sqldb.each("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+this.offset+"", (err, row) => {
-                    // console.log(row, "rowsss");
-                    if(row) {
-                        this.marketTable.push(row);
-                    }
-                    i=i+1;
+                let stmt = sqldb.prepare("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+this.offset+"");
+                stmt.each((err, row) => {
+                    this.marketTable.push(row);
+                }, function(err, count) {
+                    this.totalcount = Math.ceil( (count) /  this.limit);
+                    stmt.finalize();
                 });
-            },
-            getmarketCount() {
-                sqldb.each("SELECT COUNT(*) as count FROM marketPair", (err, row) => {
-                    if(row) {
-                        this.totalcount = Math.ceil( (row.count) /  this.limit);
-                    }
-                });
+
             },
             openDetails(data) {
                 this.$router.push({

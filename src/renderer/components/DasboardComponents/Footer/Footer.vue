@@ -98,7 +98,9 @@
                          this.accounts && this.accounts.map((val) => {
                             // console.log("notificationOrder",val.hash , res.maker)
                             if(val.hash.toLowerCase() === res.maker.toLowerCase()) {
-                                this.$notification.success(res.betaSymbol+'-'+res.alphaSymbol+" order placed with price:"+res.price, {  timer: 10, showCloseIcn: true });
+                                if(res.status === 'OPEN') {
+                                    this.$notification.success(res.betaSymbol+'-'+res.alphaSymbol+" order placed with price:"+res.price, {  timer: 10, showCloseIcn: true });
+                                }
                             }
                         })
                     }

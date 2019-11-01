@@ -139,6 +139,7 @@ const runGexp = (path) => {
                                     mainWindow.webContents.send('connectwebgexp', true);
                                 }
                                 if(textChunk.includes(' HTTP endpoint opened') || textChunk.includes('url=http://0.0.0.0:9656')){
+                                    console.log("http connection")
                                     mainWindow.webContents.send('connectwebhttp', true);
                                 }
                                 if(textChunk === "Fatal: Error starting protocol stack: datadir already used by another process\n"){
