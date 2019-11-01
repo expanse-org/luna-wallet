@@ -23,8 +23,8 @@ if(os.type() == 'Windows_NT') {
 if(os.type() == 'Linux') {
     appPath = "~/.config/"+prod_app_directory;
     shell.cd(appPath);
-
 }
+
 if(os.type() == 'Darwin') {
     appPath = "~/Library/Application Support/"+prod_app_directory;
     shell.cd(appPath);

@@ -82,9 +82,9 @@
                 tsYesterday: '',
                 lastmarketType: [],
                 updaterow: -1,
-                updaterowColor: '',
-                buycolor: ' Greenback',
-                sellcolor: ' Redback',
+                updaterowColor: false,
+                buycolor: '',
+                sellcolor: '',
             };
         },
         watch: {
@@ -126,6 +126,7 @@
               });
                ipcRenderer.on('updateMarketPair', (event , res) => {
                    if(res) {
+                       this.updaterowColor = true;
                        this.getmarketData();
                    }
               });
@@ -157,6 +158,11 @@
                 this.marketTable=[];
                 let stmt = sqldb.prepare("SELECT * FROM marketPair order by 1 LIMIT "+this.limit+" OFFSET "+this.offset+"");
                 stmt.each((err, row) => {
+                    if(this.updaterowColor && row.perChange < 0) {
+                        this.buycolor = ' Greenback';
+                    } else if (this.updaterowColor && row.perChange > 0) {
+                        this.sellcolor = ' Redback';
+                    }
                     this.marketTable.push(row);
                 }, function(err, count) {
                     this.totalcount = Math.ceil( (count) /  this.limit);

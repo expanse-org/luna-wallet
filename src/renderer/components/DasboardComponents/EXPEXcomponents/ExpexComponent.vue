@@ -99,7 +99,6 @@
             },
         },
         created(){
-
             if (typeof web3 !== 'undefined') {
                 // console.log("if (typeof web3 !== 'undefined')");
                 getAllAcounts();

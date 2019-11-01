@@ -90,6 +90,7 @@
                     if (!fs.existsSync(gexpPath_dir)){
                         console.log('downloading Gexp!');
                         // Download Latest Gexp and extract
+                        localStorage.clear();
                         downloadGexp();
                     }else{
                         let cmd;

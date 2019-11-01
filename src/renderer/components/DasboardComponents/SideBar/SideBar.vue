@@ -90,11 +90,15 @@
         <modal class="modal" name="insufficentBal">
             <insuficentBalance ></insuficentBalance>
         </modal>
+        <modal class="modal" :clickToClose="false" name="privacyModal">
+            <privacyTerm ></privacyTerm>
+        </modal>
     </div>
 </template>
 
 <script>
     import  insuficentBalance from '../insuficentBalance';
+    import PrivacyTerm from "../../PrivacyPopup/PrivacyTerm";
     export default {
         name: 'SideBar-page',
         data() {
@@ -118,6 +122,7 @@
             },
         },
         components: {
+            'privacyTerm':PrivacyTerm,
             'insuficentBalance': insuficentBalance,
         },
         created(){
@@ -177,7 +182,6 @@
             mainMenu(e, tab){
                 this.expexTab = 'tablinks';
                 this.update();
-                // console.log("dsasda",tab)
                 if(this.$router.history.current.path === '/expexdetails' || this.$router.history.current.path === '/myorders' || this.$router.history.current.path === '/tradehistory' || this.$router.history.current.path === '/marketconverter') {
                     this.$router.push({
                         path: '/market'
@@ -216,6 +220,9 @@
                         this.$router.push({
                             path: '/market'
                         });
+                        if(!localStorage.getItem('TOS_check') || localStorage.getItem('TOS_check') === null) {
+                            this.$modal.show('privacyModal');
+                        }
                         this.expexTab = 'tablinks';
                         this.expexTab = 'tablinks active green';
                         this.$emit('changeColorHead', '/market');

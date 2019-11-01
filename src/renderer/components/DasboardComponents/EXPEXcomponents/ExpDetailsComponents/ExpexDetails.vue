@@ -261,12 +261,11 @@
     import  insuficentBalance from '../../insuficentBalance';
     import Paginate from 'vuejs-paginate'
     import { ipcRenderer } from 'electron';
-    import {tokenInterface, expexABI,startConnectWeb, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
+    import {tokenInterface, expexABI,web3, startConnectWebHttp,expexAddress} from '../../../../../main/libs/config';
     import AllowancePopup from './AllowancePopup/AllowancePopup';
     import {sqldb} from '../../../../../common/cronjobs';
     var Highcharts = require('highcharts/highstock');
 
-    const web3 = startConnectWeb();
     const web3http = startConnectWebHttp();
     const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
