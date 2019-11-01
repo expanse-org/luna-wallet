@@ -1999,6 +1999,11 @@ footer {
       line-height: 25px;
       font-size: 16px;
       margin-bottom: 5px;
+      a{
+        cursor: pointer;
+        color: #35A7F7;
+        text-decoration: none;
+      }
     }
     .alignLeft {
       text-align: left;
@@ -2063,6 +2068,10 @@ footer {
 
   }
 
+}
+
+.modal .v--modal {
+  background-color: #2C2C2C!important;
 }
 
 #snackbar {
