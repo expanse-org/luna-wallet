@@ -198,17 +198,17 @@
             if(this.contractData){
                 let bytecode = '0x'+this.contractData.contractdeploy.bytecode;
                 this.raw_dataToken = bytecode;
-                web3.eth.estimateGas({data: bytecode}).then((res) =>{
-                    this.estimatedGas = res + 100000;
-                } );
-
-                web3.eth.getGasPrice().then((price)=>{
-                    console.log(price);
-                    console.log(web3.utils.fromWei("1000000000000000", "ether"));
-                    console.log(price * price, "ether");
-
-                    this.gasPrice = price;
-                });
+                // web3.eth.estimateGas({data: bytecode}).then((res) =>{
+                //     this.estimatedGas = res + 100000;
+                // } );
+                //
+                // web3.eth.getGasPrice().then((price)=>{
+                //     console.log(price);
+                //     console.log(web3.utils.fromWei("1000000000000000", "ether"));
+                //     console.log(price * price, "ether");
+                //
+                //     this.gasPrice = price;
+                // });
 
                 let abi = JSON.parse(this.contractData.contractdeploy.interface);
                 var contract = new web3.eth.Contract(abi);
@@ -236,15 +236,15 @@
 
                             let Contract = new web3.eth.Contract(abi);
                             let that = this;
+                            console.log(bytecode, "bytecode");
                             Contract.deploy({
-                                data: bytecode,
-                                arguments : [0 , 0]
+                                data: bytecode
                             })
                                 .send({
                                         from: this.contractData.AddressFrom,
-                                        gas: web3.utils.toHex(this.estimatedGas),
+                                        gas: this.gasLimit,
                                         gasPrice: web3.utils.toHex((this.gasPrice).toString()),
-                                    }, function(error, transactionHash)
+                                    }, (error, transactionHash) =>
                                     {
                                         if(transactionHash) {
                                             $('form').trigger('reset');
@@ -266,7 +266,7 @@
                                         }
                                     }
                                 )
-                                .on('receipt', function(receipt)
+                                .on('receipt', (receipt) =>
                                     {
                                         if(receipt) {
                                             db.get('contracts').chain().filter({id: cid}).first()

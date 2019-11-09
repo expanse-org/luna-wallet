@@ -296,8 +296,8 @@
             handlepriceChange(){
                 var price = '0.00'+this.price;
                 if(this.currencyHash && this.sendAllCheck) {
-                    this.amount = this.currencyHash && parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
-                    this.total_coins = this.currencyHash && this.currencyHash.split(" ")[0];
+                    this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                    this.total_coins = this.currencyHash.text.split(" ")[0];
                 } else {
                     this.total_coins = parseFloat(this.amount) + parseFloat(price);
                 }
@@ -305,6 +305,10 @@
             handlesendall(){
                 if(this.currencyHash && this.currencyHash.text) {
                     this.amount = parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price);
+                    if(parseFloat(this.currencyHash.text.split(" ")[0]) - parseFloat("0.00"+this.price) < 0)
+                    {
+                        this.amount = 0;
+                    }
                 }
                 this.handleAmount();
             },
@@ -377,7 +381,7 @@
                         this.fundsToError = 'Invalid Address';
                     } else{
                         //console.log(this.currencyHash.text.split("(")[1].split(" ")[0] >= this.amount, this.currencyHash.text.split("(")[1].split(" ")[0] , this.amount, "===================*******")
-                        if(parseFloat(this.currencyHash.text.split(" ")[0]) >= parseFloat(this.amount)){
+                        if(parseFloat(this.currencyHash.text.split(" ")[0]) >= parseFloat(this.amount) && this.amount > 0){
                             if(this.fundsFrom.value == this.fundsTo){
                                 this.fundsToError = 'Invalid Address';
                             }else {

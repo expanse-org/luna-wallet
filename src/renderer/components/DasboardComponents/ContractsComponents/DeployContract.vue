@@ -207,7 +207,7 @@
                 ipcRenderer.on('CompliedContract', (event, res) => {
                     console.log("onchnageContent", res)
                     if(res.errors) {
-                        // console.log("Invalid Source Code")
+                        console.log(res.errors, "Invalid Source Code")
                         this.contentError = 'Invalid Source Code';
                         return false;
                     }

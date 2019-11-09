@@ -32,7 +32,7 @@ if(os.type() == 'Darwin') {
 
 var sqlite3 = require('sqlite3').verbose();
 var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
-    console.log(err, result, "connect DB");
+    //console.log(err, result, "connect DB");
 });
 
 
@@ -51,7 +51,7 @@ const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
 let isGetPastLogCronRunning  = false;
 const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
-    console.log("Cron RUnning")
+    //console.log("Cron RUnning")
     if(isGetPastLogCronRunning) {
         return;
     }
@@ -65,7 +65,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 // console.log(blockNo, allMarketPairs, "pastlogs");
+                 // //console.log(blockNo, allMarketPairs, "pastlogs");
                  for(let i =0 ;i< allMarketPairs.length; i++) {
                      const alpha = allMarketPairs[i].returnValues["token1"]
                      const beta = allMarketPairs[i].returnValues["token2"]
@@ -93,9 +93,9 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                              let sql = "INSERT or IGNORE INTO marketPair(perChange, maxPrice, minPrice, Price, volume, blockNo, txHash ,createdAt , alphaSymbol , alphaAddress, alphaDecimal ,  betaSymbol , betaAddress, betaDecimal) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                              sqldb.run(sql, insertData, function(err) {
                                  if (err) {
-                                     return console.error(err.message);
+                                     return //console.error(err.message);
                                  }
-                                 console.log(`Rows inserted `);
+                                 //console.log(`Rows inserted `);
                              });
                              if((allMarketPairs.length -1) === i) {
                                  mainWindow && mainWindow.forEach(win => {
@@ -103,7 +103,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                                  });
                              }
                          } catch(err) {
-                             console.log(err)
+                             //console.log(err)
                          }
                      }else{
                          // TODO query for disabling list
@@ -113,9 +113,9 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                              let sql = "DELETE FROM marketPair WHERE alphaAddress = ? AND betaAddress = ?";
                              sqldb.run(sql, new_data, function(err) {
                                  if (err) {
-                                     return console.error(err.message);
+                                     return //console.error(err.message);
                                  }
-                                 console.log(`Rows inserted `);
+                                 //console.log(`Rows inserted `);
                              });
                              if((allMarketPairs.length -1) === i) {
                                  mainWindow && mainWindow.forEach(win => {
@@ -123,7 +123,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                                  });
                              }
                          } catch(err) {
-                             console.log(err)
+                             //console.log(err)
                          }
 
                      }
@@ -131,7 +131,7 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
                  }
              }
          }catch(err) {
-             console.log(err, "err");
+             //console.log(err, "err");
          }
          isGetPastLogCronRunning = false;
      } else {
@@ -147,13 +147,13 @@ const getRecentCancelOrders = cron.schedule('0 * * * * *', async () =>  {
      if(netIsListening) {
          try{
              const blockNo = await getCancelOrderBlock();
-             // console.log(blockNo, "blockno")
+             // //console.log(blockNo, "blockno")
              if(blockNo) {
                  const allCancelOrders = await dexContract.getPastEvents("Cancel", {
                      fromBlock : blockNo,
                      toBlock: "latest"
                  })
-                 console.log(allCancelOrders, "pastlogs");
+                 //console.log(allCancelOrders, "pastlogs");
                  for(let i =0 ;i< allCancelOrders.length; i++) {
                      const orderHash = allCancelOrders[i].returnValues.orderHash;
                      try {
@@ -161,25 +161,25 @@ const getRecentCancelOrders = cron.schedule('0 * * * * *', async () =>  {
                          let sql = "UPDATE Orders SET status = ? WHERE orderHash = ?";
                          sqldb.run(sql, new_data, function(err) {
                              if (err) {
-                                 return console.error(err.message);
+                                 return //console.error(err.message);
                              }
-                             // console.log(`Rows inserted `);
+                             // //console.log(`Rows inserted `);
                          });
 
                          if((allCancelOrders.length - 1) === i ) {
-                             console.log(`Rows inserted orders`,allCancelOrders.length - 1 , i );
+                             //console.log(`Rows inserted orders`,allCancelOrders.length - 1 , i );
 
                              mainWindow && mainWindow.forEach(win => {
                                  win.webContents.send('cancelOrder', true);
                              });
                          }
                      } catch(err) {
-                         console.log(err)
+                         //console.log(err)
                      }
                  }
              }
          }catch(err) {
-             console.log(err, "err");
+             //console.log(err, "err");
          }
          isGetPastLogCronRunning = false;
      } else {
@@ -197,7 +197,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
     if(netIsListening) {
         try{
             const blockNo = await getRecentBlockorder();
-            // console.log(blockNo, "blockno");
+            // //console.log(blockNo, "blockno");
             if(blockNo) {
                 const allOrders = await dexContract.getPastEvents("Order", {
                     fromBlock : blockNo,
@@ -243,13 +243,13 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                 }
                             });
                             if((allOrders.length - 1) === index ) {
-                                console.log(`Rows inserted orders`);
+                                //console.log(`Rows inserted orders`);
                                 mainWindow && mainWindow.forEach(win => {
                                     win.webContents.send('newOrder', {maker, alphaSymbol: orderdata.alphaSymbol, betaSymbol: orderdata.betaSymbol, amountSell, amountBuy, price: orderdata.price});
                                 });
                             }
                         } catch(err) {
-                            console.log(err)
+                            //console.log(err)
                         }
                     }
                 }
@@ -264,7 +264,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                             fromBlock : blockNoT,
                             toBlock: "latest"
                         })
-                        // console.log(allEvents)
+                        // //console.log(allEvents)
                         for(const [index, tradeEvent] of allEvents.entries() ) {
                             const orderHash = tradeEvent.returnValues.orderHash
                             const matchingOrderHash = tradeEvent.returnValues.matchinOrderHash
@@ -293,7 +293,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                             try {
                                 await updatemarketTabel(tokenBuy, tokenSell);
                             } catch(err) {
-                                console.log(err, "Trade Insert Error")
+                                //console.log(err, "Trade Insert Error")
                             }
 
                             if(orderdata.marketType && orderdata.marketType !== -1) {
@@ -304,7 +304,7 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
                                         if (err) {
                                             return console.error(err.message);
                                         }
-                                        console.log(`Rows inserted trade `);
+                                        //console.log(`Rows inserted trade `);
                                     });
                                     if((allEvents.length - 1) === index ) {
                                         mainWindow && mainWindow.forEach(win => {
@@ -316,18 +316,18 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
 
                                     }
                                 } catch(err) {
-                                    console.log(err, "Trade Insert Error")
+                                    //console.log(err, "Trade Insert Error")
                                 }
                             }
                             await getorderbyOrderHash(orderHash, amountBuy, amountSell);
                         }
                     }
                 } catch(err) {
-                    console.log(err)
+                    //console.log(err)
                 }
             }
         }catch(err) {
-            console.log(err, "err");
+            //console.log(err, "err");
         }
         isGetPastEventsCronRunning = false;
     } else {
@@ -347,7 +347,7 @@ const getRecentBlock = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                // console.log(row, data,"data");
+                // //console.log(row, data,"data");
                 resolve(data);
             }
         });
@@ -368,7 +368,7 @@ const getCancelOrderBlock = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                // console.log(row, data,"data");
+                // //console.log(row, data,"data");
                 resolve(data);
             }
         });
@@ -392,7 +392,7 @@ const updatemarketmaxmin = async (tokenBuy, tokenSell) => {
                     if (err) {
                         return console.error(err.message);
                     }
-                    // console.log(`Rows inserted `);
+                    // //console.log(`Rows inserted `);
                 });
                 resolve(row);
             } else {
@@ -401,7 +401,7 @@ const updatemarketmaxmin = async (tokenBuy, tokenSell) => {
                     if (err) {
                         return console.error(err.message);
                     }
-                    // console.log(`Rows inserted `);
+                    // //console.log(`Rows inserted `);
                 });
                 resolve(-1);
             }
@@ -446,9 +446,9 @@ const updatemarketTabel = async (tokenBuy, tokenSell) => {
                 if (err) {
                     return console.error(err.message);
                 }
-                // console.log(`Rows inserted `);
+                // //console.log(`Rows inserted `);
             });
-            // console.log(marketTableArray, "marketTableArray 1" , volume)
+            // //console.log(marketTableArray, "marketTableArray 1" , volume)
         } else if(marketTableArray.length > 2 ) {
             let changePercentage = ((marketTableArray[marketTableArray.length - 1].price - marketTableArray[0].price) / marketTableArray[0].price) * 100
 
@@ -457,14 +457,14 @@ const updatemarketTabel = async (tokenBuy, tokenSell) => {
             } else {
                 volume += marketTableArray[0].amountSell ;
             }
-            // console.log(marketTableArray, "marketTableArray > 1" , volume);
+            // //console.log(marketTableArray, "marketTableArray > 1" , volume);
 
             let paramData = [marketTableArray[marketTableArray.length -1].price,volume,changePercentage,tokenBuy,tokenSell,tokenSell,tokenBuy];
             sqldb.run("UPDATE marketPair SET price = ?, volume = ?,perChange = ?  where ((alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?))", paramData, function(err) {
                 if (err) {
                     return console.error(err.message);
                 }
-                // console.log(`Rows inserted `);
+                // //console.log(`Rows inserted `);
             });
         } else if(marketTableArray.length === 0 ) {
             let paramData = [0,0,0,tokenBuy,tokenSell,tokenSell,tokenBuy];
@@ -472,7 +472,7 @@ const updatemarketTabel = async (tokenBuy, tokenSell) => {
                 if (err) {
                     return console.error(err.message);
                 }
-                // console.log(`Rows inserted `);
+                // //console.log(`Rows inserted `);
             });
         }
         resolve(marketTableArray);
@@ -483,7 +483,7 @@ const getRecentBlockorder = async () =>  {
     return new Promise(async function (resolve, reject) {
         let data = 1;
          await sqldb.get("select * from Orders order by blockNo desc limit 1", function(err, row) {
-             // console.log(row, err, "blockno");
+             // //console.log(row, err, "blockno");
             if(err) {
                 reject(err);
             }
@@ -492,7 +492,7 @@ const getRecentBlockorder = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                // console.log(row, data,"data");
+                // //console.log(row, data,"data");
                 resolve(data);
             }
         });
@@ -504,7 +504,7 @@ const getRecentBlocktrade = async () =>  {
     return new Promise(async function (resolve, reject) {
         let data = 1;
          await sqldb.get("select * from Trade order by blockNo desc limit 1", function(err, row) {
-             // console.log(row, err, "blockno");
+             // //console.log(row, err, "blockno");
             if(err) {
                 reject(err);
             }
@@ -513,7 +513,7 @@ const getRecentBlocktrade = async () =>  {
             }
             if(row) {
                 data = parseInt(row["blockNo"]) + 1;
-                // console.log(row, data,"data");
+                // //console.log(row, data,"data");
                 resolve(data);
             }
         });
@@ -527,7 +527,7 @@ const getmarketpairorder = async (tokenBuy, tokenSell, amountSell, amountBuy, pr
         let paramData = [tokenBuy,tokenSell,tokenSell,tokenBuy];
         await sqldb.get("select * from marketPair where (alphaAddress = ? and betaAddress = ?) or (alphaAddress = ? and betaAddress = ?) order by blockNo desc limit 1",paramData, function(err, row) {
              if(row) {
-                 // console.log("row.alphaAddress == tokenBuy",(web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)),amountBuy,amountSell,row.alphaAddress == tokenBuy,row.alphaAddress , tokenBuy)
+                 // //console.log("row.alphaAddress == tokenBuy",(web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)),amountBuy,amountSell,row.alphaAddress == tokenBuy,row.alphaAddress , tokenBuy)
                  if(row.alphaAddress == tokenBuy) {
                      price = ((web3http.utils.toBN(amountBuy)/web3http.utils.toBN(amountSell)).toString());
                      marketType = marketENUM.SELL // SELL
@@ -564,7 +564,7 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
     return new Promise(async function (resolve, reject) {
         let data = {};
         let paramData = [orderHash];
-        // console.log(`Rows inserted `,orderHash);
+        // //console.log(`Rows inserted `,orderHash);
         await sqldb.get("select * from Orders where orderHash = ?",paramData, function(err, row) {
              if(row) {
                  try {
@@ -585,21 +585,21 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
                      // Now we need to calculate percentage if order is Buy  then (order.amountFilledBuy)/order.amountBuy  * 100
 
                      // and then check if order.amountFilledBuy == order.amountBuy then status = COMPLETE, otherwise OPEN
-                     // console.log("UPDATE Orders SET status = '"+status+"',amountBuyFilled = "+row.amountBuyFilled +",amountSellFilled = "+row.amountSellFilled+",orderFilled = "+orderbuyFilledPercentage+" WHERE orderHash = '"+orderHash+"'")
+                     // //console.log("UPDATE Orders SET status = '"+status+"',amountBuyFilled = "+row.amountBuyFilled +",amountSellFilled = "+row.amountSellFilled+",orderFilled = "+orderbuyFilledPercentage+" WHERE orderHash = '"+orderHash+"'")
 
-                     console.log(row.amountBuyFilled,row.amountSellFilled)
+                     //console.log(row.amountBuyFilled,row.amountSellFilled)
                      let paramData = [status,row.amountBuyFilled,row.amountSellFilled,orderbuyFilledPercentage,orderHash];
                      sqldb.run("UPDATE Orders SET status = ?,amountBuyFilled = ?,amountSellFilled = ?,orderFilled = ? WHERE orderHash = ?", paramData, function(err) {
                          if (err) {
                              return console.error(err.message);
                          }
-                         // console.log(`Rows inserted `);
+                         // //console.log(`Rows inserted `);
                      });
                      mainWindow && mainWindow.forEach(win => {
                          win.webContents.send('updateOrder', true);
                      });
                  } catch(err) {
-                     console.log(err)
+                     //console.log(err)
                  }
                  resolve(data);
              } else {
@@ -613,7 +613,7 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
 setTimeout (() => {
     try{
         mainWindow = BrowserWindow.getAllWindows();
-        console.log(mainWindow)
+        //console.log(mainWindow)
     } catch (e) {
     }
     web3http = new Web3("http://127.0.0.1:9656");
@@ -634,13 +634,13 @@ setTimeout (() => {
 if(startAction) {
     mainWindow && mainWindow.forEach(win => {
         win.webContents.on('connectwebhttp', () => {
-            console.log("HTTP socket open")
+            //console.log("HTTP socket open")
         });
     });
 
     ipcRenderer.on('connectwebhttp', (event, res) => {
         if(res){
-            console.log("HTTP socket open")
+            //console.log("HTTP socket open")
             marketPairFetchCron.start();
             getRecentBlockCron.start();
             getRecentCancelOrders.start();
