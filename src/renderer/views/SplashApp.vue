@@ -22,31 +22,49 @@
     import clientBinaries from '../../../clientBinaries.json';
     import {production, ExpApi} from '../../main/libs/config';
     import {getClientInfo } from '../../common/clientInfo';
-    import { startingGexp ,downloadGexp  } from '../../common/gexpfunc';
+    import { startingGexp ,downloadGexp, downloadGexpChina  } from '../../common/gexpfunc';
     import { updateScreen, activeScreen  } from '../../main/libs/config';
     import os from 'os';
     import shell from 'shelljs';
     import fs from 'fs';
+    import axios from 'axios';
     import {exec} from 'child_process';
     import got from 'got';
     import _ from 'underscore';
     import * as Raven from 'raven-js';
     import {version} from '../../../package.json';
     import  * as child_process from 'child_process';
+    import * as $ from 'jquery';
 
     const clientBinariesGexp = clientBinaries.clients.Gexp;
     let localGethVersion = clientBinariesGexp.version;
     const platForms = clientBinariesGexp.platforms;
     let newClinetBinaries = clientBinaries;
-    var versionUpdate = false;
+    let versionUpdate = false;
+
+    let isChina = false;
 
     export default {
         name: 'lunawalletvuetest',
         created(){
+            var cmd;
+
+            $.getJSON('http://gd.geobytes.com/GetCityDetails?callback=?', (data) => {
+                // console.log(data.geobytescountry);
+
+            });
+            if(os.type == 'Windows_NT')
+                cmd = 'ping www.github.com';
+            else
+                cmd = 'ping -c 1 www.github.com';
+            var child = exec(cmd, (er, stdout, stderr) => {
+                if (er !== null) {
+                    this.chekAppInfoChina();
+                } else {
+                    this.chekAppInfo();
+                }
+            });
             ExpApi();
-            if(activeScreen) {
-                this.chekAppInfo();
-            }
         },
         data() {
             return {
@@ -71,7 +89,6 @@
             chekAppInfo() {
                 try{
                     const clientInfo = getClientInfo();
-                    // console.log(clientInfo);
                     let gexpPath ;
                     if(production){
                         shell.cd(clientInfo.appPath);
@@ -86,9 +103,8 @@
                         gexpPath = clientInfo.dirPath;
                     }
                     var gexpPath_dir = gexpPath+'/'+clientInfo.gexpFile;
-                    console.log(gexpPath_dir,"gexpPath_dir");
                     if (!fs.existsSync(gexpPath_dir)){
-                        console.log('downloading Gexp!');
+                        // console.log('downloading Gexp!');
                         // Download Latest Gexp and extract
                         localStorage.clear();
                         downloadGexp();
@@ -126,9 +142,9 @@
                                             _.keys(platForms[platform]).forEach(arch => {
                                                 // Update URL
                                                 let url = platForms[platform][arch].download.url;
-                                                console.log(url, url.substring(url.indexOf("/v")+1, url.indexOf("/ge")), "url1---------------------------");
+                                                // console.log(url, url.substring(url.indexOf("/v")+1, url.indexOf("/ge")), "url1---------------------------");
                                                 url = url.replace(url.substring(url.indexOf("/v")+1, url.indexOf("/ge")),`${latestGethVersion}`);
-                                                console.log(url, "url2----------------------");
+                                                // console.log(url, "url2----------------------");
                                                 platForms[platform][arch].download.url = url;
 
                                                 // Update bin name (path in archive)
@@ -183,8 +199,8 @@
                             got('https://github.com/expanse-org/luna-wallet/releases/latest', {
                                 json: true
                             }).then(response => {
-                                console.log(response, "response")
-                                console.log(response.body.tag_name, "response.body.tag_name")
+                                // console.log(response, "response")
+                                // console.log(response.body.tag_name, "response.body.tag_name")
                                 if(response.body.tag_name !== version){
                                     that.versionUpdateApp = response.body.tag_name;
                                     that.show();
@@ -195,7 +211,49 @@
                     } // Else Ended  -- if (!fs.existsSync(gexpDir))
                 }catch(e){
                     Raven.captureException(e);
-                    console.log(e);
+                    console.log(e, "errorororor");
+                }
+            },
+            chekAppInfoChina() {
+                try{
+                    const clientInfo = getClientInfo();
+                    let gexpPath ;
+                    if(production){
+                        shell.cd(clientInfo.appPath);
+                        gexpPath = clientInfo.dirPath;
+                        if (fs.existsSync('./clientBinaries.json')) {
+                            let data = fs.readFileSync('./clientBinaries.json', 'utf8');
+                            localGethVersion = JSON.parse(data).clients.Gexp.version;
+                        }
+                    }
+                    else
+                    {
+                        gexpPath = clientInfo.dirPath;
+                    }
+                    var gexpPath_dir = gexpPath+'/'+clientInfo.gexpFile;
+                    if (!fs.existsSync(gexpPath_dir)){
+                        console.log('downloading Gexp!');
+                        // Download Latest Gexp and extract
+                        localStorage.clear();
+                        downloadGexpChina();
+                    }else{
+                        let cmd;
+                        if(os.type == 'Windows_NT')
+                            cmd = 'ping 159.203.121.142';
+                        else
+                            cmd = 'ping -c 1 159.203.121.142';
+
+                        var child = exec(cmd, function(er, stdout, stderr){
+                            if(er == null){
+                                startingGexp();
+                                return false;
+                            }
+                        });
+
+                    } // Else Ended  -- if (!fs.existsSync(gexpDir))
+                }catch(e){
+                    Raven.captureException(e);
+                    console.log(e, "errorororor");
                 }
             },
             handleUpdate(url){

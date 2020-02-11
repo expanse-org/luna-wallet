@@ -2,6 +2,7 @@ import os from "os";
 const Web3 = require("web3");
 import { ipcRenderer, ipcMain, BrowserWindow } from 'electron'
 const cron = require('node-cron');
+import store from '../../src/renderer/store';
 import {
     expexABI,
     wexpABI,
@@ -9,6 +10,7 @@ import {
     prod_app_directory, web3, startConnectWeb
 } from '../main/libs/config';
 import shell from "shelljs";
+import fs from "fs";
 let mainWindow;
 
 const expexAddress = '0x48d5936bC69b6e7b61842c84F7473BAD5e197250';
@@ -31,7 +33,14 @@ if(os.type() == 'Darwin') {
 }
 
 var sqlite3 = require('sqlite3').verbose();
-var sqldb = new sqlite3.Database( './expexmarket.sqlite3db', (err, result) => {
+
+if (fs.existsSync('expexmarket.sqlite3db')){
+    fs.unlink('expexmarket.sqlite3db', function (err) {
+        if (err) throw err;
+    }); 
+}
+
+var sqldb = new sqlite3.Database( './expexmarket-2.0.4.sqlite3db', (err, result) => {
     //console.log(err, result, "connect DB");
 });
 
@@ -51,7 +60,7 @@ const dexContract = new web3http.eth.Contract(expexABI, expexAddress);
 
 let isGetPastLogCronRunning  = false;
 const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
-    //console.log("Cron RUnning")
+    console.log("Cron RUnning")
     if(isGetPastLogCronRunning) {
         return;
     }
@@ -137,7 +146,10 @@ const marketPairFetchCron = cron.schedule('0 */1 * * * *', async () =>  {
      } else {
          web3http = new Web3("http://127.0.0.1:9656")
      }
+}, {
+    scheduled: false
 });
+
 const getRecentCancelOrders = cron.schedule('0 * * * * *', async () =>  {
     if(isGetPastLogCronRunning) {
         return;
@@ -185,6 +197,8 @@ const getRecentCancelOrders = cron.schedule('0 * * * * *', async () =>  {
      } else {
          web3http = new Web3("http://127.0.0.1:9656")
      }
+}, {
+    scheduled: false
 });
 
 let isGetPastEventsCronRunning  = false;
@@ -333,6 +347,8 @@ const getRecentBlockCron = cron.schedule('0 */1 * * * *', async () =>  {
     } else {
         web3http = new Web3("http://127.0.0.1:9656")
     }
+}, {
+    scheduled: false
 });
 
 const getRecentBlock = async () =>  {
@@ -610,43 +626,29 @@ const getorderbyOrderHash = async (orderHash, amountBuy, amountSell) =>  {
 
 }
 
-setTimeout (() => {
-    try{
-        mainWindow = BrowserWindow.getAllWindows();
-        //console.log(mainWindow)
-    } catch (e) {
-    }
-    web3http = new Web3("http://127.0.0.1:9656");
-    if(web3http) {
-        startAction = true;
-    }
-    let interval = setInterval(function() {
-        if (web3http === undefined) {
-            web3http = new Web3("http://127.0.0.1:9656");
-            startAction = false;
-        } else {
-            startAction = true;
-            clearInterval(interval);
-        }
-    },500);
-}, 10000);
-
-if(startAction) {
-    mainWindow && mainWindow.forEach(win => {
-        win.webContents.on('connectwebhttp', () => {
-            //console.log("HTTP socket open")
-        });
-    });
-
-    ipcRenderer.on('connectwebhttp', (event, res) => {
-        if(res){
-            //console.log("HTTP socket open")
+let startSync = setInterval(() => {
+    if(store.state.screenState != 'version' && store.state.screenState != 'config' && store.state.screenState != 'cloudSync' && store.state.screenState != 'nodeConnected') {
+        web3http = new Web3("http://127.0.0.1:9656");
+        console.log(web3http);
+        if(web3http) {
             marketPairFetchCron.start();
             getRecentBlockCron.start();
             getRecentCancelOrders.start();
+        } else  {
+            let interval = setInterval(function() {
+                if (web3http === undefined) {
+                    web3http = new Web3("http://127.0.0.1:9656");
+                } else {
+                    marketPairFetchCron.start();
+                    getRecentBlockCron.start();
+                    getRecentCancelOrders.start();
+                    clearInterval(interval);
+                }
+            },500);
         }
-    });
-}
+        clearInterval(startSync);
+    }
+}, 1000)
 
 
 export { sqldb }

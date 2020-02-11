@@ -1,14 +1,11 @@
-import { electron, app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
+import { app, BrowserWindow, Menu , shell , ipcMain } from 'electron'
 import { spawn } from 'child_process';
 import shelljs from 'shelljs';
 var path = require('path');
-const low = require('lowdb');
-import {sqldb} from '../common/cronjobs';
 
 import * as Raven from 'raven-js';
 import solc from 'solc';
 import os from 'os';
-const { autoUpdater } = require("electron-updater");
 
 var gexpProc ;
 
@@ -100,7 +97,7 @@ const runGexp = (path) => {
 
         shelljs.cd(path);
         try {
-            var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils' , '--rpc', '--rpcaddr=0.0.0.0','--rpcport=9656','--rpccorsdomain=*', '--rpcapi=db,eth,net,web3,personal,utils'];
+            var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils' , '--rpc', '--rpcaddr=0.0.0.0','--rpcport=9656','--rpccorsdomain=*', '--rpcapi=db,eth,net,web3,personal,utils', '--port=0'];
 
             console.log("keyArgs", keyArgs);
             gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
@@ -399,7 +396,7 @@ function startMainNet(){
             if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
-                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils'];
+                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils', '--port=0',];
                 // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils']
                 console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {
@@ -440,7 +437,7 @@ function startTestNet(){
             if (os.type() == 'Windows_NT') { runFile = 'gexp.exe' } else { runFile = './gexp' }
 
             try{
-                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils', '--testnet'];
+                var keyArgs = ['--ws', '--wsaddr=0.0.0.0', '--wsorigins=*', '--wsapi=db,eth,net,web3,personal,utils', '--port=0', '--testnet'];
                 // var keyArgs = ['--rpc', '--rpcapi=eth,web3,personal,admin,miner,db,net,utils', '--testnet']
                 console.log("Starting Gexp Process");
                 gexpProc = spawn(runFile, keyArgs, {maxBuffer: 1024 * 5000}, {

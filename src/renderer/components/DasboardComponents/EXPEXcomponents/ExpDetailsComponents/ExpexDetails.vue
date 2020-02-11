@@ -77,9 +77,9 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="buyTable.length > 0" v-for="data in buyTable" @click="handleRow((web3.utils.fromWei((data.amountBuy - data.amountBuyFilled).toString(), 'ether')), parseFloat(data.price).toFixed(4))" class="table-row">
+                            <div v-bind:key="index" v-for="(data, index) in buyTable" @click="handleRow((web3.utils.fromWei((parseFloat(data.amountBuy) - parseFloat(data.amountBuyFilled)).toString(), 'ether')), parseFloat(data.price).toFixed(4))" class="table-row">
                                 <p>{{parseFloat(data.price).toFixed(4)}}</p>
-                                <p>{{web3.utils.fromWei((data.amountBuy - data.amountBuyFilled).toString(), 'ether')}}</p>
+                                <p>{{web3.utils.fromWei((parseFloat(data.amountBuy) - parseFloat(data.amountBuyFilled)).toString(), 'ether')}}</p>
                                 <p class="Green">{{parseFloat((parseFloat(data.price).toFixed(4)) * (web3.utils.fromWei((data.amountBuy - data.amountBuyFilled).toString(), 'ether'))).toFixed(5)}}</p>
                             </div>
                             <div v-if="buyTable.length === 0" class="table-no-row">
@@ -179,10 +179,10 @@
                         </div>
                         <div class="table-partition"></div>
                         <div class="table-body">
-                            <div v-if="sellTable.length > 0"  v-for="data in sellTable" @click="handleRow((web3.utils.fromWei((data.amountSell - data.amountSellFilled).toString(), 'ether')),parseFloat(data.price).toFixed(4))" class="table-row">
+                            <div v-bind:key="index" v-for="(data, index) in sellTable" @click="handleRow((web3.utils.fromWei((parseFloat(data.amountSell) - parseFloat(data.amountSellFilled)).toString(), 'ether')),parseFloat(data.price).toFixed(4))" class="table-row">
                                 <p class="Red">{{parseFloat((data.price) * (web3.utils.fromWei((data.amountSell - data.amountSellFilled).toString(), 'ether'))).toFixed(5)}}</p>
                                 <!--<p>{{(data.amountSell - data.amountSellFilled)/Math.pow(10, data.decimalSell)}}</p>-->
-                                <p>{{web3.utils.fromWei((data.amountSell - data.amountSellFilled).toString(), 'ether')}}</p>
+                                <p>{{web3.utils.fromWei((parseFloat(data.amountSell) - parseFloat(data.amountSellFilled)).toString(), 'ether')}}</p>
                                 <p>{{parseFloat(data.price).toFixed(4)}}</p>
                             </div>
                             <div v-if="sellTable.length === 0" class="table-no-row">
@@ -218,7 +218,7 @@
                 </div>
                 <div class="table-partition"></div>
                 <div class="table-body">
-                    <div v-for="mdata in marketHistoryTable" v-if="marketHistoryTable.length > 0" class="table-row">
+                    <div v-for="(mdata, index) in marketHistoryTable" v-bind:key="index" class="table-row">
                         <p>{{ parseInt(mdata.createdAt) * 1000 | moment("DD-MM-YYYY")}}</p>
                         <p v-if="mdata.marketType === 'BUY'" class="Green row-10">BUY</p>
                         <p v-else class="Red row-10">SELL</p>
@@ -670,7 +670,7 @@
                 let new_data = ['BUY', this.fromAddress.value, 'OPEN', 100, this.tokenData.betaAddress, this.tokenData.alphaAddress];
                 // console.log(new_data, "new_data", this.mainquery);
                 sqldb.each("SELECT "+this.buyselectData+" FROM Orders where "+this.mainquery+" OFFSET '"+this.offset1+"'",new_data, (err, row) => {
-                    console.log(row, "rowsss");
+                    // console.log(row, "rowsss");
                     if(row) {
                         this.buyTable.push(row);
                     }
